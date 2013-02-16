@@ -1,17 +1,16 @@
 package util;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
+import com.mongodb.util.JSON;
+import play.Play;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
-
-import play.Play;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.MongoClient;
-import com.mongodb.util.JSON;
 
 public enum MongoUtils {
 	INSTANCE;
@@ -30,7 +29,8 @@ public enum MongoUtils {
 		final DB jcertifdb = getMongoClient().getDB("jcertif");
 		// Initialisation des données référentielles
 		final File file = Play.application().getFile("/data/referentiel.js");
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		try  {
+            BufferedReader br = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				jcertifdb.doEval(line);
