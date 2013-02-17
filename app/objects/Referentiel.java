@@ -1,5 +1,7 @@
 package objects;
 
+import com.mongodb.BasicDBObject;
+
 public class Referentiel {
 
     private String code;
@@ -19,5 +21,12 @@ public class Referentiel {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public BasicDBObject toDBObject(){
+        BasicDBObject basicDBObject = new BasicDBObject();
+        basicDBObject.put("code", code);
+        basicDBObject.put("label", label);
+        return basicDBObject;
     }
 }
