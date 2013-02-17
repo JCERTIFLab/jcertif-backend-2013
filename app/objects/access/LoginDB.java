@@ -6,7 +6,7 @@ import objects.Login;
 import objects.checker.LoginChecker;
 import util.Constantes;
 
-public class LoginDB extends BasicDBObj {
+public class LoginDB extends JCertifObjectDB {
 
     public static LoginDB loginDB = new LoginDB();
 
@@ -15,15 +15,15 @@ public class LoginDB extends BasicDBObj {
     }
 
     public boolean add(Login login) throws JCertifException {
-        return add(login.toDBObject());
+        return add(login.toBasicDBObject());
     }
 
     public boolean remove(Login login) throws JCertifException {
-        return remove(login.toDBObject(),"email");
+        return remove(login.toBasicDBObject(),"email");
     }
 
     public boolean update(Login login) throws JCertifException {
-        return update(login.toDBObject(), "email");
+        return update(login.toBasicDBObject(), "email");
     }
 
     public Login get(String email) throws JCertifException {

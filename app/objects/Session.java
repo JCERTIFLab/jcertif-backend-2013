@@ -1,9 +1,11 @@
 package objects;
 
+import com.mongodb.BasicDBObject;
+
 import java.util.Date;
 import java.util.List;
 
-public class Session {
+public class Session extends JCertfifObject{
     private String id;
     private String title;
     private String summary;
@@ -93,5 +95,11 @@ public class Session {
 
     public void setSpeakers(List speakers) {
         this.speakers = speakers;
+    }
+
+    @Override
+    public BasicDBObject toBasicDBObject() {
+        //TODO
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

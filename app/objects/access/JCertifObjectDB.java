@@ -11,18 +11,18 @@ import util.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicDBObj {
+public class JCertifObjectDB {
 
     private Checker checker;
 
     private String collectionName;
 
-    public BasicDBObj(String collectionName){
+    public JCertifObjectDB(String collectionName){
         this.setCollectionName(collectionName);
         checker = null;
     }
 
-    public BasicDBObj(String collectionName,Checker checker){
+    public JCertifObjectDB(String collectionName, Checker checker){
         this.setCollectionName(collectionName);
         this.setChecker(checker);
     }

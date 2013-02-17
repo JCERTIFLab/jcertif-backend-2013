@@ -1,6 +1,8 @@
 package objects;
 
-public class Sponsor {
+import com.mongodb.BasicDBObject;
+
+public class Sponsor extends JCertfifObject{
     private String email;
     private String name;
     private String logo;
@@ -81,5 +83,11 @@ public class Sponsor {
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    @Override
+    public BasicDBObject toBasicDBObject() {
+        //TODO
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

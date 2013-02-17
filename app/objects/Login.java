@@ -2,7 +2,7 @@ package objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Login {
+public class Login extends JCertfifObject{
     private String email;
     private String password;
 
@@ -31,7 +31,8 @@ public class Login {
         this.password = password;
     }
 
-    public BasicDBObject toDBObject(){
+    @Override
+    public BasicDBObject toBasicDBObject(){
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put("email", email);
         basicDBObject.put("password", password);

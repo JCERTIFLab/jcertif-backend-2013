@@ -2,7 +2,7 @@ package objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Referentiel {
+public class Referentiel extends JCertfifObject{
 
     private String code;
     private String label;
@@ -23,7 +23,8 @@ public class Referentiel {
         this.label = label;
     }
 
-    public BasicDBObject toDBObject(){
+    @Override
+    public BasicDBObject toBasicDBObject(){
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put("code", code);
         basicDBObject.put("label", label);

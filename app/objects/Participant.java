@@ -1,6 +1,8 @@
 package objects;
 
-public class Participant {
+import com.mongodb.BasicDBObject;
+
+public class Participant extends JCertfifObject{
     private String email;
     private String password;
     private String title;
@@ -108,5 +110,11 @@ public class Participant {
 
     public void setBiography(String biography) {
         this.biography = biography;
+    }
+
+    @Override
+    public BasicDBObject toBasicDBObject() {
+        //TODO
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
