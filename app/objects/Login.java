@@ -6,6 +6,15 @@ public class Login {
     private String email;
     private String password;
 
+    public Login(){
+
+    }
+
+    public Login(BasicDBObject basicDBObject){
+        this.setEmail(basicDBObject.getString("email"));
+        this.setPassword(basicDBObject.getString("password"));
+    }
+
     public String getEmail() {
         return email;
     }
