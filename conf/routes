@@ -8,3 +8,5 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET		/ref/sponsorlevel/list		controllers.ReferentielController.sponsorlevel
 
 GET 	/ref/category/list			controllers.ReferentielController.categories
+
+GET 	/login/list			controllers.LoginController.logins

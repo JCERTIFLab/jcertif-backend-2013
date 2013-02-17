@@ -66,6 +66,12 @@ public class MongoDatabase {
         return db;
     }
 
+    public DBCursor list(String collectionName) {
+        // Retourne le résultat en JSON sans le paramètre par défaut _id
+        return db.getCollection(collectionName).find(null,
+                new BasicDBObject("_id", 0));
+    }
+
     public String listAll(String collectionName) {
         // Retourne le résultat en JSON sans le paramètre par défaut _id
         return JSON.serialize(db.getCollection(collectionName).find(null,
@@ -74,6 +80,47 @@ public class MongoDatabase {
 
     public void configureJCertifDatabase(){
         //Cette fonction configure la base de données JCertif (Création des collections, création des index)
-        //TODO
+        db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN, null);
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN).createIndex(new BasicDBObject("email", 1));
+
+        db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_REFERENTIEL, null);
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_REFERENTIEL).createIndex(new BasicDBObject("code", 1));
+
+        db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT, null);
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT).createIndex(new BasicDBObject("email", 1));
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT).createIndex(new BasicDBObject("lastname", 1));
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT).createIndex(new BasicDBObject("firstname", 1));
+
+        db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER, null);
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER).createIndex(new BasicDBObject("email", 1));
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER).createIndex(new BasicDBObject("lastname", 1));
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER).createIndex(new BasicDBObject("firstname", 1));
+
+        db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR, null);
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR).createIndex(new BasicDBObject("email", 1));
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR).createIndex(new BasicDBObject("name", 1));
+
+        db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SESSION, null);
+        db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SESSION).createIndex(new BasicDBObject("title", 1));
+    }
+
+    public WriteResult create(String collectionName, BasicDBObject objectToCreate){
+        return db.getCollection(collectionName).insert(objectToCreate, WriteConcern.SAFE);
+    }
+
+    public WriteResult update(String collectionName, BasicDBObject objectToUpdate){
+        return db.getCollection(collectionName).update(new BasicDBObject("_id", objectToUpdate.get("_id")), objectToUpdate);
+    }
+
+    public BasicDBObject readOne(String collectionName, BasicDBObject query){
+        return (BasicDBObject)db.getCollection(collectionName).findOne(query);
+    }
+
+    public DBCursor read(String collectionName, BasicDBObject query){
+        return db.getCollection(collectionName).find(query);
+    }
+
+    public WriteResult delete(String collectionName, BasicDBObject objectToDelete){
+        return db.getCollection(collectionName).remove(objectToDelete, WriteConcern.SAFE);
     }
 }
