@@ -9,4 +9,6 @@ GET		/ref/sponsorlevel/list		controllers.ReferentielController.sponsorlevel
 
 GET 	/ref/category/list			controllers.ReferentielController.categories
 
-GET 	/login/list			controllers.LoginController.logins
+GET 	/login/list			        controllers.LoginController.logins
+
+GET     /sponsor/list               controllers.SponsorController.listSponsor

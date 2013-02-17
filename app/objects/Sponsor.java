@@ -13,6 +13,18 @@ public class Sponsor extends JCertfifObject{
     private String phone;
     private String about;
 
+    public Sponsor(BasicDBObject basicDBObject){
+        this.setEmail(basicDBObject.getString("email"));
+        this.setName(basicDBObject.getString("name"));
+        this.setLogo(basicDBObject.getString("logo"));
+        this.setLevel(basicDBObject.getString("level"));
+        this.setWebsite(basicDBObject.getString("website"));
+        this.setCity(basicDBObject.getString("city"));
+        this.setCountry(basicDBObject.getString("country"));
+        this.setPhone(basicDBObject.getString("phone"));
+        this.setAbout(basicDBObject.getString("about"));
+    }
+
     public String getEmail() {
         return email;
     }

@@ -78,6 +78,7 @@ public class JCertifObjectDB {
 
     public boolean add(BasicDBObject basicDBObject) throws JCertifException {
         getChecker().check(basicDBObject);
+        getChecker().addCheck(basicDBObject);
         WriteResult result = MongoDatabase.JCERTIFINSTANCE.create(getCollectionName(), basicDBObject);
         if (!Tools.isBlankOrNull(result.getError())) {
             throw new JCertifException(this, result.getError());
@@ -87,6 +88,7 @@ public class JCertifObjectDB {
 
     public boolean update(BasicDBObject objectToUpdate, String idKeyname) throws JCertifException {
         getChecker().check(objectToUpdate);
+        getChecker().updateCheck(objectToUpdate);
         BasicDBObject dbObject = new BasicDBObject();
         dbObject.put(idKeyname, objectToUpdate.get(idKeyname));
         BasicDBObject existingObjectToUpdate = MongoDatabase.JCERTIFINSTANCE.readOne(getCollectionName(), dbObject);
@@ -107,6 +109,7 @@ public class JCertifObjectDB {
 
     public boolean remove(BasicDBObject objectToDelete, String idKeyname) throws JCertifException {
         getChecker().check(objectToDelete);
+        getChecker().deleteCheck(objectToDelete);
         BasicDBObject dbObject = new BasicDBObject();
         dbObject.put(idKeyname, objectToDelete.get(idKeyname));
         BasicDBObject existingObjectToDelete = MongoDatabase.JCERTIFINSTANCE.readOne(getCollectionName(), dbObject);
