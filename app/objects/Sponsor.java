@@ -99,7 +99,16 @@ public class Sponsor extends JCertfifObject{
 
     @Override
     public BasicDBObject toBasicDBObject() {
-        //TODO
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        BasicDBObject basicDBObject = new BasicDBObject();
+        basicDBObject.put("email", getEmail());
+        basicDBObject.put("name", getName());
+        basicDBObject.put("logo", getLogo());
+        basicDBObject.put("level", getLevel());
+        basicDBObject.put("website", getWebsite());
+        basicDBObject.put("city", getCity());
+        basicDBObject.put("country", getCountry());
+        basicDBObject.put("phone", getPhone());
+        basicDBObject.put("about", getAbout());
+        return basicDBObject;
     }
 }
