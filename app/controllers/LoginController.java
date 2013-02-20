@@ -6,7 +6,7 @@ import play.mvc.Result;
 
 public class LoginController extends AbstractController {
 
-    public static Result logins() {
+    public static Resul logins() {
         allowCrossOriginJson();
         return ok(JSON.serialize(LoginDB.loginDB.list()));
     }
