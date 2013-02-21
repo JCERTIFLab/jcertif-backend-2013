@@ -2,6 +2,8 @@ package database;
 
 import com.mongodb.*;
 import com.mongodb.util.JSON;
+
+import play.Logger;
 import play.Play;
 import util.Constantes;
 import util.properties.PropUtils;
@@ -22,14 +24,22 @@ public class MongoDatabase {
     public MongoDatabase() {
         String dbhost = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.host");
         String dbname = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.name");
+        String user = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.user");
+        String password = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.password");
         int dbport = Integer.parseInt(PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.port"));
 
         try {
             mongoClient = new MongoClient(new ServerAddress(dbhost, dbport), getDBOptions());
             db = mongoClient.getDB(dbname);
+            if(user != null && !user.trim().equals("")){
+            	db.authenticate(user, password.toCharArray());
+            }
+            initializeJCertifDB();
         } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+            Logger.error("Impossible d'initialiser le client MongoClient", e);
+        } catch (IOException e) {
+        	Logger.error("Impossible d'initialiserla base avec les données référentielles", e);
+		}
     }
 
     public MongoDatabase(String host, int port, String databasename) throws UnknownHostException {
@@ -41,7 +51,7 @@ public class MongoDatabase {
         MongoClientOptions.Builder mco = new MongoClientOptions.Builder();
 
         mco.connectionsPerHost(Integer.parseInt(PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.pool.size", "50")));
-
+        
         return mco.build();
     }
 
@@ -54,7 +64,7 @@ public class MongoDatabase {
         }
     }
 
-    public void initializeJCertifDB() throws IOException {
+    private void initializeJCertifDB() throws IOException {
         loadDbWithData(Constantes.JCERTIFBACKEND_SAMPLE_DATA_FILE);
     }
 
