@@ -6,6 +6,7 @@ import util.Constantes;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class PropUtils {
@@ -35,11 +36,8 @@ public class PropUtils {
 
     private void init(String propertiesFileName) throws IOException {
         properties = new Properties();
-        File file = Play.application().getFile(propertiesFileName);
-        FileInputStream inputStream = new FileInputStream(file);
-        properties.load(inputStream);
+        properties.load(Play.application().resourceAsStream(propertiesFileName));
         this.propertiesFileName = propertiesFileName;
-        inputStream.close();//Toujours fermer les connexions ouvertes
     }
 
     public String getProperty(String key){
