@@ -1,8 +1,7 @@
 package controllers;
 
-import database.MongoDatabase;
 import play.mvc.Result;
-import util.MongoUtils;
+import database.MongoDatabase;
 
 public class ReferentielController extends AbstractController {
 
