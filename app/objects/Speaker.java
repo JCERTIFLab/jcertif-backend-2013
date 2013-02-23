@@ -16,6 +16,21 @@ public class Speaker extends JCertfifObject{
     private String photo;
     private String biography;
 
+    public Speaker(BasicDBObject basicDBObject){
+        this.setEmail(basicDBObject.getString("email"));
+        this.setPassword(basicDBObject.getString("password"));
+        this.setTitle(basicDBObject.getString("title"));
+        this.setLastname(basicDBObject.getString("lastname"));
+        this.setFirstname(basicDBObject.getString("firstname"));
+        this.setWebsite(basicDBObject.getString("website"));
+        this.setCity(basicDBObject.getString("city"));
+        this.setCountry(basicDBObject.getString("country"));
+        this.setCountry(basicDBObject.getString("company"));
+        this.setPhone(basicDBObject.getString("phone"));
+        this.setPhoto(basicDBObject.getString("photo"));
+        this.setBiography(basicDBObject.getString("biography"));
+    }
+
     public String getEmail() {
         return email;
     }
@@ -114,7 +129,19 @@ public class Speaker extends JCertfifObject{
 
     @Override
     public BasicDBObject toBasicDBObject() {
-        //TODO
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        BasicDBObject basicDBObject = new BasicDBObject();
+        basicDBObject.put("email", getEmail());
+        basicDBObject.put("password", getPassword());
+        basicDBObject.put("title", getTitle());
+        basicDBObject.put("lastname", getLastname());
+        basicDBObject.put("firstname", getFirstname());
+        basicDBObject.put("website", getWebsite());
+        basicDBObject.put("city", getCity());
+        basicDBObject.put("country", getCountry());
+        basicDBObject.put("company", getCompany());
+        basicDBObject.put("phone", getPhone());
+        basicDBObject.put("photo", getPhoto());
+        basicDBObject.put("biography", getBiography());
+        return basicDBObject;
     }
 }
