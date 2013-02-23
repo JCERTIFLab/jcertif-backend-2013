@@ -1,8 +1,7 @@
 package controllers;
 
-import database.MongoDatabase;
 import play.mvc.Result;
-import util.MongoUtils;
+import database.MongoDatabase;
 
 public class ReferentielController extends AbstractController {
 
@@ -14,7 +13,7 @@ public class ReferentielController extends AbstractController {
 	
 	public static Result categories() {
 		allowCrossOriginJson();
-		return ok(MongoUtils.INSTANCE.find("category"));
+		return ok(MongoDatabase.JCERTIFINSTANCE.listAll("category"));
 	}
 
 }

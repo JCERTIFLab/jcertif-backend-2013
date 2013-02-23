@@ -1,18 +1,23 @@
 package database;
 
-import com.mongodb.*;
-import com.mongodb.util.JSON;
-
-import play.Logger;
-import play.Play;
-import util.Constantes;
-import util.properties.PropUtils;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
+
+import play.Logger;
+import util.Constantes;
+import util.Tools;
+import util.properties.PropUtils;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+import com.mongodb.util.JSON;
 
 public class MongoDatabase {
 
@@ -56,12 +61,7 @@ public class MongoDatabase {
     }
 
     public void loadDbWithData(String filenameContainsData) throws IOException {
-        File file = Play.application().getFile(filenameContainsData);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String line;
-        while ((line = br.readLine()) != null) {
-            db.doEval(line);
-        }
+            db.doEval(Tools.getString(filenameContainsData));
     }
 
     private void initializeJCertifDB() throws IOException {
