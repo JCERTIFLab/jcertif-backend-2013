@@ -6,4 +6,8 @@ public class JCertifException extends Exception{
         super(concerned.getClass().getSimpleName() + " : " + message);
     }
 
+    public JCertifException(String message){
+        super(message);
+    }
+
 }
