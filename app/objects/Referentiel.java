@@ -7,6 +7,11 @@ public class Referentiel extends JCertfifObject {
     private String code;
     private String label;
 
+    public Referentiel(BasicDBObject basicDBObject){
+        this.setCode(basicDBObject.getString("code"));
+        this.setCode(basicDBObject.getString("label"));
+    }
+
     public String getCode() {
         return code;
     }

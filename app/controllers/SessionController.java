@@ -27,7 +27,6 @@ public class SessionController extends AbstractController {
         try{
             session = new Session((BasicDBObject) JSON.parse(sessionObjInJSONForm));
         }catch(JSONParseException exception){
-            exception.printStackTrace();
             return badRequest(sessionObjInJSONForm);
         }
 
