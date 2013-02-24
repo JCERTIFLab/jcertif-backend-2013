@@ -10,7 +10,7 @@ public class SpeakerDB extends JCertifObjectDB {
 
     public static SpeakerDB speakerDB = new SpeakerDB();
 
-    public SpeakerDB(){
+    public SpeakerDB() {
         super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER, new SpeakerChecker());
     }
 
@@ -29,7 +29,7 @@ public class SpeakerDB extends JCertifObjectDB {
     public Speaker get(String email) throws JCertifException {
         BasicDBObject dbObject = get("email", email);
         Speaker speaker = null;
-        if(null!=dbObject) speaker = new Speaker(dbObject);
+        if (null != dbObject) speaker = new Speaker(dbObject);
         return speaker;
     }
 }

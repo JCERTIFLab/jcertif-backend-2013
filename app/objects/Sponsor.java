@@ -2,7 +2,7 @@ package objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Sponsor extends JCertfifObject{
+public class Sponsor extends JCertfifObject {
     private String email;
     private String name;
     private String logo;
@@ -13,7 +13,7 @@ public class Sponsor extends JCertfifObject{
     private String phone;
     private String about;
 
-    public Sponsor(BasicDBObject basicDBObject){
+    public Sponsor(BasicDBObject basicDBObject) {
         this.setEmail(basicDBObject.getString("email"));
         this.setName(basicDBObject.getString("name"));
         this.setLogo(basicDBObject.getString("logo"));

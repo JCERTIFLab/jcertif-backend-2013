@@ -3,10 +3,8 @@ package util.properties;
 import play.Play;
 import util.Constantes;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class PropUtils {
@@ -14,7 +12,7 @@ public class PropUtils {
     Properties properties;
     String propertiesFileName;
 
-    public static PropUtils JCERTIFINSTANCE = new PropUtils();
+    public static final PropUtils JCERTIFINSTANCE = new PropUtils();
 
     public PropUtils() {
         try {
@@ -40,11 +38,11 @@ public class PropUtils {
         this.propertiesFileName = propertiesFileName;
     }
 
-    public String getProperty(String key){
+    public String getProperty(String key) {
         return properties.getProperty(key);
     }
 
-    public String getProperty(String key, String defaultValue){
+    public String getProperty(String key, String defaultValue) {
         return properties.getProperty(key, defaultValue);
     }
 

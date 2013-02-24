@@ -1,30 +1,21 @@
 package database;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
+import com.mongodb.*;
+import com.mongodb.util.JSON;
 import play.Logger;
 import util.Constantes;
 import util.Tools;
 import util.properties.PropUtils;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.ServerAddress;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
-import com.mongodb.util.JSON;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class MongoDatabase {
 
     private DB db = null;
     private MongoClient mongoClient = null;
 
-    public static MongoDatabase JCERTIFINSTANCE = new MongoDatabase();
+    public static final MongoDatabase JCERTIFINSTANCE = new MongoDatabase();
 
     public MongoDatabase() {
         String dbhost = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.host");
@@ -36,15 +27,15 @@ public class MongoDatabase {
         try {
             mongoClient = new MongoClient(new ServerAddress(dbhost, dbport), getDBOptions());
             db = mongoClient.getDB(dbname);
-            if(user != null && !user.trim().equals("")){
-            	db.authenticate(user, password.toCharArray());
+            if (user != null && !user.trim().equals("")) {
+                db.authenticate(user, password.toCharArray());
             }
             initializeJCertifDB();
         } catch (UnknownHostException e) {
             Logger.error("Impossible d'initialiser le client MongoClient", e);
         } catch (IOException e) {
-        	Logger.error("Impossible d'initialiserla base avec les données référentielles", e);
-		}
+            Logger.error("Impossible d'initialiser la base avec les données référentielles", e);
+        }
     }
 
     public MongoDatabase(String host, int port, String databasename) throws UnknownHostException {
@@ -56,23 +47,23 @@ public class MongoDatabase {
         MongoClientOptions.Builder mco = new MongoClientOptions.Builder();
 
         mco.connectionsPerHost(Integer.parseInt(PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.pool.size", "50")));
-        
+
         return mco.build();
     }
 
     public void loadDbWithData(String filenameContainsData) throws IOException {
-            db.doEval(Tools.getString(filenameContainsData));
+        db.doEval(Tools.getFileContent(filenameContainsData));
     }
 
     private void initializeJCertifDB() throws IOException {
         loadDbWithData(Constantes.JCERTIFBACKEND_SAMPLE_DATA_FILE);
     }
 
-    public DBCollection getCollection(String collectionName){
+    public DBCollection getCollection(String collectionName) {
         return db.getCollection(collectionName);
     }
 
-    public DB getDb(){
+    public DB getDb() {
         return db;
     }
 
@@ -88,7 +79,7 @@ public class MongoDatabase {
                 new BasicDBObject("_id", 0)));
     }
 
-    public void configureJCertifDatabase(){
+    public void configureJCertifDatabase() {
         //Cette fonction configure la base de données JCertif (Création des collections, création des index)
         db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN, null);
         db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN).createIndex(new BasicDBObject("email", 1));
@@ -114,23 +105,23 @@ public class MongoDatabase {
         db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SESSION).createIndex(new BasicDBObject("title", 1));
     }
 
-    public WriteResult create(String collectionName, BasicDBObject objectToCreate){
+    public WriteResult create(String collectionName, BasicDBObject objectToCreate) {
         return db.getCollection(collectionName).insert(objectToCreate, WriteConcern.SAFE);
     }
 
-    public WriteResult update(String collectionName, BasicDBObject objectToUpdate){
+    public WriteResult update(String collectionName, BasicDBObject objectToUpdate) {
         return db.getCollection(collectionName).update(new BasicDBObject("_id", objectToUpdate.get("_id")), objectToUpdate);
     }
 
-    public BasicDBObject readOne(String collectionName, BasicDBObject query){
-        return (BasicDBObject)db.getCollection(collectionName).findOne(query);
+    public BasicDBObject readOne(String collectionName, BasicDBObject query) {
+        return (BasicDBObject) db.getCollection(collectionName).findOne(query);
     }
 
-    public DBCursor read(String collectionName, BasicDBObject query){
+    public DBCursor read(String collectionName, BasicDBObject query) {
         return db.getCollection(collectionName).find(query);
     }
 
-    public WriteResult delete(String collectionName, BasicDBObject objectToDelete){
+    public WriteResult delete(String collectionName, BasicDBObject objectToDelete) {
         return db.getCollection(collectionName).remove(objectToDelete, WriteConcern.SAFE);
     }
 }

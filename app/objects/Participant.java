@@ -2,7 +2,7 @@ package objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Participant extends JCertfifObject{
+public class Participant extends JCertfifObject {
     private String email;
     private String password;
     private String title;

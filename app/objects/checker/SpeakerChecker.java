@@ -6,46 +6,50 @@ import objects.Speaker;
 import objects.access.SpeakerDB;
 import util.Tools;
 
-public class SpeakerChecker extends Checker{
+public class SpeakerChecker extends Checker {
 
     @Override
     public void check(BasicDBObject objectToCheck) throws JCertifException {
-        
-        if(null==objectToCheck){
+
+        if (null == objectToCheck) {
             throw new JCertifException(this, "Object cannot be null");
         }
 
         Speaker speaker = new Speaker(objectToCheck);
 
-        if(Tools.isBlankOrNull(speaker.getEmail())){
+        if (Tools.isBlankOrNull(speaker.getEmail())) {
             throw new JCertifException(this, "Email cannot be empty or null");
         }
 
-        if(!Tools.isValidEmail(speaker.getEmail())){
+        if (!Tools.isValidEmail(speaker.getEmail())) {
             throw new JCertifException(this, speaker.getEmail() + " is not a valid email");
         }
 
-        if(Tools.isBlankOrNull(speaker.getTitle())){
+        if (Tools.isBlankOrNull(speaker.getPassword())) {
+            throw new JCertifException(this, "Password cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(speaker.getTitle())) {
             throw new JCertifException(this, "Title cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(speaker.getLastname())){
+        if (Tools.isBlankOrNull(speaker.getLastname())) {
             throw new JCertifException(this, "Lastname cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(speaker.getFirstname())){
+        if (Tools.isBlankOrNull(speaker.getFirstname())) {
             throw new JCertifException(this, "Firstname cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(speaker.getWebsite())){
+        if (Tools.isBlankOrNull(speaker.getWebsite())) {
             throw new JCertifException(this, "Website cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(speaker.getCity())){
+        if (Tools.isBlankOrNull(speaker.getCity())) {
             throw new JCertifException(this, "City cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(speaker.getCountry())){
+        if (Tools.isBlankOrNull(speaker.getCountry())) {
             throw new JCertifException(this, "Country cannot be empty or null");
         }
 
@@ -64,7 +68,7 @@ public class SpeakerChecker extends Checker{
     @Override
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
         BasicDBObject dbObject = SpeakerDB.speakerDB.get("email", objectToCheck.getString("email"));
-        if(null!=dbObject){
+        if (null != dbObject) {
             throw new JCertifException(this, objectToCheck.getString("email") + " already exists");
         }
     }

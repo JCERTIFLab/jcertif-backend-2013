@@ -14,3 +14,7 @@ GET 	/ref/category/list			controllers.ReferentielController.categories
 GET 	/login/list			        controllers.LoginController.logins
 
 GET     /sponsor/list               controllers.SponsorController.listSponsor
+
+GET     /speaker/list               controllers.SpeakerController.listSpeaker
+
+POST     /speaker/register          controllers.SpeakerController.registerSpeaker

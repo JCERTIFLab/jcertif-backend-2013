@@ -17,12 +17,12 @@ public class JCertifObjectDB {
 
     private String collectionName;
 
-    public JCertifObjectDB(String collectionName){
+    public JCertifObjectDB(String collectionName) {
         this.setCollectionName(collectionName);
         checker = null;
     }
 
-    public JCertifObjectDB(String collectionName, Checker checker){
+    public JCertifObjectDB(String collectionName, Checker checker) {
         this.setCollectionName(collectionName);
         this.setChecker(checker);
     }
@@ -70,10 +70,7 @@ public class JCertifObjectDB {
         BasicDBObject dbObject = new BasicDBObject();
         dbObject.put(keyName, keyValue);
         BasicDBObject objectToGet = MongoDatabase.JCERTIFINSTANCE.readOne(getCollectionName(), dbObject);
-        if (null == objectToGet) {
-            throw new JCertifException(this, "Object to get does not exist");
-        }
-        return objectToGet;
+        return objectToGet; //If the object does not exist, null is returned
     }
 
     public boolean add(BasicDBObject basicDBObject) throws JCertifException {

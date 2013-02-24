@@ -2,15 +2,15 @@ package objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Login extends JCertfifObject{
+public class Login extends JCertfifObject {
     private String email;
     private String password;
 
-    public Login(){
+    public Login() {
 
     }
 
-    public Login(BasicDBObject basicDBObject){
+    public Login(BasicDBObject basicDBObject) {
         this.setEmail(basicDBObject.getString("email"));
         this.setPassword(basicDBObject.getString("password"));
     }
@@ -32,7 +32,7 @@ public class Login extends JCertfifObject{
     }
 
     @Override
-    public BasicDBObject toBasicDBObject(){
+    public BasicDBObject toBasicDBObject() {
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put("email", email);
         basicDBObject.put("password", password);

@@ -6,46 +6,46 @@ import objects.Sponsor;
 import objects.access.SponsorDB;
 import util.Tools;
 
-public class SponsorChecker extends Checker{
+public class SponsorChecker extends Checker {
 
     @Override
     public void check(BasicDBObject objectToCheck) throws JCertifException {
 
-        if(null==objectToCheck){
+        if (null == objectToCheck) {
             throw new JCertifException(this, "Object cannot be null");
         }
 
         Sponsor sponsor = new Sponsor(objectToCheck);
 
-        if(Tools.isBlankOrNull(sponsor.getEmail())){
+        if (Tools.isBlankOrNull(sponsor.getEmail())) {
             throw new JCertifException(this, "Email cannot be empty or null");
         }
 
-        if(!Tools.isValidEmail(sponsor.getEmail())){
+        if (!Tools.isValidEmail(sponsor.getEmail())) {
             throw new JCertifException(this, sponsor.getEmail() + " is not a valid email");
         }
 
-        if(Tools.isBlankOrNull(sponsor.getName())){
+        if (Tools.isBlankOrNull(sponsor.getName())) {
             throw new JCertifException(this, "Name cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(sponsor.getLogo())){
+        if (Tools.isBlankOrNull(sponsor.getLogo())) {
             throw new JCertifException(this, "Logo cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(sponsor.getLevel())){
+        if (Tools.isBlankOrNull(sponsor.getLevel())) {
             throw new JCertifException(this, "Level cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(sponsor.getWebsite())){
+        if (Tools.isBlankOrNull(sponsor.getWebsite())) {
             throw new JCertifException(this, "Website cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(sponsor.getCity())){
+        if (Tools.isBlankOrNull(sponsor.getCity())) {
             throw new JCertifException(this, "City cannot be empty or null");
         }
 
-        if(Tools.isBlankOrNull(sponsor.getCountry())){
+        if (Tools.isBlankOrNull(sponsor.getCountry())) {
             throw new JCertifException(this, "Country cannot be empty or null");
         }
     }
@@ -61,7 +61,7 @@ public class SponsorChecker extends Checker{
     @Override
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
         BasicDBObject dbObject = SponsorDB.sponsorDB.get("email", objectToCheck.getString("email"));
-        if(null!=dbObject){
+        if (null != dbObject) {
             throw new JCertifException(this, objectToCheck.getString("email") + " already exists");
         }
     }

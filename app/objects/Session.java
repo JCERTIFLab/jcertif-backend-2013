@@ -5,7 +5,7 @@ import com.mongodb.BasicDBObject;
 import java.util.Date;
 import java.util.List;
 
-public class Session extends JCertfifObject{
+public class Session extends JCertfifObject {
     private String id;
     private String title;
     private String summary;

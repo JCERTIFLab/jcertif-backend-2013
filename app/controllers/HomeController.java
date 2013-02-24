@@ -1,12 +1,11 @@
 package controllers;
 
 import play.mvc.Result;
-import database.MongoDatabase;
-import views.html.*;
+import views.html.index;
 
 public class HomeController extends AbstractController {
 
-	public static Result get() {
+    public static Result get() {
         return ok(index.render());
-	}
+    }
 }

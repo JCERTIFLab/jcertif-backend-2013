@@ -19,7 +19,7 @@ public class LoginDB extends JCertifObjectDB {
     }
 
     public boolean remove(Login login) throws JCertifException {
-        return remove(login.toBasicDBObject(),"email");
+        return remove(login.toBasicDBObject(), "email");
     }
 
     public boolean update(Login login) throws JCertifException {
@@ -29,7 +29,7 @@ public class LoginDB extends JCertifObjectDB {
     public Login get(String email) throws JCertifException {
         BasicDBObject dbObject = get("email", email);
         Login login = null;
-        if(null!=dbObject) login = new Login(dbObject);
+        if (null != dbObject) login = new Login(dbObject);
         return login;
     }
 
