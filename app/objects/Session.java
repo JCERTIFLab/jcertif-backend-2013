@@ -2,7 +2,7 @@ package objects;
 
 import com.mongodb.BasicDBObject;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Session extends JCertfifObject {
@@ -12,10 +12,25 @@ public class Session extends JCertfifObject {
     private String description;
     private String status;
     private String keyword;
-    private String category;
-    private Date start;
-    private Date end;
-    private List speakers;
+    private List<String> category = new ArrayList<String>();
+    private String start;
+    private String end;
+    private List<String> speakers = new ArrayList<String>();
+
+    public Session(BasicDBObject basicDBObject){
+        this.setId(basicDBObject.getString("id"));
+        this.setTitle(basicDBObject.getString("title"));
+        this.setSummary(basicDBObject.getString("summary"));
+        this.setDescription(basicDBObject.getString("description"));
+        this.setStatus(basicDBObject.getString("status"));
+        this.setKeyword(basicDBObject.getString("keyword"));
+        //this.setCategory((List)basicDBObject.get("category"));
+        this.setStart(basicDBObject.getString("start"));
+        this.setEnd(basicDBObject.getString("end"));
+        //this.setSpeakers((List)basicDBObject.get("speakers"));
+        category.add("une categorie");
+        speakers.add("un speaker");
+    }
 
     public String getId() {
         return id;
@@ -65,27 +80,27 @@ public class Session extends JCertfifObject {
         this.keyword = keyword;
     }
 
-    public String getCategory() {
+    public List<String> getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(List<String> category) {
         this.category = category;
     }
 
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 
@@ -99,7 +114,17 @@ public class Session extends JCertfifObject {
 
     @Override
     public BasicDBObject toBasicDBObject() {
-        //TODO
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        BasicDBObject basicDBObject = new BasicDBObject();
+        basicDBObject.put("id", getId());
+        basicDBObject.put("title", getTitle());
+        basicDBObject.put("summary", getSummary());
+        basicDBObject.put("description", getDescription());
+        basicDBObject.put("status", getStatus());
+        basicDBObject.put("keyword", getKeyword());
+        basicDBObject.put("category", getCategory());
+        basicDBObject.put("start", getStart());
+        basicDBObject.put("end", getEnd());
+        basicDBObject.put("speakers", getSpeakers());
+        return basicDBObject;
     }
 }

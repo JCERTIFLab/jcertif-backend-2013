@@ -67,6 +67,10 @@ public class MongoDatabase {
         return db;
     }
 
+    public DBCursor list(String collectionName, BasicDBObject query, BasicDBObject columnToReturn) {
+        return db.getCollection(collectionName).find(query,columnToReturn);
+    }
+
     public DBCursor list(String collectionName) {
         // Retourne le résultat en JSON sans le paramètre par défaut _id
         return db.getCollection(collectionName).find(null,
@@ -117,7 +121,7 @@ public class MongoDatabase {
         return (BasicDBObject) db.getCollection(collectionName).findOne(query);
     }
 
-    public DBCursor read(String collectionName, BasicDBObject query) {
+    public DBCursor list(String collectionName, BasicDBObject query) {
         return db.getCollection(collectionName).find(query);
     }
 

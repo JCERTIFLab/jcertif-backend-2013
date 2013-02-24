@@ -10,4 +10,6 @@ public class Constantes {
     public static final String JCERTIFBACKEND_COLLECTIONNAME_SESSION = "Session";
     public static final String JCERTIFBACKEND_COLLECTIONNAME_SPEAKER = "Speaker";
     public static final String JCERTIFBACKEND_COLLECTIONNAME_SPONSOR = "Sponsor";
+
+    public static final String JCERTIFBACKEND_DATEFORMAT = "dd/MM/yyyy HH:mm";
 }

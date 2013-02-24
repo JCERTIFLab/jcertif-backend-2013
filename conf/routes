@@ -17,4 +17,10 @@ GET     /sponsor/list               controllers.SponsorController.listSponsor
 
 GET     /speaker/list               controllers.SpeakerController.listSpeaker
 
-POST     /speaker/register          controllers.SpeakerController.registerSpeaker
+POST    /speaker/register           controllers.SpeakerController.registerSpeaker
+
+GET     /ref/sessionstatus/list     controllers.SessionController.listStatusSession
+
+GET     /session/list               controllers.SessionController.listSession
+
+POST    /session/new                controllers.SessionController.newSession

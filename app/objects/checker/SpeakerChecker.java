@@ -69,7 +69,7 @@ public class SpeakerChecker extends Checker {
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
         BasicDBObject dbObject = SpeakerDB.speakerDB.get("email", objectToCheck.getString("email"));
         if (null != dbObject) {
-            throw new JCertifException(this, objectToCheck.getString("email") + " already exists");
+            throw new JCertifException(this, "Speaker " + objectToCheck.getString("email") + " already exists");
         }
     }
 }

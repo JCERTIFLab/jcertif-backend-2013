@@ -3,9 +3,9 @@ package util;
 import play.Play;
 
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Tools {
@@ -15,6 +15,10 @@ public class Tools {
 
     public static boolean isBlankOrNull(String str) {
         return null == str || str.trim().length() == 0;
+    }
+
+    public static boolean isBlankOrNull(List list) {
+        return null == list || list.isEmpty();
     }
 
     public static boolean isValidEmail(String email) {
@@ -51,4 +55,20 @@ public class Tools {
         }
     }
 
+    public static boolean isValidDate(String dateToValidate){
+        if(dateToValidate == null){
+            return false;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.JCERTIFBACKEND_DATEFORMAT);
+        sdf.setLenient(false);
+
+        try {
+            sdf.parse(dateToValidate);
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return true;
+    }
 }

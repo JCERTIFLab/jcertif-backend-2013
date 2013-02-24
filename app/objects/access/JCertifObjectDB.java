@@ -35,6 +35,23 @@ public class JCertifObjectDB {
         this.checker = checker;
     }
 
+    /**
+     *
+     * @param query
+     * @param columnToReturn
+     * @return
+     */
+    public List<BasicDBObject> list(BasicDBObject query, BasicDBObject columnToReturn){
+        DBCursor dbCursor = MongoDatabase.JCERTIFINSTANCE.list(getCollectionName(), query, columnToReturn);
+        BasicDBObject object;
+        List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
+        while (dbCursor.hasNext()) {
+            object = (BasicDBObject) dbCursor.next();
+            resultList.add(object);
+        }
+        return resultList;
+    }
+
     public List<BasicDBObject> list() {
         DBCursor dbCursor = MongoDatabase.JCERTIFINSTANCE.list(getCollectionName());
         BasicDBObject object;
@@ -47,7 +64,7 @@ public class JCertifObjectDB {
     }
 
     public List<BasicDBObject> list(BasicDBObject query) {
-        DBCursor dbCursor = MongoDatabase.JCERTIFINSTANCE.read(getCollectionName(), query);
+        DBCursor dbCursor = MongoDatabase.JCERTIFINSTANCE.list(getCollectionName(), query);
         BasicDBObject object;
         List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
         while (dbCursor.hasNext()) {
