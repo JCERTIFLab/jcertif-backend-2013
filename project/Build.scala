@@ -1,5 +1,6 @@
 import sbt._
-import PlayProject._
+import Keys._
+import play.Project._
 
 object ApplicationBuild extends Build {
 
@@ -7,10 +8,11 @@ object ApplicationBuild extends Build {
   val appVersion = "1.0-SNAPSHOT"
 
   val appDependencies = Seq(
-    "org.mongodb" % "mongo-java-driver" % "2.10.1"
+    "org.mongodb" % "mongo-java-driver" % "2.10.1",
+    javaCore
   )
 
-  val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+  val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here
   )
 
