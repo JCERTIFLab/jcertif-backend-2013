@@ -1,6 +1,8 @@
 package objects;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import util.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +26,10 @@ public class Session extends JCertfifObject {
         this.setDescription(basicDBObject.getString("description"));
         this.setStatus(basicDBObject.getString("status"));
         this.setKeyword(basicDBObject.getString("keyword"));
-        //this.setCategory((List)basicDBObject.get("category"));
+        this.getCategory().addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("category")));
         this.setStart(basicDBObject.getString("start"));
         this.setEnd(basicDBObject.getString("end"));
-        //this.setSpeakers((List)basicDBObject.get("speakers"));
-        category.add("une categorie");
-        speakers.add("un speaker");
+        this.getSpeakers().addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("speakers")));
     }
 
     public String getId() {
@@ -121,10 +121,10 @@ public class Session extends JCertfifObject {
         basicDBObject.put("description", getDescription());
         basicDBObject.put("status", getStatus());
         basicDBObject.put("keyword", getKeyword());
-        basicDBObject.put("category", getCategory());
+        basicDBObject.put("category", Tools.javaListToBasicDBList(getCategory()));
         basicDBObject.put("start", getStart());
         basicDBObject.put("end", getEnd());
-        basicDBObject.put("speakers", getSpeakers());
+        basicDBObject.put("speakers", Tools.javaListToBasicDBList(getSpeakers()));
         return basicDBObject;
     }
 }

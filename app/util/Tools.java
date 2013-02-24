@@ -1,5 +1,6 @@
 package util;
 
+import com.mongodb.BasicDBList;
 import play.Play;
 
 import java.io.InputStream;
@@ -71,4 +72,23 @@ public class Tools {
 
         return true;
     }
+
+    public static List basicDBListToJavaList(BasicDBList basicDBList){
+        List retList = new ArrayList();
+        if(basicDBList==null) return retList;
+        for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
+            retList.add(iterator.next());
+        }
+        return retList;
+    }
+
+    public static BasicDBList javaListToBasicDBList(List javaList){
+        BasicDBList retList = new BasicDBList();
+        if(javaList==null) return retList;
+        for(Iterator iterator = javaList.iterator();iterator.hasNext();){
+            retList.add(iterator.next());
+        }
+        return retList;
+    }
+
 }
