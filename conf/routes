@@ -28,3 +28,5 @@ POST    /session/new                controllers.SessionController.newSession
 POST    /participant/register       controllers.ParticipantController.registerParticipant
 
 GET     /participant/list           controllers.ParticipantController.listParticipant
+
+POST    /participant/:emailParticipant/changepassword      controllers.ParticipantController.changePasswordParticipant(emailParticipant: String)

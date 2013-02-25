@@ -27,7 +27,7 @@ public class JCertifObjectDB {
         this.setChecker(checker);
     }
 
-    protected Checker getChecker() {
+    public Checker getChecker() {
         return checker;
     }
 
@@ -100,6 +100,13 @@ public class JCertifObjectDB {
         return true;
     }
 
+    /**
+     * This method sould be revisit
+     * @param objectToUpdate
+     * @param idKeyname
+     * @return
+     * @throws JCertifException
+     */
     public boolean update(BasicDBObject objectToUpdate, String idKeyname) throws JCertifException {
         getChecker().check(objectToUpdate);
         getChecker().updateCheck(objectToUpdate);
@@ -110,11 +117,28 @@ public class JCertifObjectDB {
             throw new JCertifException(this, "Object to update does not exist");
         }
 
-        String currentId = existingObjectToUpdate.getString("_id");
         existingObjectToUpdate.putAll(objectToUpdate.toMap());
-        existingObjectToUpdate.put("_id", currentId);
 
         WriteResult result = MongoDatabase.JCERTIFINSTANCE.update(getCollectionName(), existingObjectToUpdate);
+        if (!Tools.isBlankOrNull(result.getError())) {
+            throw new JCertifException(this, result.getError());
+        }
+        return true;
+    }
+
+    public boolean save(BasicDBObject objectToUpdate, String idKeyname) throws JCertifException {
+        getChecker().check(objectToUpdate);
+        getChecker().updateCheck(objectToUpdate);
+        BasicDBObject dbObject = new BasicDBObject();
+        dbObject.put(idKeyname, objectToUpdate.get(idKeyname));
+        BasicDBObject existingObjectToUpdate = MongoDatabase.JCERTIFINSTANCE.readOne(getCollectionName(), dbObject);
+        if (null == existingObjectToUpdate) {
+            throw new JCertifException(this, "Object to update does not exist");
+        }
+
+        existingObjectToUpdate.putAll(objectToUpdate.toMap());
+
+        WriteResult result = MongoDatabase.JCERTIFINSTANCE.save(getCollectionName(), existingObjectToUpdate);
         if (!Tools.isBlankOrNull(result.getError())) {
             throw new JCertifException(this, result.getError());
         }

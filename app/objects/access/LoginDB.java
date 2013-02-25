@@ -22,8 +22,8 @@ public class LoginDB extends JCertifObjectDB {
         return remove(login.toBasicDBObject(), "email");
     }
 
-    public boolean update(Login login) throws JCertifException {
-        return update(login.toBasicDBObject(), "email");
+    public boolean save(Login login) throws JCertifException {
+        return save(login.toBasicDBObject(), "email");
     }
 
     public Login get(String email) throws JCertifException {

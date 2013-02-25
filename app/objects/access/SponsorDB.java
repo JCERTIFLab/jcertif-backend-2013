@@ -22,8 +22,8 @@ public class SponsorDB extends JCertifObjectDB {
         return remove(sponsor.toBasicDBObject(), "email");
     }
 
-    public boolean update(Sponsor sponsor) throws JCertifException {
-        return update(sponsor.toBasicDBObject(), "email");
+    public boolean save(Sponsor sponsor) throws JCertifException {
+        return save(sponsor.toBasicDBObject(), "email");
     }
 
     public Sponsor get(String email) throws JCertifException {

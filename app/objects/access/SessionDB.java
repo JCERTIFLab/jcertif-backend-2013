@@ -24,8 +24,8 @@ public class SessionDB extends JCertifObjectDB {
         return remove(session.toBasicDBObject(), "id");
     }
 
-    public boolean update(Session session) throws JCertifException {
-        return update(session.toBasicDBObject(), "id");
+    public boolean save(Session session) throws JCertifException {
+        return save(session.toBasicDBObject(), "id");
     }
 
     public Session get(String id) throws JCertifException {

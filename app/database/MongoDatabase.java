@@ -74,13 +74,13 @@ public class MongoDatabase {
     public DBCursor list(String collectionName) {
         // Retourne le résultat en JSON sans le paramètre par défaut _id
         return db.getCollection(collectionName).find(null,
-                new BasicDBObject("_id", 0));
+                new BasicDBObject("_id", 0).append("password",0));
     }
 
     public String listAll(String collectionName) {
         // Retourne le résultat en JSON sans le paramètre par défaut _id
         return JSON.serialize(db.getCollection(collectionName).find(null,
-                new BasicDBObject("_id", 0)));
+                new BasicDBObject("_id", 0).append("password",0)));
     }
 
     public void configureJCertifDatabase() {
@@ -115,6 +115,10 @@ public class MongoDatabase {
 
     public WriteResult update(String collectionName, BasicDBObject objectToUpdate) {
         return db.getCollection(collectionName).update(new BasicDBObject("_id", objectToUpdate.get("_id")), objectToUpdate);
+    }
+
+    public WriteResult save(String collectionName, BasicDBObject objectToUpdate) {
+        return db.getCollection(collectionName).save(objectToUpdate);
     }
 
     public BasicDBObject readOne(String collectionName, BasicDBObject query) {

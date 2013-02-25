@@ -19,11 +19,11 @@ public class ParticipantDB extends JCertifObjectDB{
     }
 
     public boolean remove(Participant participant) throws JCertifException {
-        return remove(participant.toBasicDBObject(), "id");
+        return remove(participant.toBasicDBObject(), "email");
     }
 
-    public boolean update(Participant participant) throws JCertifException {
-        return update(participant.toBasicDBObject(), "id");
+    public boolean save(Participant participant) throws JCertifException {
+        return save(participant.toBasicDBObject(), "email");
     }
 
     public Participant get(String email) throws JCertifException {

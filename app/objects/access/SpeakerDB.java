@@ -22,8 +22,8 @@ public class SpeakerDB extends JCertifObjectDB {
         return remove(speaker.toBasicDBObject(), "email");
     }
 
-    public boolean update(Speaker speaker) throws JCertifException {
-        return update(speaker.toBasicDBObject(), "email");
+    public boolean save(Speaker speaker) throws JCertifException {
+        return save(speaker.toBasicDBObject(), "email");
     }
 
     public Speaker get(String email) throws JCertifException {
