@@ -34,3 +34,5 @@ POST    /participant/:emailParticipant/changepassword      controllers.Participa
 GET     /participant/get                controllers.ParticipantController.getParticipant(emailParticipant = "")
 
 GET     /participant/get/:emailParticipant           controllers.ParticipantController.getParticipant(emailParticipant: String)
+
+POST    /participant/update         controllers.ParticipantController.updateParticipant
