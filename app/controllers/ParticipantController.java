@@ -10,6 +10,25 @@ import play.mvc.Result;
 
 public class ParticipantController extends AbstractController {
 
+    public static Result getParticipant(String emailParticipant){
+        allowCrossOriginJson();
+
+        Participant participant;
+        try {
+            participant = ParticipantDB.participantDB.get(emailParticipant);
+        } catch (JCertifException jcertifException) {
+            return internalServerError(jcertifException.getMessage());
+        }
+
+        if(participant==null){
+            return internalServerError("Participant with email \"" + emailParticipant + "\" does not exist");
+        }
+
+        participant.setPassword("-"); //We ensure that we don't return the password
+
+        return ok(JSON.serialize(participant.toBasicDBObject()));
+    }
+
     public static Result listParticipant() {
         allowCrossOriginJson();
         return ok(JSON.serialize(ParticipantDB.participantDB.list()));

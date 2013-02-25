@@ -30,3 +30,7 @@ POST    /participant/register       controllers.ParticipantController.registerPa
 GET     /participant/list           controllers.ParticipantController.listParticipant
 
 POST    /participant/:emailParticipant/changepassword      controllers.ParticipantController.changePasswordParticipant(emailParticipant: String)
+
+GET     /participant/get                controllers.ParticipantController.getParticipant(emailParticipant = "")
+
+GET     /participant/get/:emailParticipant           controllers.ParticipantController.getParticipant(emailParticipant: String)
