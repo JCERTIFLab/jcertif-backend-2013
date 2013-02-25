@@ -59,7 +59,7 @@ public class ParticipantController extends AbstractController {
         String newPassword = passwords.getString("newpassword");
 
         if(!ParticipantDB.participantDB.getChecker().checkPassword(oldPassword, newPassword)){
-            return internalServerError("New password does not match policy ");
+            return internalServerError("Password does not match policy ");
         }
 
         if(!oldPassword.equals(participant.getPassword())){
