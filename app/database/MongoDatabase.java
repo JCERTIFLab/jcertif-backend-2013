@@ -17,19 +17,19 @@ public class MongoDatabase {
 
 	private static MongoDatabase instance; // le nom JCERTIFINSTANCE utilisé
 											// dans plusieurs contextes pretait
-											// a confision
+											// a confusion
 
 	private MongoDatabase() {
-		String dbhost = PropUtils.JCERTIFINSTANCE
-				.getProperty("jcertifbackend.database.host");
-		String dbname = PropUtils.JCERTIFINSTANCE
-				.getProperty("jcertifbackend.database.name");
-		String user = PropUtils.JCERTIFINSTANCE
-				.getProperty("jcertifbackend.database.user");
-		String password = PropUtils.JCERTIFINSTANCE
-				.getProperty("jcertifbackend.database.password");
-		int dbport = Integer.parseInt(PropUtils.JCERTIFINSTANCE
-				.getProperty("jcertifbackend.database.port"));
+		String dbhost = PropUtils.getInstance().getProperty(
+				"jcertifbackend.database.host");
+		String dbname = PropUtils.getInstance().getProperty(
+				"jcertifbackend.database.name");
+		String user = PropUtils.getInstance().getProperty(
+				"jcertifbackend.database.user");
+		String password = PropUtils.getInstance().getProperty(
+				"jcertifbackend.database.password");
+		int dbport = Integer.parseInt(PropUtils.getInstance().getProperty(
+				"jcertifbackend.database.port"));
 
 		try {
 			mongoClient = new MongoClient(new ServerAddress(dbhost, dbport),
@@ -74,7 +74,7 @@ public class MongoDatabase {
 		MongoClientOptions.Builder mco = new MongoClientOptions.Builder();
 
 		try {
-			mco.connectionsPerHost(Integer.parseInt(PropUtils.JCERTIFINSTANCE
+			mco.connectionsPerHost(Integer.parseInt(PropUtils.getInstance()
 					.getProperty("jcertifbackend.database.pool.size", "50")));
 		} catch (NumberFormatException e) {
 			mco.connectionsPerHost(50);

@@ -12,9 +12,9 @@ public class PropUtils {
     Properties properties;
     String propertiesFileName;
 
-    public static final PropUtils JCERTIFINSTANCE = new PropUtils();
+    public static  PropUtils instance;
 
-    public PropUtils() {
+    private  PropUtils() {
         try {
             init(Constantes.JCERTIFBACKEND_PROPERTIES_FILE);
         } catch (IOException e) {
@@ -22,8 +22,20 @@ public class PropUtils {
             properties = null;
         }
     }
+    
+    public static PropUtils getInstance(){
+    	if(instance==null){
+    		instance=new PropUtils();
+    	}return instance;
+    }
 
-    public PropUtils(String propertiesFileName) throws IOException {
+    @Deprecated
+    /**
+     * Utiliser le singleton via getInstace()
+     * @param propertiesFileName
+     * @throws IOException
+     */
+    public PropUtils (String propertiesFileName) throws IOException {
         init(propertiesFileName);
     }
 
