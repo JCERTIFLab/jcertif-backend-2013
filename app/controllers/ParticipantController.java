@@ -1,11 +1,15 @@
 package controllers;
 
+import org.codehaus.jackson.JsonNode;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 import com.mongodb.util.JSONParseException;
 import exception.JCertifException;
 import objects.Participant;
 import objects.access.ParticipantDB;
+
+import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 
 public class ParticipantController extends AbstractController {
@@ -79,13 +83,20 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize(ParticipantDB.getInstance().list()));
 	}
 
+	/**
+	 * enregistrement d'un nouveau participant
+	 * @return
+	 */
 	public static Result registerParticipant() {
 		allowCrossOriginJson();
-		String participantObjInJSONForm = request().body().asText();
+		RequestBody requestBody = request().body();
+		JsonNode participantObjInJSONForm = requestBody.asJson();
+		String participantObjInJSONFormText = participantObjInJSONForm.toString();
+
 		Participant participant;
 		try {
 			participant = new Participant(
-					(BasicDBObject) JSON.parse(participantObjInJSONForm));
+					(BasicDBObject) JSON.parse(participantObjInJSONFormText));
 		} catch (JSONParseException exception) {
 			return badRequest(participantObjInJSONForm);
 		}
