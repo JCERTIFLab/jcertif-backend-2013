@@ -46,7 +46,7 @@ public class MongoDatabase {
 		}
 	}
 
-	public static synchronized MongoDatabase getInstance() {
+	public static MongoDatabase getInstance() {
 		if (instance == null) {
 			instance = new MongoDatabase();
 		}
