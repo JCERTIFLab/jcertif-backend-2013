@@ -110,6 +110,11 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
 	}
 
+	/**
+	 * Password change request
+	 * @param emailParticipant
+	 * @return
+	 */
 	public static Result changePasswordParticipant(String emailParticipant) {
 		String changePasswordErrorMessage = "Errors attempt when changing password";
 		Participant participant;
@@ -123,7 +128,7 @@ public class ParticipantController extends AbstractController {
 			return internalServerError(changePasswordErrorMessage);
 		}
 
-		String objInJSONForm = request().body().asText();
+		String objInJSONForm = request().body().asJson().toString();
 		BasicDBObject passwords;
 		try {
 			passwords = (BasicDBObject) JSON.parse(objInJSONForm);
