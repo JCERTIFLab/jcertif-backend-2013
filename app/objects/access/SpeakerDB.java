@@ -6,14 +6,20 @@ import objects.Speaker;
 import objects.checker.SpeakerChecker;
 import util.Constantes;
 
-public class SpeakerDB extends JCertifObjectDB {
+public class SpeakerDB extends JCertifObjectDB<Speaker> {
 
-    public static SpeakerDB speakerDB = new SpeakerDB();
+    private  static SpeakerDB instance;
 
     public SpeakerDB() {
         super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER, new SpeakerChecker());
     }
 
+    
+    public static SpeakerDB getInstance(){
+    	if(instance==null){
+    		instance=new SpeakerDB();
+    	} return instance;
+    }
     public boolean add(Speaker speaker) throws JCertifException {
         return add(speaker.toBasicDBObject());
     }

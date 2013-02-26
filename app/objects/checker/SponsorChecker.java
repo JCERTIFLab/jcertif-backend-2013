@@ -60,7 +60,7 @@ public class SponsorChecker extends Checker {
 
     @Override
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-        BasicDBObject dbObject = SponsorDB.sponsorDB.get("email", objectToCheck.getString("email"));
+        BasicDBObject dbObject = SponsorDB.getInstance().get("email", objectToCheck.getString("email"));
         if (null != dbObject) {
             throw new JCertifException(this, objectToCheck.getString("email") + " already exists");
         }

@@ -35,4 +35,5 @@ public class Referentiel extends JCertfifObject {
         basicDBObject.put("label", label);
         return basicDBObject;
     }
+
 }

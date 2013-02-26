@@ -60,7 +60,7 @@ public class ParticipantChecker extends Checker {
     @Override
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
 
-        BasicDBObject dbObject = ParticipantDB.participantDB.get("email", objectToCheck.getString("email"));
+        BasicDBObject dbObject = ParticipantDB.getInstance().get("email", objectToCheck.getString("email"));
         if (null != dbObject) {
             throw new JCertifException(this, "Participant \"" + objectToCheck.getString("email") + "\" already exists");
         }

@@ -91,7 +91,7 @@ public class SessionChecker extends Checker{
 
     @Override
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-        BasicDBObject dbObject = SessionDB.sessionDB.get("id", objectToCheck.getString("id"));
+        BasicDBObject dbObject = SessionDB.getInstance().get("id", objectToCheck.getString("id"));
         if (null != dbObject) {
             throw new JCertifException(this, "Session \"" + objectToCheck.getString("id") + "\" already exists");
         }

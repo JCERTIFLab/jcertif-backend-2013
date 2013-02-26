@@ -6,31 +6,41 @@ import objects.Login;
 import objects.checker.LoginChecker;
 import util.Constantes;
 
-public class LoginDB extends JCertifObjectDB {
+public class LoginDB extends JCertifObjectDB<Login> {
 
-    public static LoginDB loginDB = new LoginDB();
+	private static LoginDB instance;
 
-    public LoginDB() {
-        super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN, new LoginChecker());
-    }
+	private LoginDB() {
+		super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN,
+				new LoginChecker());
+	}
 
-    public boolean add(Login login) throws JCertifException {
-        return add(login.toBasicDBObject());
-    }
+	public static LoginDB getInstance() {
+		if (instance == null) {
+			instance = new LoginDB();
+		}
+		return instance;
 
-    public boolean remove(Login login) throws JCertifException {
-        return remove(login.toBasicDBObject(), "email");
-    }
+	}
 
-    public boolean save(Login login) throws JCertifException {
-        return save(login.toBasicDBObject(), "email");
-    }
+	public boolean add(Login login) throws JCertifException {
+		return add(login.toBasicDBObject());
+	}
 
-    public Login get(String email) throws JCertifException {
-        BasicDBObject dbObject = get("email", email);
-        Login login = null;
-        if (null != dbObject) login = new Login(dbObject);
-        return login;
-    }
+	public boolean remove(Login login) throws JCertifException {
+		return remove(login.toBasicDBObject(), "email");
+	}
+
+	public boolean save(Login login) throws JCertifException {
+		return save(login.toBasicDBObject(), "email");
+	}
+
+	public Login get(String email) throws JCertifException {
+		BasicDBObject dbObject = get("email", email);
+		Login login = null;
+		if (null != dbObject)
+			login = new Login(dbObject);
+		return login;
+	}
 
 }

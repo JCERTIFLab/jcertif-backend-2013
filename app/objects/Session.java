@@ -127,4 +127,5 @@ public class Session extends JCertfifObject {
         basicDBObject.put("speakers", Tools.javaListToBasicDBList(getSpeakers()));
         return basicDBObject;
     }
+
 }

@@ -6,12 +6,17 @@ import objects.Participant;
 import objects.checker.ParticipantChecker;
 import util.Constantes;
 
-public class ParticipantDB extends JCertifObjectDB{
+public class ParticipantDB extends JCertifObjectDB<Participant>{
 
-    public static ParticipantDB participantDB = new ParticipantDB();
+    private static ParticipantDB instance;
 
-    public ParticipantDB() {
+    private ParticipantDB() {
         super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT, new ParticipantChecker());
+    }
+    public static ParticipantDB getInstance(){
+    	if(instance==null){
+    		instance=new ParticipantDB();
+    	}return instance;
     }
 
     public boolean add(Participant participant) throws JCertifException {

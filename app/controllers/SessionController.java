@@ -12,12 +12,12 @@ public class SessionController extends AbstractController {
 
     public static Result listSession() {
         allowCrossOriginJson();
-        return ok(JSON.serialize(SessionDB.sessionDB.list()));
+        return ok(JSON.serialize(SessionDB.getInstance().list()));
     }
 
     public static Result listStatusSession() {
         allowCrossOriginJson();
-        return ok(JSON.serialize(SessionDB.sessionDB.listStatus()));
+        return ok(JSON.serialize(SessionDB.getInstance().listStatus()));
     }
 
     public static Result newSession() {
@@ -31,7 +31,7 @@ public class SessionController extends AbstractController {
         }
 
         try {
-            SessionDB.sessionDB.add(session);
+            SessionDB.getInstance().add(session);
         } catch (JCertifException jcertifException) {
             return internalServerError(jcertifException.getMessage());
         }

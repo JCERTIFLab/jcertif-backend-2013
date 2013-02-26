@@ -144,4 +144,5 @@ public class Speaker extends JCertfifObject{
         basicDBObject.put("biography", getBiography());
         return basicDBObject;
     }
+
 }

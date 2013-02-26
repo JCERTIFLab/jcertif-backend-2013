@@ -8,7 +8,7 @@ public class LoginController extends AbstractController {
 
     public static Result logins() {
         allowCrossOriginJson();
-        return ok(JSON.serialize(LoginDB.loginDB.list()));
+        return ok(JSON.serialize(LoginDB.getInstance().list()));
     }
 
 }

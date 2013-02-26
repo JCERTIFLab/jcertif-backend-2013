@@ -15,9 +15,9 @@ public class MongoDatabase {
     private DB db = null;
     private MongoClient mongoClient = null;
 
-    public static final MongoDatabase JCERTIFINSTANCE = new MongoDatabase();
+    private static  MongoDatabase instance ;
 
-    public MongoDatabase() {
+    private  MongoDatabase() {
         String dbhost = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.host");
         String dbname = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.name");
         String user = PropUtils.JCERTIFINSTANCE.getProperty("jcertifbackend.database.user");
@@ -38,6 +38,14 @@ public class MongoDatabase {
         }
     }
 
+    public static synchronized MongoDatabase getInstance(){
+    	if(instance==null){
+    		instance= new MongoDatabase();
+    	} return instance;
+    }
+    
+    @Deprecated
+    // je crois pas qu'on s'en servira
     public MongoDatabase(String host, int port, String databasename) throws UnknownHostException {
         mongoClient = new MongoClient(new ServerAddress(host, port), getDBOptions());
         db = mongoClient.getDB(databasename);

@@ -8,6 +8,6 @@ public class SponsorController extends AbstractController {
 
     public static Result listSponsor() {
         allowCrossOriginJson();
-        return ok(JSON.serialize(SponsorDB.sponsorDB.list()));
+        return ok(JSON.serialize(SponsorDB.getInstance().list()));
     }
 }

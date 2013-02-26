@@ -12,7 +12,7 @@ public class SpeakerController extends AbstractController {
 
     public static Result listSpeaker() {
         allowCrossOriginJson();
-        return ok(JSON.serialize(SpeakerDB.speakerDB.list()));
+        return ok(JSON.serialize(SpeakerDB.getInstance().list()));
     }
 
     public static Result registerSpeaker() {
@@ -26,7 +26,7 @@ public class SpeakerController extends AbstractController {
         }
 
         try {
-            SpeakerDB.speakerDB.add(speaker);
+            SpeakerDB.getInstance().add(speaker);
         } catch (JCertifException jcertifException) {
             return internalServerError(jcertifException.getMessage());
         }
