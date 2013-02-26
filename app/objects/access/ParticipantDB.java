@@ -13,7 +13,7 @@ public class ParticipantDB extends JCertifObjectDB<Participant>{
     private ParticipantDB() {
         super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT, new ParticipantChecker());
     }
-    public static ParticipantDB getInstance(){
+    public static synchronized ParticipantDB getInstance(){
     	if(instance==null){
     		instance=new ParticipantDB();
     	}return instance;

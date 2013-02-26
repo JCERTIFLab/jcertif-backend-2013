@@ -15,7 +15,7 @@ public class SpeakerDB extends JCertifObjectDB<Speaker> {
     }
 
     
-    public static SpeakerDB getInstance(){
+    public synchronized static SpeakerDB getInstance(){
     	if(instance==null){
     		instance=new SpeakerDB();
     	} return instance;

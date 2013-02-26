@@ -15,9 +15,7 @@ public class MongoDatabase {
 	private DB db = null;
 	private MongoClient mongoClient = null;
 
-	private static MongoDatabase instance; // le nom JCERTIFINSTANCE utilisé
-											// dans plusieurs contextes pretait
-											// a confusion
+	private static MongoDatabase instance;
 
 	private MongoDatabase() {
 		String dbhost = PropUtils.getInstance().getProperty(
@@ -57,7 +55,7 @@ public class MongoDatabase {
 
 	@Deprecated
 	/**
-	 *  je crois pas qu'on s'en servira, utiliser plutot le singleton via getInstace()
+	 *  utiliser plutot le singleton via getInstace()
 	 * @param host
 	 * @param port
 	 * @param databasename

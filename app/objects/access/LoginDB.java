@@ -15,7 +15,7 @@ public class LoginDB extends JCertifObjectDB<Login> {
 				new LoginChecker());
 	}
 
-	public static LoginDB getInstance() {
+	public static synchronized LoginDB getInstance() {
 		if (instance == null) {
 			instance = new LoginDB();
 		}
