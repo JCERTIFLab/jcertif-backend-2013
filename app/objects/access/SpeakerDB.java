@@ -15,10 +15,11 @@ public class SpeakerDB extends JCertifObjectDB<Speaker> {
     }
 
     
-    public synchronized static SpeakerDB getInstance(){
+    public static SpeakerDB getInstance(){
     	if(instance==null){
     		instance=new SpeakerDB();
-    	} return instance;
+    	}
+        return instance;
     }
     public boolean add(Speaker speaker) throws JCertifException {
         return add(speaker.toBasicDBObject());

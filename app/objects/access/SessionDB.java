@@ -17,7 +17,7 @@ public class SessionDB extends JCertifObjectDB<Session>{
 				new SessionChecker());
 	}
 
-	public static synchronized SessionDB getInstance() {
+	public static SessionDB getInstance() {
 		if (instance == null) {
 			instance = new SessionDB();
 		}

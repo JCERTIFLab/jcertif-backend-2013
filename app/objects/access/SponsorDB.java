@@ -14,11 +14,13 @@ public class SponsorDB extends JCertifObjectDB<Sponsor> {
         super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR, new SponsorChecker());
     }
 
-    public static synchronized SponsorDB getInstance(){
+    public static SponsorDB getInstance(){
     	if(instance==null){
     		instance= new SponsorDB();
-    	} return instance;
+    	}
+        return instance;
     }
+
     public boolean add(Sponsor sponsor) throws JCertifException {
         return super.add(sponsor.toBasicDBObject());
     }

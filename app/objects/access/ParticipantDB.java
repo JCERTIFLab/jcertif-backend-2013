@@ -13,10 +13,11 @@ public class ParticipantDB extends JCertifObjectDB<Participant>{
     private ParticipantDB() {
         super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT, new ParticipantChecker());
     }
-    public static synchronized ParticipantDB getInstance(){
+    public static ParticipantDB getInstance(){
     	if(instance==null){
     		instance=new ParticipantDB();
-    	}return instance;
+    	}
+        return instance;
     }
 
     public boolean add(Participant participant) throws JCertifException {
