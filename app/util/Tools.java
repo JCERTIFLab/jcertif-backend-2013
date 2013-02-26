@@ -1,6 +1,7 @@
 package util;
 
 import com.mongodb.BasicDBList;
+import play.Logger;
 import play.Play;
 
 import java.io.InputStream;
@@ -38,7 +39,7 @@ public class Tools {
                 }
                 return c.toString();
             } catch (Throwable e) {
-                //
+                Logger.error("",e);
             }
         }
         return "";
