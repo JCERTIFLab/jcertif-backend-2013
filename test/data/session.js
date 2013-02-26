@@ -1,5 +1,5 @@
-db.Session.remove();
-db.Session.insert({
+db.session.remove();
+db.session.insert({
     id : "101",
     title : "title 1",
     summary : "summary 1",
@@ -11,7 +11,7 @@ db.Session.insert({
     end : "16/02/2013 10:23",
     speakers : ["11", "12"]
 });
-db.Session.insert({
+db.session.insert({
     id : "102",
     title : "title 2",
     summary : "summary 2",

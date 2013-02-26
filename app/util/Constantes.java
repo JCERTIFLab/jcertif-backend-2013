@@ -7,7 +7,7 @@ public class Constantes {
     public static final String JCERTIFBACKEND_COLLECTIONNAME_LOGIN = "login";
     public static final String JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT = "participant";
     public static final String JCERTIFBACKEND_COLLECTIONNAME_REFERENTIEL = "referentiel";
-    public static final String JCERTIFBACKEND_COLLECTIONNAME_SESSION = "Session";
+    public static final String JCERTIFBACKEND_COLLECTIONNAME_SESSION = "session";
     public static final String JCERTIFBACKEND_COLLECTIONNAME_SPEAKER = "speaker";
     public static final String JCERTIFBACKEND_COLLECTIONNAME_SPONSOR = "sponsor";
 
