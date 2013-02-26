@@ -3,6 +3,7 @@ package util;
 
 import com.google.common.io.Files;
 import database.MongoDatabase;
+import play.Logger;
 import play.Play;
 
 import java.io.File;
@@ -23,9 +24,10 @@ public class TestUtils {
         StringBuilder sb = new StringBuilder();
 
         for (String instr : instructions){
+
             sb.append(instr);
         }
-
+        Logger.info("############ Update database ########### \n " + sb.toString());
         MongoDatabase.getInstance().getDb().eval(sb.toString());
 
     }
