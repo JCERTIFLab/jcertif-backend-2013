@@ -9,7 +9,10 @@ public abstract class AbstractController extends Controller {
         response().setHeader("Access-Control-Allow-Methods", "GET,POST");
         response().setHeader("Access-Control-Allow-Headers", "Content-Type");
         response().setHeader("Content-Type", "application/json; charset=utf-8");
+    }
 
+    protected static boolean isAdmin(){
+        return session("admin") != null;
     }
 
 }

@@ -7,9 +7,13 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 GET		/							controllers.HomeController.get
 
+POST	/admin					    controllers.AdminController.check
+
 GET		/ref/sponsorlevel/list		controllers.ReferentielController.sponsorlevel
 
-GET 	/ref/category/list			controllers.ReferentielController.categories
+GET 	/ref/category/list			controllers.CategoryController.list
+
+POST 	/ref/category/new			controllers.CategoryController.newCategory
 
 GET 	/login/list			        controllers.LoginController.logins
 

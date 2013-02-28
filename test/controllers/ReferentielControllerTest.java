@@ -23,16 +23,6 @@ public class ReferentielControllerTest {
         });
     }
 
-    @Test
-    public void test_categories() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Result result = route(fakeRequest(GET, "/ref/category/list"));
-                assertThat(status(result)).isEqualTo(OK);
-                assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(contentAsString(result)).isEqualTo("[ { \"label\" : \"Android\"} , { \"label\" : \"HTML5\"} , { \"label\" : \"Java\"} , { \"label\" : \"Entreprise\"} , { \"label\" : \"Web Design\"}]");
-            }
-        });
-    }
+
 
 }
