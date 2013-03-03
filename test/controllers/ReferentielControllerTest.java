@@ -1,13 +1,10 @@
 package controllers;
 
-import org.junit.*;
+import org.junit.Test;
+import play.mvc.Result;
 
-import play.mvc.*;
-import play.test.*;
-import play.libs.F.*;
-
+import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
 
 public class ReferentielControllerTest {
 
@@ -18,7 +15,7 @@ public class ReferentielControllerTest {
                 Result result = route(fakeRequest(GET, "/ref/sponsorlevel/list"));
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentType(result)).isEqualTo("application/json");
-                //assertThat(contentAsString(result)).isEqualTo(" { \"label\" : \"Titanium\"} , { \"label\" : \"Platine\"} , { \"label\" : \"Or\"} , { \"label\" : \"Argent\"} , { \"label\" : \"Community\"} , { \"label\" : \"Education\"} , { \"label\" : \"Média\"}");
+                assertThat(contentAsString(result)).isEqualTo("\"[ { \\\"label\\\" : \\\"Titanium\\\"} , { \\\"label\\\" : \\\"Platine\\\"} , { \\\"label\\\" : \\\"Or\\\"} , { \\\"label\\\" : \\\"Argent\\\"} , { \\\"label\\\" : \\\"Community\\\"} , { \\\"label\\\" : \\\"Education\\\"} , { \\\"label\\\" : \\\"Média\\\"}]\"");
             }
         });
     }
