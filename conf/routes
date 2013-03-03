@@ -40,3 +40,11 @@ GET     /participant/get                controllers.ParticipantController.getPar
 GET     /participant/get/:emailParticipant           controllers.ParticipantController.getParticipant(emailParticipant: String)
 
 POST    /participant/update         controllers.ParticipantController.updateParticipant
+
+POST    /participant/:emailParticipant/lostpassword    controllers.ParticipantController.reinitPasswordParticipant(emailParticipant: String)
+
+POST    /participant/:emailParticipant/session/add/:idSession    controllers.ParticipantController.inscrireParticipantSession(emailParticipant: String, idSession: String)
+
+POST    /participant/:emailParticipant/session/remove/:idSession    controllers.ParticipantController.desinscrireParticipantSession(emailParticipant: String, idSession: String)
+
+GET     /participant/:emailParticipant/session/list           controllers.ParticipantController.listParticipantSession(emailParticipant: String)

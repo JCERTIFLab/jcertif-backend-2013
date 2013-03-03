@@ -1,7 +1,7 @@
 package controllers;
 
 import com.mongodb.util.JSON;
-import objects.access.SponsorDB;
+import models.objects.access.SponsorDB;
 import play.mvc.Result;
 
 public class SponsorController extends AbstractController {

@@ -3,10 +3,12 @@ package controllers;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 import com.mongodb.util.JSONParseException;
-import exception.JCertifException;
-import objects.Session;
-import objects.access.SessionDB;
+import models.exception.JCertifException;
+import models.objects.Session;
+import models.objects.access.SessionDB;
+import play.mvc.Http;
 import play.mvc.Result;
+import models.util.Tools;
 
 public class SessionController extends AbstractController {
 
@@ -22,7 +24,15 @@ public class SessionController extends AbstractController {
 
     public static Result newSession() {
         allowCrossOriginJson();
-        String sessionObjInJSONForm = request().body().asText();
+
+        Http.RequestBody requestBody = request().body();
+        try {
+            Tools.verifyJSonRequest(requestBody);
+        } catch (JCertifException e) {
+            return badRequest(e.getMessage());
+        }
+
+        String sessionObjInJSONForm = requestBody.asJson().toString();
         Session session;
         try{
             session = new Session((BasicDBObject) JSON.parse(sessionObjInJSONForm));

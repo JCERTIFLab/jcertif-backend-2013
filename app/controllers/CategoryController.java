@@ -1,9 +1,8 @@
 package controllers;
 
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
-import database.MongoDatabase;
+import models.database.MongoDatabase;
 import play.Logger;
 import play.mvc.Result;
 

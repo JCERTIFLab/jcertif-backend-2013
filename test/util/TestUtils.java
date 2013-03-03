@@ -2,7 +2,7 @@ package util;
 
 
 import com.google.common.io.Files;
-import database.MongoDatabase;
+import models.database.MongoDatabase;
 import play.Logger;
 import play.Play;
 
