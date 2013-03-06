@@ -26,7 +26,7 @@ public class ChangePasswordEmailMessage extends EmailMessage{
         getText().append("<br>");
         getText().append("<br>");
 
-        addJCertifSignatureToContent();
+        addJCertifSignatureFrToContent();
 
         getText().append("<br>");
 

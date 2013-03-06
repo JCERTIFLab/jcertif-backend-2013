@@ -18,7 +18,6 @@ public class InscrireParticipantSessionEmailMessage extends EmailMessage{
 
         addJCertifHeaderToContent();
 
-        getText().append("<br><b>Exemple de message</b><br>");
         getText().append("<br>");
         getText().append("Merci " + fullname +" pour votre inscription");
         getText().append("<br>");
@@ -31,21 +30,49 @@ public class InscrireParticipantSessionEmailMessage extends EmailMessage{
         getText().append("<br>Date de fin : " + sessionEndDate);
         getText().append("<br>");
         getText().append("<br>");
-        getText().append("Il ne vous reste plus que deux petites étapes à suivre pour compélter la procédure");
+        getText().append("Il ne vous reste plus que deux petites étapes à suivre pour compléter la procédure");
         getText().append("<br>");
-        getText().append("Etapes à suivre");
+        getText().append("Etapes à suivre :");
         getText().append("<br>");
         getText().append("---------------");
         getText().append("<br>");
-        getText().append("1 - Contacter rapidement le collecteur de votre secteur. Consulter notre page de contact pour trouver le collecteur le plus proche de chez vous");
+        getText().append("1 - Contacter rapidement le collecteur de votre secteur. Consulter notre page de contact pour trouver le collecteur le plus proche de chez vous.");
         getText().append("<br>");
-        getText().append("2 - Payez les frais de participation et recevez votre carte d'invitation officielle et un numéro de confirmation");
+        getText().append("2 - Payez les frais de participation et recevez votre carte d'invitation officielle et un numéro de confirmation.");
         getText().append("<br>");
         getText().append("<br>");
 
         addJCertifFooterToContent();
         getText().append("<br>");
-        addJCertifSignatureToContent();
+        addJCertifSignatureFrToContent();
+
+        getText().append("<br>");
+        getText().append("<br>");
+        getText().append("<br>");
+        getText().append("Thanks " + fullname +" for your participation");
+        getText().append("<br>");
+        getText().append("Your subcription for this session has been successfully register");
+        getText().append("<br>");
+        getText().append("<br>");
+        getText().append("There are two small steps to complete the procedure.");
+        getText().append("<br>");
+        getText().append("Next steps : ");
+        getText().append("<br>");
+        getText().append("---------------");
+        getText().append("<br>");
+        getText().append("1 - Contact the JCertif fundraiser in your area <a href=\".\">page de contact</a>");
+        getText().append("<br>");
+        getText().append("2 - Pay the fee and receive your card");
+
+        getText().append("<br>");
+        getText().append("<br>");
+        getText().append("Do not hesitate to contact us if you need more detailed information!");
+        getText().append("<br>");
+        getText().append("info@jcertif.com");
+
+        addJCertifFooterToContent();
+        getText().append("<br>");
+        addJCertifSignatureEnToContent();
     }
 
     public String getFullname() {

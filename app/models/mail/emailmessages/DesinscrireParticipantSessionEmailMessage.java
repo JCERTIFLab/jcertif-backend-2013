@@ -18,7 +18,6 @@ public class DesinscrireParticipantSessionEmailMessage extends EmailMessage {
 
         addJCertifHeaderToContent();
 
-        getText().append("<br><b>Exemple de message</b><br>");
         getText().append("<br>");
         getText().append("Merci " + fullname +" de participer à JCertif");
         getText().append("<br>");
@@ -34,7 +33,26 @@ public class DesinscrireParticipantSessionEmailMessage extends EmailMessage {
 
         addJCertifFooterToContent();
         getText().append("<br>");
-        addJCertifSignatureToContent();
+        addJCertifSignatureFrToContent();
+
+        getText().append("<br>");
+        getText().append("<br>");
+        getText().append("<br>");
+        getText().append("Thanks " + fullname +" for your participation");
+        getText().append("<br>");
+        getText().append("<br>");
+        getText().append("Your unsubscribe from the session has been recorded");
+        getText().append("<br>");
+        getText().append("<br>Session : " + sessionTitle);
+        getText().append("<br>Summary : " + sessionSummary);
+        getText().append("<br>Start Date : " + sessionStartDate);
+        getText().append("<br>End Date : " + sessionEndDate);
+        getText().append("<br>");
+        getText().append("<br>");
+
+        addJCertifFooterToContent();
+        getText().append("<br>");
+        addJCertifSignatureEnToContent();
     }
 
     public String getFullname() {

@@ -171,7 +171,11 @@ public abstract class EmailMessage {
         text.append(EmailPropUtils.getInstance().getProperty("mail.content.footer"));
     }
 
-    public void addJCertifSignatureToContent(){
-      text.append(EmailPropUtils.getInstance().getProperty("mail.content.footer.signature"));
+    public void addJCertifSignatureFrToContent(){
+      text.append(EmailPropUtils.getInstance().getProperty("mail.content.footer.signature.fr"));
+    }
+
+    public void addJCertifSignatureEnToContent(){
+        text.append(EmailPropUtils.getInstance().getProperty("mail.content.footer.signature.en"));
     }
 }

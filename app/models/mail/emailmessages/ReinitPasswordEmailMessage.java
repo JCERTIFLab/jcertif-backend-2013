@@ -27,7 +27,7 @@ public class ReinitPasswordEmailMessage extends EmailMessage{
         getText().append("<br>");
         getText().append("<br>");
 
-        addJCertifSignatureToContent();
+        addJCertifSignatureFrToContent();
 
         getText().append("<br>");
 
