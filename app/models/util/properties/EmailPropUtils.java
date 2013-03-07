@@ -9,7 +9,7 @@ public class EmailPropUtils extends PropUtils {
     public static EmailPropUtils instance;
 
     public EmailPropUtils() throws IOException {
-        super(Constantes.JCERTIFBACKEND_EMAIL_PROPERTIES_FILE);
+        super(Constantes.EMAIL_PROPERTIES_FILE);
     }
 
     public static EmailPropUtils getInstance() {

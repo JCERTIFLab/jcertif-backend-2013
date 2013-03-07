@@ -1,20 +1,22 @@
 package models.util;
 
-public class Constantes {
-    public static final String JCERTIFBACKEND_PROPERTIES_FILE = "jcertifbackend.properties";
-    public static final String JCERTIFBACKEND_SAMPLE_DATA_FILE = "referentiel.js";
+public interface Constantes {
 
-    public static final String JCERTIFBACKEND_COLLECTIONNAME_LOGIN = "login";
-    public static final String JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT = "participant";
-    public static final String JCERTIFBACKEND_COLLECTIONNAME_REFERENTIEL = "referentiel";
-    public static final String JCERTIFBACKEND_COLLECTIONNAME_SESSION = "session";
-    public static final String JCERTIFBACKEND_COLLECTIONNAME_SPEAKER = "speaker";
-    public static final String JCERTIFBACKEND_COLLECTIONNAME_SPONSOR = "sponsor";
+    String PROPERTIES_FILE = "jcertifbackend.properties";
+    String INIT_DATA_FILE = "referentiel.js";
 
-    public static final String JCERTIFBACKEND_DATEFORMAT = "dd/MM/yyyy HH:mm";
+    String COLLECTION_LOGIN = "login";
+    String COLLECTION_PARTICIPANT = "participant";
+    String COLLECTION_REFERENTIEL = "referentiel";
+    String COLLECTION_SESSION = "session";
+    String COLLECTION_SPEAKER = "speaker";
+    String COLLECTION_SPONSOR = "sponsor";
+    String COLLECTION_CATEGORY = "category";
 
-    public static final String JCERTIFBACKEND_EMAIL_PROPERTIES_FILE = "jcertifbackend_email.properties";
-    public static final String JCERTIFBACKEND_EMAIL_WEBCONTAINER_RESOURCE_NAME = "mail/Session";
+    String DATEFORMAT = "dd/MM/yyyy HH:mm";
 
-    public static final int JCERTIFBACKEND_PASSWORD_MIN_LENGTH = 6;
+    String EMAIL_PROPERTIES_FILE = "jcertifbackend_email.properties";
+    String EMAIL_WEBCONTAINER_RESOURCE_NAME = "mail/Session";
+
+    int PASSWORD_MIN_LENGTH = 6;
 }

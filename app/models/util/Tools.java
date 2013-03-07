@@ -64,7 +64,7 @@ public class Tools {
             return false;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.JCERTIFBACKEND_DATEFORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
         sdf.setLenient(false);
 
         try {

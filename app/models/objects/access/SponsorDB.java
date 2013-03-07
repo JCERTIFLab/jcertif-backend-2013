@@ -11,7 +11,7 @@ public class SponsorDB extends JCertifObjectDB<Sponsor> {
     private static SponsorDB instance;
 
     private SponsorDB() {
-        super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR, new SponsorChecker());
+        super(Constantes.COLLECTION_SPONSOR, new SponsorChecker());
     }
 
     public static SponsorDB getInstance(){

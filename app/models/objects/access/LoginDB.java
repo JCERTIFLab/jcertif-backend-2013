@@ -11,7 +11,7 @@ public class LoginDB extends JCertifObjectDB<Login> {
 	private static LoginDB instance;
 
 	private LoginDB() {
-		super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN,
+		super(Constantes.COLLECTION_LOGIN,
 				new LoginChecker());
 	}
 
