@@ -3,6 +3,9 @@ package controllers;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 import com.mongodb.util.JSONParseException;
+import com.typesafe.plugin.MailerAPI;
+import com.typesafe.plugin.MailerPlugin;
+
 import models.exception.JCertifException;
 import models.mail.Sendmail;
 import models.mail.emailmessages.ChangePasswordEmailMessage;
@@ -16,9 +19,12 @@ import models.objects.access.SessionDB;
 import models.util.Constantes;
 import models.util.Tools;
 import models.util.crypto.CryptoUtil;
+import notifiers.EmailNotification;
+
 import org.codehaus.jackson.JsonNode;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
+
 
 public class ParticipantController extends AbstractController {
 
@@ -100,7 +106,7 @@ public class ParticipantController extends AbstractController {
     }
 
     /**
-     * enregistrement d'un nouveau participant
+     * Enregistrement d'un nouveau participant
      *
      * @return
      */
@@ -131,7 +137,11 @@ public class ParticipantController extends AbstractController {
         }
 
         try {
+        	
             ParticipantDB.getInstance().add(participant);
+            
+            EmailNotification.sendWelcomeMail(participant); //send email ansync
+            
         } catch (JCertifException jcertifException) {
             return internalServerError(jcertifException.getMessage());
         }
@@ -378,5 +388,9 @@ public class ParticipantController extends AbstractController {
 
         return ok(JSON.serialize(participant.getSessions()));
     }
+    
+    
+    
+
 
 }
