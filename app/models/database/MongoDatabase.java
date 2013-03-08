@@ -53,21 +53,6 @@ public class MongoDatabase {
 		return instance;
 	}
 
-	@Deprecated
-	/**
-	 *  utiliser plutot le singleton via getInstace()
-	 * @param host
-	 * @param port
-	 * @param databasename
-	 * @throws UnknownHostException
-	 */
-	public MongoDatabase(String host, int port, String databasename)
-			throws UnknownHostException {
-		mongoClient = new MongoClient(new ServerAddress(host, port),
-				getDBOptions());
-		db = mongoClient.getDB(databasename);
-	}
-
 	private MongoClientOptions getDBOptions() {
 		MongoClientOptions.Builder mco = new MongoClientOptions.Builder();
 
