@@ -127,7 +127,7 @@ public class ParticipantController extends AbstractController {
 
         if (!ParticipantDB.getInstance().getChecker()
                 .checkPassword(participant.getPassword(), null, false)) {
-            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.JCERTIFBACKEND_PASSWORD_MIN_LENGTH + " )"));
+            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.PASSWORD_MIN_LENGTH + " )"));
         }
 
         try {
@@ -179,7 +179,7 @@ public class ParticipantController extends AbstractController {
 
         if (!ParticipantDB.getInstance().getChecker()
                 .checkPassword(oldPassword, newPassword, true)) {
-            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.JCERTIFBACKEND_PASSWORD_MIN_LENGTH + " )"));
+            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.PASSWORD_MIN_LENGTH + " )"));
         }
 
         try {

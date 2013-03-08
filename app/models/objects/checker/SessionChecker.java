@@ -55,7 +55,7 @@ public class SessionChecker extends Checker{
         }
 
         if (!Tools.isValidDate(session.getStart())) {
-            throw new JCertifException(this, "Start Date is not valid, the format must be " + Constantes.JCERTIFBACKEND_DATEFORMAT);
+            throw new JCertifException(this, "Start Date is not valid, the format must be " + Constantes.DATEFORMAT);
         }
 
         if (null==session.getEnd()) {
@@ -63,10 +63,10 @@ public class SessionChecker extends Checker{
         }
 
         if (!Tools.isValidDate(session.getEnd())) {
-            throw new JCertifException(this, "End Date is not valid, the format must be " + Constantes.JCERTIFBACKEND_DATEFORMAT);
+            throw new JCertifException(this, "End Date is not valid, the format must be " + Constantes.DATEFORMAT);
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.JCERTIFBACKEND_DATEFORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
         try {
             Date startDate = sdf.parse(session.getStart());
             Date endDate = sdf.parse(session.getEnd());

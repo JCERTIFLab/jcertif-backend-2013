@@ -9,7 +9,7 @@ public class JCertifPropUtils extends PropUtils {
     public static JCertifPropUtils instance;
 
     public JCertifPropUtils() throws IOException {
-        super(Constantes.JCERTIFBACKEND_PROPERTIES_FILE);
+        super(Constantes.PROPERTIES_FILE);
     }
 
     public static JCertifPropUtils getInstance() {

@@ -16,8 +16,8 @@ public abstract class Checker {
 
     public boolean checkPassword(String oldPassword, String newPassword, boolean checkTwo){
         if(checkTwo){
-            return oldPassword!=null && newPassword!=null && !oldPassword.equals(newPassword) && oldPassword.length() >= Constantes.JCERTIFBACKEND_PASSWORD_MIN_LENGTH && newPassword.length() >= Constantes.JCERTIFBACKEND_PASSWORD_MIN_LENGTH;
+            return oldPassword!=null && newPassword!=null && !oldPassword.equals(newPassword) && oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH && newPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
         }
-        return oldPassword!=null && oldPassword.length() >= Constantes.JCERTIFBACKEND_PASSWORD_MIN_LENGTH;
+        return oldPassword!=null && oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
     }
 }

@@ -13,7 +13,7 @@ public class SessionDB extends JCertifObjectDB<Session>{
 	private static SessionDB instance;
 
 	public SessionDB() {
-		super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SESSION,
+		super(Constantes.COLLECTION_SESSION,
 				new SessionChecker());
 	}
 

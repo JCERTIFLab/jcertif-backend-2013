@@ -71,7 +71,7 @@ public class MongoDatabase {
 	}
 
 	private void initializeJCertifDB() throws IOException {
-		loadDbWithData(Constantes.JCERTIFBACKEND_SAMPLE_DATA_FILE);
+		loadDbWithData(Constantes.INIT_DATA_FILE);
 	}
 
 	public DBCollection getCollection(String collectionName) {
@@ -102,44 +102,44 @@ public class MongoDatabase {
 	public void configureJCertifDatabase() {
 		// Cette fonction configure la base de données JCertif (Création des
 		// collections, création des index)
-		db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN,
+		db.createCollection(Constantes.COLLECTION_LOGIN,
 				null);
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_LOGIN)
+		db.getCollection(Constantes.COLLECTION_LOGIN)
 				.createIndex(new BasicDBObject("email", 1));
 
 		db.createCollection(
-				Constantes.JCERTIFBACKEND_COLLECTIONNAME_REFERENTIEL, null);
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_REFERENTIEL)
+				Constantes.COLLECTION_REFERENTIEL, null);
+		db.getCollection(Constantes.COLLECTION_REFERENTIEL)
 				.createIndex(new BasicDBObject("code", 1));
 
 		db.createCollection(
-				Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT, null);
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT)
+				Constantes.COLLECTION_PARTICIPANT, null);
+		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
 				.createIndex(new BasicDBObject("email", 1));
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT)
+		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
 				.createIndex(new BasicDBObject("lastname", 1));
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_PARTICIPANT)
+		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
 				.createIndex(new BasicDBObject("firstname", 1));
 
-		db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER,
+		db.createCollection(Constantes.COLLECTION_SPEAKER,
 				null);
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER)
+		db.getCollection(Constantes.COLLECTION_SPEAKER)
 				.createIndex(new BasicDBObject("email", 1));
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER)
+		db.getCollection(Constantes.COLLECTION_SPEAKER)
 				.createIndex(new BasicDBObject("lastname", 1));
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER)
+		db.getCollection(Constantes.COLLECTION_SPEAKER)
 				.createIndex(new BasicDBObject("firstname", 1));
 
-		db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR,
+		db.createCollection(Constantes.COLLECTION_SPONSOR,
 				null);
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR)
+		db.getCollection(Constantes.COLLECTION_SPONSOR)
 				.createIndex(new BasicDBObject("email", 1));
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPONSOR)
+		db.getCollection(Constantes.COLLECTION_SPONSOR)
 				.createIndex(new BasicDBObject("name", 1));
 
-		db.createCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SESSION,
+		db.createCollection(Constantes.COLLECTION_SESSION,
 				null);
-		db.getCollection(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SESSION)
+		db.getCollection(Constantes.COLLECTION_SESSION)
 				.createIndex(new BasicDBObject("title", 1));
 	}
 

@@ -12,7 +12,7 @@ public class SpeakerDB extends JCertifObjectDB<Speaker> {
     private  static SpeakerDB instance;
 
     public SpeakerDB() {
-        super(Constantes.JCERTIFBACKEND_COLLECTIONNAME_SPEAKER, new SpeakerChecker());
+        super(Constantes.COLLECTION_SPEAKER, new SpeakerChecker());
     }
 
     

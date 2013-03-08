@@ -30,7 +30,7 @@ public class SendmailConfig {
             session = null;
             initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            session = (Session) envCtx.lookup(Constantes.JCERTIFBACKEND_EMAIL_WEBCONTAINER_RESOURCE_NAME);
+            session = (Session) envCtx.lookup(Constantes.EMAIL_WEBCONTAINER_RESOURCE_NAME);
         } catch (NamingException e) {
             play.Logger.info(e.getMessage());
         }

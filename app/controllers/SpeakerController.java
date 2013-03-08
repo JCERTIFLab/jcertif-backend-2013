@@ -38,7 +38,7 @@ public class SpeakerController extends AbstractController {
 
         if (!SpeakerDB.getInstance().getChecker()
                 .checkPassword(speaker.getPassword(), null, false)) {
-            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.JCERTIFBACKEND_PASSWORD_MIN_LENGTH + " )"));
+            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.PASSWORD_MIN_LENGTH + " )"));
         }
 
         try {
