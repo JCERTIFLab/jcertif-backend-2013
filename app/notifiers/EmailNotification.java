@@ -6,6 +6,7 @@ import com.typesafe.plugin.MailerPlugin;
 
 import views.html.welcome;
 import views.html.pwdchange;
+import views.html.pwdinit;
 
 /**
  * Cette classe se chargera de tous les envoi de mails 'ala play framework'.
@@ -15,6 +16,7 @@ import views.html.pwdchange;
  */
 public class EmailNotification {
 
+	private static final String FROM_EMAIL="jcertif2013.debug@gmail.com"; //de preference le lire dans un fichier de propriétés
 	
 
 	/**
@@ -26,23 +28,37 @@ public class EmailNotification {
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("Bienvenu !");
 			mail.addRecipient(user.getEmail());
-			mail.addFrom("jcertif2013.debug@gmail.com");
+			mail.addFrom(FROM_EMAIL);
 			
 			String body = welcome.render(user).body();
 		
 		    mail.sendHtml(body);
 		}
 		
-		public static void sendChangePwdMail(Participant user){
+		public static void (Participant user){
 
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("[JCertif] Changement de votre mot de passe");
 			mail.addRecipient(user.getEmail());
-			mail.addFrom("jcertif2013.debug@gmail.com");
+			mail.addFrom(FROM_EMAIL);
 			
 			String body = pwdchange.render(user).body();
 		
 		    mail.sendHtml(body);
+		}
+
+		public static void sendReinitpwdMail(Participant user) {
+
+			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+			mail.setSubject("[JCertif] Changement de votre mot de passe");
+			mail.addRecipient(user.getEmail());
+			mail.addFrom(FROM_EMAIL);
+			
+			String body = pwdinit.render(user).body();
+		
+		    mail.sendHtml(body);
+			
+
 		}
 	
 }

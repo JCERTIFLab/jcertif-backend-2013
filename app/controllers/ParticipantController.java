@@ -223,7 +223,14 @@ public class ParticipantController extends AbstractController {
   
         return ok(JSON.serialize("Ok"));
     }
-
+    
+    
+    
+/**
+ * 
+ * @param emailParticipant
+ * @return
+ */
     public static Result reinitPasswordParticipant(String emailParticipant) {
 
         Participant participant;
@@ -246,23 +253,18 @@ public class ParticipantController extends AbstractController {
             return internalServerError(jcertifException.getMessage());
         }
 
-        try {
-            ParticipantDB.getInstance().save(participant);
+        try {	
+        		   ParticipantDB.getInstance().save(participant);
+                   EmailNotification.sendReinitpwdMail(participant);
+			
+         
+            
         } catch (JCertifException jcertifException) {
             return internalServerError(jcertifException.getMessage());
         }
 
-        try {
-            ReinitPasswordEmailMessage reinitPasswordEmailMessage = new ReinitPasswordEmailMessage();
-            reinitPasswordEmailMessage.setNewPassword(newPassword);
-            reinitPasswordEmailMessage.setToFullname(participant.getFirstname().concat(" ").concat(participant.getLastname()));
-            reinitPasswordEmailMessage.addToRecipient(participant.getEmail());
-
-            Sendmail.getInstance().send(reinitPasswordEmailMessage);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
-
+       
+ 
         return ok(JSON.serialize("Ok"));
     }
 
