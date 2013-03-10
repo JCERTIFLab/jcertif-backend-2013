@@ -35,7 +35,7 @@ public class EmailNotification {
 		    mail.sendHtml(body);
 		}
 		
-		public static void (Participant user){
+		public static void sendChangePwdMail(Participant user){
 
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("[JCertif] Changement de votre mot de passe");
@@ -58,7 +58,7 @@ public class EmailNotification {
 		
 		    mail.sendHtml(body);
 			
-
+		    
 		}
 	
 }
