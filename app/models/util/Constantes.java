@@ -9,6 +9,7 @@ public interface Constantes {
     String COLLECTION_PARTICIPANT = "participant";
     String COLLECTION_REFERENTIEL = "referentiel";
     String COLLECTION_SESSION = "session";
+    String COLLECTION_SESSION_STATUS = "session_status";
     String COLLECTION_SPEAKER = "speaker";
     String COLLECTION_SPONSOR = "sponsor";
     String COLLECTION_CATEGORY = "category";

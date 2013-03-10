@@ -23,7 +23,11 @@ GET     /speaker/list               controllers.SpeakerController.listSpeaker
 
 POST    /speaker/register           controllers.SpeakerController.registerSpeaker
 
-GET     /ref/sessionstatus/list     controllers.SessionController.listStatusSession
+GET     /ref/sessionstatus/list     controllers.SessionStatusController.listStatusSession
+
+POST    /ref/sessionstatus/new      controllers.SessionStatusController.addSessionStatus
+
+POST    /ref/sessionstatus/remove   controllers.SessionStatusController.removeSessionStatus
 
 GET     /session/list               controllers.SessionController.listSession
 

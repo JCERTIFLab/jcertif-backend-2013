@@ -17,11 +17,6 @@ public class SessionController extends AbstractController {
         return ok(JSON.serialize(SessionDB.getInstance().list()));
     }
 
-    public static Result listStatusSession() {
-        allowCrossOriginJson();
-        return ok(JSON.serialize(SessionDB.getInstance().listStatus()));
-    }
-
     public static Result newSession() {
         allowCrossOriginJson();
 
