@@ -7,11 +7,6 @@ import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
 import models.exception.JCertifException;
-import models.mail.Sendmail;
-import models.mail.emailmessages.ChangePasswordEmailMessage;
-import models.mail.emailmessages.DesinscrireParticipantSessionEmailMessage;
-import models.mail.emailmessages.InscrireParticipantSessionEmailMessage;
-import models.mail.emailmessages.ReinitPasswordEmailMessage;
 import models.objects.Participant;
 import models.objects.Session;
 import models.objects.access.ParticipantDB;
@@ -317,7 +312,7 @@ public class ParticipantController extends AbstractController {
 			try {
 
 				ParticipantDB.getInstance().save(participant);
-				EmailNotification.sendenrollMail(participant,session);
+				EmailNotification.sendenrollMail(participant, session);
 
 			} catch (JCertifException jcertifException) {
 				return internalServerError(jcertifException.getMessage());
