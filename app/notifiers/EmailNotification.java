@@ -1,12 +1,15 @@
 package notifiers;
 
 import models.objects.Participant;
+import models.objects.Session;
+
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
 import views.html.welcome;
 import views.html.pwdchange;
 import views.html.pwdinit;
+import views.html.unenroll;
 
 /**
  * Cette classe se chargera de tous les envoi de mails 'ala play framework'.
@@ -55,10 +58,23 @@ public class EmailNotification {
 			mail.addFrom(FROM_EMAIL);
 			
 			String body = pwdinit.render(user).body();
-		
+			
 		    mail.sendHtml(body);
 			
 		    
+		}
+
+		public static void sendUnenrollpwdMail(Participant user,Session session) {
+			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+			mail.setSubject("[JCertif] Désinscription à une session");
+			mail.addRecipient(user.getEmail());
+			mail.addFrom(FROM_EMAIL);
+			
+			String body = unenroll.render(user,session).body();
+		
+		    mail.sendHtml(body);
+			// TODO Auto-generated method stub
+			
 		}
 	
 }

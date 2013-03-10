@@ -25,373 +25,362 @@ import org.codehaus.jackson.JsonNode;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 
-
 public class ParticipantController extends AbstractController {
 
-	
 	/**
 	 * Update user's informations
+	 * 
 	 * @return
 	 */
-    public static Result updateParticipant() {
-        allowCrossOriginJson();
+	public static Result updateParticipant() {
+		allowCrossOriginJson();
 
-        RequestBody requestBody = request().body();
-        try {
-            Tools.verifyJSonRequest(requestBody);
-        } catch (JCertifException e) {
-            return badRequest(e.getMessage());
-        }
+		RequestBody requestBody = request().body();
+		try {
+			Tools.verifyJSonRequest(requestBody);
+		} catch (JCertifException e) {
+			return badRequest(e.getMessage());
+		}
 
-        String participantObjInJSONForm = request().body().asJson().toString();
+		String participantObjInJSONForm = request().body().asJson().toString();
 
-        Participant participantToUpdate;
-        try {
-            participantToUpdate = new Participant(
-                    (BasicDBObject) JSON.parse(participantObjInJSONForm));
-        } catch (JSONParseException exception) {
-            return badRequest(participantObjInJSONForm);
-        }
+		Participant participantToUpdate;
+		try {
+			participantToUpdate = new Participant(
+					(BasicDBObject) JSON.parse(participantObjInJSONForm));
+		} catch (JSONParseException exception) {
+			return badRequest(participantObjInJSONForm);
+		}
 
-        Participant participantFromRepo;
-        try {
-            participantFromRepo = ParticipantDB.getInstance().get(
-                    participantToUpdate.getEmail());
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		Participant participantFromRepo;
+		try {
+			participantFromRepo = ParticipantDB.getInstance().get(
+					participantToUpdate.getEmail());
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        if (participantFromRepo == null) {
-            return internalServerError(JSON.serialize("Participant with email \""
-                    + participantToUpdate.getEmail() + "\" does not exist"));
-        }
+		if (participantFromRepo == null) {
+			return internalServerError(JSON
+					.serialize("Participant with email \""
+							+ participantToUpdate.getEmail()
+							+ "\" does not exist"));
+		}
 
-        /**
-         *   We ensure   that    we  don't   modify the  password
-         */
-        participantToUpdate.setPassword(participantFromRepo.getPassword()); // We
+		/**
+		 * We ensure that we don't modify the password
+		 */
+		participantToUpdate.setPassword(participantFromRepo.getPassword()); // We
 
+		try {
+			ParticipantDB.getInstance().save(participantToUpdate);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        try {
-            ParticipantDB.getInstance().save(participantToUpdate);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		return ok(JSON.serialize("Ok"));
+	}
 
-        return ok(JSON.serialize("Ok"));
-    }
+	/**
+	 * Get participant
+	 * 
+	 * @param emailParticipant
+	 * @return
+	 */
+	public static Result getParticipant(String emailParticipant) {
+		allowCrossOriginJson();
 
-    /**
-     * Get participant
-     * @param emailParticipant
-     * @return
-     */
-    public static Result getParticipant(String emailParticipant) {
-        allowCrossOriginJson();
+		Participant participant;
+		try {
+			participant = ParticipantDB.getInstance().get(emailParticipant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        Participant participant;
-        try {
-            participant = ParticipantDB.getInstance().get(emailParticipant);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		if (participant == null) {
+			return internalServerError(JSON
+					.serialize("Participant with email \"" + emailParticipant
+							+ "\" does not exist"));
+		}
 
-        if (participant == null) {
-            return internalServerError(JSON.serialize("Participant with email \""
-                    + emailParticipant + "\" does not exist"));
-        }
+		participant.setPassword("-"); // We ensure that we don't return the
+		// password
 
-        participant.setPassword("-"); // We ensure that we don't return the
-        // password
+		return ok(JSON.serialize(participant.toBasicDBObject()));
+	}
 
-        return ok(JSON.serialize(participant.toBasicDBObject()));
-    }
+	public static Result listParticipant() {
+		allowCrossOriginJson();
+		return ok(JSON.serialize(ParticipantDB.getInstance().list()));
+	}
 
-    public static Result listParticipant() {
-        allowCrossOriginJson();
-        return ok(JSON.serialize(ParticipantDB.getInstance().list()));
-    }
+	/**
+	 * Enregistrement d'un nouveau participant
+	 * 
+	 * @return
+	 */
+	public static Result registerParticipant() {
+		allowCrossOriginJson();
 
-    /**
-     * Enregistrement d'un nouveau participant
-     *
-     * @return
-     */
-    public static Result registerParticipant() {
-        allowCrossOriginJson();
+		RequestBody requestBody = request().body();
+		try {
+			Tools.verifyJSonRequest(requestBody);
+		} catch (JCertifException e) {
+			return badRequest(e.getMessage());
+		}
 
-        RequestBody requestBody = request().body();
-        try {
-            Tools.verifyJSonRequest(requestBody);
-        } catch (JCertifException e) {
-            return badRequest(e.getMessage());
-        }
+		JsonNode participantObjInJSONForm = requestBody.asJson();
+		String participantObjInJSONFormText = participantObjInJSONForm
+				.toString();
 
-        JsonNode participantObjInJSONForm = requestBody.asJson();
-        String participantObjInJSONFormText = participantObjInJSONForm.toString();
+		Participant participant;
+		try {
+			participant = new Participant(
+					(BasicDBObject) JSON.parse(participantObjInJSONFormText));
+		} catch (JSONParseException exception) {
+			return badRequest(participantObjInJSONForm);
+		}
 
-        Participant participant;
-        try {
-            participant = new Participant(
-                    (BasicDBObject) JSON.parse(participantObjInJSONFormText));
-        } catch (JSONParseException exception) {
-            return badRequest(participantObjInJSONForm);
-        }
+		if (!ParticipantDB.getInstance().getChecker()
+				.checkPassword(participant.getPassword(), null, false)) {
+			return internalServerError(JSON
+					.serialize("Password does not match policy (minimum length : "
+							+ Constantes.PASSWORD_MIN_LENGTH + " )"));
+		}
 
-        if (!ParticipantDB.getInstance().getChecker()
-                .checkPassword(participant.getPassword(), null, false)) {
-            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.PASSWORD_MIN_LENGTH + " )"));
-        }
+		try {
 
-        try {
-        	
-            ParticipantDB.getInstance().add(participant);
-            
-            EmailNotification.sendWelcomeMail(participant); //send email 
-            
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+			ParticipantDB.getInstance().add(participant);
 
-        return ok(JSON.serialize("Ok"));
-    }
+			EmailNotification.sendWelcomeMail(participant); // send email
 
-    /**
-     * Password change request
-     *
-     * @param emailParticipant
-     * @return
-     */
-    public static Result changePasswordParticipant(String emailParticipant) {
-        String changePasswordErrorMessage = "Errors attempt when changing password";
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        RequestBody requestBody = request().body();
-        try {
-            Tools.verifyJSonRequest(requestBody);
-        } catch (JCertifException e) {
-            return badRequest(e.getMessage());
-        }
+		return ok(JSON.serialize("Ok"));
+	}
 
-        Participant participant;
-        try {
-            participant = ParticipantDB.getInstance().get(emailParticipant);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+	/**
+	 * Password change request
+	 * 
+	 * @param emailParticipant
+	 * @return
+	 */
+	public static Result changePasswordParticipant(String emailParticipant) {
+		String changePasswordErrorMessage = "Errors attempt when changing password";
 
-        if (participant == null) {
-            return internalServerError(JSON.serialize(changePasswordErrorMessage));
-        }
+		RequestBody requestBody = request().body();
+		try {
+			Tools.verifyJSonRequest(requestBody);
+		} catch (JCertifException e) {
+			return badRequest(e.getMessage());
+		}
 
-        String objInJSONForm = requestBody.asJson().toString();
-        BasicDBObject passwords;
-        try {
-            passwords = (BasicDBObject) JSON.parse(objInJSONForm);
-        } catch (JSONParseException exception) {
-            return badRequest(objInJSONForm);
-        }
+		Participant participant;
+		try {
+			participant = ParticipantDB.getInstance().get(emailParticipant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        String oldPassword = passwords.getString("oldpassword");
-        String newPassword = passwords.getString("newpassword");
+		if (participant == null) {
+			return internalServerError(JSON
+					.serialize(changePasswordErrorMessage));
+		}
 
-        if (!ParticipantDB.getInstance().getChecker()
-                .checkPassword(oldPassword, newPassword, true)) {
-            return internalServerError(JSON.serialize("Password does not match policy (minimum length : " + Constantes.PASSWORD_MIN_LENGTH + " )"));
-        }
+		String objInJSONForm = requestBody.asJson().toString();
+		BasicDBObject passwords;
+		try {
+			passwords = (BasicDBObject) JSON.parse(objInJSONForm);
+		} catch (JSONParseException exception) {
+			return badRequest(objInJSONForm);
+		}
 
-        try {
-            if (!CryptoUtil.verifySaltedPassword(oldPassword.getBytes(), participant.getPassword())) {   //We compare oldPassword with the hashed password
-                return internalServerError(JSON.serialize(changePasswordErrorMessage));
-            }
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		String oldPassword = passwords.getString("oldpassword");
+		String newPassword = passwords.getString("newpassword");
 
-        try {
-            participant.setPassword(CryptoUtil.getSaltedPassword(newPassword.getBytes()));
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		if (!ParticipantDB.getInstance().getChecker()
+				.checkPassword(oldPassword, newPassword, true)) {
+			return internalServerError(JSON
+					.serialize("Password does not match policy (minimum length : "
+							+ Constantes.PASSWORD_MIN_LENGTH + " )"));
+		}
 
-        try {
-            ParticipantDB.getInstance().save(participant);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		try {
+			if (!CryptoUtil.verifySaltedPassword(oldPassword.getBytes(),
+					participant.getPassword())) { // We compare oldPassword with
+													// the hashed password
+				return internalServerError(JSON
+						.serialize(changePasswordErrorMessage));
+			}
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        EmailNotification.sendChangePwdMail(participant); 
-  
-        return ok(JSON.serialize("Ok"));
-    }
-    
-    
-    
-/**
- * 
- * @param emailParticipant
- * @return
- */
-    public static Result reinitPasswordParticipant(String emailParticipant) {
+		try {
+			participant.setPassword(CryptoUtil.getSaltedPassword(newPassword
+					.getBytes()));
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        Participant participant;
-        try {
-            participant = ParticipantDB.getInstance().get(emailParticipant);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		try {
+			ParticipantDB.getInstance().save(participant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        if (participant == null) {
-            return internalServerError(JSON.serialize("Participant with email \""
-                    + emailParticipant + "\" does not exist"));
-        }
+		EmailNotification.sendChangePwdMail(participant);
 
-        String newPassword = CryptoUtil.generateRandomPassword();
+		return ok(JSON.serialize("Ok"));
+	}
 
-        try {
-            participant.setPassword(CryptoUtil.getSaltedPassword(newPassword.getBytes()));
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+	/**
+	 * 
+	 * @param emailParticipant
+	 * @return
+	 */
+	public static Result reinitPasswordParticipant(String emailParticipant) {
 
-        try {	
-        		   ParticipantDB.getInstance().save(participant);
-                   EmailNotification.sendReinitpwdMail(participant);
-			
-         
-            
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		Participant participant;
+		try {
+			participant = ParticipantDB.getInstance().get(emailParticipant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-       
- 
-        return ok(JSON.serialize("Ok"));
-    }
+		if (participant == null) {
+			return internalServerError(JSON
+					.serialize("Participant with email \"" + emailParticipant
+							+ "\" does not exist"));
+		}
 
-    public static Result inscrireParticipantSession(String emailParticipant, String idSession) {
+		String newPassword = CryptoUtil.generateRandomPassword();
 
-        Participant participant;
-        try {
-            participant = ParticipantDB.getInstance().get(emailParticipant);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		try {
+			participant.setPassword(CryptoUtil.getSaltedPassword(newPassword
+					.getBytes()));
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        if (participant == null) {
-            return internalServerError(JSON.serialize("Participant with email \""
-                    + emailParticipant + "\" does not exist"));
-        }
+		try {
+			ParticipantDB.getInstance().save(participant);
+			EmailNotification.sendReinitpwdMail(participant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-        Session session;
-        try {
-            session = SessionDB.getInstance().get(idSession);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		return ok(JSON.serialize("Ok"));
+	}
 
-        if (session == null) {
-            return internalServerError(JSON.serialize("Session with id \""
-                    + idSession + "\" does not exist"));
-        }
+	public static Result inscrireParticipantSession(String emailParticipant,
+			String idSession) {
 
-        if (!participant.getSessions().contains(idSession)) {
-            participant.getSessions().add(idSession);
+		Participant participant;
+		try {
+			participant = ParticipantDB.getInstance().get(emailParticipant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-            try {
-                ParticipantDB.getInstance().save(participant);
-            } catch (JCertifException jcertifException) {
-                return internalServerError(jcertifException.getMessage());
-            }
+		if (participant == null) {
+			return internalServerError(JSON
+					.serialize("Participant with email \"" + emailParticipant
+							+ "\" does not exist"));
+		}
 
-            try {
-                InscrireParticipantSessionEmailMessage inscrireParticipantSessionEmailMessage = new InscrireParticipantSessionEmailMessage();
-                inscrireParticipantSessionEmailMessage.setSessionTitle(session.getTitle());
-                inscrireParticipantSessionEmailMessage.setSessionSummary(session.getSummary());
-                inscrireParticipantSessionEmailMessage.setSessionStartDate(session.getStart());
-                inscrireParticipantSessionEmailMessage.setSessionEndDate(session.getEnd());
-                inscrireParticipantSessionEmailMessage.setFullname(participant.getFirstname().concat(" ").concat(participant.getLastname()));
-                inscrireParticipantSessionEmailMessage.addToRecipient(participant.getEmail());
+		Session session;
+		try {
+			session = SessionDB.getInstance().get(idSession);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-                Sendmail.getInstance().send(inscrireParticipantSessionEmailMessage);
-            } catch (JCertifException jcertifException) {
-                return internalServerError(jcertifException.getMessage());
-            }
-        }
-        return ok(JSON.serialize("Ok"));
-    }
+		if (session == null) {
+			return internalServerError(JSON.serialize("Session with id \""
+					+ idSession + "\" does not exist"));
+		}
 
-    public static Result desinscrireParticipantSession(String emailParticipant, String idSession) {
+		if (!participant.getSessions().contains(idSession)) {
 
-        Participant participant;
-        try {
-            participant = ParticipantDB.getInstance().get(emailParticipant);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+			participant.getSessions().add(idSession);
 
-        if (participant == null) {
-            return internalServerError(JSON.serialize("Participant with email \""
-                    + emailParticipant + "\" does not exist"));
-        }
+			try {
 
-        Session session;
-        try {
-            session = SessionDB.getInstance().get(idSession);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+				ParticipantDB.getInstance().save(participant);
+				EmailNotification.sendReinitpwdMail(participant);
 
-        if (session == null) {
-            return internalServerError(JSON.serialize("Session with id \""
-                    + idSession + "\" does not exist"));
-        }
+			} catch (JCertifException jcertifException) {
+				return internalServerError(jcertifException.getMessage());
+			}
 
-        if (participant.getSessions().contains(idSession)) {
-            participant.getSessions().remove(idSession);
+		}
+		return ok(JSON.serialize("Ok"));
+	}
 
-            try {
-                ParticipantDB.getInstance().save(participant);
-            } catch (JCertifException jcertifException) {
-                return internalServerError(jcertifException.getMessage());
-            }
+	public static Result desinscrireParticipantSession(String emailParticipant,
+			String idSession) {
 
-            try {
-                DesinscrireParticipantSessionEmailMessage desinscrireParticipantSessionEmailMessage = new DesinscrireParticipantSessionEmailMessage();
-                desinscrireParticipantSessionEmailMessage.setSessionTitle(session.getTitle());
-                desinscrireParticipantSessionEmailMessage.setSessionSummary(session.getSummary());
-                desinscrireParticipantSessionEmailMessage.setSessionStartDate(session.getStart());
-                desinscrireParticipantSessionEmailMessage.setSessionEndDate(session.getEnd());
-                desinscrireParticipantSessionEmailMessage.setFullname(participant.getFirstname().concat(" ").concat(participant.getLastname()));
-                desinscrireParticipantSessionEmailMessage.addToRecipient(participant.getEmail());
+		Participant participant;
+		try {
+			participant = ParticipantDB.getInstance().get(emailParticipant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-                Sendmail.getInstance().send(desinscrireParticipantSessionEmailMessage);
-            } catch (JCertifException jcertifException) {
-                return internalServerError(jcertifException.getMessage());
-            }
-        }
+		if (participant == null) {
+			return internalServerError(JSON
+					.serialize("Participant with email \"" + emailParticipant
+							+ "\" does not exist"));
+		}
 
-        return ok(JSON.serialize("Ok"));
-    }
+		Session session;
+		try {
+			session = SessionDB.getInstance().get(idSession);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
 
-    public static Result listParticipantSession(String emailParticipant) {
+		if (session == null) {
+			return internalServerError(JSON.serialize("Session with id \""
+					+ idSession + "\" does not exist"));
+		}
 
-        Participant participant;
-        try {
-            participant = ParticipantDB.getInstance().get(emailParticipant);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		if (participant.getSessions().contains(idSession)) {
+			participant.getSessions().remove(idSession);
 
-        if (participant == null) {
-            return internalServerError(JSON.serialize("Participant with email \""
-                    + emailParticipant + "\" does not exist"));
-        }
+			try {
+				
+				ParticipantDB.getInstance().save(participant);
+				EmailNotification.sendUnenrollpwdMail(participant, session);
 
-        return ok(JSON.serialize(participant.getSessions()));
-    }
-    
-    
-    
+			} catch (JCertifException jcertifException) {
+				return internalServerError(jcertifException.getMessage());
+			}
 
+		}
+
+		return ok(JSON.serialize("Ok"));
+	}
+
+	public static Result listParticipantSession(String emailParticipant) {
+
+		Participant participant;
+		try {
+			participant = ParticipantDB.getInstance().get(emailParticipant);
+		} catch (JCertifException jcertifException) {
+			return internalServerError(jcertifException.getMessage());
+		}
+
+		if (participant == null) {
+			return internalServerError(JSON
+					.serialize("Participant with email \"" + emailParticipant
+							+ "\" does not exist"));
+		}
+
+		return ok(JSON.serialize(participant.getSessions()));
+	}
 
 }

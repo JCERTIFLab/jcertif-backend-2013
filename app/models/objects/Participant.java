@@ -20,9 +20,11 @@ public class Participant extends JCertfifObject {
     private String phone;
     private String photo;
     private String biography;
-    private List sessions = new ArrayList<String>();
+    @SuppressWarnings("rawtypes")
+	private List sessions = new ArrayList<String>();
 
-    public Participant(BasicDBObject basicDBObject){
+    @SuppressWarnings("unchecked")
+	public Participant(BasicDBObject basicDBObject){
         this.setEmail(basicDBObject.getString("email"));
         this.setPassword(basicDBObject.getString("password"));
         this.setTitle(basicDBObject.getString("title"));
@@ -134,11 +136,12 @@ public class Participant extends JCertfifObject {
         this.biography = biography;
     }
 
-    public List getSessions() {
+    @SuppressWarnings("rawtypes")
+	public List getSessions() {
         return sessions;
     }
 
-    public void setSessions(List sessions) {
+    public void setSessions(@SuppressWarnings("rawtypes") List sessions) {
         this.sessions = sessions;
     }
 
