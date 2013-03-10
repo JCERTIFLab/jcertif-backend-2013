@@ -10,6 +10,7 @@ import views.html.welcome;
 import views.html.pwdchange;
 import views.html.pwdinit;
 import views.html.unenroll;
+import views.html.enroll;
 
 /**
  * Cette classe se chargera de tous les envoi de mails 'ala play framework'.
@@ -64,6 +65,8 @@ public class EmailNotification {
 		    
 		}
 
+		
+		
 		public static void sendUnenrollpwdMail(Participant user,Session session) {
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("[JCertif] Désinscription à une session");
@@ -74,6 +77,19 @@ public class EmailNotification {
 		
 		    mail.sendHtml(body);
 			// TODO Auto-generated method stub
+			
+		}
+
+		public static void sendenrollMail(Participant user,
+				Session session) {
+			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+			mail.setSubject("[JCertif] Inscription à une session");
+			mail.addRecipient(user.getEmail());
+			mail.addFrom(FROM_EMAIL);
+			
+			String body = enroll.render(user,session).body();
+		
+		    mail.sendHtml(body);
 			
 		}
 	

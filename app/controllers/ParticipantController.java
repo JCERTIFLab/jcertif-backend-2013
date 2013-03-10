@@ -274,7 +274,14 @@ public class ParticipantController extends AbstractController {
 
 		return ok(JSON.serialize("Ok"));
 	}
-
+	
+	
+/**
+ * 
+ * @param emailParticipant
+ * @param idSession
+ * @return
+ */
 	public static Result inscrireParticipantSession(String emailParticipant,
 			String idSession) {
 
@@ -310,7 +317,7 @@ public class ParticipantController extends AbstractController {
 			try {
 
 				ParticipantDB.getInstance().save(participant);
-				EmailNotification.sendReinitpwdMail(participant);
+				EmailNotification.sendenrollMail(participant,session);
 
 			} catch (JCertifException jcertifException) {
 				return internalServerError(jcertifException.getMessage());
