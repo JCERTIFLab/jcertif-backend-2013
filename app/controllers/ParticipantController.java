@@ -28,6 +28,11 @@ import play.mvc.Result;
 
 public class ParticipantController extends AbstractController {
 
+	
+	/**
+	 * Update user's informations
+	 * @return
+	 */
     public static Result updateParticipant() {
         allowCrossOriginJson();
 
@@ -61,14 +66,11 @@ public class ParticipantController extends AbstractController {
                     + participantToUpdate.getEmail() + "\" does not exist"));
         }
 
+        /**
+         *   We ensure   that    we  don't   modify the  password
+         */
         participantToUpdate.setPassword(participantFromRepo.getPassword()); // We
-        // ensure
-        // that
-        // we
-        // don't
-        // modify
-        // the
-        // password
+
 
         try {
             ParticipantDB.getInstance().save(participantToUpdate);
@@ -79,6 +81,11 @@ public class ParticipantController extends AbstractController {
         return ok(JSON.serialize("Ok"));
     }
 
+    /**
+     * Get participant
+     * @param emailParticipant
+     * @return
+     */
     public static Result getParticipant(String emailParticipant) {
         allowCrossOriginJson();
 
@@ -140,7 +147,7 @@ public class ParticipantController extends AbstractController {
         	
             ParticipantDB.getInstance().add(participant);
             
-            EmailNotification.sendWelcomeMail(participant); //send email ansync
+            EmailNotification.sendWelcomeMail(participant); //send email 
             
         } catch (JCertifException jcertifException) {
             return internalServerError(jcertifException.getMessage());
@@ -212,16 +219,8 @@ public class ParticipantController extends AbstractController {
             return internalServerError(jcertifException.getMessage());
         }
 
-        try {
-            ChangePasswordEmailMessage changePasswordEmailMessage = new ChangePasswordEmailMessage();
-            changePasswordEmailMessage.setToFullname(participant.getFirstname().concat(" ").concat(participant.getLastname()));
-            changePasswordEmailMessage.addToRecipient(participant.getEmail());
-
-            Sendmail.getInstance().send(changePasswordEmailMessage);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
-
+        EmailNotification.sendChangePwdMail(participant); 
+  
         return ok(JSON.serialize("Ok"));
     }
 

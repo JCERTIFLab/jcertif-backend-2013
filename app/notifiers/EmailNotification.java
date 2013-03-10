@@ -5,9 +5,10 @@ import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
 import views.html.welcome;
+import views.html.pwdchange;
 
 /**
- * Cette classe se chargera de tous les envoi de mails ' ala play framework'.
+ * Cette classe se chargera de tous les envoi de mails 'ala play framework'.
  * Chaque email utilise son propre template situé dans view.html.
  * @author bashizip
  *
@@ -16,7 +17,10 @@ public class EmailNotification {
 
 	
 
-	 //-----------------------------------	send a welcome message -----------------------------------
+	/**
+	 * Send a welcome message
+	 * @param user
+	 */
 		public static void sendWelcomeMail(Participant user) {
 			
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
@@ -29,8 +33,16 @@ public class EmailNotification {
 		    mail.sendHtml(body);
 		}
 		
-		public static void sendChangePaswdMail(Participant user){
+		public static void sendChangePwdMail(Participant user){
+
+			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+			mail.setSubject("[JCertif] Changement de votre mot de passe");
+			mail.addRecipient(user.getEmail());
+			mail.addFrom("jcertif2013.debug@gmail.com");
 			
+			String body = pwdchange.render(user).body();
+		
+		    mail.sendHtml(body);
 		}
 	
 }
