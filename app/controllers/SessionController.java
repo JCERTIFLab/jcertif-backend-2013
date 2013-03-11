@@ -1,17 +1,35 @@
 package controllers;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 import com.mongodb.util.JSONParseException;
+import java.util.List;
+import models.database.MongoDatabase;
 import models.exception.JCertifException;
 import models.objects.Session;
 import models.objects.access.SessionDB;
 import play.mvc.Http;
 import play.mvc.Result;
 import models.util.Tools;
+import play.data.Form;
+import models.objects.access.SessionStatusDB;
+import models.objects.access.SpeakerDB;
+import views.html.SessionController.form;
+
 
 public class SessionController extends AbstractController {
 
+    
+    final static Form<Session> sessionForm = Form.form(Session.class);
+
+    public static Result newSessionForm() {
+    		List<BasicDBObject> status = SessionStatusDB.getInstance().list();
+    	  BasicDBList categorie = (BasicDBList) JSON.parse(MongoDatabase.getInstance().listAll("category"));
+    	  List<BasicDBObject> categories = Tools.basicDBListToJavaList(categorie);
+    	  List<BasicDBObject> speakers = SpeakerDB.getInstance().list();
+        return ok(form.render(status,categories,speakers));
+    }
     public static Result listSession() {
         allowCrossOriginJson();
         return ok(JSON.serialize(SessionDB.getInstance().list()));

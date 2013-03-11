@@ -1,0 +1,131 @@
+@(status: List[com.mongodb.BasicDBObject],categories: List[com.mongodb.BasicDBObject],speakers: List[com.mongodb.BasicDBObject])
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/assets/stylesheets/bootstrap.css" />
+ <script  type="text/javascript" src="/assets/javascripts/jquery-1.9.1.min.js" > </script> 
+  <script  type="text/javascript" src="/assets/javascripts/backend.js" > </script> 
+
+</head>
+<body>
+
+<center>
+<fieldset>
+    <legend>New session</legend>
+
+<div style="width:380px; margin-bottom:15px;padding-top:20px;" class="thumbnail"> 
+    <form id="sessionForm" class="form-horizontal">
+
+<div class="control-group">
+    <label for="id" class="control-label">ID</label>
+    <div class="controls">
+ 
+    <input type="text" placeholder="" name="id" class="input-medium">
+    </div>
+    </div>
+    
+    <div class="control-group">
+    <label for="title" class="control-label">Title</label>
+    <div class="controls">
+ 
+    <input type="text" placeholder="" name="title" class="input-medium">
+    </div>
+    </div>
+    
+    <div class="control-group">
+    <label for="summary" class="control-label">Summary</label>
+    <div class="controls">
+    <textarea name="summary" rows="3"></textarea>
+    </div>
+    </div>
+    
+    <div class="control-group">
+    <label for="description" class="control-label">Description</label>
+    <div class="controls">
+    <textarea name="description" rows="3"></textarea>
+    </div>
+    </div>
+        
+    <div class="control-group">
+    <label for="status" class="control-label">Status</label>
+    <div class="controls">
+    <select class="span2" name="status">
+	@for(statut<-status){
+<option>@statut.get("label")</option>
+}
+	</select>
+    </div>
+    </div>
+   
+   
+    <div class="control-group">
+    <label for="keyword" class="control-label">Keyword</label>
+    <div class="controls">
+    <textarea name="keyword" rows="3"></textarea>
+    </div>
+    </div>
+   
+   
+   <div class="control-group">
+    <label for="category" class="control-label">Category</label>
+    <div class="controls">
+    <select class="span2" multiple="true" name="category">
+	@for(categorie<-categories){
+<option>@categorie.get("label")</option>
+}
+	</select>
+    </div>
+    </div>
+   
+   
+   <div class="control-group">
+    <label for="start" class="control-label">Start</label>
+    <div class="controls">
+    <input type="text" placeholder="09/03/2013 12:00" name="start" class="input-medium">
+    </div>
+    </div>
+    
+    <div class="control-group">
+    <label for="end" class="control-label">End</label>
+    <div class="controls">
+    <input type="text" placeholder="09/03/2013 17:00" name="end" class="input-medium">
+    </div>
+    </div>
+    
+    <div class="control-group">
+    <label for="speakers" class="control-label">Speakers</label>
+    <div class="controls">
+    <select class="span2" multiple="true" name="speakers">
+	@for(speaker<-speakers){
+<option value="@speaker.get("email")">@speaker.get("lastname") @speaker.get("firstname")</option>
+}
+	</select>
+    </div>
+    </div>
+   
+    
+</form>
+    <input type="submit" class="bnt" onclick="sendform()" value="Save" />
+
+    </div>
+
+</fieldset>
+</center>
+
+    <script type="text/javascript">
+    function sendform() {
+     $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/session/new",
+                        data: $('#sessionForm').serializeJSONString()
+                    }).done(function (msg) {
+                            alert("Cool");
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+
+}
+</script>
+</body>
+</html>
