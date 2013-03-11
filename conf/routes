@@ -34,6 +34,7 @@ POST    /ref/sessionstatus/remove   controllers.SessionStatusController.removeSe
 GET     /session/list               controllers.SessionController.listSession
 
 POST    /session/new                controllers.SessionController.newSession
+GET    /session/new                controllers.SessionController.newSessionForm
 
 POST    /participant/register       controllers.ParticipantController.registerParticipant
 

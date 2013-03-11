@@ -8,11 +8,19 @@ Backend.init = function () {
     $( "#menu" ).menu();
 
     Backend.registerParticipant.initDialog();
+        Backend.addStatus.initDialog();
+    
 
     $("#register-participant").click(function () {
         Backend.registerParticipant.openDialog();
     });
+	
+  $("#add-status").click(function () {
+        Backend.addStatus.openDialog();
+    });
 }
+
+
 
 // Fonction permettant de transformer un formulaire en chaine JSON
 $.fn.serializeJSONString = function () {
@@ -56,6 +64,40 @@ Backend.registerParticipant = {
                         contentType: "application/json",
                         url: "/participant/register",
                         data: $('#dialog-register-participant form').serializeJSONString()
+                    }).done(function (msg) {
+                            alert("Cool");
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                }
+            }
+
+        });
+    }
+
+}
+
+// Service status
+Backend.addStatus = {
+
+    initDialog: function () {
+            $("#dialog-add-status form fieldset").append('<label for="label">Label</label>');
+            $("#dialog-add-status form fieldset").append('<input type="text" name="label" id="label" class="text ui-widget-content ui-corner-all"/>');
+
+    },
+
+    openDialog: function () {
+        $("#dialog-add-status").dialog({
+            width: 300,
+            height: 250,
+            modal: true,
+            buttons: {
+                "Add": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/ref/sessionstatus/new",
+                        data: $('#dialog-add-status form').serializeJSONString()
                     }).done(function (msg) {
                             alert("Cool");
                         }).fail(function (msg) {

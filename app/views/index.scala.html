@@ -10,7 +10,7 @@
     <li> <a href="/ref/category/remove"> Supprimer une categorie </a> </li>
     <li> <a href="/speaker/list"> Liste des présentateurs </a> </li>
     <li> <a href="/speaker/register"> Ajouter un nouveau présentateur (Le contenu(body) de la requête est un nouveau présentateur représenté au format JSON) </a> </li>
-    <li> <a href="/ref/sessionstatus/new"> Ajouter un status de session </a> </li>
+    <li> <a href="javascript:void(0);" id="add-status"> Ajouter un status de session </a> </li>
     <li> <a href="/ref/sessionstatus/list"> Liste des status de session </a> </li>
     <li> <a href="/ref/sessionstatus/remove"> Supprimer un status de session </a> </li>
     <li> <a href="/session/list"> Liste de toutes les sessions </a> </li>
@@ -30,6 +30,12 @@
 </ul>
 
 <div id="dialog-register-participant" title="Inscrivez-vous !" hidden="hidden">
+    <form>
+        <fieldset>
+        </fieldset>
+    </form>
+</div>
+<div id="dialog-add-status" title="New status" hidden="hidden">
     <form>
         <fieldset>
         </fieldset>
