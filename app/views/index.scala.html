@@ -2,9 +2,7 @@
 
 <h1> JCertif Backend 2013 </h1>
 
-<h2> Les services </h2>
-
-<ul>
+<ul id="menu">
 
     <li> <a href="/ref/sponsorlevel/list"> Liste des niveaux de partenariats </a> </li>
     <li> <a href="/ref/category/list"> Liste des categories </a> </li>
@@ -18,7 +16,7 @@
     <li> <a href="/sponsor/list"> Liste de tous les sponsors </a> </li>
     <li> <a href="/login/list"> Liste de tous les logins </a> </li>
     <li> <a href="/participant/list"> Liste de tous les participants </a> </li>
-    <li> <a href="/participant/register"> Ajouter un nouveau participant </a> </li>
+    <li> <a href="javascript:void(0);" id="register-participant">Ajouter un nouveau participant</a></li>
     <li> <a href="/participant/{emailParticipant}/changepassword"> Changer le mot de passe d'un participant </a> </li>
     <li> <a href="/participant/get"> Récupérer les informations d'un participant (GET /participant/get/{emailparticipant}) </a> </li>
     <li> <a href="/participant/update"> Mettre à jour toutes les informations d'un participant (le mot de passe est exclu) </a> </li>
@@ -28,5 +26,12 @@
     <li> <a href="/participant/:emailParticipant/session/list"> Lister toutes les sessions d'un participant (GET /participant/{emailParticipant}/session/list) </a> </li>
     <li> <a href="/participant/login"> Vérifier les informations de connection d'un participant  </a> </li>
 </ul>
+
+<div id="dialog-register-participant" title="Inscrivez-vous !" hidden="hidden">
+    <form>
+        <fieldset>
+        </fieldset>
+    </form>
+</div>
 
 }
