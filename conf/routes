@@ -52,3 +52,5 @@ POST    /participant/:emailParticipant/session/add/:idSession    controllers.Par
 POST    /participant/:emailParticipant/session/remove/:idSession    controllers.ParticipantController.desinscrireParticipantSession(emailParticipant: String, idSession: String)
 
 GET     /participant/:emailParticipant/session/list           controllers.ParticipantController.listParticipantSession(emailParticipant: String)
+
+POST     /participant/login           controllers.LoginController.login
