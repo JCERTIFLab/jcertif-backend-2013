@@ -2,11 +2,11 @@ package models.objects.checker;
 
 import com.mongodb.BasicDBObject;
 import models.exception.JCertifException;
-import models.objects.SessionStatus;
-import models.objects.access.SessionStatusDB;
+import models.objects.Category;
+import models.objects.access.CategoryDB;
 import models.util.Tools;
 
-public class SessionStatusChecker extends Checker {
+public class CategoryChecker extends Checker {
 
     @Override
     public void check(BasicDBObject objectToCheck) throws JCertifException {
@@ -15,9 +15,9 @@ public class SessionStatusChecker extends Checker {
             throw new JCertifException(this, "Object cannot be null");
         }
 
-        SessionStatus sessionStatus = new SessionStatus(objectToCheck);
+        Category category = new Category(objectToCheck);
 
-        if (Tools.isBlankOrNull(sessionStatus.getLabel())) {
+        if (Tools.isBlankOrNull(category.getLabel())) {
             throw new JCertifException(this, "Label cannot be empty or null");
         }
     }
@@ -29,17 +29,17 @@ public class SessionStatusChecker extends Checker {
 
     @Override
     public void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
-        BasicDBObject dbObject = SessionStatusDB.getInstance().get("label", objectToCheck.getString("label"));
+        BasicDBObject dbObject = CategoryDB.getInstance().get("label", objectToCheck.getString("label"));
         if (null == dbObject) {
-            throw new JCertifException(this, "Session Status '" + objectToCheck.getString("label") + "' does not exist");
+            throw new JCertifException(this, "Category '" + objectToCheck.getString("label") + "' does not exist");
         }
     }
 
     @Override
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-        BasicDBObject dbObject = SessionStatusDB.getInstance().get("label", objectToCheck.getString("label"));
+        BasicDBObject dbObject = CategoryDB.getInstance().get("label", objectToCheck.getString("label"));
         if (null != dbObject) {
-            throw new JCertifException(this, "Session Status '" + objectToCheck.getString("label") + "' already exists");
+            throw new JCertifException(this, "Category '" + objectToCheck.getString("label") + "' already exists");
         }
     }
 }

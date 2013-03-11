@@ -96,7 +96,7 @@ public class Tools {
 
     public static void verifyJSonRequest(Http.RequestBody requestBody) throws JCertifException {
         if(requestBody==null || requestBody.asJson()==null){
-            throw new JCertifException(Tools.class, "verifyJSonRequest(), Request does not contain valid json object, check format (json object without Carriage Return)");
+            throw new JCertifException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
         }
     }
 

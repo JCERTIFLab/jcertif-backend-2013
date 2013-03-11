@@ -2,6 +2,6 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public abstract class JCertfifObject {
+public abstract class JCertifObject {
     public abstract BasicDBObject toBasicDBObject();
 }

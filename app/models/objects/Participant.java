@@ -7,7 +7,7 @@ import models.util.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Participant extends JCertfifObject {
+public class Participant extends JCertifObject {
     private String email;
     private String password;
     private String title;
@@ -20,10 +20,8 @@ public class Participant extends JCertfifObject {
     private String phone;
     private String photo;
     private String biography;
-    @SuppressWarnings("rawtypes")
-	private List sessions = new ArrayList<String>();
+	private List<String> sessions = new ArrayList<String>();
 
-    @SuppressWarnings("unchecked")
 	public Participant(BasicDBObject basicDBObject){
         this.setEmail(basicDBObject.getString("email"));
         this.setPassword(basicDBObject.getString("password"));
@@ -136,12 +134,11 @@ public class Participant extends JCertfifObject {
         this.biography = biography;
     }
 
-    @SuppressWarnings("rawtypes")
-	public List getSessions() {
+	public List<String> getSessions() {
         return sessions;
     }
 
-    public void setSessions(@SuppressWarnings("rawtypes") List sessions) {
+    public void setSessions(List<String> sessions) {
         this.sessions = sessions;
     }
 

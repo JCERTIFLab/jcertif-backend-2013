@@ -7,7 +7,7 @@ import models.util.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Session extends JCertfifObject {
+public class Session extends JCertifObject {
     private String id;
     private String title;
     private String summary;

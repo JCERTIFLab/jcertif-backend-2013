@@ -2,7 +2,7 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Speaker extends JCertfifObject{
+public class Speaker extends JCertifObject {
     private String email;
     private String password;
     private String title;

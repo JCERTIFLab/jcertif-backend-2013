@@ -148,7 +148,7 @@ public class MongoDatabase {
 	}
 
 	public WriteResult create(String collectionName,
-			DBObject objectToCreate) {
+            BasicDBObject objectToCreate) {
 		return db.getCollection(collectionName).insert(objectToCreate,
 				WriteConcern.SAFE);
 	}

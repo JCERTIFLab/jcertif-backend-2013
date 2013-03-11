@@ -7,6 +7,7 @@ import models.exception.JCertifException;
 import models.objects.SessionStatus;
 import models.objects.access.SessionStatusDB;
 import models.util.Tools;
+import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -19,6 +20,13 @@ public class SessionStatusController extends AbstractController {
 
     public static Result addSessionStatus() {
         allowCrossOriginJson();
+
+        try {
+            checkAdmin();
+        } catch (JCertifException jcertifException) {
+            Logger.info("access rejected for non-administrator");
+            return forbidden(jcertifException.getMessage());
+        }
 
         Http.RequestBody requestBody = request().body();
         try {
@@ -40,11 +48,20 @@ public class SessionStatusController extends AbstractController {
         } catch (JCertifException jcertifException) {
             return internalServerError(jcertifException.getMessage());
         }
+        Logger.info("Session Status '" + sessionStatus.getLabel() + "' added");
+
         return ok(JSON.serialize("Ok"));
     }
 
     public static Result removeSessionStatus() {
         allowCrossOriginJson();
+
+        try {
+            checkAdmin();
+        } catch (JCertifException jcertifException) {
+            Logger.info("access rejected for non-administrator");
+            return forbidden(jcertifException.getMessage());
+        }
 
         Http.RequestBody requestBody = request().body();
         try {
@@ -68,6 +85,7 @@ public class SessionStatusController extends AbstractController {
         }catch(JCertifException jcertifException){
             return internalServerError(jcertifException.getMessage());
         }
+        Logger.info("Session Status '" + sessionStatus.getLabel() + "' removed");
 
         return ok(JSON.serialize("Ok"));
     }

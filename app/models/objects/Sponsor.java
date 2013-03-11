@@ -2,7 +2,7 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Sponsor extends JCertfifObject {
+public class Sponsor extends JCertifObject {
     private String email;
     private String name;
     private String logo;

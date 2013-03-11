@@ -5,14 +5,14 @@ import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 import models.database.MongoDatabase;
 import models.exception.JCertifException;
-import models.objects.JCertfifObject;
+import models.objects.JCertifObject;
 import models.objects.checker.Checker;
 import models.util.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class JCertifObjectDB<T extends JCertfifObject> implements
+public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		IDao<BasicDBObject> {
 
 	private Checker checker;

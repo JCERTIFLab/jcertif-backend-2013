@@ -62,7 +62,7 @@ public class ParticipantChecker extends Checker {
 
         BasicDBObject dbObject = ParticipantDB.getInstance().get("email", objectToCheck.getString("email"));
         if (null != dbObject) {
-            throw new JCertifException(this, "Participant \"" + objectToCheck.getString("email") + "\" already exists");
+            throw new JCertifException(this, "Participant '" + objectToCheck.getString("email") + "' already exists");
         }
 
         //On vérifie la présence du mot de passe uniquement à la création d'un participant

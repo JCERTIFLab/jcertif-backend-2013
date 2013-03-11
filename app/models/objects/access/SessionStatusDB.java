@@ -31,7 +31,7 @@ public class SessionStatusDB extends JCertifObjectDB<SessionStatus> {
     }
 
     public boolean save(SessionStatus sessionStatus) throws JCertifException {
-        return save(sessionStatus.toBasicDBObject(), "id");
+        return save(sessionStatus.toBasicDBObject(), "label");
     }
 
     public SessionStatus get(String label) throws JCertifException {

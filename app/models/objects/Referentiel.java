@@ -2,7 +2,7 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Referentiel extends JCertfifObject {
+public class Referentiel extends JCertifObject {
 
     private String code;
     private String label;

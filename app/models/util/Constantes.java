@@ -17,7 +17,6 @@ public interface Constantes {
     String DATEFORMAT = "dd/MM/yyyy HH:mm";
 
     String EMAIL_PROPERTIES_FILE = "jcertifbackend_email.properties";
-    String EMAIL_WEBCONTAINER_RESOURCE_NAME = "mail/Session";
 
     int PASSWORD_MIN_LENGTH = 6;
 }

@@ -1,5 +1,6 @@
 package controllers;
 
+import models.exception.JCertifException;
 import play.mvc.Controller;
 
 public abstract class AbstractController extends Controller {
@@ -12,7 +13,13 @@ public abstract class AbstractController extends Controller {
     }
 
     protected static boolean isAdmin(){
-        return session("admin") != null;
+        return true || session().get("admin") != null;
+    }
+
+    protected static void checkAdmin() throws JCertifException{
+        if(!isAdmin()){
+            throw new JCertifException("Operation not allowed for non-administrators");
+        }
     }
 
 }

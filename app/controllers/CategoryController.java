@@ -1,46 +1,93 @@
 package controllers;
 
 
-import com.mongodb.BasicDBObjectBuilder;
-import models.database.MongoDatabase;
-import models.util.Constantes;
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
+import com.mongodb.util.JSONParseException;
+import models.exception.JCertifException;
+import models.objects.Category;
+import models.objects.access.CategoryDB;
+import models.util.Tools;
 import play.Logger;
+import play.mvc.Http;
 import play.mvc.Result;
 
 public class CategoryController extends AbstractController {
 
     public static Result list() {
         allowCrossOriginJson();
-        return ok(MongoDatabase.getInstance().listAll("category"));
+        return ok(JSON.serialize(CategoryDB.getInstance().list()));
     }
 
-    public static Result newCategory(){
+    public static Result newCategory() {
         allowCrossOriginJson();
-        Result response;
-        if (isAdmin()) {
-            if(request().body().asJson() == null){
-                response = badRequest();
-                Logger.info("newCategory : badrequest");
-            }  else {
-                String newValue = request().body().asJson().get("label").getTextValue();
-                Logger.info("newCategory : " + newValue);
-                if(newValue != null  && !newValue.equals("")){
-                    String allCategories = MongoDatabase.getInstance().listAll(Constantes.COLLECTION_CATEGORY)  ;
-                    if(!allCategories.contains(newValue)){
 
-                        MongoDatabase.getInstance().create(Constantes.COLLECTION_CATEGORY, new BasicDBObjectBuilder().append("label",newValue).get());
-                        response = ok();
-                    } else {
-                        response = badRequest("Create Category : value already exists");
-                    }
-
-                } else {
-                    response = badRequest("Create Category : value is null or empty");
-                }
-            }
-        } else {
-            response = forbidden("Create Category : admin role is required");
+        try {
+            checkAdmin();
+        } catch (JCertifException jcertifException) {
+            Logger.info("access rejected for non-administrator");
+            return forbidden(jcertifException.getMessage());
         }
-        return response;
+
+        Http.RequestBody requestBody = request().body();
+        try {
+            Tools.verifyJSonRequest(requestBody);
+        } catch (JCertifException e) {
+            return badRequest(e.getMessage());
+        }
+
+        String categoryObjInJSONForm = requestBody.asJson().toString();
+        Category category;
+
+        try{
+            category = new Category((BasicDBObject) JSON.parse(categoryObjInJSONForm));
+        }catch(JSONParseException exception){
+            return badRequest(categoryObjInJSONForm);
+        }
+
+        try {
+            CategoryDB.getInstance().add(category);
+        } catch (JCertifException jcertifException) {
+            return internalServerError(jcertifException.getMessage());
+        }
+        Logger.info("Category '" + category.getLabel() + "' added");
+
+        return ok(JSON.serialize("Ok"));
+    }
+
+    public static Result removeCategory() {
+        allowCrossOriginJson();
+
+        try {
+            checkAdmin();
+        } catch (JCertifException jcertifException) {
+            Logger.info("access rejected for non-administrator");
+            return forbidden(jcertifException.getMessage());
+        }
+
+        Http.RequestBody requestBody = request().body();
+        try {
+            Tools.verifyJSonRequest(requestBody);
+        } catch (JCertifException e) {
+            return badRequest(e.getMessage());
+        }
+
+        String categoryObjInJSONForm = requestBody.asJson().toString();
+        Category category;
+
+        try{
+            category = new Category((BasicDBObject) JSON.parse(categoryObjInJSONForm));
+        }catch(JSONParseException exception){
+            return badRequest(categoryObjInJSONForm);
+        }
+
+        try {
+            CategoryDB.getInstance().remove(category);
+        } catch (JCertifException jcertifException) {
+            return internalServerError(jcertifException.getMessage());
+        }
+        Logger.info("Category '" + category.getLabel() + "' removed");
+
+        return ok(JSON.serialize("Ok"));
     }
 }

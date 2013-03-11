@@ -2,11 +2,11 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public class SessionStatus extends JCertifObject {
+public class Category extends JCertifObject {
 
     private String label;
 
-    public SessionStatus(BasicDBObject basicDBObject) {
+    public Category(BasicDBObject basicDBObject) {
         this.setLabel(basicDBObject.getString("label"));
     }
 
@@ -24,5 +24,4 @@ public class SessionStatus extends JCertifObject {
         basicDBObject.put("label", getLabel());
         return basicDBObject;
     }
-
 }
