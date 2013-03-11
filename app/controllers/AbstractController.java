@@ -13,7 +13,7 @@ public abstract class AbstractController extends Controller {
     }
 
     protected static boolean isAdmin(){
-        return true || session().get("admin") != null;
+        return session().get("admin") != null;
     }
 
     protected static void checkAdmin() throws JCertifException{
