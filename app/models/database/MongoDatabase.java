@@ -141,6 +141,10 @@ public class MongoDatabase {
 				null);
 		db.getCollection(Constantes.COLLECTION_SESSION)
 				.createIndex(new BasicDBObject("title", 1));
+        db.createCollection(Constantes.COLLECTION_SESSION_STATUS,
+                null);
+        db.getCollection(Constantes.COLLECTION_SESSION_STATUS)
+                .createIndex(new BasicDBObject("label", 1));
 	}
 
 	public WriteResult create(String collectionName,
