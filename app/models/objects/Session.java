@@ -32,6 +32,7 @@ public class Session extends JCertfifObject {
         this.getSpeakers().addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("speakers")));
     }
 
+    
     public String getId() {
         return id;
     }
