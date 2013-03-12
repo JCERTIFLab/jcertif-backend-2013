@@ -72,7 +72,7 @@ public class ParticipantController extends AbstractController {
 		/**
 		 * We ensure that we don't modify the password
 		 */
-		participantToUpdate.setPassword(participantFromRepo.getPassword()); // We
+		participantToUpdate.setPassword(participantFromRepo.getPassword());
 
 		try {
 			ParticipantDB.getInstance().save(participantToUpdate);
@@ -174,7 +174,13 @@ public class ParticipantController extends AbstractController {
                             + Constantes.PASSWORD_MIN_LENGTH + " )"));
 		}
 
-		try {
+        try{
+            participant.setPassword(CryptoUtil.getSaltedPassword(participant.getPassword().getBytes()));
+        }catch (JCertifException jcertifException){
+            return internalServerError(jcertifException.getMessage());
+        }
+
+        try {
 
 			ParticipantDB.getInstance().add(participant);
 

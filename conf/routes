@@ -21,9 +21,17 @@ GET 	/login/list			        controllers.LoginController.logins
 
 GET     /sponsor/list               controllers.SponsorController.listSponsor
 
+POST    /sponsor/update             controllers.SponsorController.updateSponsor
+
+POST    /sponsor/new                controllers.SponsorController.addSponsor
+
+POST    /sponsor/remove             controllers.SponsorController.removeSponsor
+
 GET     /speaker/list               controllers.SpeakerController.listSpeaker
 
 POST    /speaker/register           controllers.SpeakerController.registerSpeaker
+
+POST    /speaker/update             controllers.SpeakerController.updateSpeaker
 
 GET     /ref/sessionstatus/list     controllers.SessionStatusController.listStatusSession
 
