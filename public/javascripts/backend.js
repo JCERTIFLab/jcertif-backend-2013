@@ -142,7 +142,7 @@ participants=[];
 					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
 			});
             $("#dialog-add-participant-session form fieldset").append('<label for="participant">emailParticipant</label>');
-            $("#dialog-add-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipant" class="ui-widget-content ui-corner-all">'+option+'</select>');
+            $("#dialog-add-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipantAdd" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
@@ -159,7 +159,7 @@ participants=[];
 					option=option+'<option value="'+group.id+'">'+group.title+'</option>';
 			});
 							 $("#dialog-add-participant-session form fieldset").append('<label for="session">idSession</label>');
-            $("#dialog-add-participant-session form fieldset").append('<select name="idSession" id="idSession" class="ui-widget-content ui-corner-all">'+option+'</select>');
+            $("#dialog-add-participant-session form fieldset").append('<select name="idSession" id="idSessionAdd" class="ui-widget-content ui-corner-all">'+option+'</select>');
                  
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
@@ -177,7 +177,7 @@ participants=[];
                 "Inscrire": function () {
                     $.ajax({
                         type: "POST",
-                        url: "/participant/:emailParticipant/session/add/:idSession"
+                        url: "/participant/"+$("#emailParticipantAdd option").filter(":selected").val()+"/session/add/"+$("#idSessionAdd option").filter(":selected").val()
                     }).done(function (msg) {
                             alert("Cool");
                         }).fail(function (msg) {
@@ -244,7 +244,7 @@ Backend.removeParticipantFromSession = {
                 "Désinscrire": function () {
                     $.ajax({
                         type: "POST",
-                        url: "/participant/:emailParticipant/session/remove/:idSession"
+                        url: "/participant/"+$("#emailParticipant option").filter(":selected").val()+"/session/remove/"+$("#idSession option").filter(":selected").val()
                     }).done(function (msg) {
                             alert("Cool");
                         }).fail(function (msg) {
