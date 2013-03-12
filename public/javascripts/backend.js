@@ -8,7 +8,12 @@ Backend.init = function () {
     $( "#menu" ).menu();
 
     Backend.registerParticipant.initDialog();
-        Backend.addStatus.initDialog();
+    Backend.addStatus.initDialog();
+    Backend.addParticipantToSession.initDialog();
+	Backend.removeParticipantFromSession.initDialog();
+
+    
+        
     
 
     $("#register-participant").click(function () {
@@ -17,6 +22,13 @@ Backend.init = function () {
 	
   $("#add-status").click(function () {
         Backend.addStatus.openDialog();
+    });
+    
+     $("#add-participant-session").click(function () {
+        Backend.addParticipantToSession.openDialog();
+    });
+     $("#remove-participant-session").click(function () {
+        Backend.removeParticipantFromSession.openDialog();
     });
 }
 
@@ -98,6 +110,141 @@ Backend.addStatus = {
                         contentType: "application/json",
                         url: "/ref/sessionstatus/new",
                         data: $('#dialog-add-status form').serializeJSONString()
+                    }).done(function (msg) {
+                            alert("Cool");
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                }
+            }
+
+        });
+    }
+
+}
+
+
+// Service add participant to session
+Backend.addParticipantToSession = {
+
+
+    initDialog: function () {
+participants=[];
+	sessions=[];
+ 						$.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/participant/list"
+                    }).done(function (msg) {
+                            participants =msg;
+							option="";
+							$.each(participants, function(arrayID,group) {
+					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
+			});
+            $("#dialog-add-participant-session form fieldset").append('<label for="participant">emailParticipant</label>');
+            $("#dialog-add-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipant" class="ui-widget-content ui-corner-all">'+option+'</select>');
+				
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                        
+                        $.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/session/list"
+                    }).done(function (msg) {
+                            sessions = msg;
+							option="";
+							$.each(sessions, function(arrayID,group) {
+					option=option+'<option value="'+group.id+'">'+group.title+'</option>';
+			});
+							 $("#dialog-add-participant-session form fieldset").append('<label for="session">idSession</label>');
+            $("#dialog-add-participant-session form fieldset").append('<select name="idSession" id="idSession" class="ui-widget-content ui-corner-all">'+option+'</select>');
+                 
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+
+           
+    },
+
+    openDialog: function () {
+        $("#dialog-add-participant-session").dialog({
+            width: 300,
+            height: 300,
+            modal: true,
+            buttons: {
+                "Inscrire": function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/participant/:emailParticipant/session/add/:idSession"
+                    }).done(function (msg) {
+                            alert("Cool");
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                }
+            }
+
+        });
+    }
+
+}
+
+// Service remove participant from session
+Backend.removeParticipantFromSession = {
+
+
+    initDialog: function () {
+	participants=[];
+	sessions=[];
+ 						$.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/participant/list"
+                    }).done(function (msg) {
+                            participants =msg;
+							option="";
+							$.each(participants, function(arrayID,group) {
+					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
+			});
+            $("#dialog-remove-participant-session form fieldset").append('<label for="participant">emailParticipant</label>');
+            $("#dialog-remove-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipant" class="ui-widget-content ui-corner-all">'+option+'</select>');
+				
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                        
+                        $.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/session/list"
+                    }).done(function (msg) {
+                            sessions = msg;
+							option="";
+							$.each(sessions, function(arrayID,group) {
+					option=option+'<option value="'+group.id+'">'+group.title+'</option>';
+			});
+							 $("#dialog-remove-participant-session form fieldset").append('<label for="session">idSession</label>');
+            $("#dialog-remove-participant-session form fieldset").append('<select name="idSession" id="idSession" class="ui-widget-content ui-corner-all">'+option+'</select>');
+                 
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+
+           
+    },
+
+    openDialog: function () {
+        $("#dialog-remove-participant-session").dialog({
+            width: 300,
+            height: 300,
+            modal: true,
+            buttons: {
+                "Désinscrire": function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/participant/:emailParticipant/session/remove/:idSession"
                     }).done(function (msg) {
                             alert("Cool");
                         }).fail(function (msg) {
