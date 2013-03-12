@@ -68,10 +68,5 @@ public class SpeakerChecker extends Checker {
         if (null != dbObject) {
             throw new JCertifException(this, "Speaker " + objectToCheck.getString("email") + " already exists");
         }
-
-        //On vérifie la présence du mot de passe uniquement à la création d'un speaker
-        if (Tools.isBlankOrNull(objectToCheck.getString("password"))) {
-            throw new JCertifException(this, "Password cannot be empty or null");
-        }
     }
 }

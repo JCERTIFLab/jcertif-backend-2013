@@ -33,6 +33,8 @@ POST    /speaker/register           controllers.SpeakerController.registerSpeake
 
 POST    /speaker/update             controllers.SpeakerController.updateSpeaker
 
+POST    /speaker/remove             controllers.SpeakerController.removeSpeaker
+
 GET     /ref/sessionstatus/list     controllers.SessionStatusController.listStatusSession
 
 POST    /ref/sessionstatus/new      controllers.SessionStatusController.addSessionStatus
@@ -42,6 +44,8 @@ POST    /ref/sessionstatus/remove   controllers.SessionStatusController.removeSe
 GET     /session/list               controllers.SessionController.listSession
 
 POST    /session/new                controllers.SessionController.newSession
+
+POST    /session/remove             controllers.SessionController.removeSession
 
 GET     /session/new                controllers.SessionController.newSessionForm
 

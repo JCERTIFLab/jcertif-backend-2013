@@ -150,4 +150,68 @@ public class SpeakerController extends AbstractController {
         Logger.info("Exit updateSpeaker()");
         return ok(JSON.serialize("Ok"));
     }
+
+    public static Result removeSpeaker() {
+        Logger.info("Enter removeSpeaker()");
+        allowCrossOriginJson();
+
+        try {
+            checkAdmin();
+        } catch (JCertifException jcertifException) {
+            Logger.info("access rejected for non-administrator");
+            Logger.info("Exit removeSpeaker()");
+            return forbidden(jcertifException.getMessage());
+        }
+
+        Http.RequestBody requestBody = request().body();
+        try {
+            Tools.verifyJSonRequest(requestBody);
+        } catch (JCertifException e) {
+            Logger.error(e.getMessage());
+            Logger.info("Exit removeSpeaker()");
+            return badRequest(e.getMessage());
+        }
+
+        String emailSpeaker;
+
+        try{
+            emailSpeaker = requestBody.asJson().get("email").getTextValue();
+        }catch(NullPointerException exception){
+            Logger.error(exception.getMessage());
+            Logger.info("Exit removeSpeaker()");
+            return badRequest(requestBody.asJson().toString());
+        }
+
+        Speaker speakerFromRepo;
+        try {
+            speakerFromRepo = SpeakerDB.getInstance().get(
+                    emailSpeaker);
+        } catch (JCertifException jcertifException) {
+            Logger.error(jcertifException.getMessage());
+            Logger.info("Exit removeSpeaker()");
+            return internalServerError(jcertifException.getMessage());
+        }
+
+        if (speakerFromRepo == null) {
+            Logger.info("Speaker with email " + emailSpeaker + " does not exist");
+            Logger.info("Exit removeSpeaker()");
+            return internalServerError(JSON
+                    .serialize("Speaker with email \""
+                            + emailSpeaker
+                            + "\" does not exist"));
+        }
+
+        try{
+            SpeakerDB.getInstance().remove(speakerFromRepo);
+        }catch(JCertifException jcertifException){
+            Logger.error(jcertifException.getMessage());
+            Logger.info("Exit removeSpeaker()");
+            return internalServerError(jcertifException.getMessage());
+        }
+
+        Logger.info("Speaker '" + emailSpeaker + "' removed");
+        Logger.info("Enter removeSpeaker()");
+
+        return ok(JSON.serialize("Ok"));
+    }
 }

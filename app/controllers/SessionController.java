@@ -10,6 +10,7 @@ import java.util.List;
 import models.database.MongoDatabase;
 import models.exception.JCertifException;
 import models.objects.Session;
+import models.objects.Speaker;
 import models.objects.access.CategoryDB;
 import models.objects.access.SessionDB;
 import play.Logger;
@@ -75,6 +76,70 @@ public class SessionController extends AbstractController {
 
         Logger.info("Successfull create a new session");
         Logger.info("Exit newSession()");
+        return ok(JSON.serialize("Ok"));
+    }
+
+    public static Result removeSession() {
+        Logger.info("Enter removeSession()");
+        allowCrossOriginJson();
+
+        try {
+            checkAdmin();
+        } catch (JCertifException jcertifException) {
+            Logger.info("access rejected for non-administrator");
+            Logger.info("Exit removeSession()");
+            return forbidden(jcertifException.getMessage());
+        }
+
+        Http.RequestBody requestBody = request().body();
+        try {
+            Tools.verifyJSonRequest(requestBody);
+        } catch (JCertifException e) {
+            Logger.error(e.getMessage());
+            Logger.info("Exit removeSession()");
+            return badRequest(e.getMessage());
+        }
+
+        String idSession;
+
+        try{
+            idSession = requestBody.asJson().get("id").getTextValue();
+        }catch(NullPointerException exception){
+            Logger.error(exception.getMessage());
+            Logger.info("Exit removeSession()");
+            return badRequest(requestBody.asJson().toString());
+        }
+
+        Session sessionFromRepo;
+        try {
+            sessionFromRepo = SessionDB.getInstance().get(
+                    idSession);
+        } catch (JCertifException jcertifException) {
+            Logger.error(jcertifException.getMessage());
+            Logger.info("Exit removeSession()");
+            return internalServerError(jcertifException.getMessage());
+        }
+
+        if (sessionFromRepo == null) {
+            Logger.info("Session with id " + idSession + " does not exist");
+            Logger.info("Exit removeSession()");
+            return internalServerError(JSON
+                    .serialize("Session with email \""
+                            + idSession
+                            + "\" does not exist"));
+        }
+
+        try{
+            SessionDB.getInstance().remove(sessionFromRepo);
+        }catch(JCertifException jcertifException){
+            Logger.error(jcertifException.getMessage());
+            Logger.info("Exit removeSession()");
+            return internalServerError(jcertifException.getMessage());
+        }
+
+        Logger.info("Session '" + idSession + "' removed");
+        Logger.info("Enter removeSession()");
+
         return ok(JSON.serialize("Ok"));
     }
 }
