@@ -9,63 +9,67 @@ import models.objects.Participant;
 import models.objects.access.LoginDB;
 import models.objects.access.ParticipantDB;
 import models.util.Tools;
+import models.util.crypto.CryptoUtil;
 import play.mvc.Result;
 import play.mvc.Http.RequestBody;
 
 public class LoginController extends AbstractController {
 
-	public static Result logins() {
-		allowCrossOriginJson();
-		return ok(JSON.serialize(LoginDB.getInstance().list()));
-	}
+    public static Result logins() {
+        allowCrossOriginJson();
+        return ok(JSON.serialize(LoginDB.getInstance().list()));
+    }
 
-	/**
-	 * Login action
-	 * 
-	 * @param json  payload
-	 *          
-	 * @param
-	 * @return
-	 */
-	public static Result login() {
-	
-		allowCrossOriginJson();
+    /**
+     * Login action
+     *
+     * @param
+     * @return
+     */
+    public static Result login() {
 
-		RequestBody requestBody = request().body();
-		try {
-			Tools.verifyJSonRequest(requestBody);
-		} catch (JCertifException e) {
-			return badRequest(e.getMessage());
-		}
+        allowCrossOriginJson();
 
-		String loginObjInJSONForm = request().body().asJson().toString();
+        RequestBody requestBody = request().body();
+        try {
+            Tools.verifyJSonRequest(requestBody);
+        } catch (JCertifException e) {
+            return badRequest(e.getMessage());
+        }
 
-		BasicDBObject params;
-		try {
-			params = (BasicDBObject) JSON.parse(loginObjInJSONForm);
-		} catch (JSONParseException exception) {
-			return badRequest(loginObjInJSONForm);
-		}
-		String email = params.getString("email");
-		String password = params.getString("password");
+        String loginObjInJSONForm = request().body().asJson().toString();
 
-		Participant participant;
-		try {
-			participant = ParticipantDB.getInstance().get(email);
-		} catch (JCertifException jcertifException) {
-			return internalServerError(jcertifException.getMessage());
-		}
+        BasicDBObject params;
+        try {
+            params = (BasicDBObject) JSON.parse(loginObjInJSONForm);
+        } catch (JSONParseException exception) {
+            return badRequest(loginObjInJSONForm);
+        }
+        String email = params.getString("email");
+        String password = params.getString("password");
 
-		if (participant == null) {
-			return internalServerError(JSON
-					.serialize("Participant with email \"" + email
-							+ "\" does not exist"));
-		}
-		if (!(participant.getPassword().equals(password))){
-			return internalServerError(JSON
-					.serialize("Login failed!, Username or Password invalid"));
+        Participant participant;
+        try {
+            participant = ParticipantDB.getInstance().get(email);
+        } catch (JCertifException jcertifException) {
+            return internalServerError(jcertifException.getMessage());
+        }
 
-		}
-		return ok(JSON.serialize(participant.toBasicDBObject()));
-	}
+        if (participant == null) {
+            return internalServerError(JSON
+                    .serialize("Participant with email \"" + email
+                            + "\" does not exist"));
+        }
+
+        try {
+            if (!CryptoUtil.verifySaltedPassword(password.getBytes(), participant.getPassword())) {
+                return internalServerError(JSON
+                        .serialize("Login failed!, Username or Password invalid"));
+            }
+        } catch (JCertifException jcertifException) {
+            return internalServerError(jcertifException.getMessage());
+        }
+
+        return ok(JSON.serialize("Ok"));
+    }
 }

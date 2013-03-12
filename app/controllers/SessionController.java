@@ -4,7 +4,9 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 import com.mongodb.util.JSONParseException;
+
 import java.util.List;
+
 import models.database.MongoDatabase;
 import models.exception.JCertifException;
 import models.objects.Session;
@@ -20,16 +22,17 @@ import views.html.SessionController.form;
 
 public class SessionController extends AbstractController {
 
-    
+
     final static Form<Session> sessionForm = Form.form(Session.class);
 
     public static Result newSessionForm() {
-    		List<BasicDBObject> status = SessionStatusDB.getInstance().list();
-    	  BasicDBList categorie = (BasicDBList) JSON.parse(MongoDatabase.getInstance().listAll("category"));
-    	  List<BasicDBObject> categories = Tools.basicDBListToJavaList(categorie);
-    	  List<BasicDBObject> speakers = SpeakerDB.getInstance().list();
-        return ok(form.render(status,categories,speakers));
+        List<BasicDBObject> status = SessionStatusDB.getInstance().list();
+        BasicDBList categorie = (BasicDBList) JSON.parse(MongoDatabase.getInstance().listAll("category"));
+        List<BasicDBObject> categories = Tools.basicDBListToJavaList(categorie);
+        List<BasicDBObject> speakers = SpeakerDB.getInstance().list();
+        return ok(form.render(status, categories, speakers));
     }
+
     public static Result listSession() {
         allowCrossOriginJson();
         return ok(JSON.serialize(SessionDB.getInstance().list()));
@@ -47,9 +50,9 @@ public class SessionController extends AbstractController {
 
         String sessionObjInJSONForm = requestBody.asJson().toString();
         Session session;
-        try{
+        try {
             session = new Session((BasicDBObject) JSON.parse(sessionObjInJSONForm));
-        }catch(JSONParseException exception){
+        } catch (JSONParseException exception) {
             return badRequest(sessionObjInJSONForm);
         }
 

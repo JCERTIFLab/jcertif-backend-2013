@@ -3,7 +3,9 @@ package models.objects.checker;
 import com.mongodb.BasicDBObject;
 import models.exception.JCertifException;
 import models.objects.Session;
+import models.objects.SessionStatus;
 import models.objects.access.SessionDB;
+import models.objects.access.SessionStatusDB;
 import models.util.Constantes;
 import models.util.Tools;
 
@@ -77,6 +79,12 @@ public class SessionChecker extends Checker{
             //This exception must not be throws
         }
 
+        SessionStatus sessionStatus = SessionStatusDB.getInstance().get(session.getStatus());
+
+        if(null==sessionStatus){
+            throw new JCertifException(this, "Session Status '" + session.getStatus() + "' does not exist. Check Session Status List" );
+        }
+
     }
 
     @Override
@@ -93,7 +101,7 @@ public class SessionChecker extends Checker{
     public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
         BasicDBObject dbObject = SessionDB.getInstance().get("id", objectToCheck.getString("id"));
         if (null != dbObject) {
-            throw new JCertifException(this, "Session \"" + objectToCheck.getString("id") + "\" already exists");
+            throw new JCertifException(this, "Session '" + objectToCheck.getString("id") + "' already exists");
         }
     }
 }
