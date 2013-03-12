@@ -5,7 +5,6 @@ import models.exception.JCertifException;
 import models.objects.Participant;
 import models.objects.checker.ParticipantChecker;
 import models.util.Constantes;
-import models.util.crypto.CryptoUtil;
 
 public class ParticipantDB extends JCertifObjectDB<Participant>{
 
@@ -22,7 +21,6 @@ public class ParticipantDB extends JCertifObjectDB<Participant>{
     }
 
     public boolean add(Participant participant) throws JCertifException {
-        participant.setPassword(CryptoUtil.getSaltedPassword(participant.getPassword().getBytes()));
         return add(participant.toBasicDBObject());
     }
 

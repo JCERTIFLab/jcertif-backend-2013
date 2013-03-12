@@ -5,7 +5,6 @@ import models.exception.JCertifException;
 import models.objects.Speaker;
 import models.objects.checker.SpeakerChecker;
 import models.util.Constantes;
-import models.util.crypto.CryptoUtil;
 
 public class SpeakerDB extends JCertifObjectDB<Speaker> {
 
@@ -23,7 +22,6 @@ public class SpeakerDB extends JCertifObjectDB<Speaker> {
         return instance;
     }
     public boolean add(Speaker speaker) throws JCertifException {
-        speaker.setPassword(CryptoUtil.getSaltedPassword(speaker.getPassword().getBytes()));
         return add(speaker.toBasicDBObject());
     }
 

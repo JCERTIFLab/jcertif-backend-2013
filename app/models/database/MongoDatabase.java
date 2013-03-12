@@ -18,6 +18,7 @@ public class MongoDatabase {
 	private static MongoDatabase instance;
 
 	private MongoDatabase() {
+        Logger.info("Enter MongoDatabase()");
 		String dbhost = JCertifPropUtils.getInstance().getProperty(
 				"jcertifbackend.database.host");
 		String dbname = JCertifPropUtils.getInstance().getProperty(
@@ -29,7 +30,9 @@ public class MongoDatabase {
 		int dbport = Integer.parseInt(JCertifPropUtils.getInstance().getProperty(
 				"jcertifbackend.database.port"));
 
-		try {
+        Logger.debug("dbhost=" + dbhost + ", dbname=" + dbname + ", user=" + user + ", password=***, dbport=" + dbport);
+
+        try {
 			mongoClient = new MongoClient(new ServerAddress(dbhost, dbport),
 					getDBOptions());
 			db = mongoClient.getDB(dbname);
@@ -44,6 +47,7 @@ public class MongoDatabase {
 					"Impossible d'initialiser la base avec les données référentielles",
 					e);
 		}
+        Logger.info("Exit MongoDatabase()");
 	}
 
 	public static MongoDatabase getInstance() {
@@ -54,7 +58,9 @@ public class MongoDatabase {
 	}
 
 	private MongoClientOptions getDBOptions() {
-		MongoClientOptions.Builder mco = new MongoClientOptions.Builder();
+        Logger.info("Enter getDBOptions()");
+
+        MongoClientOptions.Builder mco = new MongoClientOptions.Builder();
 
 		try {
 			mco.connectionsPerHost(Integer.parseInt(JCertifPropUtils.getInstance()
@@ -63,15 +69,20 @@ public class MongoDatabase {
 			mco.connectionsPerHost(50);
 		}
 
+        Logger.info("Exit getDBOptions()");
 		return mco.build();
 	}
 
 	public void loadDbWithData(String filenameContainsData) throws IOException {
-		db.doEval(Tools.getFileContent(filenameContainsData));
+        Logger.info("Enter loadDbWithData(" + filenameContainsData + ")");
+        db.doEval(Tools.getFileContent(filenameContainsData));
+        Logger.info("Exit getDBOptions()");
 	}
 
 	private void initializeJCertifDB() throws IOException {
-		loadDbWithData(Constantes.INIT_DATA_FILE);
+        Logger.info("Enter initializeJCertifDB()");
+        loadDbWithData(Constantes.INIT_DATA_FILE);
+        Logger.info("Exit initializeJCertifDB()");
 	}
 
 	public DBCollection getCollection(String collectionName) {
@@ -84,17 +95,20 @@ public class MongoDatabase {
 
 	public DBCursor list(String collectionName, BasicDBObject query,
 			BasicDBObject columnToReturn) {
+        Logger.debug("list(collectionName=" + collectionName + ", query=" + query + ", columnToReturn=" + columnToReturn +")");
 		return db.getCollection(collectionName).find(query, columnToReturn);
 	}
 
 	public DBCursor list(String collectionName) {
 		// Retourne le résultat en JSON sans le paramètre par défaut _id
+        Logger.debug("list(collectionName=" + collectionName + ")");
 		return db.getCollection(collectionName).find(null,
 				new BasicDBObject("_id", 0).append("password", 0));
 	}
 
 	public String listAll(String collectionName) {
 		// Retourne le résultat en JSON sans le paramètre par défaut _id
+        Logger.debug("listAll(collectionName=" + collectionName + ")");
 		return JSON.serialize(db.getCollection(collectionName).find(null,
 				new BasicDBObject("_id", 0).append("password", 0)));
 	}
@@ -102,6 +116,8 @@ public class MongoDatabase {
 	public void configureJCertifDatabase() {
 		// Cette fonction configure la base de données JCertif (Création des
 		// collections, création des index)
+		Logger.info("Enter configureJCertifDatabase()");
+
 		db.createCollection(Constantes.COLLECTION_LOGIN,
 				null);
 		db.getCollection(Constantes.COLLECTION_LOGIN)
@@ -145,35 +161,43 @@ public class MongoDatabase {
                 null);
         db.getCollection(Constantes.COLLECTION_SESSION_STATUS)
                 .createIndex(new BasicDBObject("label", 1));
+
+        Logger.info("Exit configureJCertifDatabase()");
 	}
 
 	public WriteResult create(String collectionName,
             BasicDBObject objectToCreate) {
+        Logger.debug("create(collectionName=" + collectionName + ", objectToCreate="+objectToCreate+")");
 		return db.getCollection(collectionName).insert(objectToCreate,
 				WriteConcern.SAFE);
 	}
 
 	public WriteResult update(String collectionName,
 			BasicDBObject objectToUpdate) {
+        Logger.debug("update(collectionName=" + collectionName + ", objectToUpdate="+objectToUpdate+")");
 		return db.getCollection(collectionName).update(
 				new BasicDBObject("_id", objectToUpdate.get("_id")),
 				objectToUpdate);
 	}
 
 	public WriteResult save(String collectionName, BasicDBObject objectToUpdate) {
+        Logger.debug("save(collectionName=" + collectionName + ", objectToUpdate="+objectToUpdate+")");
 		return db.getCollection(collectionName).save(objectToUpdate);
 	}
 
 	public BasicDBObject readOne(String collectionName, BasicDBObject query) {
+        Logger.debug("readOne(collectionName=" + collectionName + ", query="+query+")");
 		return (BasicDBObject) db.getCollection(collectionName).findOne(query);
 	}
 
 	public DBCursor list(String collectionName, BasicDBObject query) {
+        Logger.debug("list(collectionName=" + collectionName + ", query="+query+")");
 		return db.getCollection(collectionName).find(query);
 	}
 
 	public WriteResult delete(String collectionName,
 			BasicDBObject objectToDelete) {
+        Logger.debug("delete(collectionName=" + collectionName + ", objectToDelete="+objectToDelete+")");
 		return db.getCollection(collectionName).remove(objectToDelete,
 				WriteConcern.SAFE);
 	}
