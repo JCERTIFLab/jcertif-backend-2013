@@ -10,7 +10,9 @@ import java.util.List;
 import models.database.MongoDatabase;
 import models.exception.JCertifException;
 import models.objects.Session;
+import models.objects.access.CategoryDB;
 import models.objects.access.SessionDB;
+import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
 import models.util.Tools;
@@ -27,24 +29,29 @@ public class SessionController extends AbstractController {
 
     public static Result newSessionForm() {
         List<BasicDBObject> status = SessionStatusDB.getInstance().list();
-        BasicDBList categorie = (BasicDBList) JSON.parse(MongoDatabase.getInstance().listAll("category"));
-        List<BasicDBObject> categories = Tools.basicDBListToJavaList(categorie);
+        List<BasicDBObject> categories = CategoryDB.getInstance().list();
         List<BasicDBObject> speakers = SpeakerDB.getInstance().list();
         return ok(form.render(status, categories, speakers));
     }
 
     public static Result listSession() {
+        Logger.info("Enter listSession()");
         allowCrossOriginJson();
+        Logger.info("Exit listSession()");
         return ok(JSON.serialize(SessionDB.getInstance().list()));
     }
 
     public static Result newSession() {
+        Logger.info("Enter newSession()");
+
         allowCrossOriginJson();
 
         Http.RequestBody requestBody = request().body();
         try {
             Tools.verifyJSonRequest(requestBody);
         } catch (JCertifException e) {
+            Logger.error(e.getMessage());
+            Logger.info("Exit newSession()");
             return badRequest(e.getMessage());
         }
 
@@ -53,14 +60,21 @@ public class SessionController extends AbstractController {
         try {
             session = new Session((BasicDBObject) JSON.parse(sessionObjInJSONForm));
         } catch (JSONParseException exception) {
+            Logger.error(exception.getMessage());
+            Logger.info("Exit newSession()");
             return badRequest(sessionObjInJSONForm);
         }
 
         try {
             SessionDB.getInstance().add(session);
         } catch (JCertifException jcertifException) {
+            Logger.error(jcertifException.getMessage());
+            Logger.info("Exit newSession()");
             return internalServerError(jcertifException.getMessage());
         }
+
+        Logger.info("Successfull create a new session");
+        Logger.info("Exit newSession()");
         return ok(JSON.serialize("Ok"));
     }
 }

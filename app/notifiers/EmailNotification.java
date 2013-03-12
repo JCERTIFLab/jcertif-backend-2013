@@ -6,6 +6,7 @@ import models.objects.Session;
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 
+import play.Logger;
 import views.html.welcome;
 import views.html.pwdchange;
 import views.html.pwdinit;
@@ -28,6 +29,8 @@ public class EmailNotification {
 	 * @param user
 	 */
 		public static void sendWelcomeMail(Participant user) {
+            Logger.info("Enter sendWelcomeMail()");
+            Logger.debug("Enter sendWelcomeMail(user=" + user + ")");
 			
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("Bienvenu !");
@@ -37,9 +40,13 @@ public class EmailNotification {
 			String body = welcome.render(user).body();
 		
 		    mail.sendHtml(body);
+
+            Logger.info("Exit sendWelcomeMail()");
 		}
 		
 		public static void sendChangePwdMail(Participant user){
+            Logger.info("Enter sendChangePwdMail()");
+            Logger.debug("Enter sendChangePwdMail(user=" + user + ")");
 
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("[JCertif] Changement de votre mot de passe");
@@ -49,9 +56,13 @@ public class EmailNotification {
 			String body = pwdchange.render(user).body();
 		
 		    mail.sendHtml(body);
+
+            Logger.info("Exit sendChangePwdMail()");
 		}
 
 		public static void sendReinitpwdMail(Participant user) {
+            Logger.info("Enter sendReinitpwdMail()");
+            Logger.debug("Enter sendReinitpwdMail(user=" + user + ")");
 
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("[JCertif] Changement de votre mot de passe");
@@ -61,13 +72,16 @@ public class EmailNotification {
 			String body = pwdinit.render(user).body();
 			
 		    mail.sendHtml(body);
-			
-		    
+
+            Logger.info("Exit sendReinitpwdMail()");
 		}
 
 		
 		
 		public static void sendUnenrollpwdMail(Participant user,Session session) {
+            Logger.info("Enter sendUnenrollpwdMail()");
+            Logger.debug("Enter sendUnenrollpwdMail(user=" + user + ", session=" + session + ")");
+
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("[JCertif] Désinscription à une session");
 			mail.addRecipient(user.getEmail());
@@ -77,11 +91,15 @@ public class EmailNotification {
 		
 		    mail.sendHtml(body);
 			// TODO Auto-generated method stub
-			
+
+            Logger.info("Exit sendUnenrollpwdMail()");
 		}
 
 		public static void sendenrollMail(Participant user,
 				Session session) {
+            Logger.info("Enter sendenrollMail()");
+            Logger.debug("Enter sendenrollMail(user=" + user + ", session=" + session + ")");
+
 			MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
 			mail.setSubject("[JCertif] Inscription à une session");
 			mail.addRecipient(user.getEmail());
@@ -90,7 +108,8 @@ public class EmailNotification {
 			String body = enroll.render(user,session).body();
 		
 		    mail.sendHtml(body);
-			
+
+            Logger.info("Exit sendenrollMail()");
 		}
 	
 }
