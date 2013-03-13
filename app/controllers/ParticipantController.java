@@ -335,7 +335,7 @@ public class ParticipantController extends AbstractController {
 
 		try {
 			ParticipantDB.getInstance().save(participant);
-			EmailNotification.sendReinitpwdMail(participant);
+			EmailNotification.sendReinitpwdMail(participant, newPassword);
 
 		} catch (JCertifException jcertifException) {
             Logger.error(jcertifException.getMessage());

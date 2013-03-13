@@ -60,7 +60,7 @@ public class EmailNotification {
             Logger.info("Exit sendChangePwdMail()");
 		}
 
-		public static void sendReinitpwdMail(Participant user) {
+		public static void sendReinitpwdMail(Participant user, String newPassword) {
             Logger.info("Enter sendReinitpwdMail()");
             Logger.debug("Enter sendReinitpwdMail(user=" + user + ")");
 
@@ -69,7 +69,7 @@ public class EmailNotification {
 			mail.addRecipient(user.getEmail());
 			mail.addFrom(FROM_EMAIL);
 			
-			String body = pwdinit.render(user).body();
+			String body = pwdinit.render(user, newPassword).body();
 			
 		    mail.sendHtml(body);
 
