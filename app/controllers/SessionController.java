@@ -1,26 +1,16 @@
 package controllers;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-import com.mongodb.util.JSONParseException;
-
-import java.util.List;
-
-import models.database.MongoDatabase;
 import models.exception.JCertifException;
 import models.objects.Session;
-import models.objects.Speaker;
-import models.objects.access.CategoryDB;
 import models.objects.access.SessionDB;
+import models.util.Tools;
 import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
-import models.util.Tools;
-import play.data.Form;
-import models.objects.access.SessionStatusDB;
-import models.objects.access.SpeakerDB;
-import views.html.SessionController.form;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
+import com.mongodb.util.JSONParseException;
 
 
 public class SessionController extends AbstractController {
