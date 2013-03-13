@@ -13,7 +13,3 @@ db.category.insert({label: 'HTML5'});
 db.category.insert({label: 'Java'});
 db.category.insert({label: 'Entreprise'});
 db.category.insert({label: 'Web Design'});
-
-
-
-
