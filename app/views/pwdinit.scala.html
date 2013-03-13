@@ -1,10 +1,10 @@
-@(user:models.objects.Participant)
+@(user:models.objects.Participant) @(newPassword:String)
 
 <a href="http://www.jcertif.com">
  <br/>
 <img src="http://jcertif-backend.roddet.cloudbees.net/assets/images/logoJCertifConference.jpg"></a>
 <br/>
-<h3>Voici votre nouveau mot de passe : @user.getPassword() </h3>
+<h3>Voici votre nouveau mot de passe : @newPassword </h3>
 <br/>
 <br/>
 Vous pourrez le changer dès votre prochaine connexion.
