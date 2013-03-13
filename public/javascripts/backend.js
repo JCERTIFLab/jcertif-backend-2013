@@ -11,7 +11,8 @@ Backend.init = function () {
     Backend.addStatus.initDialog();
     Backend.addParticipantToSession.initDialog();
 	Backend.removeParticipantFromSession.initDialog();
-
+	Backend.reinitialPassword.initDialog();
+	Backend.changePassword.initDialog();
     
         
     
@@ -29,6 +30,12 @@ Backend.init = function () {
     });
      $("#remove-participant-session").click(function () {
         Backend.removeParticipantFromSession.openDialog();
+    });
+    $("#participant-reinitialPassword").click(function () {
+        Backend.reinitialPassword.openDialog();
+    });
+    $("#participant-changePassword").click(function () {
+        Backend.changePassword.openDialog();
     });
 }
 
@@ -110,6 +117,76 @@ Backend.addStatus = {
                         contentType: "application/json",
                         url: "/ref/sessionstatus/new",
                         data: $('#dialog-add-status form').serializeJSONString()
+                    }).done(function (msg) {
+                            alert("Cool");
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                }
+            }
+
+        });
+    }
+
+}
+
+// Service changePassword
+Backend.changePassword = {
+
+    initDialog: function () {
+            $("#dialog-participant-changePassword form fieldset").append('<label for="emailParticipant">emailParticipant</label>');
+            $("#dialog-participant-changePassword form fieldset").append('<input type="text" name="emailParticipant" id="emailParticipantChang" class="text ui-widget-content ui-corner-all"/>');
+ 			$("#dialog-participant-changePassword form fieldset").append('<label for="oldPassword">oldPassword</label>');
+            $("#dialog-participant-changePassword form fieldset").append('<input type="password" name="oldpassword" id="oldpassword" class="text ui-widget-content ui-corner-all"/>');
+			$("#dialog-participant-changePassword form fieldset").append('<label for="newPasswordt">newPassword</label>');
+            $("#dialog-participant-changePassword form fieldset").append('<input type="password" name="newpassword" id="newpassword" class="text ui-widget-content ui-corner-all"/>');
+			
+    },
+
+    openDialog: function () {
+        $("#dialog-participant-changePassword").dialog({
+            width: 300,
+            height: 400,
+            modal: true,
+            buttons: {
+                "Change": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/participant/"+$("#emailParticipantChang").val()+"/changepassword",
+                        data: $('#dialog-participant-changePassword form').serializeJSONString()
+                    }).done(function (msg) {
+                            alert("Cool");
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                }
+            }
+
+        });
+    }
+
+}
+
+// Service reinitialPassword
+Backend.reinitialPassword = {
+
+    initDialog: function () {
+            $("#dialog-participant-reinitial form fieldset").append('<label for="emailParticipant">emailParticipant</label>');
+            $("#dialog-participant-reinitial form fieldset").append('<input type="text" name="emailParticipantInit" id="emailParticipantInit" class="text ui-widget-content ui-corner-all"/>');
+
+    },
+
+    openDialog: function () {
+        $("#dialog-participant-reinitial").dialog({
+            width: 300,
+            height: 250,
+            modal: true,
+            buttons: {
+                "réinitialiser": function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/participant/"+$("#emailParticipantInit").val()+"/lostpassword"
                     }).done(function (msg) {
                             alert("Cool");
                         }).fail(function (msg) {
@@ -209,7 +286,7 @@ Backend.removeParticipantFromSession = {
 					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
 			});
             $("#dialog-remove-participant-session form fieldset").append('<label for="participant">emailParticipant</label>');
-            $("#dialog-remove-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipant" class="ui-widget-content ui-corner-all">'+option+'</select>');
+            $("#dialog-remove-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipantRemove" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
@@ -244,7 +321,7 @@ Backend.removeParticipantFromSession = {
                 "Désinscrire": function () {
                     $.ajax({
                         type: "POST",
-                        url: "/participant/"+$("#emailParticipant option").filter(":selected").val()+"/session/remove/"+$("#idSession option").filter(":selected").val()
+                        url: "/participant/"+$("#emailParticipantRemove option").filter(":selected").val()+"/session/remove/"+$("#idSession option").filter(":selected").val()
                     }).done(function (msg) {
                             alert("Cool");
                         }).fail(function (msg) {
