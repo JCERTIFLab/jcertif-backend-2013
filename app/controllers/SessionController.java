@@ -25,16 +25,6 @@ import views.html.SessionController.form;
 
 public class SessionController extends AbstractController {
 
-
-    final static Form<Session> sessionForm = Form.form(Session.class);
-
-    public static Result newSessionForm() {
-        List<BasicDBObject> status = SessionStatusDB.getInstance().list();
-        List<BasicDBObject> categories = CategoryDB.getInstance().list();
-        List<BasicDBObject> speakers = SpeakerDB.getInstance().list();
-        return ok(form.render(status, categories, speakers));
-    }
-
     public static Result listSession() {
         Logger.info("Enter listSession()");
         allowCrossOriginJson();

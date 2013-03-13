@@ -13,6 +13,8 @@ Backend.init = function () {
 	Backend.removeParticipantFromSession.initDialog();
 	Backend.reinitialPassword.initDialog();
 	Backend.changePassword.initDialog();
+	Backend.addSession.initDialog();
+
     
         
     
@@ -37,6 +39,10 @@ Backend.init = function () {
     $("#participant-changePassword").click(function () {
         Backend.changePassword.openDialog();
     });
+	$("#session-add").click(function () {
+        Backend.addSession.openDialog();
+    });
+
 }
 
 
@@ -96,6 +102,97 @@ Backend.registerParticipant = {
 
 }
 
+// Service session
+Backend.addSession = {
+
+    initDialog: function () {
+	
+	
+        var sessionInfos = [ 'id', 'title', 'summary', 'description', 'keyword', 'start', 'end'];
+
+        for (var i = 0; i < sessionInfos.length; i++) {
+            $("#dialog-add-session form fieldset").append('<label for="' + sessionInfos[i] + '">' + sessionInfos[i] + '</label>');
+            $("#dialog-add-session form fieldset").append('<input type="text" name="' + sessionInfos[i] + '" id="' + sessionInfos[i] + '" class="text ui-widget-content ui-corner-all"/>');
+        }
+		$.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/ref/sessionstatus/list"
+                    }).done(function (msg) {
+                            status =msg;
+							option="";
+							$.each(status, function(arrayID,group) {
+					option=option+'<option value="'+group.label+'">'+group.label+'</option>';
+			});
+            $("#dialog-add-session form fieldset").append('<label for="status">status</label>');
+            $("#dialog-add-session form fieldset").append('<select name="status" id="status" class="ui-widget-content ui-corner-all">'+option+'</select>');
+				
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+						
+						
+							$.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/ref/category/list"
+                    }).done(function (msg) {
+                            categories =msg;
+							option="";
+							$.each(categories, function(arrayID,group) {
+					option=option+'<option value="'+group.label+'">'+group.label+'</option>';
+			});
+            $("#dialog-add-session form fieldset").append('<label for="category">category</label>');
+            $("#dialog-add-session form fieldset").append('<select name="category" id="category" multiple="true" class="ui-widget-content ui-corner-all">'+option+'</select>');
+				
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+						
+						$.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/speaker/list"
+                    }).done(function (msg) {
+                            speakers =msg;
+							option="";
+							$.each(speakers, function(arrayID,group) {
+					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
+			});
+            $("#dialog-add-session form fieldset").append('<label for="speaker">speaker</label>');
+            $("#dialog-add-session form fieldset").append('<select name="speaker" id="spraker" multiple="true" class="ui-widget-content ui-corner-all">'+option+'</select>');
+				
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+
+    },
+
+    openDialog: function () {
+        $("#dialog-add-session").dialog({
+            width: 800,
+            height: 700,
+            modal: true,
+            buttons: {
+                "Ajouter": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/session/new",
+                        data: $('#dialog-add-session form').serializeJSONString()
+                    }).done(function (msg) {
+                            alert("Cool");
+                        }).fail(function (msg) {
+                            alert("Opps : " + msg.responseText);
+                        });
+                }
+            }
+
+        });
+    }
+
+}
+
 // Service status
 Backend.addStatus = {
 
@@ -111,7 +208,7 @@ Backend.addStatus = {
             height: 250,
             modal: true,
             buttons: {
-                "Add": function () {
+                "Save": function () {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",

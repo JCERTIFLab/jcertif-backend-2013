@@ -47,8 +47,6 @@ POST    /session/new                controllers.SessionController.newSession
 
 POST    /session/remove             controllers.SessionController.removeSession
 
-GET     /session/new                controllers.SessionController.newSessionForm
-
 POST    /participant/register       controllers.ParticipantController.registerParticipant
 
 GET     /participant/list           controllers.ParticipantController.listParticipant

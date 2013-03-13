@@ -16,7 +16,7 @@
     <li> <a href="/ref/sessionstatus/list"> Liste des status de session </a> </li>
     <li> <a href="/ref/sessionstatus/remove"> Supprimer un status de session </a> </li>
     <li> <a href="/session/list"> Liste de toutes les sessions </a> </li>
-    <li> <a href="/session/new"> Proposer une nouvelle session </a> </li>
+    <li> <a href="javascript:void(0);" id="session-add"> Proposer une nouvelle session </a> </li>
     <li> <a href="/session/remove"> Supprimer une session </a> </li>
     <li> <a href="/sponsor/list"> Liste de tous les sponsors </a> </li>
     <li> <a href="/sponsor/update"> Mettre à jour les informations d'un sponsor </a> </li>
@@ -68,6 +68,13 @@
 </div>
 
 <div id="dialog-participant-reinitial" title="réinitialisation de password" hidden="hidden">
+    <form>
+        <fieldset>
+        </fieldset>
+    </form>
+</div>
+
+<div id="dialog-add-session" title="Ajout d'un session" hidden="hidden">
     <form>
         <fieldset>
         </fieldset>
