@@ -12,6 +12,8 @@
     <li> <a href="/speaker/register"> Ajouter un nouveau présentateur </a> </li>
     <li> <a href="/speaker/update"> Mettre à jour les informations d'un présentateur </a> </li>
     <li> <a href="/speaker/remove"> Supprimer un présentateur </a> </li>
+    <li> <a href="/speaker/{emailSpeaker}/changepassword"> Changer le mot de passe d'un présentateur </a> </li>
+    <li> <a href="/speaker/{emailSpeaker}/lostpassword"> Réinitialiser le mot de passe d'un présentateur </a> </li>
     <li> <a href="javascript:void(0);" id="add-status"> Ajouter un status de session </a> </li>
     <li> <a href="/ref/sessionstatus/list"> Liste des status de session </a> </li>
     <li> <a href="/ref/sessionstatus/remove"> Supprimer un status de session </a> </li>
@@ -28,10 +30,10 @@
     <li> <a href="javascript:void(0);" id="participant-changePassword"> Changer le mot de passe d'un participant </a> </li>
     <li> <a href="/participant/get"> Récupérer les informations d'un participant (GET /participant/get/{emailparticipant}) </a> </li>
     <li> <a href="/participant/update"> Mettre à jour toutes les informations d'un participant (le mot de passe est exclu) </a> </li>
-    <li> <a href="javascript:void(0);" id="participant-reinitialPassword"> Réinitialiser le mot de passe (POST /participant/{emailParticipant}/lostpassword) </a> </li>
-    <li> <a href="javascript:void(0);" id="add-participant-session"> Inscrire un participant à une session (POST /participant/{emailParticipant}/session/add/{idSession}) </a> </li>
-    <li> <a href="javascript:void(0);" id="remove-participant-session"> Désinscrire un participant à une session (POST /participant/{emailParticipant}/session/remove/{idSession}) </a> </li>
-    <li> <a href="/participant/:emailParticipant/session/list"> Lister toutes les sessions d'un participant (GET /participant/{emailParticipant}/session/list) </a> </li>
+    <li> <a href="javascript:void(0);" id="participant-reinitialPassword"> Réinitialiser le mot de passe </a> </li>
+    <li> <a href="javascript:void(0);" id="add-participant-session"> Inscrire un participant à une session </a> </li>
+    <li> <a href="javascript:void(0);" id="remove-participant-session"> Désinscrire un participant à une session </a> </li>
+    <li> <a href="/participant/:emailParticipant/session/list"> Lister toutes les sessions d'un participant </a> </li>
     <li> <a href="/participant/login"> Vérifier les informations de connection d'un participant  </a> </li>
 </ul>
 

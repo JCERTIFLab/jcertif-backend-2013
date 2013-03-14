@@ -35,6 +35,10 @@ POST    /speaker/update             controllers.SpeakerController.updateSpeaker
 
 POST    /speaker/remove             controllers.SpeakerController.removeSpeaker
 
+POST    /speaker/:emailSpeaker/changepassword  controllers.SpeakerController.changePasswordSpeaker(emailSpeaker: String)
+
+POST    /speaker/:emailSpeaker/lostpassword    controllers.SpeakerController.reinitPasswordSpeaker(emailSpeaker: String)
+
 GET     /ref/sessionstatus/list     controllers.SessionStatusController.listStatusSession
 
 POST    /ref/sessionstatus/new      controllers.SessionStatusController.addSessionStatus

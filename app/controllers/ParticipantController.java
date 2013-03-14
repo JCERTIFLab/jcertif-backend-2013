@@ -223,6 +223,7 @@ public class ParticipantController extends AbstractController {
 		try {
 			participant = ParticipantDB.getInstance().get(emailParticipant);
 		} catch (JCertifException jcertifException) {
+            Logger.error(jcertifException.getMessage());
             Logger.info("Exit changePasswordParticipant()");
 			return internalServerError(jcertifException.getMessage());
 		}
@@ -316,6 +317,7 @@ public class ParticipantController extends AbstractController {
 		}
 
 		if (participant == null) {
+            Logger.info("Participant with email " + emailParticipant + " does not exist");
             Logger.info("Exit reinitPasswordParticipant()");
 			return internalServerError(JSON
 					.serialize("Participant with email \"" + emailParticipant
@@ -343,6 +345,7 @@ public class ParticipantController extends AbstractController {
 			return internalServerError(jcertifException.getMessage());
 		}
 
+        Logger.info("Successfull reinit password's speaker");
         Logger.info("Exit reinitPasswordParticipant()");
 		return ok(JSON.serialize("Ok"));
 	}
