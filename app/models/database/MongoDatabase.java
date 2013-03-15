@@ -13,7 +13,6 @@ import java.net.UnknownHostException;
 public class MongoDatabase {
 
 	private DB db = null;
-	private MongoClient mongoClient = null;
 
 	private static MongoDatabase instance;
 
@@ -33,6 +32,7 @@ public class MongoDatabase {
         Logger.debug("dbhost=" + dbhost + ", dbname=" + dbname + ", user=" + user + ", password=***, dbport=" + dbport);
 
         try {
+            MongoClient mongoClient;
 			mongoClient = new MongoClient(new ServerAddress(dbhost, dbport),
 					getDBOptions());
 			db = mongoClient.getDB(dbname);
@@ -66,7 +66,7 @@ public class MongoDatabase {
 			mco.connectionsPerHost(Integer.parseInt(JCertifPropUtils.getInstance()
 					.getProperty("jcertifbackend.database.pool.size", "50")));
 		} catch (NumberFormatException e) {
-			mco.connectionsPerHost(50);
+			mco.connectionsPerHost(Integer.valueOf("50").intValue());
 		}
 
         Logger.info("Exit getDBOptions()");
@@ -113,9 +113,8 @@ public class MongoDatabase {
 				new BasicDBObject("_id", 0).append("password", 0)));
 	}
 
-	public void configureJCertifDatabase() {
-		// Cette fonction configure la base de données JCertif (Création des
-		// collections, création des index)
+    /* Cette fonction configure la base de données JCertif (Création des collections, création des index) */
+    public void configureJCertifDatabase() {
 		Logger.info("Enter configureJCertifDatabase()");
 
 		db.createCollection(Constantes.COLLECTION_LOGIN,

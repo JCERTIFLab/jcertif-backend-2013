@@ -22,6 +22,8 @@ public final class CryptoUtil
 
     private static final int DEFAULT_SALT_SIZE = 8;
 
+    private static int saltLength = Integer.valueOf("20").intValue();
+
     /**
      * Private constructor to prevent direct instantiation.
      */
@@ -164,14 +166,14 @@ public final class CryptoUtil
      */
     protected static byte[] extractPasswordHash( byte[] digest ) throws JCertifException
     {
-        if( digest.length < 20 )
+        if( digest.length < saltLength )
         {
-            throw new JCertifException(CryptoUtil.class, "Hash was less than 20 characters; could not extract password hash!" );
+            throw new JCertifException(CryptoUtil.class, "Hash was less than " + saltLength +" characters; could not extract password hash!" );
         }
 
         // Extract the password hash
-        byte[] hash = new byte[20];
-        for( int i = 0; i < 20; i++ )
+        byte[] hash = new byte[saltLength];
+        for( int i = 0; i < saltLength; i++ )
         {
             hash[i] = digest[i];
         }
@@ -191,16 +193,16 @@ public final class CryptoUtil
      */
     protected static byte[] extractSalt( byte[] digest ) throws JCertifException
     {
-        if( digest.length <= 20 )
+        if( digest.length <= saltLength )
         {
-            throw new  JCertifException(CryptoUtil.class, "Hash was less than 21 characters; we found no salt!" );
+            throw new  JCertifException(CryptoUtil.class, "Hash was less than " + saltLength +"+ 1 characters; we found no salt!" );
         }
 
         // Extract the salt
-        byte[] salt = new byte[digest.length - 20];
-        for( int i = 20; i < digest.length; i++ )
+        byte[] salt = new byte[digest.length - saltLength];
+        for( int i = saltLength; i < digest.length; i++ )
         {
-            salt[i - 20] = digest[i];
+            salt[i - saltLength] = digest[i];
         }
 
         return salt;

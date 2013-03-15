@@ -76,7 +76,7 @@ public class SessionChecker extends Checker{
                 throw new JCertifException(this, "Start Date must not be equals or greater than End Date" );
             }
         } catch (ParseException e) {
-            //This exception must not be throws
+            throw new JCertifException(this, e.getMessage() );
         }
 
         SessionStatus sessionStatus = SessionStatusDB.getInstance().get(session.getStatus());

@@ -7,6 +7,7 @@ import models.exception.JCertifException;
 import models.objects.Sponsor;
 import models.objects.access.SponsorDB;
 import models.util.Tools;
+import org.codehaus.jackson.JsonNode;
 import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -154,14 +155,13 @@ public class SponsorController extends AbstractController {
         }
 
         String emailSponsor;
-
-        try{
-            emailSponsor = requestBody.asJson().get("email").getTextValue();
-        }catch(NullPointerException exception){
-            Logger.error(exception.getMessage());
+        JsonNode jsonNode = requestBody.asJson().get("email");
+        if(jsonNode == null){
             Logger.info("Exit removeSponsor()");
             return badRequest(requestBody.asJson().toString());
         }
+
+        emailSponsor = jsonNode.getTextValue();
 
         Sponsor sponsorFromRepo;
         try {

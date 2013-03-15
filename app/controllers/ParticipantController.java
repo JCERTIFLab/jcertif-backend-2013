@@ -116,8 +116,7 @@ public class ParticipantController extends AbstractController {
                             + "\" does not exist"));
 		}
 
-		participant.setPassword("-"); // We ensure that we don't return the
-		// password
+		participant.setPassword("-"); /* We ensure that we don't return the password */
 
         Logger.info("Successfull get participant");
         Logger.info("Exit getParticipant()");
@@ -184,7 +183,7 @@ public class ParticipantController extends AbstractController {
 
 			ParticipantDB.getInstance().add(participant);
 
-			EmailNotification.sendWelcomeMail(participant); // send email
+			EmailNotification.sendWelcomeMail(participant); /* send email */
 
 		} catch (JCertifException jcertifException) {
             Logger.error(jcertifException.getMessage());
@@ -259,8 +258,8 @@ public class ParticipantController extends AbstractController {
 
 		try {
 			if (!CryptoUtil.verifySaltedPassword(oldPassword.getBytes(),
-					participant.getPassword())) { // We compare oldPassword with
-													// the hashed password
+					participant.getPassword())) {
+					/* We compare oldPassword with the hashed password  */
                 Logger.info("old password does not match the current password");
                 Logger.info("Exit changePasswordParticipant()");
                 return internalServerError(JSON

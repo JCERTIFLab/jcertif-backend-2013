@@ -10,6 +10,7 @@ import models.util.Constantes;
 import models.util.Tools;
 import models.util.crypto.CryptoUtil;
 import notifiers.EmailNotification;
+import org.codehaus.jackson.JsonNode;
 import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -175,13 +176,13 @@ public class SpeakerController extends AbstractController {
 
         String emailSpeaker;
 
-        try{
-            emailSpeaker = requestBody.asJson().get("email").getTextValue();
-        }catch(NullPointerException exception){
-            Logger.error(exception.getMessage());
+        JsonNode jsonNode = requestBody.asJson().get("email");
+        if(jsonNode == null){
             Logger.info("Exit removeSpeaker()");
             return badRequest(requestBody.asJson().toString());
         }
+
+        emailSpeaker = jsonNode.getTextValue();
 
         Speaker speakerFromRepo;
         try {
@@ -277,8 +278,8 @@ public class SpeakerController extends AbstractController {
 
         try {
             if (!CryptoUtil.verifySaltedPassword(oldPassword.getBytes(),
-                    speaker.getPassword())) { // We compare oldPassword with
-                // the hashed password
+                    speaker.getPassword())) {
+                /* We compare oldPassword with the hashed password */
                 Logger.info("old password does not match the current password");
                 Logger.info("Exit changePasswordSpeaker()");
                 return internalServerError(JSON
