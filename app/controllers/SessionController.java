@@ -4,6 +4,7 @@ import models.exception.JCertifException;
 import models.objects.Session;
 import models.objects.access.SessionDB;
 import models.util.Tools;
+import org.codehaus.jackson.JsonNode;
 import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -82,13 +83,13 @@ public class SessionController extends AbstractController {
 
         String idSession;
 
-        try{
-            idSession = requestBody.asJson().get("id").getTextValue();
-        }catch(NullPointerException exception){
-            Logger.error(exception.getMessage());
+        JsonNode jsonNode = requestBody.asJson().get("id");
+        if(jsonNode == null){
             Logger.info("Exit removeSession()");
             return badRequest(requestBody.asJson().toString());
         }
+
+        idSession = jsonNode.getTextValue();
 
         Session sessionFromRepo;
         try {

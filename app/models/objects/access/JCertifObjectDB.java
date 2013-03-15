@@ -91,7 +91,8 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		dbObject.put(keyName, keyValue);
 		BasicDBObject objectToGet = MongoDatabase.getInstance().readOne(
 				getCollectionName(), dbObject);
-		return objectToGet; // If the object does not exist, null is returned
+        /* If the object does not exist, null is returned */
+		return objectToGet;
 	}
 
 	@Override

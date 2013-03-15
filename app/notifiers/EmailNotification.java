@@ -16,7 +16,11 @@ import views.html.*;
  */
 public class EmailNotification {
 
-    private static final String FROM_EMAIL = "jcertif2013.debug@gmail.com"; //de preference le lire dans un fichier de propriétés
+    /**
+     * FROM_EMAIL représente l'expéditeur du courrier. De preference le lire dans un fichier de propriétés
+     *
+     */
+    private static String FROM_EMAIL = "jcertif2013.debug@gmail.com";
 
 
     /**
