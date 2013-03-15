@@ -15,7 +15,7 @@ public class ReferentielControllerTest {
                 Result result = route(fakeRequest(GET, "/ref/sponsorlevel/list"));
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(contentAsString(result)).isEqualTo("\"[ { \\\"label\\\" : \\\"Titanium\\\"} , { \\\"label\\\" : \\\"Platine\\\"} , { \\\"label\\\" : \\\"Or\\\"} , { \\\"label\\\" : \\\"Argent\\\"} , { \\\"label\\\" : \\\"Community\\\"} , { \\\"label\\\" : \\\"Education\\\"} , { \\\"label\\\" : \\\"Media\\\"}]\"");
+                assertThat(contentAsString(result)).isEqualTo("\"[ { \\\"label\\\" : \\\"Titanium\\\"} , { \\\"label\\\" : \\\"Platine\\\"} , { \\\"label\\\" : \\\"Or\\\"} , { \\\"label\\\" : \\\"Argent\\\"} , { \\\"label\\\" : \\\"Community\\\"} , { \\\"label\\\" : \\\"Education\\\"} , { \\\"label\\\" : \\\"Média\\\"}]\"");
             }
         });
     }

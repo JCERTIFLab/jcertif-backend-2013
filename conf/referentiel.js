@@ -6,7 +6,7 @@ db.sponsor_level.insert({label: 'Or'});
 db.sponsor_level.insert({label: 'Argent'});
 db.sponsor_level.insert({label: 'Community'});
 db.sponsor_level.insert({label: 'Education'});
-db.sponsor_level.insert({label: 'Media'});
+db.sponsor_level.insert({label: 'Média'});
 db.category.remove();
 db.category.insert({label: 'Android'});
 db.category.insert({label: 'HTML5'});
