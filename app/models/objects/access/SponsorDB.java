@@ -6,7 +6,7 @@ import models.objects.Sponsor;
 import models.objects.checker.SponsorChecker;
 import models.util.Constantes;
 
-public class SponsorDB extends JCertifObjectDB<Sponsor> {
+public final class SponsorDB extends JCertifObjectDB<Sponsor> {
 
     private static SponsorDB instance;
 

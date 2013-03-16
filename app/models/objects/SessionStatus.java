@@ -7,7 +7,7 @@ public class SessionStatus extends JCertifObject {
     private String label;
 
     public SessionStatus(BasicDBObject basicDBObject) {
-        this.setLabel(basicDBObject.getString("label"));
+        this.label = basicDBObject.getString("label");
     }
 
     public String getLabel() {

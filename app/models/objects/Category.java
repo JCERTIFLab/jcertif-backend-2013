@@ -7,7 +7,7 @@ public class Category extends JCertifObject {
     private String label;
 
     public Category(BasicDBObject basicDBObject) {
-        this.setLabel(basicDBObject.getString("label"));
+        this.label = basicDBObject.getString("label");
     }
 
     public String getLabel() {

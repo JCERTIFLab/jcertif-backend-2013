@@ -8,7 +8,7 @@ import models.util.Constantes;
 
 import java.util.*;
 
-public class SessionDB extends JCertifObjectDB<Session>{
+public final class SessionDB extends JCertifObjectDB<Session>{
 
 	private static SessionDB instance;
 

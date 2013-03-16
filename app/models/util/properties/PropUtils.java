@@ -7,8 +7,8 @@ import java.util.Properties;
 
 public abstract class PropUtils {
 
-    Properties properties;
-    String propertiesFileName;
+    private Properties properties;
+    private String propertiesFileName;
 
     public PropUtils(String propertiesFileName) throws IOException {
         init(propertiesFileName);

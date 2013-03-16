@@ -17,18 +17,18 @@ public class Speaker extends JCertifObject {
     private String biography;
 
     public Speaker(BasicDBObject basicDBObject) {
-        this.setEmail(basicDBObject.getString("email"));
-        this.setPassword(basicDBObject.getString("password"));
-        this.setTitle(basicDBObject.getString("title"));
-        this.setLastname(basicDBObject.getString("lastname"));
-        this.setFirstname(basicDBObject.getString("firstname"));
-        this.setWebsite(basicDBObject.getString("website"));
-        this.setCity(basicDBObject.getString("city"));
-        this.setCountry(basicDBObject.getString("country"));
-        this.setCompany(basicDBObject.getString("company"));
-        this.setPhone(basicDBObject.getString("phone"));
-        this.setPhoto(basicDBObject.getString("photo"));
-        this.setBiography(basicDBObject.getString("biography"));
+        this.email = basicDBObject.getString("email");
+        this.password = basicDBObject.getString("password");
+        this.title = basicDBObject.getString("title");
+        this.lastname = basicDBObject.getString("lastname");
+        this.firstname = basicDBObject.getString("firstname");
+        this.website = basicDBObject.getString("website");
+        this.city = basicDBObject.getString("city");
+        this.country = basicDBObject.getString("country");
+        this.company = basicDBObject.getString("company");
+        this.phone = basicDBObject.getString("phone");
+        this.photo = basicDBObject.getString("photo");
+        this.biography = basicDBObject.getString("biography");
     }
 
     public String getEmail() {

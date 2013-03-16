@@ -19,13 +19,13 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	private String collectionName;
 
 	public JCertifObjectDB(String collectionName) {
-		this.setCollectionName(collectionName);
+		this.collectionName = collectionName;
 		checker = null;
 	}
 
 	public JCertifObjectDB(String collectionName, Checker checker) {
-		this.setCollectionName(collectionName);
-		this.setChecker(checker);
+		this.collectionName = collectionName;
+		this.checker = checker;
 	}
 
 	public Checker getChecker() {

@@ -8,8 +8,8 @@ public class Referentiel extends JCertifObject {
     private String label;
 
     public Referentiel(BasicDBObject basicDBObject){
-        this.setCode(basicDBObject.getString("code"));
-        this.setCode(basicDBObject.getString("label"));
+        this.code = basicDBObject.getString("code");
+        this.label  = basicDBObject.getString("label");
     }
 
     public String getCode() {

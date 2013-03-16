@@ -6,7 +6,7 @@ import models.objects.Speaker;
 import models.objects.checker.SpeakerChecker;
 import models.util.Constantes;
 
-public class SpeakerDB extends JCertifObjectDB<Speaker> {
+public final class SpeakerDB extends JCertifObjectDB<Speaker> {
 
     private  static SpeakerDB instance;
 

@@ -6,7 +6,7 @@ import models.objects.Login;
 import models.objects.checker.LoginChecker;
 import models.util.Constantes;
 
-public class LoginDB extends JCertifObjectDB<Login> {
+public final class LoginDB extends JCertifObjectDB<Login> {
 
 	private static LoginDB instance;
 

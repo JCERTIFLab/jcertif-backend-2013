@@ -20,16 +20,16 @@ public class Session extends JCertifObject {
     private List<String> speakers = new ArrayList<String>();
 
     public Session(BasicDBObject basicDBObject){
-        this.setId(basicDBObject.getString("id"));
-        this.setTitle(basicDBObject.getString("title"));
-        this.setSummary(basicDBObject.getString("summary"));
-        this.setDescription(basicDBObject.getString("description"));
-        this.setStatus(basicDBObject.getString("status"));
-        this.setKeyword(basicDBObject.getString("keyword"));
-        this.getCategory().addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("category")));
-        this.setStart(basicDBObject.getString("start"));
-        this.setEnd(basicDBObject.getString("end"));
-        this.getSpeakers().addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("speakers")));
+        this.id = basicDBObject.getString("id");
+        this.title = basicDBObject.getString("title");
+        this.summary = basicDBObject.getString("summary");
+        this.description = basicDBObject.getString("description");
+        this.status = basicDBObject.getString("status");
+        this.keyword = basicDBObject.getString("keyword");
+        this.category.addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("category")));
+        this.start = basicDBObject.getString("start");
+        this.end = basicDBObject.getString("end");
+        this.speakers.addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("speakers")));
     }
 
     

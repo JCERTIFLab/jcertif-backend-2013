@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class JCertifPropUtils extends PropUtils {
 
-    public static JCertifPropUtils instance;
+    private static JCertifPropUtils instance;
 
     public JCertifPropUtils() throws IOException {
         super(Constantes.PROPERTIES_FILE);

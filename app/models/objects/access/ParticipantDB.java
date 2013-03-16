@@ -6,7 +6,7 @@ import models.objects.Participant;
 import models.objects.checker.ParticipantChecker;
 import models.util.Constantes;
 
-public class ParticipantDB extends JCertifObjectDB<Participant>{
+public final class ParticipantDB extends JCertifObjectDB<Participant>{
 
     private static ParticipantDB instance;
 

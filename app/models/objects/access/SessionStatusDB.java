@@ -6,7 +6,7 @@ import models.objects.SessionStatus;
 import models.objects.checker.SessionStatusChecker;
 import models.util.Constantes;
 
-public class SessionStatusDB extends JCertifObjectDB<SessionStatus> {
+public final class SessionStatusDB extends JCertifObjectDB<SessionStatus> {
 
     private static SessionStatusDB instance;
 

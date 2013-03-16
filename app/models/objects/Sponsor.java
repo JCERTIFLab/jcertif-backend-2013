@@ -14,15 +14,15 @@ public class Sponsor extends JCertifObject {
     private String about;
 
     public Sponsor(BasicDBObject basicDBObject) {
-        this.setEmail(basicDBObject.getString("email"));
-        this.setName(basicDBObject.getString("name"));
-        this.setLogo(basicDBObject.getString("logo"));
-        this.setLevel(basicDBObject.getString("level"));
-        this.setWebsite(basicDBObject.getString("website"));
-        this.setCity(basicDBObject.getString("city"));
-        this.setCountry(basicDBObject.getString("country"));
-        this.setPhone(basicDBObject.getString("phone"));
-        this.setAbout(basicDBObject.getString("about"));
+        this.email = basicDBObject.getString("email");
+        this.name = basicDBObject.getString("name");
+        this.logo = basicDBObject.getString("logo");
+        this.level = basicDBObject.getString("level");
+        this.website = basicDBObject.getString("website");
+        this.city = basicDBObject.getString("city");
+        this.country = basicDBObject.getString("country");
+        this.phone = basicDBObject.getString("phone");
+        this.about = basicDBObject.getString("about");
     }
 
     public String getEmail() {

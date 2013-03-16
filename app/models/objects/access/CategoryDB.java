@@ -6,7 +6,7 @@ import models.objects.Category;
 import models.objects.checker.CategoryChecker;
 import models.util.Constantes;
 
-public class CategoryDB extends JCertifObjectDB<Category> {
+public final class CategoryDB extends JCertifObjectDB<Category> {
 
     private static CategoryDB instance;
 

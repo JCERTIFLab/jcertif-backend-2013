@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class EmailPropUtils extends PropUtils {
 
-    public static EmailPropUtils instance;
+    private static EmailPropUtils instance;
 
     public EmailPropUtils() throws IOException {
         super(Constantes.EMAIL_PROPERTIES_FILE);
