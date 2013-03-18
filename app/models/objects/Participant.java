@@ -42,108 +42,108 @@ public class Participant extends JCertifObject {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String email1) {
+        this.email = email1;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String password1) {
+        this.password = password1;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String title1) {
+        this.title = title1;
     }
 
     public String getLastname() {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastname(String lastname1) {
+        this.lastname = lastname1;
     }
 
     public String getFirstname() {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstname(String firstname1) {
+        this.firstname = firstname1;
     }
 
     public String getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setWebsite(String website1) {
+        this.website = website1;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCity(String city1) {
+        this.city = city1;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountry(String country1) {
+        this.country = country1;
     }
 
     public String getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCompany(String company1) {
+        this.company = company1;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(String phone1) {
+        this.phone = phone1;
     }
 
     public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhoto(String photo1) {
+        this.photo = photo1;
     }
 
     public String getBiography() {
         return biography;
     }
 
-    public void setBiography(String biography) {
-        this.biography = biography;
+    public void setBiography(String biography1) {
+        this.biography = biography1;
     }
 
 	public List<String> getSessions() {
         return sessions;
     }
 
-    public void setSessions(List<String> sessions) {
-        this.sessions = sessions;
+    public void setSessions(List<String> sessions1) {
+        this.sessions = sessions1;
     }
 
     @Override
-    public BasicDBObject toBasicDBObject() {
+    public final BasicDBObject toBasicDBObject() {
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put("email", email);
         basicDBObject.put("password", password);

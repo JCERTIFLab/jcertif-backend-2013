@@ -12,7 +12,8 @@ public class JCertifException extends Exception {
         super(message);
     }
 
-    public String getMessage() {
+    @Override
+    public final String getMessage() {
         return JSON.serialize(super.getMessage());
     }
 

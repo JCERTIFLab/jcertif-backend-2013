@@ -37,8 +37,9 @@ public final class SessionStatusDB extends JCertifObjectDB<SessionStatus> {
     public SessionStatus get(String label) throws JCertifException {
         BasicDBObject dbObject = get("label", label);
         SessionStatus sessionStatus = null;
-        if (null != dbObject)
+        if (null != dbObject){
             sessionStatus = new SessionStatus(dbObject);
+        }
         return sessionStatus;
     }
 

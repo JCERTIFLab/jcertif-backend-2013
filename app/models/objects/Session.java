@@ -37,80 +37,80 @@ public class Session extends JCertifObject {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String id1) {
+        this.id = id1;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String title1) {
+        this.title = title1;
     }
 
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setSummary(String summary1) {
+        this.summary = summary1;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String description1) {
+        this.description = description1;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String status1) {
+        this.status = status1;
     }
 
     public String getKeyword() {
         return keyword;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    public void setKeyword(String keyword1) {
+        this.keyword = keyword1;
     }
 
     public List<String> getCategory() {
         return category;
     }
 
-    public void setCategory(List<String> category) {
-        this.category = category;
+    public void setCategory(List<String> category1) {
+        this.category = category1;
     }
 
     public String getStart() {
         return start;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setStart(String start1) {
+        this.start = start1;
     }
 
     public String getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
-        this.end = end;
+    public void setEnd(String end1) {
+        this.end = end1;
     }
 
     public List getSpeakers() {
         return speakers;
     }
 
-    public void setSpeakers(List speakers) {
-        this.speakers = speakers;
+    public void setSpeakers(List speakers1) {
+        this.speakers = speakers1;
     }
 
     @Override

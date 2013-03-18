@@ -29,72 +29,72 @@ public class Sponsor extends JCertifObject {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String email1) {
+        this.email = email1;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String name1) {
+        this.name = name1;
     }
 
     public String getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setLogo(String logo1) {
+        this.logo = logo1;
     }
 
     public String getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setLevel(String level1) {
+        this.level = level1;
     }
 
     public String getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setWebsite(String website1) {
+        this.website = website1;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCity(String city1) {
+        this.city = city1;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountry(String country1) {
+        this.country = country1;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(String phone1) {
+        this.phone = phone1;
     }
 
     public String getAbout() {
         return about;
     }
 
-    public void setAbout(String about) {
-        this.about = about;
+    public void setAbout(String about1) {
+        this.about = about1;
     }
 
     @Override

@@ -36,7 +36,9 @@ public final class SponsorDB extends JCertifObjectDB<Sponsor> {
     public Sponsor get(String email) throws JCertifException {
         BasicDBObject dbObject = get("email", email);
         Sponsor sponsor = null;
-        if (null != dbObject) sponsor = new Sponsor(dbObject);
+        if (null != dbObject){
+            sponsor = new Sponsor(dbObject);
+        }
         return sponsor;
     }
 }

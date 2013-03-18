@@ -35,7 +35,9 @@ public final class ParticipantDB extends JCertifObjectDB<Participant>{
     public Participant get(String email) throws JCertifException {
         BasicDBObject dbObject = get("email", email);
         Participant participant = null;
-        if (null != dbObject) participant = new Participant(dbObject);
+        if (null != dbObject){
+            participant = new Participant(dbObject);
+        }
         return participant;
     }
 }

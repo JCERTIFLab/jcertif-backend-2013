@@ -10,16 +10,16 @@ public class Category extends JCertifObject {
         this.label = basicDBObject.getString("label");
     }
 
-    public String getLabel() {
+    public final String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public final void setLabel(final String label1) {
+        this.label = label1;
     }
 
     @Override
-    public BasicDBObject toBasicDBObject() {
+    public final BasicDBObject toBasicDBObject() {
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put("label", getLabel());
         return basicDBObject;

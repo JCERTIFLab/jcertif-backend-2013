@@ -37,8 +37,9 @@ public final class CategoryDB extends JCertifObjectDB<Category> {
     public Category get(String label) throws JCertifException {
         BasicDBObject dbObject = get("label", label);
         Category category = null;
-        if (null != dbObject)
+        if (null != dbObject){
             category = new Category(dbObject);
+        }
         return category;
     }
 

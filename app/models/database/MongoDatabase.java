@@ -10,7 +10,7 @@ import models.util.properties.JCertifPropUtils;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-public class MongoDatabase {
+public final class MongoDatabase {
 
 	private DB db = null;
 
@@ -36,7 +36,7 @@ public class MongoDatabase {
 			mongoClient = new MongoClient(new ServerAddress(dbhost, dbport),
 					getDBOptions());
 			db = mongoClient.getDB(dbname);
-			if (user != null && !user.trim().equals("")) {
+			if (user != null && !"".equals(user.trim())) {
 				db.authenticate(user, password.toCharArray());
 			}
 			initializeJCertifDB();

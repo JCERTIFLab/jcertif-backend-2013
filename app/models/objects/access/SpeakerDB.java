@@ -36,7 +36,9 @@ public final class SpeakerDB extends JCertifObjectDB<Speaker> {
     public Speaker get(String email) throws JCertifException {
         BasicDBObject dbObject = get("email", email);
         Speaker speaker = null;
-        if (null != dbObject) speaker = new Speaker(dbObject);
+        if (null != dbObject){
+            speaker = new Speaker(dbObject);
+        }
         return speaker;
     }
 }

@@ -39,8 +39,9 @@ public final class SessionDB extends JCertifObjectDB<Session>{
 	public Session get(String id) throws JCertifException {
 		BasicDBObject dbObject = get("id", id);
 		Session session = null;
-		if (null != dbObject)
+		if (null != dbObject) {
 			session = new Session(dbObject);
+        }
 		return session;
 	}
 

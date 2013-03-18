@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class Tools {
+public final class Tools {
 
     private Tools(){
 
@@ -48,8 +48,9 @@ public class Tools {
     }
 
     public static void println(String comment, Map mapToPrint) {
-        if (((comment) != (null)) && ((0)<(comment.length())))
+        if (((comment) != (null)) && ((0)<(comment.length()))) {
                 System.out.println(comment);
+        }
         if ((mapToPrint) != (null)) {
             Set entrySet = mapToPrint.entrySet();
             for (Iterator itEntrySet = entrySet.iterator(); itEntrySet.hasNext(); ) {
@@ -64,7 +65,7 @@ public class Tools {
             return false;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT, Locale.FRANCE);
         sdf.setLenient(false);
 
         try {
@@ -78,7 +79,9 @@ public class Tools {
 
     public static List basicDBListToJavaList(BasicDBList basicDBList){
         List retList = new ArrayList();
-        if((basicDBList)==(null)) return retList;
+        if((basicDBList)==(null)){
+            return retList;
+        }
         for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
             retList.add(iterator.next());
         }
@@ -87,7 +90,9 @@ public class Tools {
 
     public static BasicDBList javaListToBasicDBList(List javaList){
         BasicDBList retList = new BasicDBList();
-        if((javaList)==(null)) return retList;
+        if((javaList)==(null)){
+            return retList;
+        }
         for(Iterator iterator = javaList.iterator();iterator.hasNext();){
             retList.add(iterator.next());
         }

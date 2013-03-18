@@ -16,16 +16,16 @@ public class Referentiel extends JCertifObject {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCode(String code1) {
+        this.code = code1;
     }
 
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setLabel(String label1) {
+        this.label = label1;
     }
 
     @Override

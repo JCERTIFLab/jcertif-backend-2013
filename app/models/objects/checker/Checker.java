@@ -17,11 +17,13 @@ public abstract class Checker {
     public boolean checkPassword(String oldPassword, String newPassword, boolean checkTwo){
         if(checkTwo){
 
-            if (oldPassword==null || newPassword==null)
+            if (oldPassword==null || newPassword==null) {
                 return false;
+            }
 
-            if(oldPassword.equals(newPassword))
+            if(oldPassword.equals(newPassword)){
                 return false;
+            }
 
             return oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH && newPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
         }

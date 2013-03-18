@@ -18,22 +18,22 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	private Checker checker;
 	private String collectionName;
 
-	public JCertifObjectDB(String collectionName) {
-		this.collectionName = collectionName;
+	public JCertifObjectDB(String collectionName1) {
+		this.collectionName = collectionName1;
 		checker = null;
 	}
 
-	public JCertifObjectDB(String collectionName, Checker checker) {
-		this.collectionName = collectionName;
-		this.checker = checker;
+	public JCertifObjectDB(String collectionName1, Checker checker1) {
+		this.collectionName = collectionName1;
+		this.checker = checker1;
 	}
 
 	public Checker getChecker() {
 		return checker;
 	}
 
-	protected void setChecker(Checker checker) {
-		this.checker = checker;
+	protected void setChecker(Checker checker1) {
+		this.checker = checker1;
 	}
 
 	/**
@@ -85,8 +85,9 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	@Override
 	public BasicDBObject get(String keyName, Object keyValue)
 			throws JCertifException {
-		if (null == keyName)
+		if (null == keyName) {
 			return null;
+        }
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(keyName, keyValue);
 		BasicDBObject objectToGet = MongoDatabase.getInstance().readOne(
@@ -185,7 +186,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		return collectionName;
 	}
 
-	private void setCollectionName(String collectionName) {
-		this.collectionName = collectionName;
+	private void setCollectionName(String collectionName1) {
+		this.collectionName = collectionName1;
 	}
 }

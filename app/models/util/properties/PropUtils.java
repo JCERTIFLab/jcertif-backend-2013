@@ -10,8 +10,8 @@ public abstract class PropUtils {
     private Properties properties;
     private String propertiesFileName;
 
-    public PropUtils(String propertiesFileName) throws IOException {
-        init(propertiesFileName);
+    public PropUtils(String propertiesFileName1) throws IOException {
+        init(propertiesFileName1);
     }
 
     public void reloadProperties() throws IOException {
@@ -20,18 +20,22 @@ public abstract class PropUtils {
         inputStream.close();
     }
 
-    private void init(String propertiesFileName) throws IOException {
+    private void init(String propertiesFileName1) throws IOException {
         InputStream inputStream = null;
         Reader reader = null;
         try {
             properties = new Properties();
-            inputStream = Play.application().resourceAsStream(propertiesFileName);
+            inputStream = Play.application().resourceAsStream(propertiesFileName1);
             reader = new InputStreamReader(inputStream, "UTF-8");
             properties.load(reader);
-            this.propertiesFileName = propertiesFileName;
+            this.propertiesFileName = propertiesFileName1;
         } finally {
-            if (reader != null) reader.close();
-            if (inputStream != null) inputStream.close();
+            if (reader != null){
+                reader.close();
+            }
+            if (inputStream != null){
+                inputStream.close();
+            }
         }
     }
 

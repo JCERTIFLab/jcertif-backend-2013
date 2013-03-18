@@ -12,6 +12,7 @@ import models.util.Tools;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class SessionChecker extends Checker{
 
@@ -68,7 +69,7 @@ public class SessionChecker extends Checker{
             throw new JCertifException(this, "End Date is not valid, the format must be " + Constantes.DATEFORMAT);
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT, Locale.FRANCE);
         try {
             Date startDate = sdf.parse(session.getStart());
             Date endDate = sdf.parse(session.getEnd());

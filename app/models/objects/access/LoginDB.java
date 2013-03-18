@@ -38,8 +38,9 @@ public final class LoginDB extends JCertifObjectDB<Login> {
 	public Login get(String email) throws JCertifException {
 		BasicDBObject dbObject = get("email", email);
 		Login login = null;
-		if (null != dbObject)
+		if (null != dbObject) {
 			login = new Login(dbObject);
+        }
 		return login;
 	}
 

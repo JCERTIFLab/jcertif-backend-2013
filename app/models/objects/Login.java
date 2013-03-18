@@ -15,16 +15,16 @@ public class Login extends JCertifObject {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String email1) {
+        this.email = email1;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String password1) {
+        this.password = password1;
     }
 
     @Override

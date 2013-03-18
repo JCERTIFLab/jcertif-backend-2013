@@ -6,7 +6,6 @@ import models.objects.Participant;
 import models.objects.Session;
 import models.objects.Speaker;
 import play.Logger;
-import views.html.*;
 
 /**
  * Cette classe se chargera de tous les envoi de mails 'ala play framework'.
@@ -17,10 +16,10 @@ import views.html.*;
 public class EmailNotification {
 
     /**
-     * FROM_EMAIL représente l'expéditeur du courrier. De preference le lire dans un fichier de propriétés
+     * fromEmail représente l'expéditeur du courrier. De preference le lire dans un fichier de propriétés
      *
      */
-    private static String FROM_EMAIL = "jcertif2013.debug@gmail.com";
+    private static String fromEmail = "jcertif2013.debug@gmail.com";
 
 
     /**
@@ -35,7 +34,7 @@ public class EmailNotification {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("Bienvenue !");
         mail.addRecipient(user.getEmail());
-        mail.addFrom(FROM_EMAIL);
+        mail.addFrom(fromEmail);
 
         String body = welcome.render(user).body();
 
@@ -51,7 +50,7 @@ public class EmailNotification {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Changement de votre mot de passe");
         mail.addRecipient(user.getEmail());
-        mail.addFrom(FROM_EMAIL);
+        mail.addFrom(fromEmail);
 
         String body = pwdchange.render(user).body();
 
@@ -67,7 +66,7 @@ public class EmailNotification {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Réinitialisation de votre mot de passe");
         mail.addRecipient(user.getEmail());
-        mail.addFrom(FROM_EMAIL);
+        mail.addFrom(fromEmail);
 
         String body = pwdinit.render(user, newPassword).body();
 
@@ -84,7 +83,7 @@ public class EmailNotification {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Désinscription à une session");
         mail.addRecipient(user.getEmail());
-        mail.addFrom(FROM_EMAIL);
+        mail.addFrom(fromEmail);
 
         String body = unenroll.render(user, session).body();
 
@@ -102,7 +101,7 @@ public class EmailNotification {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Inscription à une session");
         mail.addRecipient(user.getEmail());
-        mail.addFrom(FROM_EMAIL);
+        mail.addFrom(fromEmail);
 
         String body = enroll.render(user, session).body();
 
@@ -118,7 +117,7 @@ public class EmailNotification {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Changement de votre mot de passe");
         mail.addRecipient(speaker.getEmail());
-        mail.addFrom(FROM_EMAIL);
+        mail.addFrom(fromEmail);
 
         String body = pwdchangeSpeaker.render(speaker).body();
 
@@ -134,7 +133,7 @@ public class EmailNotification {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Réinitialisation de votre mot de passe");
         mail.addRecipient(speaker.getEmail());
-        mail.addFrom(FROM_EMAIL);
+        mail.addFrom(fromEmail);
 
         String body = pwdinitSpeaker.render(speaker, newPassword).body();
 
