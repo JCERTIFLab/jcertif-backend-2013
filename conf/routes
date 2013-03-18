@@ -55,6 +55,8 @@ POST    /session/new                controllers.SessionController.newSession
 
 POST    /session/remove             controllers.SessionController.removeSession
 
+POST    /session/update             controllers.SessionController.updateSession
+
 POST    /participant/register       controllers.ParticipantController.registerParticipant
 
 GET     /participant/list           controllers.ParticipantController.listParticipant
