@@ -9,7 +9,11 @@ GET		/							controllers.HomeController.get
 
 POST	/admin					    controllers.AdminController.check
 
-GET		/ref/sponsorlevel/list		controllers.ReferentielController.sponsorlevel
+GET		/ref/sponsorlevel/list		controllers.SponsorLevelController.listSponsorLevel
+
+POST	/ref/sponsorlevel/new		controllers.SponsorLevelController.addSponsorLevel
+
+POST	/ref/sponsorlevel/remove	controllers.SponsorLevelController.removeSponsorLevel
 
 GET 	/ref/category/list			controllers.CategoryController.list
 

@@ -15,12 +15,11 @@ public class TestUtils {
 
     public static List<String> getFileContent(String relativePath) throws IOException {
         File file = Play.application().getFile(relativePath);
-        StringBuilder sb = new StringBuilder();
         return Files.readLines(file, Charset.defaultCharset());
     }
 
     public static void updateDatabase(String relativePath) throws IOException {
-        List<String> instructions = getFileContent("test/data/session.js");
+        List<String> instructions = getFileContent(relativePath);
         StringBuilder sb = new StringBuilder();
 
         for (String instr : instructions){

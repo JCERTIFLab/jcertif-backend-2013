@@ -2,7 +2,7 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Referentiel extends JCertifObject {
+public abstract class Referentiel extends JCertifObject {
 
     private String code;
     private String label;
@@ -10,6 +10,11 @@ public class Referentiel extends JCertifObject {
     public Referentiel(BasicDBObject basicDBObject){
         this.code = basicDBObject.getString("code");
         this.label  = basicDBObject.getString("label");
+    }
+    
+    public Referentiel(String code, String label){
+        this.code = code;
+        this.label  = label;
     }
 
     public String getCode() {

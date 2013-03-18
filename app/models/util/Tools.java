@@ -2,6 +2,7 @@ package models.util;
 
 import com.mongodb.BasicDBList;
 import models.exception.JCertifException;
+import models.exception.JCertifInvalidRequestException;
 import play.Play;
 import play.mvc.Http;
 
@@ -96,7 +97,7 @@ public class Tools {
 
     public static void verifyJSonRequest(Http.RequestBody requestBody) throws JCertifException {
         if(((requestBody)==(null)) || ((requestBody.asJson())==(null))){
-            throw new JCertifException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
+            throw new JCertifInvalidRequestException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
         }
     }
 

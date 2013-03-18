@@ -89,10 +89,18 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 			return null;
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(keyName, keyValue);
-		BasicDBObject objectToGet = MongoDatabase.getInstance().readOne(
-				getCollectionName(), dbObject);
-        /* If the object does not exist, null is returned */
-		return objectToGet;
+		
+		return get(dbObject);
+	}
+	
+	public BasicDBObject get(BasicDBObject objectToGet)
+			throws JCertifException {
+		if (null == objectToGet)
+			return null;
+
+		/* If the object does not exist, null is returned */
+		return MongoDatabase.getInstance().readOne(
+				getCollectionName(), objectToGet);
 	}
 
 	@Override
@@ -185,7 +193,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		return collectionName;
 	}
 
-	private void setCollectionName(String collectionName) {
+	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
 	}
 }

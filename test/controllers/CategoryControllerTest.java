@@ -1,13 +1,10 @@
 package controllers;
 
-
-import models.database.MongoDatabase;
-import models.util.Constantes;
-
 import org.junit.Test;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.*;
+import util.TestUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,45 +13,35 @@ import java.util.Map;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
-public class CategoryControllerTest {
+public class CategoryControllerTest extends ReferentielControllerTest{
 
+	@Override
+	public String getCreateURL() {
+		return "/ref/category/new";
+	}
+	
+	@Override
+	public String getRemoveURL() {
+		return "/ref/category/remove";
+	}
+	
     @Test
     public void test_category_list() throws IOException {
 
         running(fakeApplication(), new Runnable() {
             public void run() {
                 try {
-                    MongoDatabase.getInstance().loadDbWithData(Constantes.INIT_DATA_FILE);
+                	TestUtils.updateDatabase("test/data/category.js");
                     Result result = route(fakeRequest(GET, "/ref/category/list"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
-                    assertThat(contentAsString(result)).contains("[ { \"label\" : \"Android\"} , { \"label\" : \"HTML5\"} , { \"label\" : \"Java\"} , { \"label\" : \"Entreprise\"} , { \"label\" : \"Web Design\"}]");
+                    assertThat(contentAsString(result).toLowerCase().trim().equals("[ {\"code\" : \"Category1\", \"label\" : \"First Category\"} , " +
+                    		"{\"code\" : \"Category2\", \"label\" : \"Second Category\"} , " +
+                    		"{\"code\" : \"Category3\", \"label\" : \"Third Category\"}]".toLowerCase().trim()));
 
                 } catch (IOException e) {
                     junit.framework.Assert.fail(e.getMessage());
                 }
-            }
-        });
-    }
-
-    @Test
-    public void test_category_new_forbidden() {
-        Logger.info("Une requête de création d'une nouvelle catégorie requiert les droits d'administration");
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Result result = route(fakeRequest(POST, "/ref/category/new"));
-                assertThat(status(result)).isEqualTo(FORBIDDEN);
-            }
-        });
-    }
-
-    @Test
-    public void test_category_new_badrequest() {
-        Logger.info("Une requête de création d'une nouvelle catégorie sans paramètre JSON renvoie une réponse BAD REQUEST");
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Result result = route(fakeRequest(POST, "/ref/category/new").withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(BAD_REQUEST);
             }
         });
     }
@@ -65,6 +52,7 @@ public class CategoryControllerTest {
             public void run() {
                 Logger.info("Création d'une nouvealle catégorie");
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("code", "HTTT");
                 params.put("label", "HTTT");
                 Result result = callAction(routes.ref.CategoryController.newCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
                 assertThat(status(result)).isEqualTo(OK);
@@ -73,9 +61,10 @@ public class CategoryControllerTest {
                 result = route(fakeRequest(GET, "/ref/category/list"));
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(contentAsString(result)).contains("HTTT");
+                assertThat(contentAsString(result).contains("HTTT"));
 
             }
         });
     }
+    
 }
