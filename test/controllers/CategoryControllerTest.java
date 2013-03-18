@@ -42,9 +42,9 @@ public class CategoryControllerTest extends ReferentielControllerTest{
                     Result result = route(fakeRequest(GET, "/ref/category/list"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
-                    assertThat(contentAsString(result).toLowerCase().trim().equals("[ {\"code\" : \"Category1\", \"label\" : \"First Category\"} , " +
-                    		"{\"code\" : \"Category2\", \"label\" : \"Second Category\"} , " +
-                    		"{\"code\" : \"Category3\", \"label\" : \"Third Category\"}]".toLowerCase().trim()));
+                    assertThat(contentAsString(result).toLowerCase().trim().equals("[ {\"label\" : \"Category1\"} , " +
+                    		"{\"label\" : \"Category2\"} , " +
+                    		"{\"label\" : \"Category3\"}]".toLowerCase().trim()));
 
                 } catch (IOException e) {
                     junit.framework.Assert.fail(e.getMessage());
@@ -59,15 +59,13 @@ public class CategoryControllerTest extends ReferentielControllerTest{
             public void run() {
                 Logger.info("Création d'une nouvealle catégorie");
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("code", "HTTT");
                 params.put("label", "HTTT");
                 Result result = callAction(routes.ref.CategoryController.newCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
                 assertThat(status(result)).isEqualTo(OK);
 
                 Logger.info("Vérification que la nouvelle catégorie est bien présente en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CATEGORY, new BasicDBObject().append("code", "HTTT"));
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "HTTT"));
                 assertThat(null != dbObjects && dbObjects.size() == 1);
-                assertThat("HTTT".equals(dbObjects.get(0).get("code")));
                 assertThat("HTTT".equals(dbObjects.get(0).get("label")));
             }
         });

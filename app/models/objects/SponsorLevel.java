@@ -16,8 +16,8 @@ package models.objects;
  */
 public class SponsorLevel extends Referentiel {
 
-	public SponsorLevel(String code, String label) {
-		super(code, label);
+	public SponsorLevel(String label) {
+		super(label);
 	}
 
 

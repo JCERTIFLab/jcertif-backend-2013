@@ -1,4 +1,4 @@
 db.sponsor_level.remove();
-db.sponsor_level.insert({code: 'SponsorLevel1', label: 'First SponsorLevel'});
-db.sponsor_level.insert({code: 'SponsorLevel2', label: 'Second SponsorLevel'});
-db.sponsor_level.insert({code: 'SponsorLevel3', label: 'Third SponsorLevel'});
+db.sponsor_level.insert({label: 'SponsorLevel1'});
+db.sponsor_level.insert({label: 'SponsorLevel2'});
+db.sponsor_level.insert({label: 'SponsorLevel3'});

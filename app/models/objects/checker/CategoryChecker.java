@@ -20,17 +20,17 @@ public class CategoryChecker extends ReferentielChecker {
 	@Override
 	public void deleteCheck(BasicDBObject objectToCheck)
 			throws JCertifException {
-		BasicDBObject dbObject = CategoryDB.getInstance().get("code", objectToCheck.getString("code"),objectToCheck.getString("type"));
+		BasicDBObject dbObject = CategoryDB.getInstance().get("label", objectToCheck.getString("label"));
         if (null == dbObject) {
-            throw new JCertifObjectNotFoundException(this, "Category '" + objectToCheck.getString("code") + "' already exists");
+            throw new JCertifObjectNotFoundException(this, "Category '" + objectToCheck.getString("label") + "' already exists");
         }
 	}
 
 	@Override
 	public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-		BasicDBObject dbObject = CategoryDB.getInstance().get("code", objectToCheck.getString("code"),objectToCheck.getString("type"));
+		BasicDBObject dbObject = CategoryDB.getInstance().get("label", objectToCheck.getString("label"));
         if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Category '" + objectToCheck.getString("code") + "' already exists");
+            throw new JCertifDuplicateObjectException(this, "Category '" + objectToCheck.getString("label") + "' already exists");
         }
 	}
 

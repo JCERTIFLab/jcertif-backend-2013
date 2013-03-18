@@ -58,9 +58,9 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
                     Result result = route(fakeRequest(GET, "/ref/sponsorlevel/list"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
-                    assertThat(contentAsString(result).toLowerCase().trim().equals("[ {\"code\" : \"SponsorLevel1\", \"label\" : \"First SponsorLevel\"} , " +
-                    		"{\"code\" : \"SponsorLevel2\", \"label\" : \"Second SponsorLevel\"} , " +
-                    		"{\"code\" : \"SponsorLevel3\", \"label\" : \"Third SponsorLevel\"}]".toLowerCase().trim()));
+                    assertThat(contentAsString(result).toLowerCase().trim().equals("[ {\"label\" : \"SponsorLevel1\"} , " +
+                    		"{\"label\" : \"SponsorLevel2\"} , " +
+                    		"{\"label\" : \"ponsorLevel3\"}]".toLowerCase().trim()));
 
                 } catch (IOException e) {
                     junit.framework.Assert.fail(e.getMessage());
@@ -75,15 +75,13 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
             public void run() {
                 Logger.info("Création d'un nouveau niveau de partenariat");
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("code", "HTTT");
                 params.put("label", "HTTT");
                 Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
                 assertThat(status(result)).isEqualTo(OK);
 
                 Logger.info("Vérification que le nouveau niveau de patenariat est bien présente en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("code", "HTTT"));
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "HTTT"));
                 assertThat(null != dbObjects && dbObjects.size() == 1);
-                assertThat("HTTT".equals(dbObjects.get(0).get("code")));
                 assertThat("HTTT".equals(dbObjects.get(0).get("label")));
 
             }
@@ -98,8 +96,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 					TestUtils.updateDatabase("test/data/sponsor_level.js");
 					Logger.info("Création d'un nouveau niveau de partenariat");
 	                Map<String, String> params = new HashMap<String, String>();
-	                params.put("code", "SponsorLevel3");
-	                params.put("label", "Third SponsorLevel");
+	                params.put("label", "SponsorLevel3");
 	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(Http.Status.CONFLICT);
 				} catch (IOException e) {
@@ -117,7 +114,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 					TestUtils.updateDatabase("test/data/sponsor_level.js");
 					Logger.info("Suppression d'un niveau de partenariat");
 	                Map<String, String> params = new HashMap<String, String>();
-	                params.put("code", "HTTP");
+	                params.put("label", "HTTP");
 	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(Http.Status.NOT_FOUND);
 				} catch (IOException e) {
@@ -135,12 +132,12 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 					TestUtils.updateDatabase("test/data/sponsor_level.js");
 					Logger.info("Suppression d'un niveau de partenariat");
 	                Map<String, String> params = new HashMap<String, String>();
-	                params.put("code", "SponsorLevel2");
+	                params.put("label", "SponsorLevel2");
 	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le niveau de partenariat a bien été supprimmé en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("code", "SponsorLevel2"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "SponsorLevel2"));
 	                assertThat(null != dbObjects && dbObjects.size() == 0);
 				} catch (IOException e) {
 					junit.framework.Assert.fail(e.getMessage());

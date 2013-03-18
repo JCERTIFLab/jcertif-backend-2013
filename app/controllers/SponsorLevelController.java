@@ -28,9 +28,7 @@ public class SponsorLevelController extends AbstractController{
 			public Result execute() throws JCertifException {
 				JsonNode jsonNode = request().body().asJson();
 				
-				SponsorLevel sponsorLevel = new SponsorLevel(
-						jsonNode.findPath("code").getTextValue(),
-						jsonNode.findPath("label").getTextValue());
+				SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
 				
 				SponsorLevelDB.getInstance().add(sponsorLevel);
 				return ok(JSON.serialize("Ok"));
@@ -61,8 +59,7 @@ public class SponsorLevelController extends AbstractController{
 			public Result execute() throws JCertifException {
 				JsonNode jsonNode = request().body().asJson();
 				
-				SponsorLevel sponsorLevel = new SponsorLevel(
-						jsonNode.findPath("code").getTextValue(), "dummyLabel");
+				SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
 				
 				SponsorLevelDB.getInstance().remove(sponsorLevel);
 				return ok(JSON.serialize("Ok"));

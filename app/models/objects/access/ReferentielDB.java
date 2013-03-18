@@ -21,12 +21,6 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		super(collectionName, checker);
 	}
 	
-	public BasicDBObject get(String keyName, Object keyValue, String referentielType)
-			throws JCertifException {
-		BasicDBObject objectToSearch = new BasicDBObject();
-		objectToSearch.put(keyName, keyValue);
-		return super.get(objectToSearch);
-	}
 	
 	public boolean add(Referentiel referentiel) throws JCertifException {
 		return super.add(referentiel.toBasicDBObject());
@@ -40,6 +34,6 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 	
 	public boolean remove(Referentiel objectToDelete)
 			throws JCertifException {		
-		return super.remove(objectToDelete.toBasicDBObject(), "code");
+		return super.remove(objectToDelete.toBasicDBObject(), "label");
 	}
 }

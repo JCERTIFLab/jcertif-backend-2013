@@ -19,17 +19,17 @@ public class SponsorLevelChecker extends ReferentielChecker{
 	@Override
 	public void deleteCheck(BasicDBObject objectToCheck)
 			throws JCertifException {
-		BasicDBObject dbObject = SponsorLevelDB.getInstance().get("code", objectToCheck.getString("code"),objectToCheck.getString("type"));
+		BasicDBObject dbObject = SponsorLevelDB.getInstance().get("label", objectToCheck.getString("label"));
         if (null == dbObject) {
-            throw new JCertifObjectNotFoundException(this, "Sponsor level '" + objectToCheck.getString("code") + "' already exists");
+            throw new JCertifObjectNotFoundException(this, "Sponsor level '" + objectToCheck.getString("label") + "' already exists");
         }
 	}
 
 	@Override
 	public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-		BasicDBObject dbObject = SponsorLevelDB.getInstance().get("code", objectToCheck.getString("code"),objectToCheck.getString("type"));
+		BasicDBObject dbObject = SponsorLevelDB.getInstance().get("label", objectToCheck.getString("label"));
         if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Sponsor level '" + objectToCheck.getString("code") + "' already exists");
+            throw new JCertifDuplicateObjectException(this, "Sponsor level '" + objectToCheck.getString("label") + "' already exists");
         }
 	}
 }

@@ -442,16 +442,14 @@ Backend.removeParticipantFromSession = {
 Backend.addSponsorLevel = {
 		
 	initDialog: function () {
-		$("#dialog-add-sponsor-level form fieldset").append('<label for="code">Code</label>');
-        $("#dialog-add-sponsor-level form fieldset").append('<input type="text" name="code" id="code" class="text ui-widget-content ui-corner-all"/>');
-        $("#dialog-add-sponsor-level form fieldset").append('<label for="label">Libell&eacute;</label>');
+		$("#dialog-add-sponsor-level form fieldset").append('<label for="label">Niveau de partenariat</label>');
         $("#dialog-add-sponsor-level form fieldset").append('<input type="text" name="label" id="label" class="text ui-widget-content ui-corner-all"/>');
     },
 
     openDialog: function () {
     	$("#dialog-add-sponsor-level").dialog({
             width: 450,
-            height: 350,
+            height: 250,
             modal: true,
             buttons: {
                 "Add": function () {
@@ -478,17 +476,17 @@ Backend.removeSponsorLevel = {
 		$.getJSON("/ref/sponsorlevel/list", function(data){
 			options = "";
 			$.each(data, function(index, sponsorLevel) {
-				options=options+'<option value="'+sponsorLevel.code+'">'+sponsorLevel.label+'</option>';
+				options=options+'<option value="'+sponsorLevel.label+'">'+sponsorLevel.label+'</option>';
 			});
-			$("#dialog-remove-sponsor-level form fieldset").append('<label for="code">Niveau de sponsoring</label>');
-	        $("#dialog-remove-sponsor-level form fieldset").append('<select name="code" id="code" class="ui-widget-content ui-corner-all">'+options+'</select>');
+			$("#dialog-remove-sponsor-level form fieldset").append('<label for="label">Niveau de partenariat</label>');
+	        $("#dialog-remove-sponsor-level form fieldset").append('<select name="label" id="label" class="ui-widget-content ui-corner-all">'+options+'</select>');
 		});
     },
 
     openDialog: function () {
     	$("#dialog-remove-sponsor-level").dialog({
             width: 420,
-            height: 250,
+            height: 200,
             modal: true,
             buttons: {
                 "Supprimer": function () {
@@ -512,16 +510,14 @@ Backend.removeSponsorLevel = {
 Backend.addCategory = {
 		
 	initDialog: function () {
-		$("#dialog-add-category form fieldset").append('<label for="code">Code</label>');
-        $("#dialog-add-category form fieldset").append('<input type="text" name="code" id="code" class="text ui-widget-content ui-corner-all"/>');
-        $("#dialog-add-category form fieldset").append('<label for="label">Libell&eacute;</label>');
+		$("#dialog-add-category form fieldset").append('<label for="label">Cat&eacute;gorie</label>');
         $("#dialog-add-category form fieldset").append('<input type="text" name="label" id="label" class="text ui-widget-content ui-corner-all"/>');
     },
 
     openDialog: function () {
     	$("#dialog-add-category").dialog({
             width: 350,
-            height: 350,
+            height: 250,
             modal: true,
             buttons: {
                 "Add": function () {
@@ -548,17 +544,17 @@ Backend.removeCategory = {
 		$.getJSON("/ref/category/list", function(data){
 			options = "";
 			$.each(data, function(index, categorie) {
-				options=options+'<option value="'+categorie.code+'">'+categorie.label+'</option>';
+				options=options+'<option value="'+categorie.label+'">'+categorie.label+'</option>';
 			});
-			$("#dialog-remove-category form fieldset").append('<label for="code">Niveau de sponsoring</label>');
-	        $("#dialog-remove-category form fieldset").append('<select name="code" id="code" class="ui-widget-content ui-corner-all">'+options+'</select>');
+			$("#dialog-remove-category form fieldset").append('<label for="label">Cat&eacute;gorie</label>');
+	        $("#dialog-remove-category form fieldset").append('<select name="label" id="label" class="ui-widget-content ui-corner-all">'+options+'</select>');
 		});
     },
 
     openDialog: function () {
     	$("#dialog-remove-category").dialog({
             width: 350,
-            height: 250,
+            height: 200,
             modal: true,
             buttons: {
                 "Supprimer": function () {
