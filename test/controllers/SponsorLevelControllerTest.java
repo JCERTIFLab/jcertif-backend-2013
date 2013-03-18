@@ -15,9 +15,14 @@ import static play.test.Helpers.status;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import models.util.Constantes;
+
 import org.junit.Test;
+
+import com.mongodb.BasicDBObject;
 
 import play.Logger;
 import play.libs.Json;
@@ -76,10 +81,10 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
                 assertThat(status(result)).isEqualTo(OK);
 
                 Logger.info("Vérification que le nouveau niveau de patenariat est bien présente en base de données");
-                result = route(fakeRequest(GET, "/ref/sponsorlevel/list"));
-                assertThat(status(result)).isEqualTo(OK);
-                assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(contentAsString(result).contains("HTTT"));
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("code", "HTTT"));
+                assertThat(null != dbObjects && dbObjects.size() == 1);
+                assertThat("HTTT".equals(dbObjects.get(0).get("code")));
+                assertThat("HTTT".equals(dbObjects.get(0).get("label")));
 
             }
         });
@@ -135,10 +140,8 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le niveau de partenariat a bien été supprimmé en base de données");
-	                result = route(fakeRequest(GET, "/ref/sponsorlevel/list"));
-	                assertThat(status(result)).isEqualTo(OK);
-	                assertThat(contentType(result)).isEqualTo("application/json");
-	                assertThat(!contentAsString(result).contains("SponsorLevel2"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("code", "SponsorLevel2"));
+	                assertThat(null != dbObjects && dbObjects.size() == 0);
 				} catch (IOException e) {
 					junit.framework.Assert.fail(e.getMessage());
 				}

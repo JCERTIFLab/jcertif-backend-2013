@@ -1,6 +1,11 @@
 package controllers;
 
+import models.util.Constantes;
+
 import org.junit.Test;
+
+import com.mongodb.BasicDBObject;
+
 import play.Logger;
 import play.libs.Json;
 import play.mvc.*;
@@ -8,8 +13,10 @@ import util.TestUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
@@ -58,11 +65,10 @@ public class CategoryControllerTest extends ReferentielControllerTest{
                 assertThat(status(result)).isEqualTo(OK);
 
                 Logger.info("Vérification que la nouvelle catégorie est bien présente en base de données");
-                result = route(fakeRequest(GET, "/ref/category/list"));
-                assertThat(status(result)).isEqualTo(OK);
-                assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(contentAsString(result).contains("HTTT"));
-
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CATEGORY, new BasicDBObject().append("code", "HTTT"));
+                assertThat(null != dbObjects && dbObjects.size() == 1);
+                assertThat("HTTT".equals(dbObjects.get(0).get("code")));
+                assertThat("HTTT".equals(dbObjects.get(0).get("label")));
             }
         });
     }
