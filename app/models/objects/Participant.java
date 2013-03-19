@@ -23,6 +23,7 @@ public class Participant extends JCertifObject {
 	private List<String> sessions = new ArrayList<String>();
 
 	public Participant(BasicDBObject basicDBObject){
+        super();
         this.email = basicDBObject.getString("email");
         this.password = basicDBObject.getString("password");
         this.title = basicDBObject.getString("title");
@@ -38,107 +39,107 @@ public class Participant extends JCertifObject {
         this.sessions.addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("sessions")));
     }
 
-    public String getEmail() {
+    public final String getEmail() {
         return email;
     }
 
-    public void setEmail(String email1) {
+    public final void setEmail(String email1) {
         this.email = email1;
     }
 
-    public String getPassword() {
+    public final String getPassword() {
         return password;
     }
 
-    public void setPassword(String password1) {
+    public final void setPassword(String password1) {
         this.password = password1;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return title;
     }
 
-    public void setTitle(String title1) {
+    public final void setTitle(String title1) {
         this.title = title1;
     }
 
-    public String getLastname() {
+    public final String getLastname() {
         return lastname;
     }
 
-    public void setLastname(String lastname1) {
+    public final void setLastname(String lastname1) {
         this.lastname = lastname1;
     }
 
-    public String getFirstname() {
+    public final String getFirstname() {
         return firstname;
     }
 
-    public void setFirstname(String firstname1) {
+    public final void setFirstname(String firstname1) {
         this.firstname = firstname1;
     }
 
-    public String getWebsite() {
+    public final String getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website1) {
+    public final void setWebsite(String website1) {
         this.website = website1;
     }
 
-    public String getCity() {
+    public final String getCity() {
         return city;
     }
 
-    public void setCity(String city1) {
+    public final void setCity(String city1) {
         this.city = city1;
     }
 
-    public String getCountry() {
+    public final String getCountry() {
         return country;
     }
 
-    public void setCountry(String country1) {
+    public final void setCountry(String country1) {
         this.country = country1;
     }
 
-    public String getCompany() {
+    public final String getCompany() {
         return company;
     }
 
-    public void setCompany(String company1) {
+    public final void setCompany(String company1) {
         this.company = company1;
     }
 
-    public String getPhone() {
+    public final String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone1) {
+    public final void setPhone(String phone1) {
         this.phone = phone1;
     }
 
-    public String getPhoto() {
+    public final String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo1) {
+    public final void setPhoto(String photo1) {
         this.photo = photo1;
     }
 
-    public String getBiography() {
+    public final String getBiography() {
         return biography;
     }
 
-    public void setBiography(String biography1) {
+    public final void setBiography(String biography1) {
         this.biography = biography1;
     }
 
-	public List<String> getSessions() {
+	public final List<String> getSessions() {
         return sessions;
     }
 
-    public void setSessions(List<String> sessions1) {
+    public final void setSessions(List<String> sessions1) {
         this.sessions = sessions1;
     }
 

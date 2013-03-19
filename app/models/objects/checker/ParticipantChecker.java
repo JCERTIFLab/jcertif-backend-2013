@@ -9,7 +9,7 @@ import models.util.Tools;
 public class ParticipantChecker extends Checker {
 
     @Override
-    public void check(BasicDBObject objectToCheck) throws JCertifException {
+    public final void check(BasicDBObject objectToCheck) throws JCertifException {
 
         if (null == objectToCheck) {
             throw new JCertifException(this, "Object cannot be null");
@@ -48,17 +48,17 @@ public class ParticipantChecker extends Checker {
     }
 
     @Override
-    public void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void addCheck(BasicDBObject objectToCheck) throws JCertifException {
 
         BasicDBObject dbObject = ParticipantDB.getInstance().get("email", objectToCheck.getString("email"));
         if (null != dbObject) {

@@ -7,6 +7,7 @@ import models.objects.Category;
 import models.objects.access.CategoryDB;
 
 import com.mongodb.BasicDBObject;
+import models.util.Constantes;
 
 /**
  * <p>Implémentation d'un {@link ReferentielChecker} pour la validation
@@ -18,19 +19,19 @@ import com.mongodb.BasicDBObject;
 public class CategoryChecker extends ReferentielChecker {
 
 	@Override
-	public void deleteCheck(BasicDBObject objectToCheck)
+	public final void deleteCheck(BasicDBObject objectToCheck)
 			throws JCertifException {
-		BasicDBObject dbObject = CategoryDB.getInstance().get("label", objectToCheck.getString("label"));
+		BasicDBObject dbObject = CategoryDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null == dbObject) {
-            throw new JCertifObjectNotFoundException(this, "Category '" + objectToCheck.getString("label") + "' already exists");
+            throw new JCertifObjectNotFoundException(this, "Category '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' already exists");
         }
 	}
 
 	@Override
-	public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-		BasicDBObject dbObject = CategoryDB.getInstance().get("label", objectToCheck.getString("label"));
+	public final void addCheck(BasicDBObject objectToCheck) throws JCertifException {
+		BasicDBObject dbObject = CategoryDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Category '" + objectToCheck.getString("label") + "' already exists");
+            throw new JCertifDuplicateObjectException(this, "Category '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' already exists");
         }
 	}
 

@@ -3,20 +3,21 @@ package models.objects.checker;
 import com.mongodb.BasicDBObject;
 import models.exception.JCertifException;
 import models.objects.access.SessionStatusDB;
+import models.util.Constantes;
 
 public class SessionStatusChecker extends ReferentielChecker {
 
     @Override
-    public void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
-        BasicDBObject dbObject = SessionStatusDB.getInstance().get("label", objectToCheck.getString("label"));
+    public final void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
+        BasicDBObject dbObject = SessionStatusDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null == dbObject) {
-            throw new JCertifException(this, "Session Status '" + objectToCheck.getString("label") + "' does not exist");
+            throw new JCertifException(this, "Session Status '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' does not exist");
         }
     }
 
     @Override
-    public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-        BasicDBObject dbObject = SessionStatusDB.getInstance().get("label", objectToCheck.getString("label"));
+    public final void addCheck(BasicDBObject objectToCheck) throws JCertifException {
+        BasicDBObject dbObject = SessionStatusDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null != dbObject) {
             throw new JCertifException(this, "Session Status '" + objectToCheck.getString("label") + "' already exists");
         }

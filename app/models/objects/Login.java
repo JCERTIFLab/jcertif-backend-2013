@@ -7,23 +7,24 @@ public class Login extends JCertifObject {
     private String password;
 
     public Login(BasicDBObject basicDBObject) {
+        super();
         this.email = basicDBObject.getString("email");
         this.password = basicDBObject.getString("password");
     }
 
-    public String getEmail() {
+    public final String getEmail() {
         return email;
     }
 
-    public void setEmail(String email1) {
+    public final void setEmail(String email1) {
         this.email = email1;
     }
 
-    public String getPassword() {
+    public final String getPassword() {
         return password;
     }
 
-    public void setPassword(String password1) {
+    public final void setPassword(String password1) {
         this.password = password1;
     }
 

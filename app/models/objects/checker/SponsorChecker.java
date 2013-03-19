@@ -9,7 +9,7 @@ import models.util.Tools;
 public class SponsorChecker extends Checker {
 
     @Override
-    public void check(BasicDBObject objectToCheck) throws JCertifException {
+    public final void check(BasicDBObject objectToCheck) throws JCertifException {
 
         if (null == objectToCheck) {
             throw new JCertifException(this, "Object cannot be null");
@@ -51,11 +51,11 @@ public class SponsorChecker extends Checker {
     }
 
     @Override
-    public void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
     }
 
     @Override
-    public void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
     }
 
     @Override

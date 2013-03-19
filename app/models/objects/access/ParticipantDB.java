@@ -8,16 +8,13 @@ import models.util.Constantes;
 
 public final class ParticipantDB extends JCertifObjectDB<Participant>{
 
-    private static ParticipantDB instance;
+    private static final ParticipantDB INSTANCE = new ParticipantDB();
 
     private ParticipantDB() {
         super(Constantes.COLLECTION_PARTICIPANT, new ParticipantChecker());
     }
     public static ParticipantDB getInstance(){
-    	if(instance==null){
-    		instance=new ParticipantDB();
-    	}
-        return instance;
+        return INSTANCE;
     }
 
     public boolean add(Participant participant) throws JCertifException {

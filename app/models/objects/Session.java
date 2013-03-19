@@ -20,6 +20,7 @@ public class Session extends JCertifObject {
     private List<String> speakers = new ArrayList<String>();
 
     public Session(BasicDBObject basicDBObject){
+        super();
         this.id = basicDBObject.getString("id");
         this.title = basicDBObject.getString("title");
         this.summary = basicDBObject.getString("summary");
@@ -33,88 +34,88 @@ public class Session extends JCertifObject {
     }
 
     
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
-    public void setId(String id1) {
+    public final void setId(String id1) {
         this.id = id1;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return title;
     }
 
-    public void setTitle(String title1) {
+    public final void setTitle(String title1) {
         this.title = title1;
     }
 
-    public String getSummary() {
+    public final String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary1) {
+    public final void setSummary(String summary1) {
         this.summary = summary1;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
-    public void setDescription(String description1) {
+    public final void setDescription(String description1) {
         this.description = description1;
     }
 
-    public String getStatus() {
+    public final String getStatus() {
         return status;
     }
 
-    public void setStatus(String status1) {
+    public final void setStatus(String status1) {
         this.status = status1;
     }
 
-    public String getKeyword() {
+    public final String getKeyword() {
         return keyword;
     }
 
-    public void setKeyword(String keyword1) {
+    public final void setKeyword(String keyword1) {
         this.keyword = keyword1;
     }
 
-    public List<String> getCategory() {
+    public final List<String> getCategory() {
         return category;
     }
 
-    public void setCategory(List<String> category1) {
+    public final void setCategory(List<String> category1) {
         this.category = category1;
     }
 
-    public String getStart() {
+    public final String getStart() {
         return start;
     }
 
-    public void setStart(String start1) {
+    public final void setStart(String start1) {
         this.start = start1;
     }
 
-    public String getEnd() {
+    public final String getEnd() {
         return end;
     }
 
-    public void setEnd(String end1) {
+    public final void setEnd(String end1) {
         this.end = end1;
     }
 
-    public List getSpeakers() {
+    public final List getSpeakers() {
         return speakers;
     }
 
-    public void setSpeakers(List speakers1) {
+    public final void setSpeakers(List speakers1) {
         this.speakers = speakers1;
     }
 
     @Override
-    public BasicDBObject toBasicDBObject() {
+    public final BasicDBObject toBasicDBObject() {
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put("id", getId());
         basicDBObject.put("title", getTitle());

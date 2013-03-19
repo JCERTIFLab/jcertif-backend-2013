@@ -123,6 +123,7 @@ public class SessionController extends AbstractController {
 
         return ok(JSON.serialize("Ok"));
     }
+
     public static Result updateSession() {
    	 Logger.info("Enter updateSession()");
 		 allowCrossOriginJson();

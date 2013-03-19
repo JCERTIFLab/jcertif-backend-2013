@@ -14,7 +14,7 @@ public abstract class Checker {
 
     public abstract void addCheck(BasicDBObject objectToCheck) throws JCertifException;
 
-    public boolean checkPassword(String oldPassword, String newPassword, boolean checkTwo){
+    public final boolean checkPassword(String oldPassword, String newPassword, boolean checkTwo){
         if(checkTwo){
 
             if (oldPassword==null || newPassword==null) {

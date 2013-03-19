@@ -13,14 +13,14 @@ import models.util.Constantes;
  */
 public class CategoryDB extends ReferentielDB<Category> {
 
-	private static final CategoryDB instance = new CategoryDB();
+	private static final CategoryDB INSTANCE = new CategoryDB();
 	
 	public CategoryDB() {
 		super(Constantes.COLLECTION_CATEGORY, new CategoryChecker());
 	}
 	
 	public static CategoryDB getInstance(){
-		return instance;
+		return INSTANCE;
 	}
 
 }

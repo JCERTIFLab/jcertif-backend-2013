@@ -17,7 +17,7 @@ import com.mongodb.BasicDBObject;
 public abstract class ReferentielChecker extends Checker {
 
 	@Override
-	public void check(BasicDBObject objectToCheck) throws JCertifException {
+	public final void check(BasicDBObject objectToCheck) throws JCertifException {
 		if (null == objectToCheck) {
             throw new JCertifInvalidRequestException(this, "Object cannot be null");
         }
@@ -28,7 +28,7 @@ public abstract class ReferentielChecker extends Checker {
 	}
 
 	@Override
-	public void updateCheck(BasicDBObject objectToCheck)
+	public final void updateCheck(BasicDBObject objectToCheck)
 			throws JCertifException {
 	}
 }

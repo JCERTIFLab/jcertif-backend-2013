@@ -8,7 +8,7 @@ import models.util.Constantes;
 
 public final class SpeakerDB extends JCertifObjectDB<Speaker> {
 
-    private  static SpeakerDB instance;
+    private static final SpeakerDB INSTANCE = new SpeakerDB();
 
     public SpeakerDB() {
         super(Constantes.COLLECTION_SPEAKER, new SpeakerChecker());
@@ -16,10 +16,7 @@ public final class SpeakerDB extends JCertifObjectDB<Speaker> {
 
     
     public static SpeakerDB getInstance(){
-    	if(instance==null){
-    		instance=new SpeakerDB();
-    	}
-        return instance;
+        return INSTANCE;
     }
     public boolean add(Speaker speaker) throws JCertifException {
         return add(speaker.toBasicDBObject());

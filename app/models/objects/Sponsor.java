@@ -14,6 +14,7 @@ public class Sponsor extends JCertifObject {
     private String about;
 
     public Sponsor(BasicDBObject basicDBObject) {
+        super();
         this.email = basicDBObject.getString("email");
         this.name = basicDBObject.getString("name");
         this.logo = basicDBObject.getString("logo");
@@ -25,80 +26,80 @@ public class Sponsor extends JCertifObject {
         this.about = basicDBObject.getString("about");
     }
 
-    public String getEmail() {
+    public final String getEmail() {
         return email;
     }
 
-    public void setEmail(String email1) {
+    public final void setEmail(String email1) {
         this.email = email1;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name1) {
+    public final void setName(String name1) {
         this.name = name1;
     }
 
-    public String getLogo() {
+    public final String getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo1) {
+    public final void setLogo(String logo1) {
         this.logo = logo1;
     }
 
-    public String getLevel() {
+    public final String getLevel() {
         return level;
     }
 
-    public void setLevel(String level1) {
+    public final void setLevel(String level1) {
         this.level = level1;
     }
 
-    public String getWebsite() {
+    public final String getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website1) {
+    public final void setWebsite(String website1) {
         this.website = website1;
     }
 
-    public String getCity() {
+    public final String getCity() {
         return city;
     }
 
-    public void setCity(String city1) {
+    public final void setCity(String city1) {
         this.city = city1;
     }
 
-    public String getCountry() {
+    public final String getCountry() {
         return country;
     }
 
-    public void setCountry(String country1) {
+    public final void setCountry(String country1) {
         this.country = country1;
     }
 
-    public String getPhone() {
+    public final String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone1) {
+    public final void setPhone(String phone1) {
         this.phone = phone1;
     }
 
-    public String getAbout() {
+    public final String getAbout() {
         return about;
     }
 
-    public void setAbout(String about1) {
+    public final void setAbout(String about1) {
         this.about = about1;
     }
 
     @Override
-    public BasicDBObject toBasicDBObject() {
+    public final BasicDBObject toBasicDBObject() {
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put("email", getEmail());
         basicDBObject.put("name", getName());
@@ -111,6 +112,4 @@ public class Sponsor extends JCertifObject {
         basicDBObject.put("about", getAbout());
         return basicDBObject;
     }
-
-
 }

@@ -10,7 +10,7 @@ import java.util.*;
 
 public final class SessionDB extends JCertifObjectDB<Session>{
 
-	private static SessionDB instance;
+	private static final SessionDB INSTANCE = new SessionDB();
 
 	public SessionDB() {
 		super(Constantes.COLLECTION_SESSION,
@@ -18,10 +18,7 @@ public final class SessionDB extends JCertifObjectDB<Session>{
 	}
 
 	public static SessionDB getInstance() {
-		if (instance == null) {
-			instance = new SessionDB();
-		}
-		return instance;
+		return INSTANCE;
 	}
 
 	public boolean add(Session session) throws JCertifException {

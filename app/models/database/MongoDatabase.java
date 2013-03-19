@@ -12,11 +12,12 @@ import java.net.UnknownHostException;
 
 public final class MongoDatabase {
 
-	private DB db = null;
+    private DB db = null;
 
-	private static MongoDatabase instance;
+	private static MongoDatabase instance = new MongoDatabase();
 
 	private MongoDatabase() {
+        super();
         Logger.info("Enter MongoDatabase()");
 		String dbhost = JCertifPropUtils.getInstance().getProperty(
 				"jcertifbackend.database.host");
@@ -51,9 +52,6 @@ public final class MongoDatabase {
 	}
 
 	public static MongoDatabase getInstance() {
-		if (instance == null) {
-			instance = new MongoDatabase();
-		}
 		return instance;
 	}
 
@@ -103,14 +101,14 @@ public final class MongoDatabase {
 		// Retourne le résultat en JSON sans le paramètre par défaut _id
         Logger.debug("list(collectionName=" + collectionName + ")");
 		return db.getCollection(collectionName).find(null,
-				new BasicDBObject("_id", 0).append("password", 0));
+				new BasicDBObject(Constantes.ID_ATTRIBUTE_NAME, 0).append("password", 0));
 	}
 
 	public String listAll(String collectionName) {
 		// Retourne le résultat en JSON sans le paramètre par défaut _id
         Logger.debug("listAll(collectionName=" + collectionName + ")");
 		return JSON.serialize(db.getCollection(collectionName).find(null,
-				new BasicDBObject("_id", 0).append("password", 0)));
+				new BasicDBObject(Constantes.ID_ATTRIBUTE_NAME, 0).append("password", 0)));
 	}
 
     /* Cette fonction configure la base de données JCertif (Création des collections, création des index) */
@@ -120,7 +118,7 @@ public final class MongoDatabase {
 		db.createCollection(Constantes.COLLECTION_LOGIN,
 				null);
 		db.getCollection(Constantes.COLLECTION_LOGIN)
-				.createIndex(new BasicDBObject("email", 1));
+				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
 
 		db.createCollection(
 				Constantes.COLLECTION_REFERENTIEL, null);
@@ -130,7 +128,7 @@ public final class MongoDatabase {
 		db.createCollection(
 				Constantes.COLLECTION_PARTICIPANT, null);
 		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
-				.createIndex(new BasicDBObject("email", 1));
+				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
 		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
 				.createIndex(new BasicDBObject("lastname", 1));
 		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
@@ -139,7 +137,7 @@ public final class MongoDatabase {
 		db.createCollection(Constantes.COLLECTION_SPEAKER,
 				null);
 		db.getCollection(Constantes.COLLECTION_SPEAKER)
-				.createIndex(new BasicDBObject("email", 1));
+				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
 		db.getCollection(Constantes.COLLECTION_SPEAKER)
 				.createIndex(new BasicDBObject("lastname", 1));
 		db.getCollection(Constantes.COLLECTION_SPEAKER)
@@ -148,7 +146,7 @@ public final class MongoDatabase {
 		db.createCollection(Constantes.COLLECTION_SPONSOR,
 				null);
 		db.getCollection(Constantes.COLLECTION_SPONSOR)
-				.createIndex(new BasicDBObject("email", 1));
+				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
 		db.getCollection(Constantes.COLLECTION_SPONSOR)
 				.createIndex(new BasicDBObject("name", 1));
 
@@ -159,7 +157,7 @@ public final class MongoDatabase {
         db.createCollection(Constantes.COLLECTION_SESSION_STATUS,
                 null);
         db.getCollection(Constantes.COLLECTION_SESSION_STATUS)
-                .createIndex(new BasicDBObject("label", 1));
+                .createIndex(new BasicDBObject(Constantes.LABEL_ATTRIBUTE_NAME, 1));
 
         Logger.info("Exit configureJCertifDatabase()");
 	}
@@ -175,7 +173,7 @@ public final class MongoDatabase {
 			BasicDBObject objectToUpdate) {
         Logger.debug("update(collectionName=" + collectionName + ", objectToUpdate="+objectToUpdate+")");
 		return db.getCollection(collectionName).update(
-				new BasicDBObject("_id", objectToUpdate.get("_id")),
+				new BasicDBObject(Constantes.ID_ATTRIBUTE_NAME, objectToUpdate.get(Constantes.ID_ATTRIBUTE_NAME)),
 				objectToUpdate);
 	}
 

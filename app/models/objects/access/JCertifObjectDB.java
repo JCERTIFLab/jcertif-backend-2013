@@ -18,22 +18,24 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	private Checker checker;
 	private String collectionName;
 
-	public JCertifObjectDB(String collectionName) {
-		this.collectionName = collectionName;
+	public JCertifObjectDB(String collectionName1) {
+        super();
+		this.collectionName = collectionName1;
 		checker = null;
 	}
 
-	public JCertifObjectDB(String collectionName, Checker checker) {
-		this.collectionName = collectionName;
-		this.checker = checker;
+	public JCertifObjectDB(String collectionName1, Checker checker1) {
+        super();
+		this.collectionName = collectionName1;
+		this.checker = checker1;
 	}
 
-	public Checker getChecker() {
+	public final Checker getChecker() {
 		return checker;
 	}
 
-	protected void setChecker(Checker checker) {
-		this.checker = checker;
+	protected final void setChecker(Checker checker1) {
+		this.checker = checker1;
 	}
 
 	/**
@@ -43,7 +45,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	 * @return
 	 */
 	@Override
-	public List<BasicDBObject> list(BasicDBObject query,
+	public final List<BasicDBObject> list(BasicDBObject query,
 			BasicDBObject columnToReturn) {
 		DBCursor dbCursor = MongoDatabase.getInstance().list(
 				getCollectionName(), query, columnToReturn);
@@ -57,7 +59,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public List<BasicDBObject> list() {
+	public final List<BasicDBObject> list() {
 		DBCursor dbCursor = MongoDatabase.getInstance().list(
 				getCollectionName());
 		BasicDBObject object;
@@ -70,7 +72,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public List<BasicDBObject> list(BasicDBObject query) {
+	public final List<BasicDBObject> list(BasicDBObject query) {
 		DBCursor dbCursor = MongoDatabase.getInstance().list(
 				getCollectionName(), query);
 		BasicDBObject object;
@@ -83,20 +85,22 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public BasicDBObject get(String keyName, Object keyValue)
+	public final BasicDBObject get(String keyName, Object keyValue)
 			throws JCertifException {
-		if (null == keyName)
+		if (null == keyName){
 			return null;
+        }
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(keyName, keyValue);
 		
 		return get(dbObject);
 	}
 	
-	public BasicDBObject get(BasicDBObject objectToGet)
+	public final BasicDBObject get(BasicDBObject objectToGet)
 			throws JCertifException {
-		if (null == objectToGet)
+		if (null == objectToGet){
 			return null;
+        }
 
 		/* If the object does not exist, null is returned */
 		return MongoDatabase.getInstance().readOne(
@@ -104,7 +108,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public boolean add(BasicDBObject basicDBObject) throws JCertifException {
+	public final boolean add(BasicDBObject basicDBObject) throws JCertifException {
 		getChecker().check(basicDBObject);
 		getChecker().addCheck(basicDBObject);
 		WriteResult result = MongoDatabase.getInstance().create(
@@ -124,7 +128,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	 * @throws JCertifException
 	 */
 	@Override
-	public boolean update(BasicDBObject objectToUpdate, String idKeyname)
+	public final boolean update(BasicDBObject objectToUpdate, String idKeyname)
 			throws JCertifException {
 		getChecker().check(objectToUpdate);
 		getChecker().updateCheck(objectToUpdate);
@@ -147,7 +151,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public boolean save(BasicDBObject objectToUpdate, String idKeyname)
+	public final boolean save(BasicDBObject objectToUpdate, String idKeyname)
 			throws JCertifException {
 		getChecker().check(objectToUpdate);
 		getChecker().updateCheck(objectToUpdate);
@@ -170,7 +174,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public boolean remove(BasicDBObject objectToDelete, String idKeyname)
+	public final boolean remove(BasicDBObject objectToDelete, String idKeyname)
 			throws JCertifException {
 		getChecker().check(objectToDelete);
 		getChecker().deleteCheck(objectToDelete);
@@ -189,11 +193,11 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		return true;
 	}
 
-	public String getCollectionName() {
+	public final String getCollectionName() {
 		return collectionName;
 	}
 
-	public void setCollectionName(String collectionName) {
-		this.collectionName = collectionName;
+	public final void setCollectionName(String collectionName1) {
+		this.collectionName = collectionName1;
 	}
 }

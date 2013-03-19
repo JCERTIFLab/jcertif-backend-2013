@@ -1,33 +1,34 @@
 package models.objects;
 
 import com.mongodb.BasicDBObject;
+import models.util.Constantes;
 
 public abstract class Referentiel extends JCertifObject {
 
     private String label;
 
     public Referentiel(BasicDBObject basicDBObject){
+        super();
         this.label  = basicDBObject.getString("label");
     }
     
-    public Referentiel(String label){
-        this.label  = label;
+    public Referentiel(String label1){
+        super();
+        this.label  = label1;
     }
-    
-    public Referentiel(){}
 
-    public String getLabel() {
+    public final String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public final void setLabel(String label1) {
+        this.label = label1;
     }
 
     @Override
-    public BasicDBObject toBasicDBObject() {
+    public final BasicDBObject toBasicDBObject() {
         BasicDBObject basicDBObject = new BasicDBObject();
-        basicDBObject.put("label", label);
+        basicDBObject.put(Constantes.LABEL_ATTRIBUTE_NAME, label);
         return basicDBObject;
     }
 

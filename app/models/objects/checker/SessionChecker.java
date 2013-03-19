@@ -17,7 +17,7 @@ import java.util.Locale;
 public class SessionChecker extends Checker{
 
     @Override
-    public void check(BasicDBObject objectToCheck) throws JCertifException {
+    public final void check(BasicDBObject objectToCheck) throws JCertifException {
 
         if (null == objectToCheck) {
             throw new JCertifException(this, "Object cannot be null");
@@ -89,17 +89,17 @@ public class SessionChecker extends Checker{
     }
 
     @Override
-    public void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
+    public final void addCheck(BasicDBObject objectToCheck) throws JCertifException {
         BasicDBObject dbObject = SessionDB.getInstance().get("id", objectToCheck.getString("id"));
         if (null != dbObject) {
             throw new JCertifException(this, "Session '" + objectToCheck.getString("id") + "' already exists");

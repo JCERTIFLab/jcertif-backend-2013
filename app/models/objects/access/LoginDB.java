@@ -8,7 +8,7 @@ import models.util.Constantes;
 
 public final class LoginDB extends JCertifObjectDB<Login> {
 
-	private static LoginDB instance;
+	private static final LoginDB INSTANCE = new LoginDB();
 
 	private LoginDB() {
 		super(Constantes.COLLECTION_LOGIN,
@@ -16,10 +16,7 @@ public final class LoginDB extends JCertifObjectDB<Login> {
 	}
 
 	public static LoginDB getInstance() {
-		if (instance == null) {
-			instance = new LoginDB();
-		}
-		return instance;
+		return INSTANCE;
 
 	}
 

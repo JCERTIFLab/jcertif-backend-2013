@@ -8,17 +8,14 @@ import models.util.Constantes;
 
 public final class SponsorDB extends JCertifObjectDB<Sponsor> {
 
-    private static SponsorDB instance;
+    private static final SponsorDB INSTANCE = new SponsorDB();
 
     private SponsorDB() {
         super(Constantes.COLLECTION_SPONSOR, new SponsorChecker());
     }
 
     public static SponsorDB getInstance(){
-    	if(instance==null){
-    		instance= new SponsorDB();
-    	}
-        return instance;
+        return INSTANCE;
     }
 
     public boolean add(Sponsor sponsor) throws JCertifException {

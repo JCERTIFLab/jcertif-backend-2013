@@ -44,22 +44,23 @@ public abstract class ActionTemplate {
 	public abstract Result doAction(ActionCallback actionCallback,
 			boolean isAdminDelegated);
 
-	/**
+    /**
 	 * Classe Callback s'executant dans le contexte d'un {@link ActionTemplate}
 	 *
 	 */
-	static abstract class ActionCallback {
+    abstract static class ActionCallback {
 		private final String actionName;
 
 		String getActionName() {
 			return actionName;
 		}
 
-		public ActionCallback(String actionName) {
-			this.actionName = actionName;
+		public ActionCallback(String actionName1) {
+            super();
+			this.actionName = actionName1;
 		}
 
-		public abstract Result execute() throws Exception;
+		public abstract Result execute() throws JCertifException;
 	}
 }
 /**
@@ -72,7 +73,7 @@ class JSONGetActionTemplate extends ActionTemplate {
 
 	@Override
 	public Result doAction(ActionCallback actionCallback, boolean isAdminDelegated) {
-		Logger.debug(new StringBuilder(TRACE_START_TAG).append(actionCallback.getActionName()).toString());
+		Logger.debug(new StringBuilder().append(TRACE_START_TAG).append(actionCallback.getActionName()).toString());
 		AbstractController.allowCrossOriginJson();
 		Result result = null;
 		try {
@@ -94,7 +95,7 @@ class JSONGetActionTemplate extends ActionTemplate {
 					"Unhandled Exception", exception).getMessage());
 		}
 
-		Logger.debug(new StringBuilder(TRACE_END_TAG).append(actionCallback.getActionName()).toString());
+		Logger.debug(new StringBuilder().append(TRACE_END_TAG).append(actionCallback.getActionName()).toString());
 		return result;
 	}
 	
@@ -110,7 +111,7 @@ class JSONPostActionTemplate extends ActionTemplate {
 	@Override
 	public Result doAction(ActionCallback actionCallback,
 			boolean isAdminDelegated) {
-		Logger.debug(new StringBuilder(TRACE_START_TAG).append(actionCallback.getActionName()).toString());
+		Logger.debug(new StringBuilder().append(TRACE_START_TAG).append(actionCallback.getActionName()).toString());
 		AbstractController.allowCrossOriginJson();
 
 		Result result = null;
@@ -145,7 +146,7 @@ class JSONPostActionTemplate extends ActionTemplate {
 					"Unhandled Exception", exception).getMessage());
 		}
 
-		Logger.debug(new StringBuilder(TRACE_END_TAG).append(actionCallback.getActionName()).toString());
+		Logger.debug(new StringBuilder().append(TRACE_END_TAG).append(actionCallback.getActionName()).toString());
 		return result;
 	}
 

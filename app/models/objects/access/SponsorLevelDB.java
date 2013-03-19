@@ -13,13 +13,13 @@ import models.util.Constantes;
  */
 public class SponsorLevelDB extends ReferentielDB<SponsorLevel> {
 
-	private static final SponsorLevelDB instance = new SponsorLevelDB();
+	private static final SponsorLevelDB INSTANCE = new SponsorLevelDB();
 	
 	public SponsorLevelDB() {
 		super(Constantes.COLLECTION_SPONSOR_LEVEL, new SponsorLevelChecker());
 	}
 
 	public static SponsorLevelDB getInstance(){
-		return instance;
+		return INSTANCE;
 	}
 }

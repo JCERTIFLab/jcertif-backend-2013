@@ -6,6 +6,7 @@ import models.exception.JCertifObjectNotFoundException;
 import models.objects.access.SponsorLevelDB;
 
 import com.mongodb.BasicDBObject;
+import models.util.Constantes;
 
 /**
  * <p>Implémentation d'un {@link ReferentielChecker} pour la validation
@@ -17,19 +18,19 @@ import com.mongodb.BasicDBObject;
 public class SponsorLevelChecker extends ReferentielChecker{
 
 	@Override
-	public void deleteCheck(BasicDBObject objectToCheck)
+	public final void deleteCheck(BasicDBObject objectToCheck)
 			throws JCertifException {
-		BasicDBObject dbObject = SponsorLevelDB.getInstance().get("label", objectToCheck.getString("label"));
+		BasicDBObject dbObject = SponsorLevelDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null == dbObject) {
-            throw new JCertifObjectNotFoundException(this, "Sponsor level '" + objectToCheck.getString("label") + "' already exists");
+            throw new JCertifObjectNotFoundException(this, "Sponsor level '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' already exists");
         }
 	}
 
 	@Override
-	public void addCheck(BasicDBObject objectToCheck) throws JCertifException {
-		BasicDBObject dbObject = SponsorLevelDB.getInstance().get("label", objectToCheck.getString("label"));
+	public final void addCheck(BasicDBObject objectToCheck) throws JCertifException {
+		BasicDBObject dbObject = SponsorLevelDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Sponsor level '" + objectToCheck.getString("label") + "' already exists");
+            throw new JCertifDuplicateObjectException(this, "Sponsor level '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' already exists");
         }
 	}
 }
