@@ -20,6 +20,8 @@ import java.util.Map;
 
 import models.util.Constantes;
 
+import org.codehaus.jackson.JsonNode;
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
@@ -58,12 +60,11 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
                     Result result = route(fakeRequest(GET, "/ref/sponsorlevel/list"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
-                    assertThat(contentAsString(result).toLowerCase().trim().equals("[ {\"label\" : \"SponsorLevel1\"} , " +
-                    		"{\"label\" : \"SponsorLevel2\"} , " +
-                    		"{\"label\" : \"ponsorLevel3\"}]".toLowerCase().trim()));
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(3, jsonNode.size());
 
                 } catch (IOException e) {
-                    junit.framework.Assert.fail(e.getMessage());
+                    Assert.fail(e.getMessage());
                 }
             }
         });
@@ -81,8 +82,9 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 
                 Logger.info("Vérification que le nouveau niveau de patenariat est bien présente en base de données");
                 List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "HTTT"));
-                assertThat(null != dbObjects && dbObjects.size() == 1);
-                assertThat("HTTT".equals(dbObjects.get(0).get("label")));
+                Assert.assertTrue(null != dbObjects);
+                Assert.assertEquals(1,dbObjects.size());
+                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
 
             }
         });
@@ -100,7 +102,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(Http.Status.CONFLICT);
 				} catch (IOException e) {
-					junit.framework.Assert.fail(e.getMessage());
+					Assert.fail(e.getMessage());
 				}
             }
         });
@@ -118,7 +120,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(Http.Status.NOT_FOUND);
 				} catch (IOException e) {
-					junit.framework.Assert.fail(e.getMessage());
+					Assert.fail(e.getMessage());
 				}
             }
         });
@@ -138,9 +140,10 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 
 	                Logger.info("Vérification que le niveau de partenariat a bien été supprimmé en base de données");
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "SponsorLevel2"));
-	                assertThat(null != dbObjects && dbObjects.size() == 0);
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(0,dbObjects.size());
 				} catch (IOException e) {
-					junit.framework.Assert.fail(e.getMessage());
+					Assert.fail(e.getMessage());
 				}
             }
         });
