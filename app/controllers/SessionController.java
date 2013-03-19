@@ -123,4 +123,149 @@ public class SessionController extends AbstractController {
 
         return ok(JSON.serialize("Ok"));
     }
+    public static Result updateSession() {
+   	 Logger.info("Enter updateSession()");
+		 allowCrossOriginJson();
+		try {
+           checkAdmin();
+       } catch (JCertifException jcertifException) {
+           Logger.info("access rejected for non-administrator");
+           Logger.info("Exit updateSession()");
+           return forbidden(jcertifException.getMessage());
+       }
+
+		Http.RequestBody requestBody = request().body();
+		try {
+			Tools.verifyJSonRequest(requestBody);
+		} catch (JCertifException e) {
+           Logger.error(e.getMessage());
+           Logger.info("Exit updateSession()");
+			return badRequest(e.getMessage());
+		}
+		String sessionObjInJSONForm = request().body().asJson().toString();
+
+		Session sessionToUpdate;
+		try {
+			sessionToUpdate = new Session(
+					(BasicDBObject) JSON.parse(sessionObjInJSONForm));
+		} catch (JSONParseException exception) {
+           Logger.error(exception.getMessage());
+           Logger.info("Exit updateSession()");
+			return badRequest(sessionObjInJSONForm);
+		}
+		Session sessionFromRepo;
+		try {
+			sessionFromRepo = SessionDB.getInstance().get(
+					sessionToUpdate.getId());
+		} catch (JCertifException jcertifException) {
+           Logger.error(jcertifException.getMessage());
+           Logger.info("Exit updateSession()");
+			return internalServerError(jcertifException.getMessage());
+		}
+
+		if (sessionFromRepo == null) {
+           Logger.info("Session with id " + sessionToUpdate.getId() + " does not exist");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session with id\""
+                           + sessionToUpdate.getId()
+                           + "\" does not exist"));
+		}
+		/**  S'assurer que tous les champs sont renseignés...**/
+		if(Tools.isBlankOrNull(sessionToUpdate.getTitle()))
+		{
+			Logger.info("Session Title " + sessionToUpdate.getTitle() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Title\""
+                           + sessionToUpdate.getTitle()
+                           + "\"  is empty"));
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getSummary()) )
+		{
+			Logger.info("Session Summary " + sessionToUpdate.getSummary() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Summary\""
+                           + sessionToUpdate.getSummary()
+                           + "\"  is empty"));
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getDescription()) )
+		{
+			Logger.info("Session Description " + sessionToUpdate.getDescription() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Description\""
+                           + sessionToUpdate.getDescription()
+                           + "\"  is empty"));
+			
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getStatus()))
+		{
+			Logger.info("Session Status " + sessionToUpdate.getStatus() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Status\""
+                           + sessionToUpdate.getStatus()
+                           + "\"  is empty"));
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getKeyword()) )
+		{
+			Logger.info("Session Keyword " + sessionToUpdate.getKeyword() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Keyword\""
+                           + sessionToUpdate.getKeyword()
+                           + "\"  is empty"));
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getStart()) )
+		{
+			Logger.info("Session Start " + sessionToUpdate.getStart() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Start\""
+                           + sessionToUpdate.getStart()
+                           + "\"  is empty"));
+			
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getEnd()) )
+		{
+			Logger.info("Session End " + sessionToUpdate.getStart() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session End\""
+                           + sessionToUpdate.getEnd()
+                           + "\"  is empty"));
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getCategory()) )
+		{
+			Logger.info("Session Category " + sessionToUpdate.getCategory() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Category\""
+                           + sessionToUpdate.getCategory()
+                           + "\"  is empty"));
+		}
+		if(Tools.isBlankOrNull(sessionToUpdate.getSpeakers()) )		{
+			Logger.info("Session Speakers " + sessionToUpdate.getSpeakers() + " is empty");
+           Logger.info("Exit updateSession()");
+			return internalServerError(JSON
+					.serialize("Session Speakers\""
+                           + sessionToUpdate.getSpeakers()
+                           + "\"  is empty"));
+		}
+		
+		try {
+			SessionDB.getInstance().save(sessionToUpdate);
+		} catch (JCertifException jcertifException) {
+           Logger.error(jcertifException.getMessage());
+           Logger.info("Exit updateSession()");
+			return internalServerError(jcertifException.getMessage());
+		}
+
+       Logger.info("Successfull update Session");
+       Logger.info("Exit updateSession()");
+       return ok(JSON.serialize("Ok"));
+   
+   }
 }

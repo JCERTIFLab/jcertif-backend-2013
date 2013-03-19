@@ -2,27 +2,23 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public class SessionStatus extends JCertifObject {
+/**
+ * <p>Objet metier representant le statut d'une sessoin.</p>
+ * Ex : 
+ * <ul>
+ * <li>Approuvé</li>
+ * <li>Brouillon</li>
+ * <li>...</li>
+ * </ul>
+ */
+public class SessionStatus extends Referentiel {
 
-    private String label;
-
-    public SessionStatus(BasicDBObject basicDBObject) {
-        this.label = basicDBObject.getString("label");
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label1) {
-        this.label = label1;
-    }
-
-    @Override
-    public BasicDBObject toBasicDBObject() {
-        BasicDBObject basicDBObject = new BasicDBObject();
-        basicDBObject.put("label", getLabel());
-        return basicDBObject;
-    }
+	public SessionStatus(String label) {
+		super(label);
+	}
+	
+	public SessionStatus(BasicDBObject basicDBObject){
+		super(basicDBObject);
+	}
 
 }

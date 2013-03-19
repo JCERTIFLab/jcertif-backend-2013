@@ -9,7 +9,11 @@ GET		/							controllers.HomeController.get
 
 POST	/admin					    controllers.AdminController.check
 
-GET		/ref/sponsorlevel/list		controllers.ReferentielController.sponsorlevel
+GET		/ref/sponsorlevel/list		controllers.SponsorLevelController.listSponsorLevel
+
+POST	/ref/sponsorlevel/new		controllers.SponsorLevelController.addSponsorLevel
+
+POST	/ref/sponsorlevel/remove	controllers.SponsorLevelController.removeSponsorLevel
 
 GET 	/ref/category/list			controllers.CategoryController.list
 
@@ -50,6 +54,8 @@ GET     /session/list               controllers.SessionController.listSession
 POST    /session/new                controllers.SessionController.newSession
 
 POST    /session/remove             controllers.SessionController.removeSession
+
+POST    /session/update             controllers.SessionController.updateSession
 
 POST    /participant/register       controllers.ParticipantController.registerParticipant
 

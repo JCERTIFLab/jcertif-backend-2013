@@ -1,60 +1,54 @@
 package controllers;
 
-
-import models.database.MongoDatabase;
 import models.util.Constantes;
 
+import org.codehaus.jackson.JsonNode;
+import org.junit.Assert;
 import org.junit.Test;
+
+import com.mongodb.BasicDBObject;
+
 import play.Logger;
 import play.libs.Json;
 import play.mvc.*;
+import util.TestUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
-public class CategoryControllerTest {
+public class CategoryControllerTest extends ReferentielControllerTest{
 
+	@Override
+	public String getCreateURL() {
+		return "/ref/category/new";
+	}
+	
+	@Override
+	public String getRemoveURL() {
+		return "/ref/category/remove";
+	}
+	
     @Test
     public void test_category_list() throws IOException {
 
         running(fakeApplication(), new Runnable() {
             public void run() {
                 try {
-                    MongoDatabase.getInstance().loadDbWithData(Constantes.INIT_DATA_FILE);
+                	TestUtils.updateDatabase("test/data/category.js");
                     Result result = route(fakeRequest(GET, "/ref/category/list"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
-                    assertThat(contentAsString(result)).contains("[ { \"label\" : \"Android\"} , { \"label\" : \"HTML5\"} , { \"label\" : \"Java\"} , { \"label\" : \"Entreprise\"} , { \"label\" : \"Web Design\"}]");
-
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(3, jsonNode.size());
                 } catch (IOException e) {
-                    junit.framework.Assert.fail(e.getMessage());
+                    Assert.fail(e.getMessage());
                 }
-            }
-        });
-    }
-
-    @Test
-    public void test_category_new_forbidden() {
-        Logger.info("Une requête de création d'une nouvelle catégorie requiert les droits d'administration");
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Result result = route(fakeRequest(POST, "/ref/category/new"));
-                assertThat(status(result)).isEqualTo(FORBIDDEN);
-            }
-        });
-    }
-
-    @Test
-    public void test_category_new_badrequest() {
-        Logger.info("Une requête de création d'une nouvelle catégorie sans paramètre JSON renvoie une réponse BAD REQUEST");
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Result result = route(fakeRequest(POST, "/ref/category/new").withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(BAD_REQUEST);
             }
         });
     }
@@ -70,12 +64,35 @@ public class CategoryControllerTest {
                 assertThat(status(result)).isEqualTo(OK);
 
                 Logger.info("Vérification que la nouvelle catégorie est bien présente en base de données");
-                result = route(fakeRequest(GET, "/ref/category/list"));
-                assertThat(status(result)).isEqualTo(OK);
-                assertThat(contentType(result)).isEqualTo("application/json");
-                assertThat(contentAsString(result)).contains("HTTT");
-
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "HTTT"));
+                Assert.assertTrue(null != dbObjects);
+                Assert.assertEquals(1,dbObjects.size());
+                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
             }
         });
     }
+    
+    @Test
+    public void test_category_remove_ok() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+            	try {
+					TestUtils.updateDatabase("test/data/category.js");
+					Logger.info("Suppression d'une catégorie");
+	                Map<String, String> params = new HashMap<String, String>();
+	                params.put("label", "Category3");
+	                Result result = callAction(routes.ref.CategoryController.removeCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(OK);
+
+	                Logger.info("Vérification que la catégorie a bien été supprimmé en base de données");
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "Category3"));
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(0,dbObjects.size());
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+            }
+        });
+    }
+    
 }

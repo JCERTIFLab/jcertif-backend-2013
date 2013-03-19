@@ -1,7 +1,7 @@
 package controllers;
 
+import org.junit.Assert;
 import org.junit.Test;
-import play.Logger;
 import play.mvc.Result;
 import util.TestUtils;
 
@@ -24,7 +24,7 @@ public class SessionControllerTest {
                     assertThat(contentType(result)).isEqualTo("application/json");
                     assertThat(contentAsString(result)).isEqualTo("[ { \"id\" : \"101\" , \"title\" : \"title 1\" , \"summary\" : \"summary 1\" , \"description\" : \"description 1\" , \"status\" : \"status 1\" , \"keyword\" : \"keyword 1\" , \"category\" : [ \"HTML 5\" , \"Android\"] , \"start\" : \"12/02/2013 10:22\" , \"end\" : \"16/02/2013 10:23\" , \"speakers\" : [ \"11\" , \"12\"]} , { \"id\" : \"102\" , \"title\" : \"title 2\" , \"summary\" : \"summary 2\" , \"description\" : \"description 2\" , \"status\" : \"status 2\" , \"keyword\" : \"keyword 2\" , \"category\" : [ \"HTML 5\" , \"Android\"] , \"start\" : \"12/02/2013 10:22\" , \"end\" : \"16/02/2013 10:23\" , \"speakers\" : [ \"21\" , \"22\"]}]");
                 } catch (IOException e) {
-                    Logger.error("", e);
+                	Assert.fail(e.getMessage());
                 }
             }
         });

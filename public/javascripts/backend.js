@@ -3,8 +3,6 @@ Backend = {}
 // Service d'initialisation
 Backend.init = function () {
 
-
-
     $( "#menu" ).menu();
 
     Backend.registerParticipant.initDialog();
@@ -14,23 +12,21 @@ Backend.init = function () {
 	Backend.reinitialPassword.initDialog();
 	Backend.changePassword.initDialog();
 	Backend.addSession.initDialog();
-
-    
-        
-    
+	Backend.addSponsorLevel.initDialog();      
+	Backend.removeSponsorLevel.initDialog();
+	Backend.addCategory.initDialog();      
+	Backend.removeCategory.initDialog();
 
     $("#register-participant").click(function () {
         Backend.registerParticipant.openDialog();
-    });
-	
-  $("#add-status").click(function () {
+    });	
+    $("#add-status").click(function () {
         Backend.addStatus.openDialog();
-    });
-    
-     $("#add-participant-session").click(function () {
+    });    
+    $("#add-participant-session").click(function () {
         Backend.addParticipantToSession.openDialog();
     });
-     $("#remove-participant-session").click(function () {
+    $("#remove-participant-session").click(function () {
         Backend.removeParticipantFromSession.openDialog();
     });
     $("#participant-reinitialPassword").click(function () {
@@ -42,7 +38,18 @@ Backend.init = function () {
 	$("#session-add").click(function () {
         Backend.addSession.openDialog();
     });
-
+	$("#add-sponsor-level").click(function () {
+        Backend.addSponsorLevel.openDialog();
+    });
+	$("#remove-sponsor-level").click(function () {
+        Backend.removeSponsorLevel.openDialog();
+    });
+	$("#add-category").click(function () {
+        Backend.addCategory.openDialog();
+    });
+	$("#remove-category").click(function () {
+        Backend.removeCategory.openDialog();
+    });
 }
 
 
@@ -429,5 +436,140 @@ Backend.removeParticipantFromSession = {
 
         });
     }
+}
 
+//Service de création des niveaux de sponsoring
+Backend.addSponsorLevel = {
+		
+	initDialog: function () {
+		$("#dialog-add-sponsor-level form fieldset").append('<label for="label">Niveau de partenariat</label>');
+        $("#dialog-add-sponsor-level form fieldset").append('<input type="text" name="label" id="label" class="text ui-widget-content ui-corner-all"/>');
+    },
+
+    openDialog: function () {
+    	$("#dialog-add-sponsor-level").dialog({
+            width: 450,
+            height: 250,
+            modal: true,
+            buttons: {
+                "Add": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/ref/sponsorlevel/new",
+                        data: $('#dialog-add-sponsor-level form').serializeJSONString()
+                    }).done(function (msg) {
+                    	$("#dialog-add-sponsor-level").dialog("destroy");
+                    }).fail(function (msg) {
+                        alert("Opps : " + msg.responseText);
+                    });
+                }
+            }
+        });
+    }
+}
+
+//Service de suppression des niveaux de sponsoring
+Backend.removeSponsorLevel = {
+		
+	initDialog: function () {
+		$.getJSON("/ref/sponsorlevel/list", function(data){
+			options = "";
+			$.each(data, function(index, sponsorLevel) {
+				options=options+'<option value="'+sponsorLevel.label+'">'+sponsorLevel.label+'</option>';
+			});
+			$("#dialog-remove-sponsor-level form fieldset").append('<label for="label">Niveau de partenariat</label>');
+	        $("#dialog-remove-sponsor-level form fieldset").append('<select name="label" id="label" class="ui-widget-content ui-corner-all">'+options+'</select>');
+		});
+    },
+
+    openDialog: function () {
+    	$("#dialog-remove-sponsor-level").dialog({
+            width: 420,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Supprimer": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/ref/sponsorlevel/remove",
+                        data: $('#dialog-remove-sponsor-level form').serializeJSONString()
+                    }).done(function (msg) {
+                    	$("#dialog-remove-sponsor-level").dialog("destroy");
+                    }).fail(function (msg) {
+                        alert("Opps : " + msg.responseText);
+                    });
+                }
+            }
+        });
+    }
+}
+
+//Service de création de nouvelles catégories
+Backend.addCategory = {
+		
+	initDialog: function () {
+		$("#dialog-add-category form fieldset").append('<label for="label">Cat&eacute;gorie</label>');
+        $("#dialog-add-category form fieldset").append('<input type="text" name="label" id="label" class="text ui-widget-content ui-corner-all"/>');
+    },
+
+    openDialog: function () {
+    	$("#dialog-add-category").dialog({
+            width: 350,
+            height: 250,
+            modal: true,
+            buttons: {
+                "Add": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/ref/category/new",
+                        data: $('#dialog-add-category form').serializeJSONString()
+                    }).done(function (msg) {
+                    	$("#dialog-add-category").dialog("destroy");
+                    }).fail(function (msg) {
+                        alert("Opps : " + msg.responseText);
+                    });
+                }
+            }
+        });
+    }
+}
+
+//Service de suppression de catégories
+Backend.removeCategory = {
+		
+	initDialog: function () {
+		$.getJSON("/ref/category/list", function(data){
+			options = "";
+			$.each(data, function(index, categorie) {
+				options=options+'<option value="'+categorie.label+'">'+categorie.label+'</option>';
+			});
+			$("#dialog-remove-category form fieldset").append('<label for="label">Cat&eacute;gorie</label>');
+	        $("#dialog-remove-category form fieldset").append('<select name="label" id="label" class="ui-widget-content ui-corner-all">'+options+'</select>');
+		});
+    },
+
+    openDialog: function () {
+    	$("#dialog-remove-category").dialog({
+            width: 350,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Supprimer": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/ref/category/remove",
+                        data: $('#dialog-remove-category form').serializeJSONString()
+                    }).done(function (msg) {
+                    	$("#dialog-remove-category").dialog("destroy");
+                    }).fail(function (msg) {
+                        alert("Opps : " + msg.responseText);
+                    });
+                }
+            }
+        });
+    }
 }

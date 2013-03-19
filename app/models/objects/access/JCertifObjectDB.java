@@ -18,22 +18,22 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	private Checker checker;
 	private String collectionName;
 
-	public JCertifObjectDB(String collectionName1) {
-		this.collectionName = collectionName1;
+	public JCertifObjectDB(String collectionName) {
+		this.collectionName = collectionName;
 		checker = null;
 	}
 
-	public JCertifObjectDB(String collectionName1, Checker checker1) {
-		this.collectionName = collectionName1;
-		this.checker = checker1;
+	public JCertifObjectDB(String collectionName, Checker checker) {
+		this.collectionName = collectionName;
+		this.checker = checker;
 	}
 
 	public Checker getChecker() {
 		return checker;
 	}
 
-	protected void setChecker(Checker checker1) {
-		this.checker = checker1;
+	protected void setChecker(Checker checker) {
+		this.checker = checker;
 	}
 
 	/**
@@ -85,15 +85,22 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	@Override
 	public BasicDBObject get(String keyName, Object keyValue)
 			throws JCertifException {
-		if (null == keyName) {
+		if (null == keyName)
 			return null;
-        }
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(keyName, keyValue);
-		BasicDBObject objectToGet = MongoDatabase.getInstance().readOne(
-				getCollectionName(), dbObject);
-        /* If the object does not exist, null is returned */
-		return objectToGet;
+		
+		return get(dbObject);
+	}
+	
+	public BasicDBObject get(BasicDBObject objectToGet)
+			throws JCertifException {
+		if (null == objectToGet)
+			return null;
+
+		/* If the object does not exist, null is returned */
+		return MongoDatabase.getInstance().readOne(
+				getCollectionName(), objectToGet);
 	}
 
 	@Override
@@ -186,7 +193,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		return collectionName;
 	}
 
-	private void setCollectionName(String collectionName1) {
-		this.collectionName = collectionName1;
+	public void setCollectionName(String collectionName) {
+		this.collectionName = collectionName;
 	}
 }

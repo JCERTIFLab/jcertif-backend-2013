@@ -2,26 +2,28 @@ package models.objects;
 
 import com.mongodb.BasicDBObject;
 
-public class Category extends JCertifObject {
+/**
+ * <p>Objet metier representant la catégorie d'appartenance d'une sessoin.</p>
+ * Ex : 
+ * <ul>
+ * <li>Android</li>
+ * <li>Java</li>
+ * <li>Web Development</li>
+ * <li>...</li>
+ * </ul>
+ * 
+ * @author Martial SOMDA
+ *
+ */
+public class Category extends Referentiel {
 
-    private String label;
+	public Category(String label) {
+		super(label);
+	}
+	
+	//keep it up for backward-compatibility
+	public Category(BasicDBObject basicDBObject){
+		super(basicDBObject);
+	}
 
-    public Category(BasicDBObject basicDBObject) {
-        this.label = basicDBObject.getString("label");
-    }
-
-    public final String getLabel() {
-        return label;
-    }
-
-    public final void setLabel(final String label1) {
-        this.label = label1;
-    }
-
-    @Override
-    public final BasicDBObject toBasicDBObject() {
-        BasicDBObject basicDBObject = new BasicDBObject();
-        basicDBObject.put("label", getLabel());
-        return basicDBObject;
-    }
 }

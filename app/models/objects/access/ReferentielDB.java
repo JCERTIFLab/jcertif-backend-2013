@@ -1,0 +1,88 @@
+package models.objects.access;
+
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import com.mongodb.BasicDBObject;
+
+import models.exception.JCertifException;
+import models.exception.JCertifResourceAccessException;
+import models.objects.Referentiel;
+import models.objects.checker.Checker;
+
+/**
+ * <p>Objet d'accès aux données de type {@link Referentiel}.<br/>
+ * Cette Objet implémente la classe {@link IDao} et fournit des méthodes de type <code>CRUD</code>.</p>
+ * 
+ * @author Martial SOMDA
+ *
+ */
+public abstract class ReferentielDB<T extends Referentiel> extends JCertifObjectDB<T>{
+
+	private Class<T> referentielClass;
+
+	@SuppressWarnings("unchecked")
+	public ReferentielDB(String collectionName, Checker checker) {
+		super(collectionName, checker);
+		this.referentielClass = 
+			(Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}	
+	
+		
+	public boolean add(T referentiel) throws JCertifException {
+		return super.add(referentiel.toBasicDBObject());
+	}
+	
+	public boolean update(T referentiel)
+			throws JCertifException {
+		return super.update(referentiel.toBasicDBObject(), "label");
+	}
+	
+	public boolean save(T referentiel)
+			throws JCertifException {
+		return super.save(referentiel.toBasicDBObject(), "label");
+	}
+	
+	public T get(String label) throws JCertifException {
+		BasicDBObject dbObject = super.get("label", label);
+		if(null == dbObject){
+			return null;
+		}
+		T object = instanciate();
+		object.setLabel(label);
+		return object;
+	}
+	
+	public List<T> listAll() throws JCertifException {
+		BasicDBObject objectToSearch = new BasicDBObject();
+		BasicDBObject columnToRetrieve = new BasicDBObject("_id", 0);
+		List<BasicDBObject> dbObjects = super.list(objectToSearch, columnToRetrieve);
+		List<T> objects = new ArrayList<T>();
+		T object = null;
+		for(Iterator<BasicDBObject> itr = dbObjects.iterator();itr.hasNext();){
+			object = instanciate();
+			object.setLabel(itr.next().getString("label"));
+			objects.add(object);
+		}
+		return objects;
+	}
+	
+	public boolean remove(T referentielToDelete)
+			throws JCertifException {		
+		return super.remove(referentielToDelete.toBasicDBObject(), "label");
+	}
+	
+	private T instanciate() throws JCertifException {
+		try {
+			return referentielClass.newInstance();
+		} catch (InstantiationException e) {
+			throw new JCertifException("Implossible de créer une instance de " 
+					+ referentielClass.getSimpleName() , e);
+		} catch (IllegalAccessException e) {
+			throw new JCertifResourceAccessException("Implossible de créer une instance de " 
+					+ referentielClass.getSimpleName() , e);
+		}
+	}
+}

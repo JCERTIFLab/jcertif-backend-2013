@@ -1,4 +1,8 @@
 // Fichier d'initialisation des données référentielles
+db.referentiel.remove();
+db.session_status.remove();
+db.session_status.insert({label: 'Approuvé'});
+db.session_status.insert({label: 'Brouillon'});
 db.sponsor_level.remove();
 db.sponsor_level.insert({label: 'Titanium'});
 db.sponsor_level.insert({label: 'Platine'});
