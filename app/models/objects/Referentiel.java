@@ -13,6 +13,8 @@ public abstract class Referentiel extends JCertifObject {
     public Referentiel(String label){
         this.label  = label;
     }
+    
+    public Referentiel(){}
 
     public String getLabel() {
         return label;

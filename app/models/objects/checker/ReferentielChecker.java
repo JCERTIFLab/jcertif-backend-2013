@@ -23,13 +23,12 @@ public abstract class ReferentielChecker extends Checker {
         }
         
         if(Tools.isBlankOrNull(objectToCheck.getString("label"))){
-        	throw new JCertifInvalidRequestException(this, "Label cannot be null");
+        	throw new JCertifInvalidRequestException(this, "Label cannot be empty or null");
         }
 	}
 
 	@Override
 	public void updateCheck(BasicDBObject objectToCheck)
 			throws JCertifException {
-		throw new UnsupportedOperationException("Methode not implemented yet");
 	}
 }
