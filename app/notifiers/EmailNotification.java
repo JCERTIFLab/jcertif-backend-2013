@@ -6,6 +6,7 @@ import models.objects.Participant;
 import models.objects.Session;
 import models.objects.Speaker;
 import play.Logger;
+import views.html.*;
 
 /**
  * Cette classe se chargera de tous les envoi de mails 'ala play framework'.
