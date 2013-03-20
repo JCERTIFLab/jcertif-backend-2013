@@ -4,12 +4,9 @@ import org.codehaus.jackson.JsonNode;
 
 import com.mongodb.util.JSON;
 
-import models.exception.JCertifException;
 import models.objects.SponsorLevel;
 import models.objects.access.SponsorLevelDB;
 import play.mvc.Result;
-
-import controllers.ActionTemplate.ActionCallback;
 
 /**
  * <p>Controleur des niveaux de partenariats.</p>
@@ -19,53 +16,31 @@ import controllers.ActionTemplate.ActionCallback;
  */
 public class SponsorLevelController extends AbstractController{
 
-	
+	@JCertifContext(action="SponsorLevelController.addSponsorLevel",admin=true)
 	public static Result addSponsorLevel() {
         
-		ActionCallback callBack = new ActionCallback("ReferentielController.addSponsorLevel") {
-			
-			@Override
-			public Result execute() throws JCertifException {
-				JsonNode jsonNode = request().body().asJson();
-				
-				SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
-				
-				SponsorLevelDB.getInstance().add(sponsorLevel);
-				return ok(JSON.serialize("Ok"));
-			}
-		};
-		JSONPostActionTemplate template = new JSONPostActionTemplate();
-		return template.doAction(callBack, true);
+		JsonNode jsonNode = request().body().asJson();
+		
+		SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
+		
+		SponsorLevelDB.getInstance().add(sponsorLevel);
+		return ok(JSON.serialize("Ok"));
     }
 	
+	@JCertifContext(action="SponsorLevelController.listSponsorLevel")
 	public static Result listSponsorLevel() {
         
-		ActionCallback callBack = new ActionCallback("ReferentielController.listSponsorLevel") {			
-			@Override
-			public Result execute() throws JCertifException {
-				
-				return ok(JSON.serialize(SponsorLevelDB.getInstance().list()));
-			}
-		};
-		JSONGetActionTemplate template = new JSONGetActionTemplate();
-		return template.doAction(callBack, false);
+		return ok(JSON.serialize(SponsorLevelDB.getInstance().list()));
     }
 	
+	@JCertifContext(action="SponsorLevelController.removeSponsorLevel",admin=true)
 	public static Result removeSponsorLevel() {
         
-		ActionCallback callBack = new ActionCallback("ReferentielController.removeSponsorLevel") {
-			
-			@Override
-			public Result execute() throws JCertifException {
-				JsonNode jsonNode = request().body().asJson();
-				
-				SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
-				
-				SponsorLevelDB.getInstance().remove(sponsorLevel);
-				return ok(JSON.serialize("Ok"));
-			}
-		};
-		JSONPostActionTemplate template = new JSONPostActionTemplate();
-		return template.doAction(callBack, true);
+		JsonNode jsonNode = request().body().asJson();
+		
+		SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
+		
+		SponsorLevelDB.getInstance().remove(sponsorLevel);
+		return ok(JSON.serialize("Ok"));
     }
 }

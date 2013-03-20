@@ -23,7 +23,7 @@ public class CategoryChecker extends ReferentielChecker {
 			throws JCertifException {
 		BasicDBObject dbObject = CategoryDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null == dbObject) {
-            throw new JCertifObjectNotFoundException(this, "Category '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' already exists");
+            throw new JCertifObjectNotFoundException(this, "Category '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' doesn't exists");
         }
 	}
 

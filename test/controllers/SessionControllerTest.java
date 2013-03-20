@@ -12,7 +12,6 @@ import static play.test.Helpers.*;
 
 public class SessionControllerTest {
 
-
     @Test
     public void test_listSession() throws java.io.IOException {
         running(fakeApplication(), new Runnable() {

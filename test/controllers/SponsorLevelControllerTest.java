@@ -28,7 +28,6 @@ import com.mongodb.BasicDBObject;
 
 import play.Logger;
 import play.libs.Json;
-import play.mvc.Http;
 import play.mvc.Result;
 import util.TestUtils;
 
@@ -38,14 +37,14 @@ import util.TestUtils;
  * @author Martial SOMDA
  *
  */
-public class SponsorLevelControllerTest extends ReferentielControllerTest{
+public class SponsorLevelControllerTest {
 
-	@Override
+
 	public String getCreateURL() {
 		return "/ref/sponsorlevel/new";
 	}
 	
-	@Override
+
 	public String getRemoveURL() {
 		return "/ref/sponsorlevel/remove";
 	}
@@ -90,7 +89,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
         });
     }
 	
-	@Test
+	/*@Test
     public void test_sponsorlevel_new_conflict() {
 		running(fakeApplication(), new Runnable() {
             public void run() {
@@ -124,7 +123,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest{
 				}
             }
         });
-    }
+    }*/
 	
 	@Test
     public void test_sponsorlevel_remove_ok() {

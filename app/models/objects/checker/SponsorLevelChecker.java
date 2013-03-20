@@ -22,7 +22,7 @@ public class SponsorLevelChecker extends ReferentielChecker{
 			throws JCertifException {
 		BasicDBObject dbObject = SponsorLevelDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null == dbObject) {
-            throw new JCertifObjectNotFoundException(this, "Sponsor level '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' already exists");
+            throw new JCertifObjectNotFoundException(this, "Sponsor level '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' doesn't exists");
         }
 	}
 

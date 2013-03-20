@@ -1,9 +1,14 @@
 package models.exception;
 
+import play.mvc.Http;
+
 import com.mongodb.util.JSON;
 
+import controllers.JcertifHttpMapping;
+
 @SuppressWarnings("serial")
-public class JCertifException extends Exception {
+@JcertifHttpMapping(status=Http.Status.INTERNAL_SERVER_ERROR)
+public class JCertifException extends RuntimeException {
 
 	public JCertifException(String message,Exception exception) {
         super(message,exception);
