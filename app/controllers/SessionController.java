@@ -98,14 +98,12 @@ public class SessionController extends AbstractController {
         } catch (JCertifException jcertifException) {
             Logger.error(jcertifException.getMessage());
             Logger.info("Exit removeSession()");
-            Logger.info("Any problem over here _1_");
             return internalServerError(jcertifException.getMessage());
         }
 
         if (sessionFromRepo == null) {
             Logger.info("Session with id " + idSession + " does not exist");
             Logger.info("Exit removeSession()");
-            Logger.info("Any problem over here _2_");
             return internalServerError(JSON
                     .serialize("Session with email \""
                             + idSession
@@ -117,7 +115,6 @@ public class SessionController extends AbstractController {
         }catch(JCertifException jcertifException){
             Logger.error(jcertifException.getMessage());
             Logger.info("Exit removeSession()");
-            Logger.info("Any problem over here _3_");
             return internalServerError(jcertifException.getMessage());
         }
 
