@@ -2,6 +2,7 @@ package controllers;
 
 
 import models.exception.JCertifResourceAccessException;
+import models.util.Tools;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http.Context;
@@ -27,7 +28,7 @@ import scala.collection.mutable.StringBuilder;
  * 
  * <pre>
  * <code>
- * @JCertifContext(action="MyController.myAction",admin=true)
+ * @JCertifContext(admin=true)
  *	public static Result addSponsorLevel() {
  *   //do some stuff
  *   return ok();
@@ -40,23 +41,23 @@ import scala.collection.mutable.StringBuilder;
  */
 public class JCertifContextAction extends Action<JCertifContext> {
 
-	private static final String TRACE_START_TAG = "[DEBUT] : ";
-	private static final String TRACE_END_TAG = "[FIN] : ";
+	private static final String TRACE_REQUESTED_URL_TAG = "Requested URL : ";
 	
 	@Override
 	public Result call(Context context) throws Throwable {
-		Logger.debug(new StringBuilder().append(TRACE_START_TAG)
-				.append(configuration.action()).toString());
+
+		Logger.debug(new StringBuilder().append(TRACE_REQUESTED_URL_TAG)
+				.append(context.request().path()).toString());
 		
 		if (configuration.admin()) {
 			checkAdmin(context.session());
 		}
 		
+		Tools.verifyJSonRequest(context.request().body());
+		
 		Result result = delegate.call(context);
 		
 		allowCrossOriginJson(context.response());
-		Logger.debug(new StringBuilder().append(TRACE_END_TAG)
-				.append(configuration.action()).toString());
 		
 		return result;
 	}
