@@ -95,7 +95,20 @@ public class SessionChecker extends Checker{
 
     @Override
     public final void deleteCheck(BasicDBObject objectToCheck) throws JCertifException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    	
+    	Session session = new Session(objectToCheck);
+    	
+    	if (Tools.isBlankOrNull(session.getId())) {
+    		throw new JCertifException(this, "Id cannot be empty or null");
+        }
+    	
+    	if (Tools.isNotValidNumber(session.getId())) {
+    		throw new JCertifException(this, "Id must be a valid number");
+        }
+    	
+    	if(null == SessionDB.getInstance().get(session.getId())){
+    		throw new JCertifException(this, "You tried to delete an unregistred session.");
+    	}
     }
 
     @Override

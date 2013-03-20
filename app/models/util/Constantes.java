@@ -4,6 +4,7 @@ public interface Constantes {
 
     String PROPERTIES_FILE = "jcertifbackend.properties";
     String INIT_DATA_FILE = "referentiel.js";
+    String TEST_DATA_SESSION = "test/data/session.js";
 
     String COLLECTION_LOGIN = "login";
     String COLLECTION_PARTICIPANT = "participant";

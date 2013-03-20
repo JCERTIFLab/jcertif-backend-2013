@@ -22,6 +22,9 @@ public final class Tools {
     private static Pattern rfc2822 = Pattern
             .compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
 
+    private static final Pattern numberPatern = Pattern
+            .compile(".*[^0-9].*");
+    
     public static boolean isBlankOrNull(String str) {
         return ((null == str) || (str.trim().length() == 0));
     }
@@ -104,6 +107,10 @@ public final class Tools {
         if(((requestBody)==(null)) || ((requestBody.asJson())==(null))){
             throw new JCertifInvalidRequestException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
         }
+    }
+    
+    public static boolean isNotValidNumber(String innerID) throws JCertifException {
+    	return numberPatern.matcher(innerID).matches();
     }
 
 }
