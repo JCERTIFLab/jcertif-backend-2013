@@ -19,4 +19,5 @@ import play.mvc.With;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JCertifContext {
 	boolean admin() default false;
+	boolean bodyParse() default false;
 }

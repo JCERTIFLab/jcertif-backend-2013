@@ -16,7 +16,7 @@ import play.mvc.Result;
  */
 public class SponsorLevelController extends AbstractController{
 
-	@JCertifContext(admin=true)
+	@JCertifContext(admin=true,bodyParse=true)
 	public static Result addSponsorLevel() {
         
 		JsonNode jsonNode = request().body().asJson();
@@ -33,7 +33,7 @@ public class SponsorLevelController extends AbstractController{
 		return ok(JSON.serialize(SponsorLevelDB.getInstance().list()));
     }
 	
-	@JCertifContext(admin=true)
+	@JCertifContext(admin=true,bodyParse=true)
 	public static Result removeSponsorLevel() {
         
 		JsonNode jsonNode = request().body().asJson();

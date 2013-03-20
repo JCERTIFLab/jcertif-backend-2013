@@ -18,17 +18,17 @@ import scala.collection.mutable.StringBuilder;
  * l'annotation {@link JCertifContext} et réalise les traitement suivants :</p>
  * <dl>
  * <dt>pré-traitements</dt>
- * <dd>log d'entrée de méthode<dd>
- * <dd>vérification des habilitations<dd><br/>
+ * <dd>log de l'url du service demandé<dd>
+ * <dd>vérification des habilitations<dd>
+ * <dd>validation du format du message en entrée<dd><br/>
  * <dt>délégation du traitement à l'action cible</dt><br/><br/>
  * <dt>post-traitements</dt>
  * <dd>Appliquer l'autorisation cross origin<dd>
- * <dd>log de sortie de méthode<dd>
  * </dl>
  * 
  * <pre>
  * <code>
- * @JCertifContext(admin=true)
+ * @JCertifContext(admin=true,validateRequest=true)
  *	public static Result addSponsorLevel() {
  *   //do some stuff
  *   return ok();
@@ -53,7 +53,9 @@ public class JCertifContextAction extends Action<JCertifContext> {
 			checkAdmin(context.session());
 		}
 		
-		Tools.verifyJSonRequest(context.request().body());
+		if (configuration.bodyParse()) {
+			Tools.verifyJSonRequest(context.request().body());
+		}		
 		
 		Result result = delegate.call(context);
 		
