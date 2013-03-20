@@ -26,7 +26,7 @@ public class SessionControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 try {
-                    TestUtils.updateDatabase(Constantes.TEST_DATA_SESSION);
+                    TestUtils.updateDatabase("test/data/session.js");
                     Result result = route(fakeRequest(GET, "/session/list"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
@@ -107,7 +107,7 @@ public class SessionControllerTest {
             public void run() {
                 	Logger.info("*** DEBUT -> test_session_deletion_unregistred_session_id ***");
                 	try {
-                		MongoDatabase.getInstance().loadDbWithData(Constantes.TEST_DATA_SESSION);
+                		MongoDatabase.getInstance().loadDbWithData("test/data/session.js");
                 		Map<String, String> params = new HashMap<String, String>();
                         params.put("id", "10000000");                        
                         Logger.info("La demande de suppession ne doit concernée que des sessions existantes.");
@@ -130,12 +130,12 @@ public class SessionControllerTest {
                 	Logger.info("*** DEBUT -> test_session_all_OK ***");
                 	try {
                 		Logger.info("Tous les inner params sont valides.");
-                		MongoDatabase.getInstance().loadDbWithData(Constantes.TEST_DATA_SESSION);
+                		MongoDatabase.getInstance().loadDbWithData("test/data/session.js");
                 		assertThat(SessionDB.getInstance().get("101") != null );
                 		Map<String, String> params = new HashMap<String, String>();
                         params.put("id", "101");
                         Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                        assertThat(status(result)).isEqualTo(INTERNAL_SERVER_ERROR);
+                        assertThat(status(result)).isEqualTo(OK);
                         assertThat(SessionDB.getInstance().get("101") == null );
                         Logger.info("*** FIN -> test_session_all_OK ***");
 					} catch (Exception e) {

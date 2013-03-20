@@ -176,7 +176,6 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	@Override
 	public final boolean remove(BasicDBObject objectToDelete, String idKeyname)
 			throws JCertifException {
-		getChecker().check(objectToDelete);
 		getChecker().deleteCheck(objectToDelete);
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToDelete.get(idKeyname));
