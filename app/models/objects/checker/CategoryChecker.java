@@ -1,7 +1,6 @@
 package models.objects.checker;
 
 import models.exception.JCertifDuplicateObjectException;
-import models.exception.JCertifException;
 import models.exception.JCertifObjectNotFoundException;
 import models.objects.Category;
 import models.objects.access.CategoryDB;
@@ -19,8 +18,7 @@ import models.util.Constantes;
 public class CategoryChecker extends ReferentielChecker {
 
 	@Override
-	public final void deleteCheck(BasicDBObject objectToCheck)
-			throws JCertifException {
+	public final void deleteCheck(BasicDBObject objectToCheck) {
 		BasicDBObject dbObject = CategoryDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null == dbObject) {
             throw new JCertifObjectNotFoundException(this, "Category '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' doesn't exists");
@@ -28,7 +26,7 @@ public class CategoryChecker extends ReferentielChecker {
 	}
 
 	@Override
-	public final void addCheck(BasicDBObject objectToCheck) throws JCertifException {
+	public final void addCheck(BasicDBObject objectToCheck) {
 		BasicDBObject dbObject = CategoryDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME));
         if (null != dbObject) {
             throw new JCertifDuplicateObjectException(this, "Category '" + objectToCheck.getString(Constantes.LABEL_ATTRIBUTE_NAME) + "' already exists");

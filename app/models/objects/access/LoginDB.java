@@ -1,7 +1,6 @@
 package models.objects.access;
 
 import com.mongodb.BasicDBObject;
-import models.exception.JCertifException;
 import models.objects.Login;
 import models.objects.checker.LoginChecker;
 import models.util.Constantes;
@@ -20,19 +19,19 @@ public final class LoginDB extends JCertifObjectDB<Login> {
 
 	}
 
-	public boolean add(Login login) throws JCertifException {
+	public boolean add(Login login) {
 		return add(login.toBasicDBObject());
 	}
 
-	public boolean remove(Login login) throws JCertifException {
+	public boolean remove(Login login) {
 		return remove(login.toBasicDBObject(), "email");
 	}
 
-	public boolean save(Login login) throws JCertifException {
+	public boolean save(Login login) {
 		return save(login.toBasicDBObject(), "email");
 	}
 
-	public Login get(String email) throws JCertifException {
+	public Login get(String email) {
 		BasicDBObject dbObject = get("email", email);
 		Login login = null;
 		if (null != dbObject) {

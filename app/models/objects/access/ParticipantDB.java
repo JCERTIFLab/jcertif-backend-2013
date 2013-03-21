@@ -1,7 +1,6 @@
 package models.objects.access;
 
 import com.mongodb.BasicDBObject;
-import models.exception.JCertifException;
 import models.objects.Participant;
 import models.objects.checker.ParticipantChecker;
 import models.util.Constantes;
@@ -17,19 +16,19 @@ public final class ParticipantDB extends JCertifObjectDB<Participant>{
         return INSTANCE;
     }
 
-    public boolean add(Participant participant) throws JCertifException {
+    public boolean add(Participant participant) {
         return add(participant.toBasicDBObject());
     }
 
-    public boolean remove(Participant participant) throws JCertifException {
+    public boolean remove(Participant participant) {
         return remove(participant.toBasicDBObject(), "email");
     }
 
-    public boolean save(Participant participant) throws JCertifException {
+    public boolean save(Participant participant) {
         return save(participant.toBasicDBObject(), "email");
     }
 
-    public Participant get(String email) throws JCertifException {
+    public Participant get(String email) {
         BasicDBObject dbObject = get("email", email);
         Participant participant = null;
         if (null != dbObject){

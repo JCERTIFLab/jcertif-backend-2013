@@ -116,7 +116,8 @@ public class ParticipantController extends AbstractController {
                             + "\" does not exist"));
 		}
 
-		participant.setPassword("-"); /* We ensure that we don't return the password */
+		/* We ensure that we don't return the password */
+		participant.setPassword("-");
 
         Logger.info("Successfull get participant");
         Logger.info("Exit getParticipant()");
@@ -183,7 +184,8 @@ public class ParticipantController extends AbstractController {
 
 			ParticipantDB.getInstance().add(participant);
 
-			EmailNotification.sendWelcomeMail(participant); /* send email */
+			/* send email */
+			EmailNotification.sendWelcomeMail(participant);
 
 		} catch (JCertifException jcertifException) {
             Logger.error(jcertifException.getMessage());

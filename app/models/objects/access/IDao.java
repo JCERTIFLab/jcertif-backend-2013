@@ -1,7 +1,5 @@
 package models.objects.access;
 
-import models.exception.JCertifException;
-
 import java.util.List;
 
 /**
@@ -18,17 +16,14 @@ public interface IDao<T> {
 
 	List<T> list(T query);
 
-	T get(String keyName, Object keyValue) throws JCertifException;
+	T get(String keyName, Object keyValue);
 
-	boolean add(T newObject) throws JCertifException;
+	boolean add(T newObject);
 
-	boolean update(T objectToUpdate, String idKeyname)
-			throws JCertifException;
+	boolean update(T objectToUpdate, String idKeyname);
 
-	boolean save(T objectToUpdate, String idKeyname)
-			throws JCertifException;
+	boolean save(T objectToUpdate, String idKeyname);
 
-	boolean remove(T objectToDelete, String idKeyname)
-			throws JCertifException;
+	boolean remove(T objectToDelete, String idKeyname);
 
 }

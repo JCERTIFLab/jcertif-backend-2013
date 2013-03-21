@@ -5,6 +5,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 import models.database.MongoDatabase;
 import models.exception.JCertifException;
+import models.exception.JCertifObjectNotFoundException;
 import models.objects.JCertifObject;
 import models.objects.checker.Checker;
 import models.util.Tools;
@@ -85,8 +86,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public final BasicDBObject get(String keyName, Object keyValue)
-			throws JCertifException {
+	public final BasicDBObject get(String keyName, Object keyValue) {
 		if (null == keyName){
 			return null;
         }
@@ -96,8 +96,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		return get(dbObject);
 	}
 	
-	public final BasicDBObject get(BasicDBObject objectToGet)
-			throws JCertifException {
+	public final BasicDBObject get(BasicDBObject objectToGet) {
 		if (null == objectToGet){
 			return null;
         }
@@ -108,7 +107,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public final boolean add(BasicDBObject basicDBObject) throws JCertifException {
+	public final boolean add(BasicDBObject basicDBObject) {
 		getChecker().check(basicDBObject);
 		getChecker().addCheck(basicDBObject);
 		WriteResult result = MongoDatabase.getInstance().create(
@@ -128,8 +127,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	 * @throws JCertifException
 	 */
 	@Override
-	public final boolean update(BasicDBObject objectToUpdate, String idKeyname)
-			throws JCertifException {
+	public final boolean update(BasicDBObject objectToUpdate, String idKeyname) {
 		getChecker().check(objectToUpdate);
 		getChecker().updateCheck(objectToUpdate);
 		BasicDBObject dbObject = new BasicDBObject();
@@ -137,7 +135,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		BasicDBObject existingObjectToUpdate = MongoDatabase.getInstance()
 				.readOne(getCollectionName(), dbObject);
 		if (null == existingObjectToUpdate) {
-			throw new JCertifException(this, "Object to update does not exist");
+			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
 		}
 
 		existingObjectToUpdate.putAll(objectToUpdate.toMap());
@@ -151,8 +149,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public final boolean save(BasicDBObject objectToUpdate, String idKeyname)
-			throws JCertifException {
+	public final boolean save(BasicDBObject objectToUpdate, String idKeyname) {
 		getChecker().check(objectToUpdate);
 		getChecker().updateCheck(objectToUpdate);
 		BasicDBObject dbObject = new BasicDBObject();
@@ -160,7 +157,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		BasicDBObject existingObjectToUpdate = MongoDatabase.getInstance()
 				.readOne(getCollectionName(), dbObject);
 		if (null == existingObjectToUpdate) {
-			throw new JCertifException(this, "Object to update does not exist");
+			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
 		}
 
 		existingObjectToUpdate.putAll(objectToUpdate.toMap());
@@ -174,15 +171,14 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public final boolean remove(BasicDBObject objectToDelete, String idKeyname)
-			throws JCertifException {
+	public final boolean remove(BasicDBObject objectToDelete, String idKeyname) {
 		getChecker().deleteCheck(objectToDelete);
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToDelete.get(idKeyname));
 		BasicDBObject existingObjectToDelete = MongoDatabase.getInstance()
 				.readOne(getCollectionName(), dbObject);
 		if (null == existingObjectToDelete) {
-			throw new JCertifException(this, "Object to delete does not exist");
+			throw new JCertifObjectNotFoundException(this, "Object to delete does not exist");
 		}
 		WriteResult result = MongoDatabase.getInstance().delete(
 				getCollectionName(), existingObjectToDelete);

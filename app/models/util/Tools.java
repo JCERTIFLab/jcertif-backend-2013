@@ -1,7 +1,7 @@
 package models.util;
 
 import com.mongodb.BasicDBList;
-import models.exception.JCertifException;
+
 import models.exception.JCertifInvalidRequestException;
 import play.Play;
 import play.mvc.Http;
@@ -22,14 +22,13 @@ public final class Tools {
     private static Pattern rfc2822 = Pattern
             .compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
 
-    private static final Pattern numberPatern = Pattern
-            .compile(".*[^0-9].*");
+    private static final Pattern NUMBER_PATTERN = Pattern.compile(".*[^0-9].*");
     
     public static boolean isBlankOrNull(String str) {
         return ((null == str) || (str.trim().length() == 0));
     }
 
-    public static boolean isBlankOrNull(List list) {
+    public static boolean isBlankOrNull(List<?> list) {
         return ((null == list) || (list.isEmpty()));
     }
 
@@ -86,31 +85,31 @@ public final class Tools {
         if((basicDBList)==(null)){
             return retList;
         }
-        for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
+        for(Iterator iterator = basicDBList.iterator();iterator.hasNext();){
             retList.add(iterator.next());
         }
         return retList;
     }
 
-    public static BasicDBList javaListToBasicDBList(List javaList){
+    public static BasicDBList javaListToBasicDBList(List<?> javaList){
         BasicDBList retList = new BasicDBList();
         if((javaList)==(null)){
             return retList;
         }
-        for(Iterator iterator = javaList.iterator();iterator.hasNext();){
+        for(Iterator<?> iterator = javaList.iterator();iterator.hasNext();){
             retList.add(iterator.next());
         }
         return retList;
     }
 
-    public static void verifyJSonRequest(Http.RequestBody requestBody) throws JCertifException {
+    public static void verifyJSonRequest(Http.RequestBody requestBody) {
         if(((requestBody)==(null)) || ((requestBody.asJson())==(null))){
             throw new JCertifInvalidRequestException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
         }
     }
     
-    public static boolean isNotValidNumber(String innerID) throws JCertifException {
-    	return numberPatern.matcher(innerID).matches();
+    public static boolean isNotValidNumber(String innerID) {
+    	return NUMBER_PATTERN.matcher(innerID).matches();
     }
 
 }

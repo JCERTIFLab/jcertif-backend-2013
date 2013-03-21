@@ -69,8 +69,7 @@ public final class CryptoUtil
      * @return the Base64-encoded password hash
      * @throws JCertifException If your JVM is completely b0rked and does not have SHA.
      */
-    public static String getSaltedPassword( byte[] password ) throws JCertifException
-    {
+    public static String getSaltedPassword( byte[] password ) {
         byte[] salt = new byte[DEFAULT_SALT_SIZE];
         RANDOM.nextBytes( salt );
         return getSaltedPassword( password, salt );
@@ -94,8 +93,7 @@ public final class CryptoUtil
      * @return the Base64-encoded password hash, prepended by <code>{SSHA}</code>.
      * @throws JCertifException If your JVM is totally b0rked and does not have SHA1.
      */
-    protected static String getSaltedPassword( byte[] password, byte[] salt ) throws JCertifException
-    {
+    protected static String getSaltedPassword( byte[] password, byte[] salt ) {
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance("SHA");
@@ -130,7 +128,7 @@ public final class CryptoUtil
      *  @throws JCertifException If there is no SHA available.
      *  @throws JCertifException If no UTF-8 encoding is available
      */
-    public static boolean verifySaltedPassword( byte[] passwordToCompare, String hashedPassword ) throws JCertifException {
+    public static boolean verifySaltedPassword( byte[] passwordToCompare, String hashedPassword ) {
         try{
         byte[] challenge = Base64.decodeBase64(hashedPassword.getBytes("UTF-8"));
 
@@ -164,8 +162,7 @@ public final class CryptoUtil
      * @throws IllegalArgumentException if the length of the supplied digest is
      *             less than or equal to 20 bytes
      */
-    protected static byte[] extractPasswordHash( byte[] digest ) throws JCertifException
-    {
+    protected static byte[] extractPasswordHash( byte[] digest ) {
         if( digest.length < saltLength )
         {
             throw new JCertifException(CryptoUtil.class, "Hash was less than " + saltLength +" characters; could not extract password hash!" );
@@ -191,8 +188,7 @@ public final class CryptoUtil
      * @throws IllegalArgumentException if the length of the supplied digest is
      *             less than or equal to 20 bytes
      */
-    protected static byte[] extractSalt( byte[] digest ) throws JCertifException
-    {
+    protected static byte[] extractSalt( byte[] digest ) {
         if( digest.length <= saltLength )
         {
             throw new  JCertifException(CryptoUtil.class, "Hash was less than " + saltLength +"+ 1 characters; we found no salt!" );

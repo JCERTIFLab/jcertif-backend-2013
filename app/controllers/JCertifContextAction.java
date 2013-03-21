@@ -28,7 +28,7 @@ import scala.collection.mutable.StringBuilder;
  * 
  * <pre>
  * <code>
- * @JCertifContext(admin=true,validateRequest=true)
+ * @JCertifContext(admin=true,bodyParse=true)
  *	public static Result addSponsorLevel() {
  *   //do some stuff
  *   return ok();
