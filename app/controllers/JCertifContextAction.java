@@ -69,6 +69,7 @@ public class JCertifContextAction extends Action<JCertifContext> {
 	private void checkAdmin(Session session) {
 
 		if("true".equals(JCertifPropUtils.getInstance().getProperty("jcertifbackend.admin.active")) && session.get("admin") == null){
+			Logger.error("Operation not allowed for non-administrators");
 			throw new JCertifResourceAccessException("Operation not allowed for non-administrators");
 		}
 	}
