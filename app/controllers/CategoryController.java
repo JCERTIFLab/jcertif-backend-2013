@@ -6,7 +6,11 @@ import com.mongodb.util.JSON;
 import com.mongodb.util.JSONParseException;
 import models.exception.JCertifException;
 import models.objects.Category;
+import models.objects.Session;
+import models.objects.SessionStatus;
 import models.objects.access.CategoryDB;
+import models.objects.access.SessionDB;
+import models.objects.access.SessionStatusDB;
 import models.util.Tools;
 import play.Logger;
 import play.mvc.Http;
@@ -71,7 +75,7 @@ public class CategoryController extends AbstractController {
         } catch (JCertifException e) {
             return badRequest(e.getMessage());
         }
-
+        
         String categoryObjInJSONForm = requestBody.asJson().toString();
         Category category;
 

@@ -2,7 +2,10 @@ package controllers;
 
 import models.exception.JCertifException;
 import models.objects.Session;
+import models.objects.SessionStatus;
 import models.objects.access.SessionDB;
+import models.objects.access.SessionStatusDB;
+import models.util.Constantes;
 import models.util.Tools;
 import org.codehaus.jackson.JsonNode;
 import play.Logger;
@@ -10,8 +13,12 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBList;
 import com.mongodb.util.JSON;
 import com.mongodb.util.JSONParseException;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 public class SessionController extends AbstractController {
@@ -143,117 +150,23 @@ public class SessionController extends AbstractController {
            Logger.info("Exit updateSession()");
 			return badRequest(e.getMessage());
 		}
+        
 		String sessionObjInJSONForm = request().body().asJson().toString();
-
+		
+		BasicDBList categories = Tools.javaStringToBasicDBList(request().body().asJson().findPath("category").getTextValue());
+		BasicDBList speakers = Tools.javaStringToBasicDBList(request().body().asJson().findPath("speakers").getTextValue());
+		
 		Session sessionToUpdate;
+		BasicDBObject bsonifiedObj = (BasicDBObject) JSON.parse(sessionObjInJSONForm);
+		bsonifiedObj.put("category", categories);
+		bsonifiedObj.put("speakers", speakers);
+		
 		try {
-			sessionToUpdate = new Session(
-					(BasicDBObject) JSON.parse(sessionObjInJSONForm));
+			sessionToUpdate = new Session(bsonifiedObj);			
 		} catch (JSONParseException exception) {
            Logger.error(exception.getMessage());
            Logger.info("Exit updateSession()");
 			return badRequest(sessionObjInJSONForm);
-		}
-		Session sessionFromRepo;
-		try {
-			sessionFromRepo = SessionDB.getInstance().get(
-					sessionToUpdate.getId());
-		} catch (JCertifException jcertifException) {
-           Logger.error(jcertifException.getMessage());
-           Logger.info("Exit updateSession()");
-			return internalServerError(jcertifException.getMessage());
-		}
-
-		if (sessionFromRepo == null) {
-           Logger.info("Session with id " + sessionToUpdate.getId() + " does not exist");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session with id\""
-                           + sessionToUpdate.getId()
-                           + "\" does not exist"));
-		}
-		/**  S'assurer que tous les champs sont renseignés...**/
-		if(Tools.isBlankOrNull(sessionToUpdate.getTitle()))
-		{
-			Logger.info("Session Title " + sessionToUpdate.getTitle() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Title\""
-                           + sessionToUpdate.getTitle()
-                           + "\"  is empty"));
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getSummary()) )
-		{
-			Logger.info("Session Summary " + sessionToUpdate.getSummary() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Summary\""
-                           + sessionToUpdate.getSummary()
-                           + "\"  is empty"));
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getDescription()) )
-		{
-			Logger.info("Session Description " + sessionToUpdate.getDescription() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Description\""
-                           + sessionToUpdate.getDescription()
-                           + "\"  is empty"));
-			
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getStatus()))
-		{
-			Logger.info("Session Status " + sessionToUpdate.getStatus() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Status\""
-                           + sessionToUpdate.getStatus()
-                           + "\"  is empty"));
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getKeyword()) )
-		{
-			Logger.info("Session Keyword " + sessionToUpdate.getKeyword() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Keyword\""
-                           + sessionToUpdate.getKeyword()
-                           + "\"  is empty"));
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getStart()) )
-		{
-			Logger.info("Session Start " + sessionToUpdate.getStart() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Start\""
-                           + sessionToUpdate.getStart()
-                           + "\"  is empty"));
-			
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getEnd()) )
-		{
-			Logger.info("Session End " + sessionToUpdate.getStart() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session End\""
-                           + sessionToUpdate.getEnd()
-                           + "\"  is empty"));
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getCategory()) )
-		{
-			Logger.info("Session Category " + sessionToUpdate.getCategory() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Category\""
-                           + sessionToUpdate.getCategory()
-                           + "\"  is empty"));
-		}
-		if(Tools.isBlankOrNull(sessionToUpdate.getSpeakers()) )		{
-			Logger.info("Session Speakers " + sessionToUpdate.getSpeakers() + " is empty");
-           Logger.info("Exit updateSession()");
-			return internalServerError(JSON
-					.serialize("Session Speakers\""
-                           + sessionToUpdate.getSpeakers()
-                           + "\"  is empty"));
 		}
 		
 		try {

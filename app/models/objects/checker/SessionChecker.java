@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import play.Logger;
+
 public class SessionChecker extends Checker{
 
     @Override
@@ -80,8 +82,8 @@ public class SessionChecker extends Checker{
             throw new JCertifException(this, e.getMessage() );
         }
 
-        SessionStatus sessionStatus = SessionStatusDB.getInstance().get(session.getStatus());
-
+        String sessionStatus = (String) (SessionStatusDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, session.getStatus()).get(Constantes.LABEL_ATTRIBUTE_NAME));
+        
         if(null==sessionStatus){
             throw new JCertifException(this, "Session Status '" + session.getStatus() + "' does not exist. Check Session Status List" );
         }
@@ -90,7 +92,10 @@ public class SessionChecker extends Checker{
 
     @Override
     public final void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    	Session session_ = new Session(objectToCheck);
+    	
+    	if(null == SessionDB.getInstance().get(session_.getId()))
+    		throw new JCertifException(this, "You tried to update an unregistred session." );
     }
 
     @Override

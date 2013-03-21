@@ -103,6 +103,20 @@ public final class Tools {
         return retList;
     }
 
+    public static BasicDBList javaStringToBasicDBList(String str){
+        List list;
+        
+        // TODO: test a revoir, trouver un meilleur moyen pour détecter les délimiteur du contenu json
+        if(null == str || "".equals(str)){
+        	list = new ArrayList <String>();
+        } else if(-1 != str.indexOf("[") || -1 != str.indexOf("{")){
+        	list = Arrays.asList(str.substring(1, str.length() - 1).split(","));
+		} else{
+			list = Arrays.asList(str.split(","));
+		}
+        return javaListToBasicDBList(list);
+    }
+    
     public static void verifyJSonRequest(Http.RequestBody requestBody) throws JCertifException {
         if(((requestBody)==(null)) || ((requestBody.asJson())==(null))){
             throw new JCertifInvalidRequestException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
