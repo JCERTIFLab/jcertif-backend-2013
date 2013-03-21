@@ -1,6 +1,3 @@
-db.sponsor_level.remove();
-db.sponsor_level.insert({label: 'Gold'});
-db.sponsor_level.insert({label: 'Platinium'});
 db.sponsor.remove();
 db.sponsor.insert({
 	email: 'test@sponsor.com',

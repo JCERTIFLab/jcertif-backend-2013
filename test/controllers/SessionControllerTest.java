@@ -6,7 +6,6 @@ import util.TestUtils;
 
 import models.database.MongoDatabase;
 import models.objects.access.SessionDB;
-import models.util.Constantes;
 
 import play.Logger;
 import play.mvc.Result;
