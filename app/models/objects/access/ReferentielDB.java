@@ -31,7 +31,7 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 	}	
 	
 		
-	public final boolean add(T referentiel) throws JCertifException {
+	public final boolean add(T referentiel) {
 		return super.add(referentiel.toBasicDBObject());
 	}
 	
@@ -45,7 +45,7 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		return super.save(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
 	}
 	
-	public final T get(String label) throws JCertifException {
+	public final T get(String label) {
 		BasicDBObject dbObject = super.get(Constantes.LABEL_ATTRIBUTE_NAME, label);
 		if(null == dbObject){
 			return null;
@@ -55,7 +55,7 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		return object;
 	}
 	
-	public final List<T> listAll() throws JCertifException {
+	public final List<T> listAll() {
 		BasicDBObject objectToSearch = new BasicDBObject();
 		BasicDBObject columnToRetrieve = new BasicDBObject(Constantes.ID_ATTRIBUTE_NAME, 0);
 		List<BasicDBObject> dbObjects = super.list(objectToSearch, columnToRetrieve);
@@ -69,12 +69,11 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		return objects;
 	}
 	
-	public final boolean remove(T referentielToDelete)
-			throws JCertifException {		
+	public final boolean remove(T referentielToDelete) {		
 		return super.remove(referentielToDelete.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
 	}
 	
-	private T instanciate() throws JCertifException {
+	private T instanciate() {
 		try {
 			return referentielClass.newInstance();
 		} catch (InstantiationException e) {

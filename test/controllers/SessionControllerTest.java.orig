@@ -7,9 +7,11 @@ import util.TestUtils;
 import models.database.MongoDatabase;
 import models.objects.Referentiel;
 import models.objects.access.SessionDB;
-
+<<<<<<< HEAD
 import models.objects.checker.Checker;
 import models.util.Constantes;
+=======
+>>>>>>> upstream/master
 
 import play.Logger;
 import play.mvc.Result;

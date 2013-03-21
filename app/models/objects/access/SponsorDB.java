@@ -1,7 +1,6 @@
 package models.objects.access;
 
 import com.mongodb.BasicDBObject;
-import models.exception.JCertifException;
 import models.objects.Sponsor;
 import models.objects.checker.SponsorChecker;
 import models.util.Constantes;
@@ -18,19 +17,19 @@ public final class SponsorDB extends JCertifObjectDB<Sponsor> {
         return INSTANCE;
     }
 
-    public boolean add(Sponsor sponsor) throws JCertifException {
+    public boolean add(Sponsor sponsor) {
         return super.add(sponsor.toBasicDBObject());
     }
 
-    public boolean remove(Sponsor sponsor) throws JCertifException {
+    public boolean remove(Sponsor sponsor) {
         return super.remove(sponsor.toBasicDBObject(), "email");
     }
 
-    public boolean save(Sponsor sponsor) throws JCertifException {
+    public boolean save(Sponsor sponsor) {
         return super.save(sponsor.toBasicDBObject(), "email");
     }
 
-    public Sponsor get(String email) throws JCertifException {
+    public Sponsor get(String email) {
         BasicDBObject dbObject = get("email", email);
         Sponsor sponsor = null;
         if (null != dbObject){

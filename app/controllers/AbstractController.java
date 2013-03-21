@@ -1,6 +1,5 @@
 package controllers;
 
-import models.exception.JCertifException;
 import models.exception.JCertifResourceAccessException;
 import play.mvc.Controller;
 
@@ -13,11 +12,11 @@ public abstract class AbstractController extends Controller {
         response().setHeader("Content-Type", "application/json; charset=utf-8");
     }
 
-    protected static boolean isAdmin(){
+    protected static boolean isAdmin() {
         return session().get("admin") != null;
     }
 
-    protected static void checkAdmin() throws JCertifException{
+    protected static void checkAdmin() {
         if(!isAdmin()){
             throw new JCertifResourceAccessException("Operation not allowed for non-administrators");
         }

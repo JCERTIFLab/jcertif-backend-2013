@@ -102,6 +102,7 @@ public final class Tools {
         return retList;
     }
 
+<<<<<<< HEAD
     public static BasicDBList javaStringToBasicDBList(String str){
         List list;
         
@@ -116,8 +117,10 @@ public final class Tools {
         return javaListToBasicDBList(list);
     }
     
+    public static void verifyJSonRequest(Http.RequestBody requestBody) throws JCertifException {
+=======
     public static void verifyJSonRequest(Http.RequestBody requestBody) {
-    	
+>>>>>>> upstream/master
         if(((requestBody)==(null)) || ((requestBody.asJson())==(null))){
             throw new JCertifInvalidRequestException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
         }

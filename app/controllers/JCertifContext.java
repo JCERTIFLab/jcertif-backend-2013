@@ -18,6 +18,6 @@ import play.mvc.With;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JCertifContext {
-	String action();
 	boolean admin() default false;
+	boolean bodyParse() default false;
 }

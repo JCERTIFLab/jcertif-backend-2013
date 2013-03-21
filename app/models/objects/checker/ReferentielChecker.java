@@ -1,6 +1,5 @@
 package models.objects.checker;
 
-import models.exception.JCertifException;
 import models.exception.JCertifInvalidRequestException;
 import models.objects.Referentiel;
 import models.util.Tools;
@@ -17,7 +16,7 @@ import com.mongodb.BasicDBObject;
 public abstract class ReferentielChecker extends Checker {
 
 	@Override
-	public final void check(BasicDBObject objectToCheck) throws JCertifException {
+	public final void check(BasicDBObject objectToCheck) {
 		if (null == objectToCheck) {
             throw new JCertifInvalidRequestException(this, "Object cannot be null");
         }
@@ -28,7 +27,6 @@ public abstract class ReferentielChecker extends Checker {
 	}
 
 	@Override
-	public final void updateCheck(BasicDBObject objectToCheck)
-			throws JCertifException {
+	public final void updateCheck(BasicDBObject objectToCheck) {
 	}
 }

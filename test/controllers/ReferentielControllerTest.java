@@ -16,7 +16,6 @@ import org.junit.Test;
 import play.Logger;
 import play.mvc.Result;
 
-
 public abstract class ReferentielControllerTest {
 
 	public abstract String getCreateURL();
