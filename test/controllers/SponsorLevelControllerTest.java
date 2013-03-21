@@ -37,7 +37,7 @@ import util.TestUtils;
  * @author Martial SOMDA
  *
  */
-public class SponsorLevelControllerTest extends ReferentielControllerTest {
+public class SponsorLevelControllerTest {
 
 
 	public String getCreateURL() {
