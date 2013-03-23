@@ -17,12 +17,12 @@ public class RequestWrapper extends Action.Simple {
     public Result call(Http.Context context) throws Throwable {
         Logger.debug(new StringBuilder().append(TRACE_REQUESTED_URL_TAG)
                 .append(context.request().path()).toString());
-        if (Play.isProd()) {
+        if (Play.isProd() && !context.request().path().equals("/") && !context.request().path().equals("/admin")) {
             checkAdmin(context.session());
         }
         Result result = delegate.call(context);
         // Cross Origin que si c'est un service
-        if(!context.request().path().equals("/")){
+        if (!context.request().path().equals("/")) {
             allowCrossOriginJson(context.response());
         }
 
@@ -30,7 +30,7 @@ public class RequestWrapper extends Action.Simple {
     }
 
     private void checkAdmin(Http.Session session) {
-        if(session.get("admin") == null){
+        if (session.get("admin") == null) {
             throw new JCertifResourceAccessException("Operation not allowed for non-administrators");
         }
     }
