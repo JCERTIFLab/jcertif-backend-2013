@@ -3,6 +3,8 @@ package controllers;
 
 import models.exception.JCertifResourceAccessException;
 import models.util.Tools;
+import models.util.properties.JCertifPropUtils;
+import models.util.properties.PropUtils;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http.Context;
@@ -65,7 +67,8 @@ public class JCertifContextAction extends Action<JCertifContext> {
 	}
 	
 	private void checkAdmin(Session session) {
-		if(session.get("admin") == null){
+
+		if("true".equals(JCertifPropUtils.getInstance().getProperty("jcertifbackend.admin.active")) && session.get("admin") == null){
 			throw new JCertifResourceAccessException("Operation not allowed for non-administrators");
 		}
 	}

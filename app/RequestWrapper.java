@@ -1,4 +1,5 @@
 import models.exception.JCertifResourceAccessException;
+import models.util.properties.JCertifPropUtils;
 import play.Logger;
 import play.Play;
 import play.mvc.Action;
@@ -30,7 +31,7 @@ public class RequestWrapper extends Action.Simple {
     }
 
     private void checkAdmin(Http.Session session) {
-        if (session.get("admin") == null) {
+        if ("true".equals(JCertifPropUtils.getInstance().getProperty("jcertifbackend.admin.active")) && session.get("admin") == null) {
             throw new JCertifResourceAccessException("Operation not allowed for non-administrators");
         }
     }
