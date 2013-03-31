@@ -101,7 +101,6 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "SponsorLevel3");
 	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-	                Logger.info(Integer.toString(status(result)));
 	                assertThat(status(result)).isEqualTo(CONFLICT);
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
@@ -120,7 +119,6 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "HTTP");
 	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-	                Logger.info(Integer.toString(status(result)));
 	                assertThat(status(result)).isEqualTo(NOT_FOUND);
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());

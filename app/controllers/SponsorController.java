@@ -5,7 +5,6 @@ import models.objects.access.SponsorDB;
 
 import org.codehaus.jackson.JsonNode;
 
-import play.Logger;
 import play.mvc.Result;
 
 import com.mongodb.BasicDBObject;
@@ -21,7 +20,6 @@ public class SponsorController extends AbstractController {
 
 	@JCertifContext
     public static Result updateSponsor() {
-		Logger.info(request().body().toString());
     	JsonNode jsonNode = request().body().asJson();
 		
     	Sponsor sponsor = new Sponsor((BasicDBObject)JSON.parse(jsonNode.toString()));

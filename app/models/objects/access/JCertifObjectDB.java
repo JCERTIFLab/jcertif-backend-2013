@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import play.Logger;
+
 import models.database.MongoDatabase;
 import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifException;
@@ -169,6 +171,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		BasicDBObject existingObjectToUpdate = MongoDatabase.getInstance()
 				.readOne(getCollectionName(), dbObject);
 		if (null == existingObjectToUpdate) {
+			Logger.info("not found");
 			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
 		}
 
@@ -191,17 +194,22 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 
 	@Override
 	public final boolean remove(BasicDBObject objectToDelete, String idKeyname) {
+		Logger.info("remove");
 		getChecker().deleteCheck(objectToDelete);
+		Logger.info("checked");
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToDelete.get(idKeyname));
 		BasicDBObject existingObjectToDelete = MongoDatabase.getInstance()
 				.readOne(getCollectionName(), dbObject);
+		
 		if (null == existingObjectToDelete) {
 			throw new JCertifObjectNotFoundException(this, "Object to delete does not exist");
 		}
+		Logger.info("found");
 		WriteResult result = MongoDatabase.getInstance().delete(
 				getCollectionName(), existingObjectToDelete);
 		if (!Tools.isBlankOrNull(result.getError())) {
+			Logger.info("error");
 			throw new JCertifException(this, result.getError());
 		}
 		return true;

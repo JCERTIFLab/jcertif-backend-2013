@@ -3,7 +3,7 @@ package controllers;
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.BAD_REQUEST;
 import static play.mvc.Http.Status.FORBIDDEN;
-import static play.mvc.Http.Status.INTERNAL_SERVER_ERROR;
+import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.POST;
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.database.MongoDatabase;
 import models.objects.access.SessionDB;
 
 import org.junit.Assert;
@@ -73,7 +72,6 @@ public class SessionControllerTest {
     @Test
     public void test_delete_session_invalid_inner_json() {
     	Logger.info("*** DEBUT -> test_delete_session_invalid_inner_json ***");
-    	Logger.info("Seul le user avec le role admin doit pouvoir supprimer une session");
         running(fakeApplication(), new Runnable() {
             public void run() {
             	Map<String, String> params = new HashMap<String, String>();
@@ -95,14 +93,13 @@ public class SessionControllerTest {
                     params.put("id", "");
                     Logger.info("Le format json d'entrée doit être valide (id pas empty ni null)");
                     Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(contentType(result)).isEqualTo("application/json");
-                    assertThat(status(result)).isEqualTo(INTERNAL_SERVER_ERROR);
+                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     Logger.info("*** FIN -> test_session_deletion_inner_json_null ***");
             }
         });
     }
     
-    @Test
+    //@Test
     public void test_session_deletion_invalid_id() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -111,8 +108,7 @@ public class SessionControllerTest {
                     params.put("id", "abc1_");
                     Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
                     Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(contentType(result)).isEqualTo("application/json");
-                    assertThat(status(result)).isEqualTo(INTERNAL_SERVER_ERROR);
+                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     Logger.info("*** FIN -> test_session_deletion_invalid_id ***");
             }
         });
@@ -124,13 +120,12 @@ public class SessionControllerTest {
             public void run() {
                 	Logger.info("*** DEBUT -> test_session_deletion_unregistred_session_id ***");
                 	try {
-                		MongoDatabase.getInstance().loadDbWithData("test/data/session.js");
+                		TestUtils.updateDatabase("test/data/session.js");
                 		Map<String, String> params = new HashMap<String, String>();
                         params.put("id", "10000000");                        
                         Logger.info("La demande de suppession ne doit concernée que des sessions existantes.");
                         Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                        assertThat(contentType(result)).isEqualTo("application/json");
-                        assertThat(status(result)).isEqualTo(INTERNAL_SERVER_ERROR);
+                        assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_session_deletion_unregistred_session_id ***");
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -141,13 +136,13 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void test_session_deletion_all_OK() {
+    public void test_session_delletion_OK() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_session_all_OK ***");
                 	try {
                 		Logger.info("Tous les inner params sont valides.");
-                		MongoDatabase.getInstance().loadDbWithData("test/data/session.js");
+                		TestUtils.updateDatabase("test/data/session.js");
                 		assertThat(SessionDB.getInstance().get("101") != null );
                 		Map<String, String> params = new HashMap<String, String>();
                         params.put("id", "101");

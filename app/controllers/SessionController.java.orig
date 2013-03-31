@@ -1,0 +1,104 @@
+package controllers;
+
+import models.objects.Session;
+import models.objects.SessionStatus;
+import models.objects.access.SessionDB;
+<<<<<<< HEAD
+import models.objects.access.SessionStatusDB;
+import models.util.Constantes;
+import models.util.Tools;
+=======
+
+>>>>>>> [Service]: Propagation de l'annotation JCertifContext à la classe
+import org.codehaus.jackson.JsonNode;
+
+import play.Logger;
+import play.mvc.Result;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBList;
+import com.mongodb.util.JSON;
+
+import java.util.Arrays;
+import java.util.List;
+
+
+public class SessionController extends AbstractController {
+
+	@JCertifContext(admin=false,bodyParse=false)
+    public static Result listSession() {
+
+        return ok(JSON.serialize(SessionDB.getInstance().list()));
+    }
+
+	@JCertifContext
+    public static Result newSession() {
+		JsonNode jsonNode = request().body().asJson();
+		
+    	Session session = new Session((BasicDBObject)JSON.parse(jsonNode.toString()));
+		
+    	session.add();
+		return ok(JSON.serialize("Ok"));
+    }
+
+	@JCertifContext
+    public static Result removeSession() {
+		JsonNode jsonNode = request().body().asJson();
+		
+		Session session = new Session((BasicDBObject)JSON.parse(jsonNode.toString()));
+		
+		session.remove();
+		return ok(JSON.serialize("Ok"));
+    }
+
+	@JCertifContext
+    public static Result updateSession() {
+<<<<<<< HEAD
+   	 Logger.info("Enter updateSession()");
+		 allowCrossOriginJson();
+		try {
+           checkAdmin();
+       } catch (JCertifException jcertifException) {
+           Logger.info("access rejected for non-administrator");
+           Logger.info("Exit updateSession()");
+           return forbidden(jcertifException.getMessage());
+       }
+
+		Http.RequestBody requestBody = request().body();
+		try {
+			Tools.verifyJSonRequest(requestBody);
+		} catch (JCertifException e) {
+           Logger.error(e.getMessage());
+           Logger.info("Exit updateSession()");
+			return badRequest(e.getMessage());
+		}
+        
+		String sessionObjInJSONForm = request().body().asJson().toString();
+		
+		BasicDBList categories = Tools.javaStringToBasicDBList(request().body().asJson().findPath("category").getTextValue());
+		BasicDBList speakers = Tools.javaStringToBasicDBList(request().body().asJson().findPath("speakers").getTextValue());
+		
+		Session sessionToUpdate;
+		BasicDBObject bsonifiedObj = (BasicDBObject) JSON.parse(sessionObjInJSONForm);
+		bsonifiedObj.put("category", categories);
+		bsonifiedObj.put("speakers", speakers);
+		
+		try {
+			sessionToUpdate = new Session(bsonifiedObj);			
+		} catch (JSONParseException exception) {
+           Logger.error(exception.getMessage());
+           Logger.info("Exit updateSession()");
+			return badRequest(sessionObjInJSONForm);
+		}
+=======
+		JsonNode jsonNode = request().body().asJson();
+>>>>>>> [Service]: Propagation de l'annotation JCertifContext à la classe
+		
+		Logger.info(jsonNode.toString());
+		Session session = new Session((BasicDBObject)JSON.parse(jsonNode.toString()));
+		Logger.info(session.toString());
+		session.save();
+		return ok(JSON.serialize("Ok"));
+   
+   }
+}
