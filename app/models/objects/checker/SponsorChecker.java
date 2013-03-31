@@ -1,22 +1,31 @@
 package models.objects.checker;
 
-import com.mongodb.BasicDBObject;
-
-import models.exception.JCertifDuplicateObjectException;
+import static models.objects.checker.CheckerHelper.checkEmail;
+import static models.objects.checker.CheckerHelper.checkNull;
 import models.exception.JCertifInvalidRequestException;
 import models.objects.Sponsor;
-import models.objects.access.SponsorDB;
 import models.util.Tools;
+
+import com.mongodb.BasicDBObject;
 
 public class SponsorChecker extends Checker {
 
     @Override
-    public final void check(BasicDBObject objectToCheck) {
+    public final void updateCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+		checkEmail(objectToCheck);
+    }
 
-        if (null == objectToCheck) {
-            throw new JCertifInvalidRequestException(this, "Object cannot be null");
-        }
+    @Override
+    public final void deleteCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+		checkEmail(objectToCheck);
+    }
 
+    @Override
+    public void addCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	
         Sponsor sponsor = new Sponsor(objectToCheck);
 
         if (Tools.isBlankOrNull(sponsor.getEmail())) {
@@ -49,22 +58,6 @@ public class SponsorChecker extends Checker {
 
         if (Tools.isBlankOrNull(sponsor.getCountry())) {
             throw new JCertifInvalidRequestException(this, "Country cannot be empty or null");
-        }
-    }
-
-    @Override
-    public final void updateCheck(BasicDBObject objectToCheck) {
-    }
-
-    @Override
-    public final void deleteCheck(BasicDBObject objectToCheck) {
-    }
-
-    @Override
-    public void addCheck(BasicDBObject objectToCheck) {
-        BasicDBObject dbObject = SponsorDB.getInstance().get("email", objectToCheck.getString("email"));
-        if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Sponsor '" + objectToCheck.getString("email") + "' already exists");
         }
     }
 }

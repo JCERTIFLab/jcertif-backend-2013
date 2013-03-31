@@ -1,7 +1,6 @@
 package models.objects.access;
 
 import models.objects.SessionStatus;
-import models.objects.checker.SessionStatusChecker;
 import models.util.Constantes;
 
 /**
@@ -14,7 +13,7 @@ public final class SessionStatusDB extends ReferentielDB<SessionStatus> {
     private static SessionStatusDB instance = new SessionStatusDB();
 
     public SessionStatusDB() {
-        super(Constantes.COLLECTION_SESSION_STATUS, new SessionStatusChecker());
+        super(Constantes.COLLECTION_SESSION_STATUS);
     }
 
     public static SessionStatusDB getInstance() {

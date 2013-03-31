@@ -1,7 +1,6 @@
 package models.objects.access;
 
 import models.objects.Category;
-import models.objects.checker.CategoryChecker;
 import models.util.Constantes;
 
 /**
@@ -16,7 +15,7 @@ public class CategoryDB extends ReferentielDB<Category> {
 	private static final CategoryDB INSTANCE = new CategoryDB();
 	
 	public CategoryDB() {
-		super(Constantes.COLLECTION_CATEGORY, new CategoryChecker());
+		super(Constantes.COLLECTION_CATEGORY);
 	}
 	
 	public static CategoryDB getInstance(){

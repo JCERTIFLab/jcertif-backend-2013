@@ -19,7 +19,7 @@ public final class SponsorDB extends JCertifObjectDB<Sponsor> {
     }
 
     public boolean add(Sponsor sponsor) {
-        return super.add(sponsor.toBasicDBObject());
+        return super.add(sponsor.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public boolean remove(Sponsor sponsor) {
@@ -27,7 +27,7 @@ public final class SponsorDB extends JCertifObjectDB<Sponsor> {
     }
 
     public boolean save(Sponsor sponsor) {
-        return super.save(sponsor.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
+        return super.update(sponsor.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public Sponsor get(String email) {

@@ -21,8 +21,9 @@ public interface Constantes {
 
     int PASSWORD_MIN_LENGTH = 6;
 
-    String MONGO_ID_ATTRIBUTE_NAME = "_id";
+    String MONGOD_ID_ATTRIBUTE_NAME = "_id";
     String EMAIL_ATTRIBUTE_NAME = "email";
     String LABEL_ATTRIBUTE_NAME = "label";
+    String PASSWORD_ATTRIBUTE_NAME = "password";
     String ID_ATTRIBUTE_NAME = "id";
 }

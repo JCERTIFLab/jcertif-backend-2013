@@ -8,6 +8,7 @@ import models.objects.Participant;
 import models.objects.Session;
 import models.objects.access.ParticipantDB;
 import models.objects.access.SessionDB;
+import models.objects.checker.CheckerHelper;
 import models.util.Constantes;
 import models.util.Tools;
 import models.util.crypto.CryptoUtil;
@@ -165,7 +166,7 @@ public class ParticipantController extends AbstractController {
 			return badRequest(participantObjInJSONForm);
 		}
 
-		if (!ParticipantDB.getInstance().getChecker()
+		if (!CheckerHelper
 				.checkPassword(participant.getPassword(), null, false)) {
             Logger.info("password does not match policy");
             Logger.info("Exit registerParticipant()");
@@ -249,7 +250,7 @@ public class ParticipantController extends AbstractController {
 		String oldPassword = passwords.getString("oldpassword");
 		String newPassword = passwords.getString("newpassword");
 
-		if (!ParticipantDB.getInstance().getChecker()
+		if (!CheckerHelper
 				.checkPassword(oldPassword, newPassword, true)) {
             Logger.info("password does not match policy");
             Logger.info("Exit changePasswordParticipant()");

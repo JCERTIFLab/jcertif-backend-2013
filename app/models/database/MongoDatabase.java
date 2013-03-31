@@ -101,14 +101,14 @@ public final class MongoDatabase {
 		// Retourne le résultat en JSON sans le paramètre par défaut _id
         Logger.debug("list(collectionName=" + collectionName + ")");
 		return db.getCollection(collectionName).find(null,
-				new BasicDBObject(Constantes.MONGO_ID_ATTRIBUTE_NAME, 0).append("password", 0));
+				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0).append("password", 0));
 	}
 
 	public String listAll(String collectionName) {
 		// Retourne le résultat en JSON sans le paramètre par défaut _id
         Logger.debug("listAll(collectionName=" + collectionName + ")");
 		return JSON.serialize(db.getCollection(collectionName).find(null,
-				new BasicDBObject(Constantes.MONGO_ID_ATTRIBUTE_NAME, 0).append("password", 0)));
+				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0).append("password", 0)));
 	}
 
     /* Cette fonction configure la base de données JCertif (Création des collections, création des index) */
@@ -173,7 +173,7 @@ public final class MongoDatabase {
 			BasicDBObject objectToUpdate) {
         Logger.debug("update(collectionName=" + collectionName + ", objectToUpdate="+objectToUpdate+")");
 		return db.getCollection(collectionName).update(
-				new BasicDBObject(Constantes.MONGO_ID_ATTRIBUTE_NAME, objectToUpdate.get(Constantes.MONGO_ID_ATTRIBUTE_NAME)),
+				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, objectToUpdate.get(Constantes.MONGOD_ID_ATTRIBUTE_NAME)),
 				objectToUpdate);
 	}
 

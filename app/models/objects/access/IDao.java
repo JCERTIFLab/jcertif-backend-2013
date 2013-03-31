@@ -18,11 +18,9 @@ public interface IDao<T> {
 
 	T get(String keyName, Object keyValue);
 
-	boolean add(T newObject);
+	boolean add(T objectToAdd, String idKeyname);
 
 	boolean update(T objectToUpdate, String idKeyname);
-
-	boolean save(T objectToUpdate, String idKeyname);
 
 	boolean remove(T objectToDelete, String idKeyname);
 

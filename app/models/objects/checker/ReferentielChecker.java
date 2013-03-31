@@ -1,8 +1,8 @@
 package models.objects.checker;
 
-import models.exception.JCertifInvalidRequestException;
+import static models.objects.checker.CheckerHelper.checkLabel;
+import static models.objects.checker.CheckerHelper.checkNull;
 import models.objects.Referentiel;
-import models.util.Tools;
 
 import com.mongodb.BasicDBObject;
 
@@ -13,20 +13,25 @@ import com.mongodb.BasicDBObject;
  * @author Martial SOMDA
  *
  */
-public abstract class ReferentielChecker extends Checker {
+public class ReferentielChecker extends Checker {
 
-	@Override
 	public final void check(BasicDBObject objectToCheck) {
-		if (null == objectToCheck) {
-            throw new JCertifInvalidRequestException(this, "Object cannot be null");
-        }
-        
-        if(Tools.isBlankOrNull(objectToCheck.getString("label"))){
-        	throw new JCertifInvalidRequestException(this, "Label cannot be empty or null");
-        }
+		checkNull(objectToCheck);
+		checkLabel(objectToCheck);
 	}
 
 	@Override
 	public final void updateCheck(BasicDBObject objectToCheck) {
+		check(objectToCheck);
+	}
+	
+	@Override
+	public final void deleteCheck(BasicDBObject objectToCheck) {
+		check(objectToCheck);
+	}
+
+	@Override
+	public final void addCheck(BasicDBObject objectToCheck) {
+		check(objectToCheck);
 	}
 }

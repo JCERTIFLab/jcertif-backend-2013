@@ -6,6 +6,7 @@ import com.mongodb.util.JSONParseException;
 import models.exception.JCertifException;
 import models.objects.Speaker;
 import models.objects.access.SpeakerDB;
+import models.objects.checker.CheckerHelper;
 import models.util.Constantes;
 import models.util.Tools;
 import models.util.crypto.CryptoUtil;
@@ -53,7 +54,7 @@ public class SpeakerController extends AbstractController {
             return badRequest(speakerObjInJSONForm);
         }
 
-        if (!SpeakerDB.getInstance().getChecker()
+        if (!CheckerHelper
                 .checkPassword(speaker.getPassword(), null, false)) {
             Logger.error("Password does not match policy");
             Logger.info("Exit registerSpeaker()");
@@ -267,7 +268,7 @@ public class SpeakerController extends AbstractController {
         String oldPassword = passwords.getString("oldpassword");
         String newPassword = passwords.getString("newpassword");
 
-        if (!SpeakerDB.getInstance().getChecker()
+        if (!CheckerHelper
                 .checkPassword(oldPassword, newPassword, true)) {
             Logger.info("password does not match policy");
             Logger.info("Exit changePasswordSpeaker()");

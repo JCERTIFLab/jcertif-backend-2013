@@ -1,33 +1,40 @@
 package models.objects.checker;
 
-import com.mongodb.BasicDBObject;
-
-import models.exception.JCertifDuplicateObjectException;
-import models.exception.JCertifInvalidRequestException;
-import models.exception.JCertifObjectNotFoundException;
-import models.exception.JCertifException;
-import models.objects.Session;
-import models.objects.SessionStatus;
-import models.objects.access.SessionDB;
-import models.objects.access.SessionStatusDB;
-import models.util.Constantes;
-import models.util.Tools;
+import static models.objects.checker.CheckerHelper.checkId;
+import static models.objects.checker.CheckerHelper.checkNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifException;
+import models.objects.Session;
+import models.objects.SessionStatus;
+import models.objects.access.SessionStatusDB;
+import models.util.Constantes;
+import models.util.Tools;
+
+import com.mongodb.BasicDBObject;
+
 import play.Logger;
 
 public class SessionChecker extends Checker{
 
     @Override
-    public final void check(BasicDBObject objectToCheck) {
+    public final void updateCheck(BasicDBObject objectToCheck) {
+    	checkId(objectToCheck);
+    }
 
-        if (null == objectToCheck) {
-            throw new JCertifInvalidRequestException(this, "Object cannot be null");
-        }
+    @Override
+    public final void deleteCheck(BasicDBObject objectToCheck) {  	
+    	checkId(objectToCheck);
+    }
+
+    @Override
+    public final void addCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
 
         Session session = new Session(objectToCheck);
 
@@ -90,41 +97,6 @@ public class SessionChecker extends Checker{
         
         if(null==sessionStatus){
             throw new JCertifInvalidRequestException(this, "Session Status '" + session.getStatus() + "' does not exist. Check Session Status List" );
-        }
-
-    }
-
-    @Override
-    public final void updateCheck(BasicDBObject objectToCheck) throws JCertifException {
-    	Session session_ = new Session(objectToCheck);
-    	
-    	if(null == SessionDB.getInstance().get(session_.getId()))
-    		throw new JCertifException(this, "You tried to update an unregistred session." );
-    }
-
-    @Override
-    public final void deleteCheck(BasicDBObject objectToCheck) {
-    	
-    	Session session = new Session(objectToCheck);
-    	
-    	if (Tools.isBlankOrNull(session.getId())) {
-    		throw new JCertifInvalidRequestException(this, "Id cannot be empty or null");
-        }
-    	
-    	if (Tools.isNotValidNumber(session.getId())) {
-    		throw new JCertifInvalidRequestException(this, "Id must be a valid number");
-        }
-    	
-    	if(null == SessionDB.getInstance().get(session.getId())){
-    		throw new JCertifObjectNotFoundException(this, "You tried to delete an unregistred session.");
-    	}
-    }
-
-    @Override
-    public final void addCheck(BasicDBObject objectToCheck) {
-        BasicDBObject dbObject = SessionDB.getInstance().get("id", objectToCheck.getString("id"));
-        if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Session '" + objectToCheck.getString("id") + "' already exists");
         }
     }
 }

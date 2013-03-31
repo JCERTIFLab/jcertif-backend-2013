@@ -1,21 +1,30 @@
 package models.objects.checker;
 
-import com.mongodb.BasicDBObject;
-
-import models.exception.JCertifDuplicateObjectException;
+import static models.objects.checker.CheckerHelper.checkEmail;
+import static models.objects.checker.CheckerHelper.checkNull;
 import models.exception.JCertifInvalidRequestException;
 import models.objects.Speaker;
-import models.objects.access.SpeakerDB;
 import models.util.Tools;
+
+import com.mongodb.BasicDBObject;
 
 public class SpeakerChecker extends Checker {
 
     @Override
-    public final void check(BasicDBObject objectToCheck) {
+    public final void updateCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    }
 
-        if (null == objectToCheck) {
-            throw new JCertifInvalidRequestException(this, "Object cannot be null");
-        }
+    @Override
+    public final void deleteCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    }
+
+    @Override
+    public void addCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
 
         Speaker speaker = new Speaker(objectToCheck);
 
@@ -49,26 +58,6 @@ public class SpeakerChecker extends Checker {
 
         if (Tools.isBlankOrNull(speaker.getCountry())) {
             throw new JCertifInvalidRequestException(this, "Country cannot be empty or null");
-        }
-
-    }
-
-    @Override
-    public final void updateCheck(BasicDBObject objectToCheck) {
-
-    }
-
-    @Override
-    public final void deleteCheck(BasicDBObject objectToCheck) {
-
-    }
-
-    @Override
-    public void addCheck(BasicDBObject objectToCheck) {
-
-        BasicDBObject dbObject = SpeakerDB.getInstance().get("email", objectToCheck.getString("email"));
-        if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Speaker '" + objectToCheck.getString("email") + "' already exists");
         }
     }
 }

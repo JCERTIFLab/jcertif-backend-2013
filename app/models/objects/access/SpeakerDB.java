@@ -19,7 +19,7 @@ public final class SpeakerDB extends JCertifObjectDB<Speaker> {
         return INSTANCE;
     }
     public boolean add(Speaker speaker) {
-        return add(speaker.toBasicDBObject());
+        return add(speaker.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public boolean remove(Speaker speaker) {
@@ -27,7 +27,7 @@ public final class SpeakerDB extends JCertifObjectDB<Speaker> {
     }
 
     public boolean save(Speaker speaker) {
-        return save(speaker.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
+        return update(speaker.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public Speaker get(String email) {

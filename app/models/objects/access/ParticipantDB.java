@@ -17,19 +17,19 @@ public final class ParticipantDB extends JCertifObjectDB<Participant>{
     }
 
     public boolean add(Participant participant) {
-        return add(participant.toBasicDBObject());
+        return add(participant.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public boolean remove(Participant participant) {
-        return remove(participant.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
+        return remove(participant.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public boolean save(Participant participant) {
-        return save(participant.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
+        return update(participant.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public Participant get(String email) {
-        BasicDBObject dbObject = get(Constantes.LABEL_ATTRIBUTE_NAME, email);
+        BasicDBObject dbObject = get(Constantes.EMAIL_ATTRIBUTE_NAME, email);
         Participant participant = null;
         if (null != dbObject){
             participant = new Participant(dbObject);

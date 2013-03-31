@@ -12,14 +12,10 @@ public abstract class JCertifObject {
     protected abstract <T extends JCertifObject> JCertifObjectDB<T> getDBObject();
     
     public boolean add() {
-		return getDBObject().add(toBasicDBObject());
+		return getDBObject().add(toBasicDBObject(), getKeyName());
 	}
     
     public boolean save(){
-    	return getDBObject().save(toBasicDBObject(), getKeyName());
-    }
-    
-    public boolean update(){
     	return getDBObject().update(toBasicDBObject(), getKeyName());
     }
     

@@ -2,10 +2,15 @@ package models.objects.access;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import models.database.MongoDatabase;
+import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifException;
 import models.exception.JCertifObjectNotFoundException;
 import models.objects.JCertifObject;
@@ -97,7 +102,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 
 	public final List<T> listAll() {
 		BasicDBObject objectToSearch = new BasicDBObject();
-		BasicDBObject columnToRetrieve = new BasicDBObject(Constantes.MONGO_ID_ATTRIBUTE_NAME, 0);
+		BasicDBObject columnToRetrieve = new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0);
 		List<BasicDBObject> dbObjects = list(objectToSearch, columnToRetrieve);
 		List<T> objects = new ArrayList<T>();
 		T object = null;
@@ -130,11 +135,18 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	}
 
 	@Override
-	public final boolean add(BasicDBObject basicDBObject) {
-		getChecker().check(basicDBObject);
-		getChecker().addCheck(basicDBObject);
+	public final boolean add(BasicDBObject objectToAdd, String idKeyname) {
+		getChecker().addCheck(objectToAdd);		
+		BasicDBObject dbObject = new BasicDBObject();
+		dbObject.put(idKeyname, objectToAdd.get(idKeyname));
+		BasicDBObject existingObjectToAdd = MongoDatabase.getInstance()
+				.readOne(getCollectionName(), dbObject);
+		if (null != existingObjectToAdd) {
+			throw new JCertifDuplicateObjectException(this, "Object '" + existingObjectToAdd.getString(idKeyname) + "' already exists");
+		}
+		
 		WriteResult result = MongoDatabase.getInstance().create(
-				getCollectionName(), basicDBObject);
+				getCollectionName(), objectToAdd);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this, result.getError());
 		}
@@ -151,7 +163,6 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	 */
 	@Override
 	public final boolean update(BasicDBObject objectToUpdate, String idKeyname) {
-		getChecker().check(objectToUpdate);
 		getChecker().updateCheck(objectToUpdate);
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToUpdate.get(idKeyname));
@@ -161,31 +172,16 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
 		}
 
-		existingObjectToUpdate.putAll(objectToUpdate.toMap());
+		Map fieldMap = objectToUpdate.toMap();
+		Map fieldToSaveMap = new HashMap();
+		for (Entry entry : (Set<Entry>)fieldMap.entrySet()) {
+			if(entry.getValue() != null){
+				fieldToSaveMap.put(entry.getKey(), entry.getValue());
+			}
+		}
+		existingObjectToUpdate.putAll(fieldToSaveMap);
 
 		WriteResult result = MongoDatabase.getInstance().update(
-				getCollectionName(), existingObjectToUpdate);
-		if (!Tools.isBlankOrNull(result.getError())) {
-			throw new JCertifException(this, result.getError());
-		}
-		return true;
-	}
-
-	@Override
-	public final boolean save(BasicDBObject objectToUpdate, String idKeyname) {
-		getChecker().check(objectToUpdate);
-		getChecker().updateCheck(objectToUpdate);
-		BasicDBObject dbObject = new BasicDBObject();
-		dbObject.put(idKeyname, objectToUpdate.get(idKeyname));
-		BasicDBObject existingObjectToUpdate = MongoDatabase.getInstance()
-				.readOne(getCollectionName(), dbObject);
-		if (null == existingObjectToUpdate) {
-			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
-		}
-
-		existingObjectToUpdate.putAll(objectToUpdate.toMap());
-
-		WriteResult result = MongoDatabase.getInstance().save(
 				getCollectionName(), existingObjectToUpdate);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this, result.getError());

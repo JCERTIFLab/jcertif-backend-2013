@@ -3,6 +3,7 @@ import static play.test.Helpers.HTMLUNIT;
 import static play.test.Helpers.running;
 import static play.test.Helpers.testServer;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Cookie;
 
@@ -15,6 +16,7 @@ import play.test.WithApplication;
  * @author Martial SOMDA
  *
  */
+@Ignore
 public class GlobalTest extends WithApplication {
 
     @Test

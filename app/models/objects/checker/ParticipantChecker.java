@@ -1,19 +1,31 @@
 package models.objects.checker;
 
-import com.mongodb.BasicDBObject;
-
-import models.exception.JCertifDuplicateObjectException;
+import static models.objects.checker.CheckerHelper.checkEmail;
+import static models.objects.checker.CheckerHelper.checkNull;
 import models.exception.JCertifInvalidRequestException;
 import models.objects.Participant;
-import models.objects.access.ParticipantDB;
 import models.util.Tools;
+
+import com.mongodb.BasicDBObject;
 
 public class ParticipantChecker extends Checker {
 
     @Override
-    public final void check(BasicDBObject objectToCheck) {
+    public final void updateCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    }
 
-        if (null == objectToCheck) {
+    @Override
+    public final void deleteCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    }
+
+    @Override
+    public final void addCheck(BasicDBObject objectToCheck) {
+
+    	if (null == objectToCheck) {
             throw new JCertifInvalidRequestException(this, "Object cannot be null");
         }
 
@@ -45,26 +57,6 @@ public class ParticipantChecker extends Checker {
 
         if (Tools.isBlankOrNull(participant.getCountry())) {
             throw new JCertifInvalidRequestException(this, "Country cannot be empty or null");
-        }
-
-    }
-
-    @Override
-    public final void updateCheck(BasicDBObject objectToCheck) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public final void deleteCheck(BasicDBObject objectToCheck) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public final void addCheck(BasicDBObject objectToCheck) {
-
-        BasicDBObject dbObject = ParticipantDB.getInstance().get("email", objectToCheck.getString("email"));
-        if (null != dbObject) {
-            throw new JCertifDuplicateObjectException(this, "Participant '" + objectToCheck.getString("email") + "' already exists");
         }
     }
 }

@@ -1,7 +1,6 @@
 package models.objects.access;
 
 import models.objects.SponsorLevel;
-import models.objects.checker.SponsorLevelChecker;
 import models.util.Constantes;
 
 /**
@@ -16,7 +15,7 @@ public class SponsorLevelDB extends ReferentielDB<SponsorLevel> {
 	private static final SponsorLevelDB INSTANCE = new SponsorLevelDB();
 	
 	public SponsorLevelDB() {
-		super(Constantes.COLLECTION_SPONSOR_LEVEL, new SponsorLevelChecker());
+		super(Constantes.COLLECTION_SPONSOR_LEVEL);
 	}
 
 	public static SponsorLevelDB getInstance(){

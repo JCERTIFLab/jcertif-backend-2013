@@ -1,16 +1,13 @@
 package models.objects.access;
 
-import com.mongodb.BasicDBObject;
+import java.lang.reflect.ParameterizedType;
+
 import models.exception.JCertifException;
-import models.exception.JCertifResourceAccessException;
 import models.objects.Referentiel;
-import models.objects.checker.Checker;
+import models.objects.checker.ReferentielChecker;
 import models.util.Constantes;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.mongodb.BasicDBObject;
 
 /**
  * <p>Objet d'accès aux données de type {@link Referentiel}.<br/>
@@ -24,25 +21,20 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 	private Class<T> referentielClass;
 
 	@SuppressWarnings("unchecked")
-	public ReferentielDB(String collectionName, Checker checker) {
-		super(collectionName, checker);
+	public ReferentielDB(String collectionName) {
+		super(collectionName, new ReferentielChecker());
 		this.referentielClass = 
 			(Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}	
 	
 		
 	public final boolean add(T referentiel) {
-		return super.add(referentiel.toBasicDBObject());
-	}
-	
-	public final boolean update(T referentiel)
-			throws JCertifException {
-		return super.update(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
+		return super.add(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
 	}
 	
 	public final boolean save(T referentiel)
 			throws JCertifException {
-		return super.save(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
+		return super.update(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
 	}
 	
 	public final T get(String label) {

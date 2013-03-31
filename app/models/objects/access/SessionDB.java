@@ -21,7 +21,7 @@ public final class SessionDB extends JCertifObjectDB<Session>{
 	}
 
 	public boolean add(Session session) {
-		return super.add(session.toBasicDBObject());
+		return super.add(session.toBasicDBObject(), Constantes.ID_ATTRIBUTE_NAME);
 	}
 
 	public boolean remove(Session session) {
@@ -29,7 +29,7 @@ public final class SessionDB extends JCertifObjectDB<Session>{
 	}
 
 	public boolean save(Session session) {
-		return save(session.toBasicDBObject(), Constantes.ID_ATTRIBUTE_NAME);
+		return update(session.toBasicDBObject(), Constantes.ID_ATTRIBUTE_NAME);
 	}
 
 	public Session get(String id) {
@@ -48,7 +48,7 @@ public final class SessionDB extends JCertifObjectDB<Session>{
 	 */
 	public List<BasicDBObject> listStatus() {
 		BasicDBObject columnToReturn = new BasicDBObject("status", 1).append(
-				Constantes.MONGO_ID_ATTRIBUTE_NAME, 0);
+				Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0);
 		List<BasicDBObject> tmpList = list(null, columnToReturn);
 		List<BasicDBObject> retList = new ArrayList<BasicDBObject>();
 		Map<String, BasicDBObject> tmpMap = new LinkedHashMap<String, BasicDBObject>();

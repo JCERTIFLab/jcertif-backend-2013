@@ -21,7 +21,7 @@ public final class LoginDB extends JCertifObjectDB<Login> {
 	}
 
 	public boolean add(Login login) {
-		return add(login.toBasicDBObject());
+		return add(login.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
 	}
 
 	public boolean remove(Login login) {
@@ -29,7 +29,7 @@ public final class LoginDB extends JCertifObjectDB<Login> {
 	}
 
 	public boolean save(Login login) {
-		return save(login.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
+		return update(login.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
 	}
 
 	public Login get(String email) {
