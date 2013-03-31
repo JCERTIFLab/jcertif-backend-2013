@@ -155,4 +155,52 @@ public class SponsorControllerTest {
         });
     }
 	
+	@Test
+    public void test_sponsor_update_ok() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {              
+                try {
+                	Logger.info("Supression d'un sponsor");
+					TestUtils.updateDatabase("test/data/sponsor.js");
+					Map<String, String> params = new HashMap<String, String>();
+	                params.put("email", "test@sponsor.com");
+	                params.put("city", "myNewCity");
+	                params.put("country", "myNewCoutry");
+	                params.put("phone", "0504030201");
+	                Result result = callAction(routes.ref.SponsorController.updateSponsor(), fakeRequest().withJsonBody(Json.toJson(params),POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(OK);
+	                
+	                Logger.info("Vérification que le sponsor a bien été modifié en base de données");
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "test@sponsor.com"));
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(1,dbObjects.size());
+	                BasicDBObject dbObject = dbObjects.get(0);
+	                Assert.assertEquals("test@sponsor.com",dbObject.getString("email"));
+	                Assert.assertEquals("Test SA",dbObject.getString("name"));
+	                Assert.assertEquals("http://www.test.com/icons/logo.gif",dbObject.getString("logo"));
+	                Assert.assertEquals("Platinium",dbObject.getString("level"));
+	                Assert.assertEquals("www.test.com",dbObject.getString("website"));
+	                Assert.assertEquals("myNewCity",dbObject.getString("city"));
+	                Assert.assertEquals("myNewCoutry",dbObject.getString("country"));
+	                Assert.assertEquals("0504030201",dbObject.getString("phone"));
+	                Assert.assertEquals("All about test",dbObject.getString("about"));
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
+
+            }
+        });
+    }
+	
+	@Test
+    public void test_sponsor_update_forbidden() {
+		Logger.info("Une requête de mise à jour d'un sponsor requiert les droits d'administration");
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Result result = route(fakeRequest(POST, "/sponsor/update"));
+                assertThat(status(result)).isEqualTo(FORBIDDEN);
+            }
+        });
+    }
 }
