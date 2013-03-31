@@ -1,5 +1,8 @@
 package models.objects;
 
+import models.objects.access.CategoryDB;
+import models.objects.access.JCertifObjectDB;
+
 import com.mongodb.BasicDBObject;
 
 /**
@@ -24,6 +27,12 @@ public class Category extends Referentiel {
 	//keep it up for backward-compatibility
 	public Category(BasicDBObject basicDBObject){
 		super(basicDBObject);
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<Category> getDBObject() {
+		return CategoryDB.getInstance();
 	}
 
 }

@@ -1,5 +1,9 @@
 package models.objects;
 
+import models.objects.access.JCertifObjectDB;
+import models.objects.access.SpeakerDB;
+import models.util.Constantes;
+
 import com.mongodb.BasicDBObject;
 
 public class Speaker extends JCertifObject {
@@ -146,4 +150,14 @@ public class Speaker extends JCertifObject {
         return basicDBObject;
     }
 
+    @Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<Speaker> getDBObject() {
+		return SpeakerDB.getInstance();
+	}
+
+	@Override
+	public String getKeyName() {
+		return Constantes.EMAIL_ATTRIBUTE_NAME;
+	}
 }

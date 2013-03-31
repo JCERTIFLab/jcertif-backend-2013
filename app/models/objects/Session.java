@@ -1,11 +1,15 @@
 package models.objects;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import models.util.Tools;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import models.objects.access.JCertifObjectDB;
+import models.objects.access.SessionDB;
+import models.util.Constantes;
+import models.util.Tools;
+
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 
 public class Session extends JCertifObject {
     private String id;
@@ -130,4 +134,15 @@ public class Session extends JCertifObject {
         return basicDBObject;
     }
 
+    @Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<Session> getDBObject() {
+		return SessionDB.getInstance();
+	}
+
+
+	@Override
+	public String getKeyName() {
+		return Constantes.ID_ATTRIBUTE_NAME;
+	}
 }

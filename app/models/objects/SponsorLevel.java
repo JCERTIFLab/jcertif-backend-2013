@@ -1,5 +1,8 @@
 package models.objects;
 
+import models.objects.access.JCertifObjectDB;
+import models.objects.access.SponsorLevelDB;
+
 
 /**
  * <p>Objet metier representant un niveau de partenariat.</p>
@@ -20,5 +23,10 @@ public class SponsorLevel extends Referentiel {
 		super(label);
 	}
 
-
+	@Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<SponsorLevel> getDBObject() {
+		return SponsorLevelDB.getInstance();
+	}
+	
 }

@@ -1,11 +1,15 @@
 package models.objects;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import models.util.Tools;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import models.objects.access.JCertifObjectDB;
+import models.objects.access.ParticipantDB;
+import models.util.Constantes;
+import models.util.Tools;
+
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 
 public class Participant extends JCertifObject {
     private String email;
@@ -162,4 +166,14 @@ public class Participant extends JCertifObject {
         return basicDBObject;
     }
 
+    @Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<Participant> getDBObject() {
+		return ParticipantDB.getInstance();
+	}
+
+	@Override
+	public String getKeyName() {
+		return Constantes.LABEL_ATTRIBUTE_NAME;
+	}
 }

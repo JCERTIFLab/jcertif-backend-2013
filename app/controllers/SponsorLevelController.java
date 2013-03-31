@@ -23,7 +23,7 @@ public class SponsorLevelController extends AbstractController{
 		
 		SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
 		
-		SponsorLevelDB.getInstance().add(sponsorLevel);
+		sponsorLevel.add();
 		return ok(JSON.serialize("Ok"));
     }
 	
@@ -40,7 +40,7 @@ public class SponsorLevelController extends AbstractController{
 		
 		SponsorLevel sponsorLevel = new SponsorLevel(jsonNode.findPath("label").getTextValue());
 		
-		SponsorLevelDB.getInstance().remove(sponsorLevel);
+		sponsorLevel.remove();
 		return ok(JSON.serialize("Ok"));
     }
 }

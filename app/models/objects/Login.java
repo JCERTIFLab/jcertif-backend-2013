@@ -1,5 +1,9 @@
 package models.objects;
 
+import models.objects.access.JCertifObjectDB;
+import models.objects.access.LoginDB;
+import models.util.Constantes;
+
 import com.mongodb.BasicDBObject;
 
 public class Login extends JCertifObject {
@@ -36,5 +40,14 @@ public class Login extends JCertifObject {
         return basicDBObject;
     }
 
+    @Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<Login> getDBObject() {
+		return LoginDB.getInstance();
+	}
 
+	@Override
+	public String getKeyName() {
+		return Constantes.EMAIL_ATTRIBUTE_NAME;
+	}
 }

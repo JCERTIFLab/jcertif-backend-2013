@@ -31,5 +31,10 @@ public abstract class Referentiel extends JCertifObject {
         basicDBObject.put(Constantes.LABEL_ATTRIBUTE_NAME, label);
         return basicDBObject;
     }
+    
+    @Override
+	public String getKeyName() {
+		return Constantes.LABEL_ATTRIBUTE_NAME;
+	}
 
 }

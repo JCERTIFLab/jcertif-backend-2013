@@ -1,5 +1,8 @@
 package models.objects;
 
+import models.objects.access.JCertifObjectDB;
+import models.objects.access.SessionStatusDB;
+
 import com.mongodb.BasicDBObject;
 
 /**
@@ -19,6 +22,12 @@ public class SessionStatus extends Referentiel {
 	
 	public SessionStatus(BasicDBObject basicDBObject){
 		super(basicDBObject);
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<SessionStatus> getDBObject() {
+		return SessionStatusDB.getInstance();
 	}
 
 }

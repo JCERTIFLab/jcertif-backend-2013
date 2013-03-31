@@ -1,24 +1,34 @@
 package models.objects.access;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.WriteResult;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import models.database.MongoDatabase;
 import models.exception.JCertifException;
 import models.exception.JCertifObjectNotFoundException;
 import models.objects.JCertifObject;
 import models.objects.checker.Checker;
+import models.util.Constantes;
 import models.util.Tools;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.WriteResult;
 
 public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		IDao<BasicDBObject> {
 
 	private Checker checker;
 	private String collectionName;
-
+	private Class<T> implementationClass;
+	
+	public JCertifObjectDB(){
+		this.implementationClass = 
+			(Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
+	
 	public JCertifObjectDB(String collectionName1) {
         super();
 		this.collectionName = collectionName1;
@@ -85,6 +95,19 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		return resultList;
 	}
 
+	public final List<T> listAll() {
+		BasicDBObject objectToSearch = new BasicDBObject();
+		BasicDBObject columnToRetrieve = new BasicDBObject(Constantes.MONGO_ID_ATTRIBUTE_NAME, 0);
+		List<BasicDBObject> dbObjects = list(objectToSearch, columnToRetrieve);
+		List<T> objects = new ArrayList<T>();
+		T object = null;
+		for(Iterator<BasicDBObject> itr = dbObjects.iterator();itr.hasNext();){
+			object = JCertifObjectDBUtils.instanciate(implementationClass, itr.next());
+			objects.add(object);
+		}
+		return objects;
+	}
+	
 	@Override
 	public final BasicDBObject get(String keyName, Object keyValue) {
 		if (null == keyName){

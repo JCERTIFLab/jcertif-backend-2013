@@ -1,9 +1,10 @@
 package models.objects.access;
 
-import com.mongodb.BasicDBObject;
 import models.objects.Sponsor;
 import models.objects.checker.SponsorChecker;
 import models.util.Constantes;
+
+import com.mongodb.BasicDBObject;
 
 public final class SponsorDB extends JCertifObjectDB<Sponsor> {
 
@@ -22,15 +23,15 @@ public final class SponsorDB extends JCertifObjectDB<Sponsor> {
     }
 
     public boolean remove(Sponsor sponsor) {
-        return super.remove(sponsor.toBasicDBObject(), "email");
+        return super.remove(sponsor.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public boolean save(Sponsor sponsor) {
-        return super.save(sponsor.toBasicDBObject(), "email");
+        return super.save(sponsor.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
     }
 
     public Sponsor get(String email) {
-        BasicDBObject dbObject = get("email", email);
+        BasicDBObject dbObject = get(Constantes.EMAIL_ATTRIBUTE_NAME, email);
         Sponsor sponsor = null;
         if (null != dbObject){
             sponsor = new Sponsor(dbObject);

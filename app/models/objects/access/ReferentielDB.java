@@ -50,38 +50,13 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		if(null == dbObject){
 			return null;
 		}
-		T object = instanciate();
+		T object = JCertifObjectDBUtils.instanciate(referentielClass);
 		object.setLabel(label);
 		return object;
-	}
-	
-	public final List<T> listAll() {
-		BasicDBObject objectToSearch = new BasicDBObject();
-		BasicDBObject columnToRetrieve = new BasicDBObject(Constantes.ID_ATTRIBUTE_NAME, 0);
-		List<BasicDBObject> dbObjects = super.list(objectToSearch, columnToRetrieve);
-		List<T> objects = new ArrayList<T>();
-		T object = null;
-		for(Iterator<BasicDBObject> itr = dbObjects.iterator();itr.hasNext();){
-			object = instanciate();
-			object.setLabel(itr.next().getString(Constantes.LABEL_ATTRIBUTE_NAME));
-			objects.add(object);
-		}
-		return objects;
 	}
 	
 	public final boolean remove(T referentielToDelete) {		
 		return super.remove(referentielToDelete.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
 	}
 	
-	private T instanciate() {
-		try {
-			return referentielClass.newInstance();
-		} catch (InstantiationException e) {
-			throw new JCertifException("Implossible de créer une instance de " 
-					+ referentielClass.getSimpleName() , e);
-		} catch (IllegalAccessException e) {
-			throw new JCertifResourceAccessException("Implossible de créer une instance de " 
-					+ referentielClass.getSimpleName() , e);
-		}
-	}
 }

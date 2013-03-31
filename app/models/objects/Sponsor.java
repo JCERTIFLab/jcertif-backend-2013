@@ -1,5 +1,9 @@
 package models.objects;
 
+import models.objects.access.JCertifObjectDB;
+import models.objects.access.SponsorDB;
+import models.util.Constantes;
+
 import com.mongodb.BasicDBObject;
 
 public class Sponsor extends JCertifObject {
@@ -112,4 +116,16 @@ public class Sponsor extends JCertifObject {
         basicDBObject.put("about", getAbout());
         return basicDBObject;
     }
+    
+    @Override
+	@SuppressWarnings("unchecked")
+	protected JCertifObjectDB<Sponsor> getDBObject() {
+		return SponsorDB.getInstance();
+	}
+
+	@Override
+	public String getKeyName() {
+		return Constantes.EMAIL_ATTRIBUTE_NAME;
+	}
+
 }
