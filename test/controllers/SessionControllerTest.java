@@ -18,12 +18,16 @@ import static play.test.Helpers.status;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import models.objects.access.SessionDB;
+import models.util.Constantes;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.mongodb.BasicDBObject;
 
 import play.Logger;
 import play.libs.Json;
@@ -99,7 +103,7 @@ public class SessionControllerTest {
         });
     }
     
-    //@Test
+    @Test
     public void test_session_deletion_invalid_id() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -917,6 +921,82 @@ public class SessionControllerTest {
                         Logger.info("*** FIN -> test_update_session_all_OK() ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
+					}
+            }
+        });
+    }
+    
+    @Test
+    public void test_session_update_OK() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                	Logger.info("*** DEBUT -> test_session_update_OK ***");
+                	try {
+                		Logger.info("Tous les inner params sont valides.");
+                		TestUtils.updateDatabase("test/data/session.js");
+                		Map<String, String> params = new HashMap<String, String>();
+                        params.put("id", "101");
+                        params.put("title", "title 3");
+                        params.put("summary", "summary 3");
+                        params.put("description", "description 3");
+                        params.put("status", "status 3");
+                        params.put("keyword", "keyword 3");
+                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        assertThat(status(result)).isEqualTo(OK);
+                        
+                        Logger.info("Vérification que la session a bien été modifiée en base de données");
+    	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION, new BasicDBObject().append("id", "101"));
+    	                Assert.assertTrue(null != dbObjects);
+    	                Assert.assertEquals(1,dbObjects.size());
+    	                BasicDBObject dbObject = dbObjects.get(0);
+    	                Assert.assertEquals("101",dbObject.getString("id"));
+    	                Assert.assertEquals("title 3",dbObject.getString("title"));
+    	                Assert.assertEquals("summary 3",dbObject.getString("summary"));
+    	                Assert.assertEquals("description 3",dbObject.getString("description"));
+    	                Assert.assertEquals("status 3",dbObject.getString("status"));
+    	                Assert.assertEquals("keyword 3",dbObject.getString("keyword"));
+    	                Assert.assertEquals("12/02/2013 10:22",dbObject.getString("start"));
+    	                Assert.assertEquals("16/02/2013 10:23",dbObject.getString("end"));
+                        Logger.info("*** FIN -> test_session_update_OK ***");
+					} catch (Exception e) {
+						Logger.error("Une erreur est survenue lors du test de mise à jour d'une session", e);
+						Assert.fail("Une erreur est survenue lors du test de mise à jour d'une session");
+					}
+            }
+        });
+    }
+    
+    @Test
+    public void test_unAuthUser_session_update_forbidden() {
+    	Logger.info("*** DEBUT -> test_unAuthUser_session_update_forbidden ***");
+    	Logger.info("Seul le user avec le role admin doit pouvoir modifier une session");
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+            	Map<String, String> params = new HashMap<String, String>();
+                params.put("id", "101");
+            	Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("user", "normal").withJsonBody(Json.toJson(params), POST));
+                assertThat(status(result)).isEqualTo(FORBIDDEN);
+            }
+        });
+        Logger.info("*** FIN -> test_unAuthUser_session_update_forbidden ***");
+    }
+    
+    @Test
+    public void test_session_update_unregistred_session_id() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                	Logger.info("*** DEBUT -> test_session_update_unregistred_session_id ***");
+                	try {
+                		TestUtils.updateDatabase("test/data/session.js");
+                		Map<String, String> params = new HashMap<String, String>();
+                        params.put("id", "10000000");                        
+                        Logger.info("La demande de mise à jour ne doit concernée que des sessions existantes.");
+                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        assertThat(status(result)).isEqualTo(NOT_FOUND);
+                        Logger.info("*** FIN -> test_session_update_unregistred_session_id ***");
+					} catch (Exception e) {
+						Logger.error("Une erreur est survenue lors du test de mise à jour d'une session", e);
+						Assert.fail("Une erreur est survenue lors du test de mise à jour d'une session");
 					}
             }
         });
