@@ -40,20 +40,27 @@ public class CheckerHelper {
         }
 	}
 	
-	public static boolean checkPassword(String oldPassword, String newPassword, boolean checkTwo){
-        if(checkTwo){
+	public static void checkPassword(String oldPassword, String newPassword, boolean checkTwo){
+        boolean isPasswordValid = false;
+		if(checkTwo){
 
             if (oldPassword==null || newPassword==null) {
-                return false;
+            	isPasswordValid = false;
             }
 
             if(oldPassword.equals(newPassword)){
-                return false;
+            	isPasswordValid = false;
             }
 
-            return oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH && newPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
+            isPasswordValid = oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH && newPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
+        }else{
+        	isPasswordValid = oldPassword!=null && oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
         }
-        return oldPassword!=null && oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
+		
+		if(!isPasswordValid){
+			throw new JCertifInvalidRequestException("Password does not match policy (minimum length : "
+                            + Constantes.PASSWORD_MIN_LENGTH + " )");
+		}
     }
 	
 	public static void checkId(BasicDBObject objectToCheck){

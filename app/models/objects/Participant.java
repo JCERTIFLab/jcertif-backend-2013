@@ -3,10 +3,16 @@ package models.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.Logger;
+
+import models.exception.JCertifInvalidRequestException;
 import models.objects.access.JCertifObjectDB;
 import models.objects.access.ParticipantDB;
+import models.objects.checker.CheckerHelper;
 import models.util.Constantes;
 import models.util.Tools;
+import models.util.crypto.CryptoUtil;
+import notifiers.EmailNotification;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -175,5 +181,80 @@ public class Participant extends JCertifObject {
 	@Override
 	public String getKeyName() {
 		return Constantes.LABEL_ATTRIBUTE_NAME;
+	}
+
+	/**
+	 * @param oldPassword
+	 * @param newPassword
+	 */
+	public void changePassword(String oldPassword, String newPassword) {
+		
+		CheckerHelper.checkPassword(oldPassword, newPassword, true);
+		
+		if (!CryptoUtil.verifySaltedPassword(oldPassword.getBytes(), getPassword())) {
+				/* We compare oldPassword with the hashed password  */
+           throw new JCertifInvalidRequestException("old password does not match the current password");
+		}
+		
+		setPassword(CryptoUtil.getSaltedPassword(newPassword.getBytes()));
+		boolean isOK = save();
+		
+		if(isOK){
+			EmailNotification.sendChangePwdMail(this);
+		}
+
+	}
+
+	/**
+	 * @return
+	 */
+	public void reinitPassword() {
+		
+		String newPassword = CryptoUtil.generateRandomPassword();
+		setPassword(CryptoUtil.getSaltedPassword(newPassword.getBytes()));
+		
+		boolean isOK = save();
+		
+		if(isOK){
+			EmailNotification.sendReinitpwdMail(this, newPassword);
+		}
+	}
+	
+	@Override
+	public boolean add() {
+		boolean isOk = super.add();
+		
+		if(isOk){
+			/* send email */
+			EmailNotification.sendWelcomeMail(this);
+		}
+		
+		return isOk;
+	}
+	
+	public void addToSession(Session session) {
+		if(!Tools.isBlankOrNull(session.getId()) &&
+				!sessions.contains(session.getId())){
+			sessions.add(session.getId());
+		}
+		
+		boolean isOK = save();
+		
+		if(isOK){
+			EmailNotification.sendenrollMail(this, session);
+		}
+	}
+    
+    public void removeFromSession(Session session) {
+		if(!Tools.isBlankOrNull(session.getId()) &&
+				sessions.contains(session.getId())){
+			sessions.remove(session.getId());
+		}
+		
+		boolean isOK = save();
+		
+		if(isOK){
+			EmailNotification.sendUnenrollpwdMail(this, session);
+		}
 	}
 }

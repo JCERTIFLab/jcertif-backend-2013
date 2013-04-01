@@ -9,6 +9,7 @@ Backend.init = function () {
     Backend.addStatus.initDialog();
     Backend.addParticipantToSession.initDialog();
 	Backend.removeParticipantFromSession.initDialog();
+	Backend.listParticipantSessions.initDialog();
 	Backend.reinitialPassword.initDialog();
 	Backend.changePassword.initDialog();
 	Backend.addSession.initDialog();
@@ -25,6 +26,9 @@ Backend.init = function () {
     });    
     $("#add-participant-session").click(function () {
         Backend.addParticipantToSession.openDialog();
+    });
+    $("#list-participant-sessions").click(function () {
+        Backend.listParticipantSessions.openDialog();
     });
     $("#remove-participant-session").click(function () {
         Backend.removeParticipantFromSession.openDialog();
@@ -372,6 +376,44 @@ participants=[];
 
 }
 
+// Service list participant sessions
+Backend.listParticipantSessions = {
+
+    initDialog: function () {
+			participants=[];
+					$.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: "/participant/list"
+                    }).done(function (msg) {
+                            participants =msg;
+							option="";
+							$.each(participants, function(arrayID,group) {
+					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
+			});
+            $("#dialog-list-participant-sessions form fieldset").append('<label for="participant">emailParticipant</label>');
+            $("#dialog-list-participant-sessions form fieldset").append('<select name="emailParticipant" id="emailParticipantList" class="ui-widget-content ui-corner-all">'+option+'</select>');
+				
+            }).fail(function (msg) {
+                alert("Opps : " + msg.responseText);
+            });
+    },
+
+    openDialog: function () {
+        $("#dialog-list-participant-sessions").dialog({
+            width: 300,
+            height: 300,
+            modal: true,
+            buttons: {
+                "Voir Sessions": function () {
+                	window.location = "/participant/"+$("#emailParticipantList option").filter(":selected").val()+"/session/list";
+                }
+            }
+
+        });
+    }
+
+}
 // Service remove participant from session
 Backend.removeParticipantFromSession = {
 

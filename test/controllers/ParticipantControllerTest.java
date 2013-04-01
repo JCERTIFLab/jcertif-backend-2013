@@ -28,6 +28,7 @@ public class ParticipantControllerTest {
 	            }
 	        });
 	}
+	
 	@Test
 	void test_changepassword(){
 	     running(fakeApplication(), new Runnable() {

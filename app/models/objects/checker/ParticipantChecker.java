@@ -2,9 +2,11 @@ package models.objects.checker;
 
 import static models.objects.checker.CheckerHelper.checkEmail;
 import static models.objects.checker.CheckerHelper.checkNull;
+import static models.objects.checker.CheckerHelper.checkPassword;
 import models.exception.JCertifInvalidRequestException;
 import models.objects.Participant;
 import models.util.Tools;
+import models.util.crypto.CryptoUtil;
 
 import com.mongodb.BasicDBObject;
 
@@ -24,21 +26,16 @@ public class ParticipantChecker extends Checker {
 
     @Override
     public final void addCheck(BasicDBObject objectToCheck) {
-
-    	if (null == objectToCheck) {
-            throw new JCertifInvalidRequestException(this, "Object cannot be null");
-        }
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
 
         Participant participant = new Participant(objectToCheck);
 
-        if (Tools.isBlankOrNull(participant.getEmail())) {
-            throw new JCertifInvalidRequestException(this, "Email cannot be empty or null");
-        }
-
-        if (!Tools.isValidEmail(participant.getEmail())) {
-            throw new JCertifInvalidRequestException(this, participant.getEmail() + " is not a valid email");
-        }
-
+        checkPassword(participant.getPassword(), null, false);
+        
+        //after check the password compliance according to policy we encrypt
+        objectToCheck.put("password", CryptoUtil.getSaltedPassword(participant.getPassword().getBytes()));
+        
         if (Tools.isBlankOrNull(participant.getTitle())) {
             throw new JCertifInvalidRequestException(this, "Title cannot be empty or null");
         }
