@@ -5,7 +5,6 @@ import models.objects.Participant;
 import models.objects.Session;
 import models.objects.access.ParticipantDB;
 import models.objects.access.SessionDB;
-import notifiers.EmailNotification;
 
 import org.codehaus.jackson.JsonNode;
 
