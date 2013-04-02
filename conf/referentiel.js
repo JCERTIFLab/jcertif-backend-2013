@@ -1,7 +1,4 @@
 // Fichier d'initialisation des données référentielles
-db.referentiel.remove();
-db.session.remove();
-db.participant.remove();
 db.session_status.remove();
 db.session_status.insert({label: 'Approuvé'});
 db.session_status.insert({label: 'Brouillon'});
