@@ -101,7 +101,7 @@ Backend.registerParticipant = {
                         url: "/participant/register",
                         data: $('#dialog-register-participant form').serializeJSONString()
                     }).done(function (msg) {
-                            alert("Cool");
+                    		$('#dialog-register-participant').dialog("destroy");
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
                         });
@@ -192,7 +192,7 @@ Backend.addSession = {
                         url: "/session/new",
                         data: $('#dialog-add-session form').serializeJSONString()
                     }).done(function (msg) {
-                            alert("Cool");
+                    		$('#dialog-add-session').dialog("destroy");
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
                         });
@@ -226,7 +226,7 @@ Backend.addStatus = {
                         url: "/ref/sessionstatus/new",
                         data: $('#dialog-add-status form').serializeJSONString()
                     }).done(function (msg) {
-                            alert("Cool");
+                    		$('#dialog-add-status').dialog("destroy");
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
                         });
@@ -264,7 +264,7 @@ Backend.changePassword = {
                         url: "/participant/"+$("#emailParticipantChang").val()+"/changepassword",
                         data: $('#dialog-participant-changePassword form').serializeJSONString()
                     }).done(function (msg) {
-                            alert("Cool");
+                    		$('#dialog-participant-changePassword').dialog("destroy");
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
                         });
@@ -296,7 +296,7 @@ Backend.reinitialPassword = {
                         type: "POST",
                         url: "/participant/"+$("#emailParticipantInit").val()+"/lostpassword"
                     }).done(function (msg) {
-                            alert("Cool");
+                    		$('#dialog-participant-reinitial').dialog("destroy");
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
                         });
@@ -364,7 +364,7 @@ participants=[];
                         type: "POST",
                         url: "/participant/"+$("#emailParticipantAdd option").filter(":selected").val()+"/session/add/"+$("#idSessionAdd option").filter(":selected").val()
                     }).done(function (msg) {
-                            alert("Cool");
+                    		$('#dialog-add-participant-session').dialog("destroy");
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
                         });
@@ -469,7 +469,7 @@ Backend.removeParticipantFromSession = {
                         type: "POST",
                         url: "/participant/"+$("#emailParticipantRemove option").filter(":selected").val()+"/session/remove/"+$("#idSession option").filter(":selected").val()
                     }).done(function (msg) {
-                            alert("Cool");
+                    		$('#dialog-remove-participant-session').dialog("destroy");
                         }).fail(function (msg) {
                             alert("Opps : " + msg.responseText);
                         });
