@@ -41,6 +41,8 @@ public class Global extends GlobalSettings {
     @Override
 	public Result onError(RequestHeader requestHeader, Throwable throwable) {
 		Logger.info("JCertif Backend onError Global Handler");
+		Logger.error("Erreur inattendue", throwable);
+		
 		return ExceptionHandler.resolve(throwable);
 	}
 	

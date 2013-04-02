@@ -69,6 +69,7 @@ public class JCertifContextAction extends Action<JCertifContext> {
 			allowCrossOriginJson(context.response());
 			
 		}catch (Throwable throwable){
+			Logger.error("Error during request processing",throwable);
 			result = ExceptionHandler.resolve(throwable);
 		}
 		

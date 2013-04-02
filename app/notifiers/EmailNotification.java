@@ -89,7 +89,6 @@ public class EmailNotification {
         String body = unenroll.render(user, session).body();
 
         mail.sendHtml(body);
-        // TODO Auto-generated method stub
 
         Logger.info("Exit sendUnenrollpwdMail()");
     }

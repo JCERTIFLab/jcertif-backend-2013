@@ -20,7 +20,7 @@ public class ParticipantController extends AbstractController {
 	 * 
 	 * @return
 	 */
-	@JCertifContext
+	@JCertifContext(admin=false)
 	public static Result updateParticipant() {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -36,7 +36,7 @@ public class ParticipantController extends AbstractController {
 	 * @param emailParticipant
 	 * @return
 	 */
-	@JCertifContext
+	@JCertifContext(admin=false,bodyParse=false)
 	public static Result getParticipant(String emailParticipant) {
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
 		
@@ -61,7 +61,7 @@ public class ParticipantController extends AbstractController {
 	 * 
 	 * @return
 	 */
-	@JCertifContext
+	@JCertifContext(admin=false)
 	public static Result registerParticipant() {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -78,7 +78,7 @@ public class ParticipantController extends AbstractController {
 	 * @param emailParticipant
 	 * @return
 	 */
-	@JCertifContext
+	@JCertifContext(admin=false)
 	public static Result changePasswordParticipant(String emailParticipant) {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -103,7 +103,7 @@ public class ParticipantController extends AbstractController {
 	 * @param emailParticipant
 	 * @return
 	 */
-	@JCertifContext
+	@JCertifContext(admin=false,bodyParse=false)
 	public static Result reinitPasswordParticipant(String emailParticipant) {
 
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
@@ -124,7 +124,7 @@ public class ParticipantController extends AbstractController {
 	 * @param idSession
 	 * @return
 	 */
-	@JCertifContext
+	@JCertifContext(admin=false,bodyParse=false)
 	public static Result inscrireParticipantSession(String emailParticipant,
 			String idSession) {
 		
@@ -145,7 +145,7 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
 	}
 
-	@JCertifContext
+	@JCertifContext(admin=false,bodyParse=false)
 	public static Result desinscrireParticipantSession(String emailParticipant,
 			String idSession) {
 
@@ -158,7 +158,7 @@ public class ParticipantController extends AbstractController {
 		Session session = SessionDB.getInstance().get(idSession);
 
 		if(session == null){
-			throw new JCertifObjectNotFoundException("Session with id '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException("Session with id '" + idSession + "' inexistant");
 		}
 
 		participant.removeFromSession(session);
@@ -166,7 +166,7 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
 	}
 
-	@JCertifContext
+	@JCertifContext(admin=false,bodyParse=false)
 	public static Result listParticipantSession(String emailParticipant) {
 
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);

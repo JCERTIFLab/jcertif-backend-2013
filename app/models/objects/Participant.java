@@ -3,8 +3,7 @@ package models.objects;
 import java.util.ArrayList;
 import java.util.List;
 
-import play.Logger;
-
+import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifInvalidRequestException;
 import models.objects.access.JCertifObjectDB;
 import models.objects.access.ParticipantDB;
@@ -180,7 +179,7 @@ public class Participant extends JCertifObject {
 
 	@Override
 	public String getKeyName() {
-		return Constantes.LABEL_ATTRIBUTE_NAME;
+		return Constantes.EMAIL_ATTRIBUTE_NAME;
 	}
 
 	/**
@@ -236,12 +235,14 @@ public class Participant extends JCertifObject {
 		if(!Tools.isBlankOrNull(session.getId()) &&
 				!sessions.contains(session.getId())){
 			sessions.add(session.getId());
-		}
-		
-		boolean isOK = save();
-		
-		if(isOK){
-			EmailNotification.sendenrollMail(this, session);
+			
+			boolean isOK = save();
+			
+			if(isOK){
+				EmailNotification.sendenrollMail(this, session);
+			}
+		}else if (sessions.contains(session.getId())) {
+			throw new JCertifDuplicateObjectException("Participant '"+ email +"' déjà inscrit à la session '"+ session.getTitle() +"'.");
 		}
 	}
     
@@ -249,12 +250,14 @@ public class Participant extends JCertifObject {
 		if(!Tools.isBlankOrNull(session.getId()) &&
 				sessions.contains(session.getId())){
 			sessions.remove(session.getId());
-		}
-		
-		boolean isOK = save();
-		
-		if(isOK){
-			EmailNotification.sendUnenrollpwdMail(this, session);
+			
+			boolean isOK = save();
+			
+			if(isOK){
+				EmailNotification.sendUnenrollpwdMail(this, session);
+			}
+		}else if (!sessions.contains(session.getId())) {
+			throw new JCertifInvalidRequestException("Participant '"+ email +"' non inscrit à la session '"+ session.getTitle() +"'.");
 		}
 	}
 }

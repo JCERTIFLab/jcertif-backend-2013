@@ -1,15 +1,17 @@
 package models.objects.access;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import play.Logger;
 
 import models.database.MongoDatabase;
 import models.exception.JCertifDuplicateObjectException;
@@ -19,6 +21,9 @@ import models.objects.JCertifObject;
 import models.objects.checker.Checker;
 import models.util.Constantes;
 import models.util.Tools;
+
+import play.Logger;
+import sun.security.jca.GetInstance.Instance;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -175,14 +180,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
 		}
 
-		Map fieldMap = objectToUpdate.toMap();
-		Map fieldToSaveMap = new HashMap();
-		for (Entry entry : (Set<Entry>)fieldMap.entrySet()) {
-			if(entry.getValue() != null){
-				fieldToSaveMap.put(entry.getKey(), entry.getValue());
-			}
-		}
-		existingObjectToUpdate.putAll(fieldToSaveMap);
+		existingObjectToUpdate = merge(objectToUpdate,existingObjectToUpdate);
 
 		WriteResult result = MongoDatabase.getInstance().update(
 				getCollectionName(), existingObjectToUpdate);
@@ -190,6 +188,29 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 			throw new JCertifException(this, result.getError());
 		}
 		return true;
+	}
+
+	/**
+	 * @param objectToUpdate
+	 * @param existingObjectToUpdate
+	 * @return
+	 */
+	private BasicDBObject merge(BasicDBObject objectToUpdate,
+			BasicDBObject existingObjectToUpdate) {
+		
+		Map<String, Object> fieldMap = objectToUpdate.toMap();
+		Map<String, Object> fieldToSaveMap = new HashMap<String, Object>();
+		for (Entry<String, Object> entry : (Set<Entry<String, Object>>)fieldMap.entrySet()) {
+			if(entry.getValue() != null && 
+					(!(entry.getValue() instanceof List<?>)||
+					((entry.getValue() instanceof List<?>) &&
+							!Tools.isBlankOrNull((ArrayList<?>)entry.getValue())))){
+				fieldToSaveMap.put(entry.getKey(), entry.getValue());
+			}
+		}
+		existingObjectToUpdate.putAll(fieldToSaveMap);
+		
+		return existingObjectToUpdate;
 	}
 
 	@Override
