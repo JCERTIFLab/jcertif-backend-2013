@@ -1,17 +1,15 @@
-import controllers.JcertifHttpMapping;
-import models.exception.JCertifException;
+import java.lang.reflect.Method;
+
 import models.exception.ExceptionHandler;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
-import play.mvc.Action;
 import play.Play;
+import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
 import play.mvc.Results;
-
-import java.lang.reflect.Method;
 
 /**
  * <p>Cette classe est un handler global à l'application</p>

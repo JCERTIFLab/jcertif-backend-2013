@@ -2,14 +2,7 @@ package controllers;
 
 
 import models.objects.Category;
-import models.objects.Session;
-import models.objects.SessionStatus;
 import models.objects.access.CategoryDB;
-import models.objects.access.SessionDB;
-import models.objects.access.SessionStatusDB;
-import models.util.Tools;
-import play.Logger;
-import play.mvc.Http;
 
 import org.codehaus.jackson.JsonNode;
 

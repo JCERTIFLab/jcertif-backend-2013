@@ -5,7 +5,6 @@ import models.exception.ExceptionHandler;
 import models.exception.JCertifResourceAccessException;
 import models.util.Tools;
 import models.util.properties.JCertifPropUtils;
-import models.util.properties.PropUtils;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http.Context;

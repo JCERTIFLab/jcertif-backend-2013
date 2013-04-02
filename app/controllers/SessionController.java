@@ -1,20 +1,14 @@
 package controllers;
 
 import models.objects.Session;
-import models.objects.SessionStatus;
 import models.objects.access.SessionDB;
 
 import org.codehaus.jackson.JsonNode;
 
-import play.Logger;
 import play.mvc.Result;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBList;
 import com.mongodb.util.JSON;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 public class SessionController extends AbstractController {
@@ -49,9 +43,8 @@ public class SessionController extends AbstractController {
     public static Result updateSession() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		Logger.info(jsonNode.toString());
 		Session session = new Session((BasicDBObject)JSON.parse(jsonNode.toString()));
-		Logger.info(session.toString());
+
 		session.save();
 		return ok(JSON.serialize("Ok"));
    

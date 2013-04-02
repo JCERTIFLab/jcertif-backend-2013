@@ -1,10 +1,8 @@
 package controllers;
 
 
-import play.mvc.Result;
 import models.util.properties.JCertifPropUtils;
-
-import java.util.List;
+import play.mvc.Result;
 
 public class AdminController extends AbstractController {
 

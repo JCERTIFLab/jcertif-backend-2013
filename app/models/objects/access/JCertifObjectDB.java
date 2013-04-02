@@ -215,9 +215,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 
 	@Override
 	public final boolean remove(BasicDBObject objectToDelete, String idKeyname) {
-		Logger.info("remove");
 		getChecker().deleteCheck(objectToDelete);
-		Logger.info("checked");
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToDelete.get(idKeyname));
 		BasicDBObject existingObjectToDelete = MongoDatabase.getInstance()

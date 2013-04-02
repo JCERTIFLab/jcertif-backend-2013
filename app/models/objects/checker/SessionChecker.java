@@ -9,38 +9,33 @@ import java.util.Date;
 import java.util.Locale;
 
 import models.exception.JCertifInvalidRequestException;
-import models.exception.JCertifException;
 import models.objects.Session;
-import models.objects.SessionStatus;
 import models.objects.access.SessionStatusDB;
 import models.util.Constantes;
 import models.util.Tools;
 
 import com.mongodb.BasicDBObject;
 
-import play.Logger;
-
 public class SessionChecker extends Checker{
 
     @Override
     public final void updateCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
     	checkId(objectToCheck);
     }
 
     @Override
     public final void deleteCheck(BasicDBObject objectToCheck) {  	
+    	checkNull(objectToCheck);
     	checkId(objectToCheck);
     }
 
     @Override
     public final void addCheck(BasicDBObject objectToCheck) {
     	checkNull(objectToCheck);
+    	checkId(objectToCheck);
 
         Session session = new Session(objectToCheck);
-
-        if (Tools.isBlankOrNull(session.getId())) {
-            throw new JCertifInvalidRequestException(this, "Id cannot be empty or null");
-        }
 
         if (Tools.isBlankOrNull(session.getTitle())) {
             throw new JCertifInvalidRequestException(this, "Title cannot be empty or null");
