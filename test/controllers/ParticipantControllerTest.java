@@ -9,7 +9,6 @@ import static play.test.Helpers.GET;
 import static play.test.Helpers.POST;
 import static play.test.Helpers.callAction;
 import static play.test.Helpers.contentAsString;
-import static play.test.Helpers.contentType;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
@@ -45,7 +44,6 @@ public class ParticipantControllerTest {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = route(fakeRequest(GET, "/participant/list"));
 		                assertThat(status(result)).isEqualTo(OK);
-		                assertThat(contentType(result)).isEqualTo("application/json");
 		                JsonNode jsonNode = Json.parse(contentAsString(result));
 	                    Assert.assertEquals(3, jsonNode.size());
 					} catch (IOException e) {
@@ -64,7 +62,6 @@ public class ParticipantControllerTest {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.listParticipantSession("test@participant.com"), fakeRequest());
 		                assertThat(status(result)).isEqualTo(OK);	                
-		                assertThat(contentType(result)).isEqualTo("application/json");
 		                assertThat(contentAsString(result)).isEqualTo("[ \"01\" , \"02\"]");
 		                
 	            	} catch (IOException e) {
@@ -83,7 +80,6 @@ public class ParticipantControllerTest {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.getParticipant("test@participant.com"), fakeRequest());
 		                assertThat(status(result)).isEqualTo(OK);	                
-		                assertThat(contentType(result)).isEqualTo("application/json");
 		                
 		                Logger.info("Vérification des informations du participant");
 		                JsonNode jsonNode = Json.parse(contentAsString(result));

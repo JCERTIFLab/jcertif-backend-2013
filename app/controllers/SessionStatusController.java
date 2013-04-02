@@ -11,13 +11,11 @@ import com.mongodb.util.JSON;
 
 public class SessionStatusController extends AbstractController {
 
-	@JCertifContext(admin=false,bodyParse=false)
     public static Result listStatusSession() {
 
         return ok(JSON.serialize(SessionStatusDB.getInstance().list()));
     }
 
-	@JCertifContext
     public static Result addSessionStatus() {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -27,7 +25,6 @@ public class SessionStatusController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
-	@JCertifContext
     public static Result removeSessionStatus() {
 		JsonNode jsonNode = request().body().asJson();
 		

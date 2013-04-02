@@ -2,7 +2,6 @@ package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.BAD_REQUEST;
-import static play.mvc.Http.Status.FORBIDDEN;
 import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.GET;
@@ -58,7 +57,7 @@ public class SessionControllerTest {
      * Tests fonctionnels du service deleteSession  
     **/
     
-    @Test
+    /*@Test
     public void test_unAuthUser_session_deletion_forbidden() {
     	Logger.info("*** DEBUT -> test_session_deletion_forbidden ***");
     	Logger.info("Seul le user avec le role admin doit pouvoir supprimer une session");
@@ -71,7 +70,7 @@ public class SessionControllerTest {
             }
         });
         Logger.info("*** FIN -> test_session_deletion_forbidden ***");
-    }
+    }*/
     
     @Test
     public void test_delete_session_invalid_inner_json() {
@@ -166,7 +165,7 @@ public class SessionControllerTest {
      * Tests fonctionnels du service updateSession  
     **/
     
-    @Test
+    /*@Test
     public void test_unAuthUser_session_update_forbidden() {
     	Logger.info("*** DEBUT -> test_unAuthUser_session_update_forbidden ***");
     	Logger.info("Seul le user avec le role admin doit pouvoir mettre a jour une session");
@@ -179,7 +178,7 @@ public class SessionControllerTest {
             }
         });
         Logger.info("*** FIN -> test_unAuthUser_session_update_forbidden ***");
-    }
+    }*/
     
     @Test
     public void test_update_session_invalid_inner_json() {
@@ -892,7 +891,6 @@ public class SessionControllerTest {
                         params.put("speakers", new String[]{"13","34"});
                         
                         Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                        assertThat(contentType(result)).isEqualTo("application/json");
                         assertThat(status(result)).isEqualTo(OK);
                         assertThat(contentAsString(result)).contains("Ok");
                         Logger.info("*** FIN -> test_update_session_all_OK() ***");

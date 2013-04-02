@@ -4,7 +4,6 @@ import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
-import controllers.JcertifHttpMapping;
 
 /**
  * <p>Classe Helper pour la gestion des exception.</p>
@@ -23,9 +22,9 @@ public class ExceptionHandler {
 		Throwable unwrappedThrowable = unwrap(throwable);
 		
 		if(unwrappedThrowable instanceof JCertifException
-				&& unwrappedThrowable.getClass().isAnnotationPresent(JcertifHttpMapping.class)){
+				&& unwrappedThrowable.getClass().isAnnotationPresent(JCertifExceptionMapping.class)){
 
-			JcertifHttpMapping mapping = unwrappedThrowable.getClass().getAnnotation(JcertifHttpMapping.class);
+			JCertifExceptionMapping mapping = unwrappedThrowable.getClass().getAnnotation(JCertifExceptionMapping.class);
 			
 			result = Results.status(mapping.status(), throwable.getMessage());
 			

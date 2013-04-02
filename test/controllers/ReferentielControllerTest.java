@@ -2,7 +2,6 @@ package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.BAD_REQUEST;
-import static play.mvc.Http.Status.FORBIDDEN;
 import static play.test.Helpers.POST;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
@@ -20,7 +19,7 @@ public abstract class ReferentielControllerTest {
 	public abstract String getCreateURL();
 	public abstract String getRemoveURL();
 	
-	@Test
+	/*@Test
     public void test_referentiel_new_forbidden() {
         Logger.info("Une requête de création d'un objet du referentiel requiert les droits d'administration");
         running(fakeApplication(), new Runnable() {
@@ -40,7 +39,7 @@ public abstract class ReferentielControllerTest {
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
-    }
+    }*/
 	
     @Test
     public void test_referentiel_new_badrequest() {

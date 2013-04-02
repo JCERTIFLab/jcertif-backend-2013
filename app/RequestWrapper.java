@@ -1,4 +1,6 @@
+import models.exception.ExceptionHandler;
 import models.exception.JCertifResourceAccessException;
+import models.util.Tools;
 import models.util.properties.JCertifPropUtils;
 import play.Logger;
 import play.Play;
@@ -21,11 +23,26 @@ public class RequestWrapper extends Action.Simple {
         if (Play.isProd() && !context.request().path().equals("/") && !context.request().path().equals("/admin")) {
             checkAdmin(context.session());
         }
-        Result result = delegate.call(context);
-        // Cross Origin que si c'est un service
-        if (!context.request().path().equals("/")) {
-            allowCrossOriginJson(context.response());
-        }
+        
+        Result result = null;
+        
+        try{	
+			
+        	if("POST".equals(context.request().method())){
+        		Tools.verifyJSonRequest(context.request().body());
+        	}
+        	
+			result = delegate.call(context);
+			
+			// Cross Origin que si c'est un service
+	        if (!context.request().path().equals("/")) {
+	            allowCrossOriginJson(context.response());
+	        }
+			
+		}catch (Throwable throwable){
+			Logger.error("Error during request processing",throwable);
+			result = ExceptionHandler.resolve(throwable);
+		}
 
         return result;
     }

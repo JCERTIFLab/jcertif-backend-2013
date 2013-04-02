@@ -12,13 +12,11 @@ import com.mongodb.util.JSON;
 
 public class SponsorController extends AbstractController {
 
-	@JCertifContext(admin=false,bodyParse=false)
     public static Result listSponsor() {
 
         return ok(JSON.serialize(SponsorDB.getInstance().list()));
     }
 
-	@JCertifContext
     public static Result updateSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		
@@ -28,7 +26,6 @@ public class SponsorController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
-    @JCertifContext
     public static Result addSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		
@@ -38,7 +35,6 @@ public class SponsorController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
-    @JCertifContext
     public static Result removeSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		

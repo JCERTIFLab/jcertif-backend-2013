@@ -1,7 +1,6 @@
 package models.exception;
 
 import play.mvc.Http;
-import controllers.JcertifHttpMapping;
 
 /**
  * <p>Exception spécifique aux accès non autorisés.</p>
@@ -10,7 +9,7 @@ import controllers.JcertifHttpMapping;
  *
  */
 @SuppressWarnings("serial")
-@JcertifHttpMapping(status=Http.Status.FORBIDDEN)
+@JCertifExceptionMapping(status=Http.Status.FORBIDDEN)
 public class JCertifResourceAccessException extends JCertifException{
 
 	public JCertifResourceAccessException(String message,Exception exception) {

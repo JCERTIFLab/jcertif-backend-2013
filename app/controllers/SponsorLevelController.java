@@ -17,7 +17,6 @@ import com.mongodb.util.JSON;
  */
 public class SponsorLevelController extends AbstractController{
 
-	@JCertifContext
 	public static Result addSponsorLevel() {
         
 		JsonNode jsonNode = request().body().asJson();
@@ -28,13 +27,11 @@ public class SponsorLevelController extends AbstractController{
 		return ok(JSON.serialize("Ok"));
     }
 	
-	@JCertifContext(admin=false,bodyParse=false)
 	public static Result listSponsorLevel() {
         
 		return ok(JSON.serialize(SponsorLevelDB.getInstance().list()));
     }
 	
-	@JCertifContext
 	public static Result removeSponsorLevel() {
         
 		JsonNode jsonNode = request().body().asJson();

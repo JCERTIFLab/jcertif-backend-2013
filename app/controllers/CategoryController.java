@@ -12,13 +12,11 @@ import com.mongodb.util.JSON;
 
 public class CategoryController extends AbstractController {
 
-	@JCertifContext(admin=false,bodyParse=false)
     public static Result list() {
 
         return ok(JSON.serialize(CategoryDB.getInstance().list()));
     }
 
-    @JCertifContext
     public static Result newCategory() {
     	JsonNode jsonNode = request().body().asJson();
 		
@@ -28,7 +26,6 @@ public class CategoryController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
-    @JCertifContext
     public static Result removeCategory() {
     	JsonNode jsonNode = request().body().asJson();
 		

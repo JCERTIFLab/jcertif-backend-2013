@@ -1,4 +1,4 @@
-package controllers;
+package models.exception;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,6 +16,6 @@ import play.mvc.Http;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JcertifHttpMapping {
+public @interface JCertifExceptionMapping {
 	int status() default Http.Status.INTERNAL_SERVER_ERROR;
 }

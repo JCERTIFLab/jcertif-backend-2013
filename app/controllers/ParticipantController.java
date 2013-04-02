@@ -20,7 +20,6 @@ public class ParticipantController extends AbstractController {
 	 * 
 	 * @return
 	 */
-	@JCertifContext(admin=false)
 	public static Result updateParticipant() {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -36,7 +35,6 @@ public class ParticipantController extends AbstractController {
 	 * @param emailParticipant
 	 * @return
 	 */
-	@JCertifContext(admin=false,bodyParse=false)
 	public static Result getParticipant(String emailParticipant) {
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
 		
@@ -50,7 +48,6 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize(participant.toBasicDBObject()));
 	}
 
-	@JCertifContext(admin=false,bodyParse=false)
 	public static Result listParticipant() {
 
 		return ok(JSON.serialize(ParticipantDB.getInstance().list()));
@@ -61,7 +58,6 @@ public class ParticipantController extends AbstractController {
 	 * 
 	 * @return
 	 */
-	@JCertifContext(admin=false)
 	public static Result registerParticipant() {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -78,7 +74,6 @@ public class ParticipantController extends AbstractController {
 	 * @param emailParticipant
 	 * @return
 	 */
-	@JCertifContext(admin=false)
 	public static Result changePasswordParticipant(String emailParticipant) {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -103,7 +98,6 @@ public class ParticipantController extends AbstractController {
 	 * @param emailParticipant
 	 * @return
 	 */
-	@JCertifContext(admin=false,bodyParse=false)
 	public static Result reinitPasswordParticipant(String emailParticipant) {
 
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
@@ -124,7 +118,6 @@ public class ParticipantController extends AbstractController {
 	 * @param idSession
 	 * @return
 	 */
-	@JCertifContext(admin=false,bodyParse=false)
 	public static Result inscrireParticipantSession(String emailParticipant,
 			String idSession) {
 		
@@ -145,7 +138,6 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
 	}
 
-	@JCertifContext(admin=false,bodyParse=false)
 	public static Result desinscrireParticipantSession(String emailParticipant,
 			String idSession) {
 
@@ -166,7 +158,6 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
 	}
 
-	@JCertifContext(admin=false,bodyParse=false)
 	public static Result listParticipantSession(String emailParticipant) {
 
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
