@@ -14,7 +14,7 @@ public class CategoryController extends AbstractController {
 
 	@JCertifContext(admin=false,bodyParse=false)
     public static Result list() {
-        allowCrossOriginJson();
+
         return ok(JSON.serialize(CategoryDB.getInstance().list()));
     }
 
