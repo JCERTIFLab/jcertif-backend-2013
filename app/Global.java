@@ -1,9 +1,11 @@
 import controllers.JcertifHttpMapping;
 import models.exception.JCertifException;
+import models.exception.ExceptionHandler;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.mvc.Action;
+import play.Play;
 import play.mvc.Http;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
@@ -31,7 +33,6 @@ public class Global extends GlobalSettings {
 		super.onStop(application);
 	}
 
-
     @Override
     public Action onRequest(Http.Request request, Method method) {
         return new RequestWrapper(super.onRequest(request, method));
@@ -40,15 +41,24 @@ public class Global extends GlobalSettings {
     @Override
 	public Result onError(RequestHeader requestHeader, Throwable throwable) {
 		Logger.info("JCertif Backend onError Global Handler");
-		Result result = Results.status(Http.Status.INTERNAL_SERVER_ERROR, throwable.getMessage());
-		if(throwable.getCause() instanceof JCertifException
-				&& throwable.getCause().getClass().isAnnotationPresent(JcertifHttpMapping.class)){
-
-			JcertifHttpMapping mapped = throwable.getCause().getClass().getAnnotation(JcertifHttpMapping.class);
-			
-			result = Results.status(mapped.status(), throwable.getCause().getMessage());
-		}
+		return ExceptionHandler.resolve(throwable);
+	}
+	
+	@Override
+	public Result onHandlerNotFound(RequestHeader requestHeader) {
+		Logger.info("JCertif Backend onHandlerNotFound Global Handler");
 		
-		return result;
+		putResponseStatusInCoockieIfNecessary(Http.Status.NOT_FOUND);
+		
+		return Results.notFound();
+	}
+	
+	/**
+	 * @param result
+	 */
+	private void putResponseStatusInCoockieIfNecessary(int httpStatus){
+		if(!Play.isProd()){
+			Http.Context.current().session().put("status", Integer.toString(httpStatus));
+		}
 	}
 }

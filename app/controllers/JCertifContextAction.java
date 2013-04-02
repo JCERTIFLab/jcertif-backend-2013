@@ -1,6 +1,7 @@
 package controllers;
 
 
+import models.exception.ExceptionHandler;
 import models.exception.JCertifResourceAccessException;
 import models.util.Tools;
 import models.util.properties.JCertifPropUtils;
@@ -51,17 +52,26 @@ public class JCertifContextAction extends Action<JCertifContext> {
 		Logger.debug(new StringBuilder().append(TRACE_REQUESTED_URL_TAG)
 				.append(context.request().path()).toString());
 		
-		if (configuration.admin()) {
-			checkAdmin(context.session());
+		Result result = null;
+		
+		try{
+			
+			if (configuration.admin()) {
+				checkAdmin(context.session());
+			}
+			
+			if (configuration.bodyParse()) {
+				Tools.verifyJSonRequest(context.request().body());
+			}		
+			
+			result = delegate.call(context);
+			
+			allowCrossOriginJson(context.response());
+			
+		}catch (Throwable throwable){
+			result = ExceptionHandler.resolve(throwable);
 		}
 		
-		if (configuration.bodyParse()) {
-			Tools.verifyJSonRequest(context.request().body());
-		}		
-		
-		Result result = delegate.call(context);
-		
-		allowCrossOriginJson(context.response());
 		
 		return result;
 	}

@@ -16,7 +16,6 @@ import org.junit.Test;
 import play.mvc.Result;
 
 public class ParticipantControllerTest {
-
 	
 	@Test
 	void test_registration(){

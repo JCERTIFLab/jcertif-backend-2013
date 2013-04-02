@@ -1,28 +1,37 @@
 package controllers;
 
-import models.util.Constantes;
-
-import org.codehaus.jackson.JsonNode;
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.mongodb.BasicDBObject;
-
-import play.Logger;
-import play.libs.Json;
-import play.mvc.*;
-import util.TestUtils;
+import static org.fest.assertions.Assertions.assertThat;
+import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.GET;
+import static play.test.Helpers.POST;
+import static play.test.Helpers.callAction;
+import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.contentType;
+import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.fakeRequest;
+import static play.test.Helpers.route;
+import static play.test.Helpers.running;
+import static play.test.Helpers.status;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
+import models.util.Constantes;
 
-public class CategoryControllerTest extends ReferentielControllerTest{
+import org.codehaus.jackson.JsonNode;
+import org.junit.Assert;
+import org.junit.Test;
+
+import play.Logger;
+import play.libs.Json;
+import play.mvc.Result;
+import util.TestUtils;
+
+import com.mongodb.BasicDBObject;
+
+public class CategoryControllerTest extends ReferentielControllerTest {
 
 	@Override
 	public String getCreateURL() {

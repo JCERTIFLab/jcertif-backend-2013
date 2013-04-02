@@ -1,26 +1,35 @@
 package controllers;
 
-import org.junit.Assert;
-import org.junit.Test;
-import util.TestUtils;
-
-import models.database.MongoDatabase;
-import models.objects.Referentiel;
-import models.objects.access.SessionDB;
-
-import models.objects.checker.Checker;
-import models.util.Constantes;
-
-import play.Logger;
-import play.mvc.Result;
-import play.libs.Json;
+import static org.fest.assertions.Assertions.assertThat;
+import static play.mvc.Http.Status.BAD_REQUEST;
+import static play.mvc.Http.Status.FORBIDDEN;
+import static play.mvc.Http.Status.INTERNAL_SERVER_ERROR;
+import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.GET;
+import static play.test.Helpers.POST;
+import static play.test.Helpers.callAction;
+import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.contentType;
+import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.fakeRequest;
+import static play.test.Helpers.route;
+import static play.test.Helpers.running;
+import static play.test.Helpers.status;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.*;
+import models.database.MongoDatabase;
+import models.objects.access.SessionDB;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import play.Logger;
+import play.libs.Json;
+import play.mvc.Result;
+import util.TestUtils;
 
 public class SessionControllerTest {
 

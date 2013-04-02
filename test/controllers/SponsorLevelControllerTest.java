@@ -1,6 +1,8 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static play.mvc.Http.Status.CONFLICT;
+import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.POST;
@@ -24,12 +26,12 @@ import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.mongodb.BasicDBObject;
-
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Result;
 import util.TestUtils;
+
+import com.mongodb.BasicDBObject;
 
 /**
  * <p>Tests fonctionnels pour le controleur {@link SponsorLevelController}</p>
@@ -37,7 +39,7 @@ import util.TestUtils;
  * @author Martial SOMDA
  *
  */
-public class SponsorLevelControllerTest {
+public class SponsorLevelControllerTest extends ReferentielControllerTest {
 
 
 	public String getCreateURL() {
@@ -89,7 +91,7 @@ public class SponsorLevelControllerTest {
         });
     }
 	
-	/*@Test
+	@Test
     public void test_sponsorlevel_new_conflict() {
 		running(fakeApplication(), new Runnable() {
             public void run() {
@@ -98,7 +100,7 @@ public class SponsorLevelControllerTest {
 					Logger.info("Création d'un nouveau niveau de partenariat");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "SponsorLevel3");
-	                Result result = route(fakeRequest(POST, "/ref/sponsorlevel/new").withJsonBody(Json.toJson(params)).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                Logger.info(Integer.toString(status(result)));
 	                assertThat(status(result)).isEqualTo(CONFLICT);
 				} catch (IOException e) {
@@ -117,7 +119,7 @@ public class SponsorLevelControllerTest {
 					Logger.info("Suppression d'un niveau de partenariat");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "HTTP");
-	                Result result = route(fakeRequest(POST,"/ref/sponsorlevel/remove").withJsonBody(Json.toJson(params)).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                Logger.info(Integer.toString(status(result)));
 	                assertThat(status(result)).isEqualTo(NOT_FOUND);
 				} catch (IOException e) {
@@ -125,7 +127,7 @@ public class SponsorLevelControllerTest {
 				}
             }
         });
-    }*/
+    }
 	
 	@Test
     public void test_sponsorlevel_remove_ok() {

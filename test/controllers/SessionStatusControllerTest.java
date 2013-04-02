@@ -24,12 +24,12 @@ import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.mongodb.BasicDBObject;
-
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Result;
 import util.TestUtils;
+
+import com.mongodb.BasicDBObject;
 
 public class SessionStatusControllerTest extends ReferentielControllerTest {
 

@@ -10,7 +10,6 @@ import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
-
 import org.junit.Test;
 
 import play.Logger;
@@ -31,7 +30,7 @@ public abstract class ReferentielControllerTest {
             }
         });
     }
-	
+		
 	@Test
     public void test_referentiel_remove_forbidden() {
         Logger.info("Une requête de suppression d'un objet du referentiel requiert les droits d'administration");
