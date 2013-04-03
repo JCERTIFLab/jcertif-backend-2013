@@ -27,13 +27,39 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import play.Logger;
+import play.api.mvc.HandlerRef;
 import play.libs.Json;
 import play.mvc.Result;
 import util.TestUtils;
 
 import com.mongodb.BasicDBObject;
 
-public class ParticipantControllerTest {
+public class ParticipantControllerTest extends MemberControllerTest{
+	
+	@Override
+	public HandlerRef getChangePasswordURL(String email) {
+		return routes.ref.ParticipantController.changePasswordParticipant(email);
+	}
+
+	@Override
+	public HandlerRef getReinitPasswordURL(String email) {
+		return routes.ref.ParticipantController.reinitPasswordParticipant(email);
+	}
+
+	@Override
+	public HandlerRef getRegistrationURL() {
+		return routes.ref.ParticipantController.registerParticipant();
+	}
+
+	@Override
+	public HandlerRef getUpdateURL() {
+		return routes.ref.ParticipantController.updateParticipant();
+	}
+
+	@Override
+	public String getCollection() {
+		return Constantes.COLLECTION_PARTICIPANT;
+	}
 	
 	@Test
 	public void test_list_participant(){
@@ -143,88 +169,36 @@ public class ParticipantControllerTest {
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {
 	            	Logger.info("Mise à jour des informations d'un participant");
-	                Map<String, Object> params = new HashMap<String, Object>();
-	                params.put("email", "jandiew@gmail.com");
-	                params.put("title", "CTO");
-	                params.put("website", "www.jandriewrebirth.com");
-	                params.put("city", "Somewhere");
-	                params.put("country", "Jungle");
-	                params.put("company", "Lost");
-	                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
-	                params.put("biography", "The new me");
-	                Result result = callAction(routes.ref.ParticipantController.updateParticipant(), fakeRequest().withJsonBody(Json.toJson(params), POST));
-	                assertThat(status(result)).isEqualTo(OK);	                
-
-	                Logger.info("Vérification que les informations du participant ont bien été mises à jour");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "jandiew@gmail.com"));
-	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(1,dbObjects.size());
-	                Logger.info(dbObjects.get(0).toString());
-	                Assert.assertEquals("CTO",dbObjects.get(0).get("title"));
-	                Assert.assertEquals("Johnson",dbObjects.get(0).get("lastname"));
-	                Assert.assertEquals("Andriew",dbObjects.get(0).get("firstname"));
-	                Assert.assertEquals("www.jandriewrebirth.com",dbObjects.get(0).get("website"));
-	                Assert.assertEquals("Somewhere",dbObjects.get(0).get("city"));
-	                Assert.assertEquals("Jungle",dbObjects.get(0).get("country"));
-	                Assert.assertEquals("Lost",dbObjects.get(0).get("company"));
-	                Assert.assertEquals("0102030405",dbObjects.get(0).get("phone"));
-	                Assert.assertEquals("http://jandriewrebirth.blog.com/pictures/myPic.gif",dbObjects.get(0).get("photo"));
-	                Assert.assertEquals("The new me",dbObjects.get(0).get("biography"));
-	                Assert.assertEquals("[ \"02\"]".trim(),dbObjects.get(0).get("sessions").toString());
-	            }
-	        });
-	}
-	
-	@Test
-	public void test_changepassword_ok(){
-		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
-		 additionalConfiguration.put("smtp.mock", true);
-	     running(fakeApplication(additionalConfiguration), new Runnable() {
-	            public void run() {
-	            	Logger.info("Changement du mot de passe d'un participant");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Map<String, Object> params = new HashMap<String, Object>();
-		                params.put("oldpassword", "testjcertif");
-		                params.put("newpassword", "testjcertifnew");
-		                Result result = callAction(routes.ref.ParticipantController.changePasswordParticipant("test@participant.com"), fakeRequest().withJsonBody(Json.toJson(params), POST));
+		                params.put("email", "jandiew@gmail.com");
+		                params.put("sessions", new String[]{"02","03"});
+		                Result result = callAction(routes.ref.ParticipantController.updateParticipant(), fakeRequest().withJsonBody(Json.toJson(params), POST));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
-		                Logger.info("Vérification que le nouveau mot de passe a bien été enregistré");
-		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "test@participant.com"));
+		                Logger.info("Vérification que les informations du participant ont bien été mises à jour");
+		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "jandiew@gmail.com"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
-		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
+		                Logger.info(dbObjects.get(0).toString());
+		                Assert.assertEquals("Chief executor",dbObjects.get(0).get("title"));
+		                Assert.assertEquals("Johnson",dbObjects.get(0).get("lastname"));
+		                Assert.assertEquals("Andriew",dbObjects.get(0).get("firstname"));
+		                Assert.assertEquals("www.jandiew.com",dbObjects.get(0).get("website"));
+		                Assert.assertEquals("Hostin",dbObjects.get(0).get("city"));
+		                Assert.assertEquals("Texas",dbObjects.get(0).get("country"));
+		                Assert.assertEquals("JCertif",dbObjects.get(0).get("company"));
+		                Assert.assertEquals("0102030405",dbObjects.get(0).get("phone"));
+		                Assert.assertEquals("All about Andriew",dbObjects.get(0).get("biography"));
+		                Assert.assertEquals("[ \"02\" , \"03\"]".trim(),dbObjects.get(0).get("sessions").toString());
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
-					}
+					}	             
 	            }
 	        });
 	}
 	
-	@Test
-	public void test_reinitpassword_ok(){
-		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
-		 additionalConfiguration.put("smtp.mock", true);
-	     running(fakeApplication(additionalConfiguration), new Runnable() {
-	            public void run() {
-	            	Logger.info("Réinitialisation du mot de passe d'un participant");
-	            	try {
-						TestUtils.updateDatabase("test/data/participant.js");
-		                Result result = callAction(routes.ref.ParticipantController.reinitPasswordParticipant("test-senior@participant.com"), fakeRequest());
-		                assertThat(status(result)).isEqualTo(OK);	                
-
-		                Logger.info("Vérification que le nouveau mot de passe a bien été enregistré");
-		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "test-senior@participant.com"));
-		                Assert.assertTrue(null != dbObjects);
-		                Assert.assertEquals(1,dbObjects.size());
-		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
-					} catch (IOException e) {
-						Assert.fail(e.getMessage());
-					}
-	            }
-	        });
-	}
 	
 	@Test
 	public void test_session_enrollment_ok(){

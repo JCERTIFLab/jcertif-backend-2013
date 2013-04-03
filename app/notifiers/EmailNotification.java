@@ -2,6 +2,8 @@ package notifiers;
 
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
+
+import models.objects.Member;
 import models.objects.Participant;
 import models.objects.Session;
 import models.objects.Speaker;
@@ -44,39 +46,6 @@ public class EmailNotification {
         Logger.info("Exit sendWelcomeMail()");
     }
 
-    public static void sendChangePwdMail(Participant user) {
-        Logger.info("Enter sendChangePwdMail()");
-        Logger.debug("Enter sendChangePwdMail(user=" + user + ")");
-
-        MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-        mail.setSubject("[JCertif] Changement de votre mot de passe");
-        mail.addRecipient(user.getEmail());
-        mail.addFrom(fromEmail);
-
-        String body = pwdchange.render(user).body();
-
-        mail.sendHtml(body);
-
-        Logger.info("Exit sendChangePwdMail()");
-    }
-
-    public static void sendReinitpwdMail(Participant user, String newPassword) {
-        Logger.info("Enter sendReinitpwdMail()");
-        Logger.debug("Enter sendReinitpwdMail(user=" + user + ")");
-
-        MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-        mail.setSubject("[JCertif] Réinitialisation de votre mot de passe");
-        mail.addRecipient(user.getEmail());
-        mail.addFrom(fromEmail);
-
-        String body = pwdinit.render(user, newPassword).body();
-
-        mail.sendHtml(body);
-
-        Logger.info("Exit sendReinitpwdMail()");
-    }
-
-
     public static void sendUnenrollpwdMail(Participant user, Session session) {
         Logger.info("Enter sendUnenrollpwdMail()");
         Logger.debug("Enter sendUnenrollpwdMail(user=" + user + ", session=" + session + ")");
@@ -109,38 +78,62 @@ public class EmailNotification {
 
         Logger.info("Exit sendenrollMail()");
     }
-
-    public static void sendChangePwdMail(Speaker speaker) {
+    
+    public static void sendChangePwdMail(Member member) {
         Logger.info("Enter sendChangePwdMail()");
-        Logger.debug("Enter sendChangePwdMail(user=" + speaker + ")");
+        Logger.debug("Enter sendChangePwdMail(user=" + member + ")");
 
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Changement de votre mot de passe");
-        mail.addRecipient(speaker.getEmail());
+        mail.addRecipient(member.getEmail());
         mail.addFrom(fromEmail);
 
-        String body = pwdchangeSpeaker.render(speaker).body();
-
+        String body = getChangePwdMailBody(member);
+        
         mail.sendHtml(body);
 
         Logger.info("Exit sendChangePwdMail()");
     }
 
-    public static void sendReinitpwdMail(Speaker speaker, String newPassword) {
+    private static String getChangePwdMailBody(Member member) {
+    	String body = "";
+		
+		if(member instanceof Participant){
+			body = pwdchange.render((Participant)member).body();
+		}else if(member instanceof Speaker){
+			body = pwdchangeSpeaker.render((Speaker)member).body();
+		}
+		
+		return body;
+	}
+
+	public static void sendReinitpwdMail(Member member, String newPassword) {
         Logger.info("Enter sendReinitpwdMail()");
-        Logger.debug("Enter sendReinitpwdMail(user=" + speaker + ")");
+        Logger.debug("Enter sendReinitpwdMail(user=" + member + ")");
 
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject("[JCertif] Réinitialisation de votre mot de passe");
-        mail.addRecipient(speaker.getEmail());
+        mail.addRecipient(member.getEmail());
         mail.addFrom(fromEmail);
 
-        String body = pwdinitSpeaker.render(speaker, newPassword).body();
+        String body = getReinitpwdMailBody(member, newPassword);
 
         mail.sendHtml(body);
 
         Logger.info("Exit sendReinitpwdMail()");
     }
+
+	private static String getReinitpwdMailBody(Member member, String newPassword) {
+		String body = "";
+		
+		if(member instanceof Participant){
+			body = pwdinit.render((Participant)member, newPassword).body();
+		}else if(member instanceof Speaker){
+			body = pwdinitSpeaker.render((Speaker)member, newPassword).body();
+		}
+		
+		return body;
+	}
 
 }
 

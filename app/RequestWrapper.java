@@ -1,4 +1,4 @@
-import models.exception.ExceptionHandler;
+import models.exception.JCertifExceptionHandler;
 import models.exception.JCertifResourceAccessException;
 import models.util.Tools;
 import models.util.properties.JCertifPropUtils;
@@ -41,7 +41,7 @@ public class RequestWrapper extends Action.Simple {
 			
 		}catch (Throwable throwable){
 			Logger.error("Error during request processing",throwable);
-			result = ExceptionHandler.resolve(throwable);
+			result = JCertifExceptionHandler.resolve(throwable);
 		}
 
         return result;

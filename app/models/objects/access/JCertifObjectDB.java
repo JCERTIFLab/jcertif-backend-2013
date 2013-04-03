@@ -1,11 +1,7 @@
 package models.objects.access;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,9 +17,7 @@ import models.objects.JCertifObject;
 import models.objects.checker.Checker;
 import models.util.Constantes;
 import models.util.Tools;
-
 import play.Logger;
-import sun.security.jca.GetInstance.Instance;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -36,21 +30,22 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	private String collectionName;
 	private Class<T> implementationClass;
 	
-	public JCertifObjectDB(){
+	@SuppressWarnings("unchecked")
+	public JCertifObjectDB() {
 		this.implementationClass = 
 			(Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
-	public JCertifObjectDB(String collectionName1) {
+	public JCertifObjectDB(String collectionName) {
         super();
-		this.collectionName = collectionName1;
+		this.collectionName = collectionName;
 		checker = null;
 	}
 
-	public JCertifObjectDB(String collectionName1, Checker checker1) {
+	public JCertifObjectDB(String collectionName, Checker checker) {
         super();
-		this.collectionName = collectionName1;
-		this.checker = checker1;
+		this.collectionName = collectionName;
+		this.checker = checker;
 	}
 
 	public final Checker getChecker() {
@@ -224,11 +219,10 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		if (null == existingObjectToDelete) {
 			throw new JCertifObjectNotFoundException(this, "Object to delete does not exist");
 		}
-		Logger.info("found");
+
 		WriteResult result = MongoDatabase.getInstance().delete(
 				getCollectionName(), existingObjectToDelete);
 		if (!Tools.isBlankOrNull(result.getError())) {
-			Logger.info("error");
 			throw new JCertifException(this, result.getError());
 		}
 		return true;

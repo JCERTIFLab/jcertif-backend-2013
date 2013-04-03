@@ -1,6 +1,6 @@
 import java.lang.reflect.Method;
 
-import models.exception.ExceptionHandler;
+import models.exception.JCertifExceptionHandler;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -41,7 +41,7 @@ public class Global extends GlobalSettings {
 		Logger.info("JCertif Backend onError Global Handler");
 		Logger.error("Erreur inattendue", throwable);
 		
-		return ExceptionHandler.resolve(throwable);
+		return JCertifExceptionHandler.resolve(throwable);
 	}
 	
 	@Override

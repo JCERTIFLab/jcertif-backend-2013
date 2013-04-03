@@ -18,15 +18,14 @@ import com.mongodb.BasicDBObject;
  */
 public abstract class ReferentielDB<T extends Referentiel> extends JCertifObjectDB<T>{
 
-	private Class<T> referentielClass;
-
+	private Class<T> implementationClass;
+	
 	@SuppressWarnings("unchecked")
 	public ReferentielDB(String collectionName) {
 		super(collectionName, new ReferentielChecker());
-		this.referentielClass = 
+		this.implementationClass = 
 			(Class<T>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}	
-	
 		
 	public final boolean add(T referentiel) {
 		return super.add(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
@@ -42,7 +41,7 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		if(null == dbObject){
 			return null;
 		}
-		T object = JCertifObjectDBUtils.instanciate(referentielClass);
+		T object = JCertifObjectDBUtils.instanciate(implementationClass);
 		object.setLabel(label);
 		return object;
 	}

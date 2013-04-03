@@ -11,7 +11,7 @@ import play.mvc.Results;
  * @author Martial SOMDA
  *
  */
-public class ExceptionHandler {
+public class JCertifExceptionHandler {
 
 	public static Result resolve(Throwable throwable){
 		
