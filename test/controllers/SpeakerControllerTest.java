@@ -40,6 +40,11 @@ public class SpeakerControllerTest extends MemberControllerTest{
 	public HandlerRef getRegistrationURL() {
 		return routes.ref.SpeakerController.registerSpeaker();
 	}
+	
+	@Override
+	public HandlerRef getDeletionURL() {
+		return routes.ref.SpeakerController.removeSpeaker();
+	}
 
 	@Override
 	public HandlerRef getUpdateURL() {

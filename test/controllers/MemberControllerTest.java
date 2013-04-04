@@ -30,6 +30,7 @@ public abstract class MemberControllerTest {
 	public abstract HandlerRef getChangePasswordURL(String email);
 	public abstract HandlerRef getReinitPasswordURL(String email);
 	public abstract HandlerRef getRegistrationURL();
+	public abstract HandlerRef getDeletionURL();
 	public abstract HandlerRef getUpdateURL();
 	public abstract String getCollection();
 
@@ -160,6 +161,29 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}
+	            }
+	        });
+	}
+	
+	@Test
+	public void test_member_remove_ok(){
+	     running(fakeApplication(), new Runnable() {
+	            public void run() {
+	            	Logger.info("Suppression d'un membre");
+	            	try {
+						TestUtils.updateDatabase("test/data/member.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+		                params.put("email", "test@member.com");
+						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withSession("admin", "admin"));
+		                assertThat(status(result)).isEqualTo(OK);	                
+
+		                Logger.info("Vérification que le membre a bien été supprimé");
+		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(getCollection(), new BasicDBObject().append("email", "test@member.com"));
+		                Assert.assertTrue(null != dbObjects);
+		                Assert.assertEquals(0,dbObjects.size());
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}

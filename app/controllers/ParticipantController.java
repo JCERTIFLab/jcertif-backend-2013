@@ -67,6 +67,22 @@ public class ParticipantController extends AbstractController {
 
 		return ok(JSON.serialize("Ok"));
 	}
+	
+	
+	/**
+	 * Suppression d'un participant
+	 * 
+	 * @return
+	 */
+	public static Result removeParticipant() {
+    	JsonNode jsonNode = request().body().asJson();
+		
+    	Participant participant = new Participant((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	
+    	participant.remove();
+
+		return ok(JSON.serialize("Ok"));
+    }
 
 	/**
 	 * Password change request

@@ -27,7 +27,6 @@ public class TestUtils {
         StringBuilder sb = new StringBuilder();
 
         for (String instr : instructions){
-
             sb.append(instr);
         }
         Logger.info("############ Update database ########### \n " + sb.toString());

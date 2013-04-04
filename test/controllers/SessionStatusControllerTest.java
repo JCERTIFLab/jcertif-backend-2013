@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.database.MongoDatabase;
 import models.util.Constantes;
 
 import org.codehaus.jackson.JsonNode;
@@ -68,16 +69,22 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("Création d'un nouveau statut de session");
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("label", "HTTT");
-                Result result = callAction(routes.ref.SessionStatusController.addSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(OK);
+                try {
+					TestUtils.updateDatabase("test/data/session_status.js");
+					Map<String, String> params = new HashMap<String, String>();
+	                params.put("label", "HTTT");
+	                Result result = callAction(routes.ref.SessionStatusController.addSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(OK);
 
-                Logger.info("Vérification que le nouveau statut est bien présent en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "HTTT"));
-                Assert.assertTrue(null != dbObjects);
-                Assert.assertEquals(1,dbObjects.size());
-                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
+	                Logger.info("Vérification que le nouveau statut est bien présent en base de données");
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "HTTT"));
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
 
             }
         });
@@ -88,7 +95,7 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	try {
-					TestUtils.updateDatabase("test/data/session_status.js");
+            		TestUtils.updateDatabase("test/data/session_status.js");
 					Logger.info("Suppression d'un statut de session");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Status1");

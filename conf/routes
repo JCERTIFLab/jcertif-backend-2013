@@ -71,6 +71,8 @@ GET     /participant/get/:emailParticipant           controllers.ParticipantCont
 
 POST    /participant/update         controllers.ParticipantController.updateParticipant
 
+POST    /participant/remove         controllers.ParticipantController.removeParticipant
+
 POST    /participant/:emailParticipant/lostpassword    controllers.ParticipantController.reinitPasswordParticipant(emailParticipant: String)
 
 POST    /participant/:emailParticipant/session/add/:idSession    controllers.ParticipantController.inscrireParticipantSession(emailParticipant: String, idSession: String)

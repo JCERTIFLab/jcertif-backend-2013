@@ -23,6 +23,7 @@ import java.util.Map;
 import models.objects.access.SessionDB;
 import models.util.Constantes;
 
+import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,7 +45,30 @@ public class SessionControllerTest {
                     Result result = route(fakeRequest(GET, "/session/list"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
-//                    assertThat(contentAsString(result)).isEqualTo("[ { \"id\" : \"101\" , \"title\" : \"title 1\" , \"summary\" : \"summary 1\" , \"description\" : \"description 1\" , \"status\" : \"status 1\" , \"keyword\" : \"keyword 1\" , \"category\" : [ \"HTML 5\" , \"Android\"] , \"start\" : \"12/02/2013 10:22\" , \"end\" : \"16/02/2013 10:23\" , \"speakers\" : [ \"11\" , \"12\"]} ,{ \"id\" : \"102\" , \"title\" : \"title 2\" , \"summary\" : \"summary 2\" , \"description\" : \"description 2\" , \"status\" : \"Status2\" , \"keyword\" : \"keyword 2\" , \"category\" : [ \"HTML 5\" , \"Android\"] , \"start\" : \"12/02/2013 10:22\" , \"end\" : \"16/02/2013 10:23\" , \"speakers\" : [ \"21\" , \"22\"]}]");
+                    
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(2, jsonNode.size());
+	                Assert.assertEquals("101",jsonNode.get(0).findPath("id").getTextValue());
+	                Assert.assertEquals("title 1",jsonNode.get(0).findPath("title").getTextValue());
+	                Assert.assertEquals("summary 1",jsonNode.get(0).findPath("summary").getTextValue());
+	                Assert.assertEquals("description 1",jsonNode.get(0).findPath("description").getTextValue());
+	                Assert.assertEquals("status 1",jsonNode.get(0).findPath("status").getTextValue());
+	                Assert.assertEquals("keyword 1",jsonNode.get(0).findPath("keyword").getTextValue());
+	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(0).findPath("start").getTextValue());
+	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(0).findPath("end").getTextValue());
+	                Assert.assertEquals("[\"11\",\"12\"]",jsonNode.get(0).findPath("speakers").toString().trim());
+	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(0).findPath("category").toString().trim());
+	                
+	                Assert.assertEquals("102",jsonNode.get(1).findPath("id").getTextValue());
+	                Assert.assertEquals("title 2",jsonNode.get(1).findPath("title").getTextValue());
+	                Assert.assertEquals("summary 2",jsonNode.get(1).findPath("summary").getTextValue());
+	                Assert.assertEquals("description 2",jsonNode.get(1).findPath("description").getTextValue());
+	                Assert.assertEquals("status 2",jsonNode.get(1).findPath("status").getTextValue());
+	                Assert.assertEquals("keyword 2",jsonNode.get(1).findPath("keyword").getTextValue());
+	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(1).findPath("start").getTextValue());
+	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(1).findPath("end").getTextValue());
+	                Assert.assertEquals("[\"21\",\"22\"]",jsonNode.get(1).findPath("speakers").toString().trim());
+	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(1).findPath("category").toString().trim());
                     
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());
@@ -131,7 +155,6 @@ public class SessionControllerTest {
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_session_deletion_unregistred_session_id ***");
 					} catch (Exception e) {
-						// TODO: handle exception
 						Logger.error("Une erreur est survenue lors du test de l'existence de la session relative au inner ID", e);
 					}
             }

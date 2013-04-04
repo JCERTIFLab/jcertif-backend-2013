@@ -52,6 +52,11 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	}
 
 	@Override
+	public HandlerRef getDeletionURL() {
+		return routes.ref.ParticipantController.removeParticipant();
+	}
+	
+	@Override
 	public HandlerRef getUpdateURL() {
 		return routes.ref.ParticipantController.updateParticipant();
 	}
@@ -351,4 +356,5 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            }
 	        });
 	}
+
 }
