@@ -76,6 +76,49 @@ public class SessionControllerTest {
             }
         });
     }
+    
+    @Test
+    public void test_session_new_ok() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("Proposition d'une nouvelle session");
+                try {
+					TestUtils.updateDatabase("test/data/session.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+	                params.put("id", "105");
+	                params.put("title", "Lost in the jungle");
+	                params.put("summary", "Learn how to suvive in the jungle");
+	                params.put("description", "A small desc of lost in the jungle");
+	                params.put("status", "Brouillon");
+	                params.put("keyword", "Lost-Jungle");
+	                params.put("category", new String[]{"Java"});
+	                params.put("start", "12/02/2013 10:22");
+	                params.put("end", "16/02/2013 10:23");
+	                params.put("speakers", new String[]{"01","02"});
+	                Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(OK);
+
+	                Logger.info("Vérification que la nouvelle session est bien présente en base de données");
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION, new BasicDBObject().append("id", "105"));
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("Lost in the jungle",dbObjects.get(0).get("title"));
+	                Assert.assertEquals("Learn how to suvive in the jungle",dbObjects.get(0).get("summary"));
+	                Assert.assertEquals("A small desc of lost in the jungle",dbObjects.get(0).get("description"));
+	                Assert.assertEquals("Brouillon",dbObjects.get(0).get("status"));
+	                Assert.assertEquals("Lost-Jungle",dbObjects.get(0).get("keyword"));
+	                Assert.assertEquals("[ \"Java\"]",dbObjects.get(0).get("category").toString());
+	                Assert.assertEquals("12/02/2013 10:22",dbObjects.get(0).get("start"));
+	                Assert.assertEquals("16/02/2013 10:23",dbObjects.get(0).get("end"));
+	                Assert.assertEquals("[ \"01\" , \"02\"]",dbObjects.get(0).get("speakers").toString());
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
+
+            }
+        });
+    }
 
     /**
      * Tests fonctionnels du service deleteSession  
