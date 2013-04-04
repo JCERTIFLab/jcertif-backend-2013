@@ -23,6 +23,12 @@ POST 	/ref/category/new			controllers.CategoryController.newCategory
 
 POST 	/ref/category/remove		controllers.CategoryController.removeCategory
 
+GET 	/ref/civilite/list			controllers.CiviliteController.listCivilite
+
+POST 	/ref/civilite/new			controllers.CiviliteController.addCivilite
+
+POST 	/ref/civilite/remove		controllers.CiviliteController.removeCivilite
+
 GET 	/login/list			        controllers.LoginController.logins
 
 GET     /sponsor/list               controllers.SponsorController.listSponsor

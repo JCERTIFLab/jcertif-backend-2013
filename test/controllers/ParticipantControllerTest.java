@@ -114,7 +114,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                
 		                Logger.info("Vérification des informations du participant");
 		                JsonNode jsonNode = Json.parse(contentAsString(result));
-		                Assert.assertEquals("Developer",jsonNode.findPath("title").getTextValue());
+		                Assert.assertEquals("Mme",jsonNode.findPath("title").getTextValue());
 		                Assert.assertEquals("-",jsonNode.findPath("password").getTextValue());
 		                Assert.assertEquals("Lastname",jsonNode.findPath("lastname").getTextValue());
 		                Assert.assertEquals("Firstname",jsonNode.findPath("firstname").getTextValue());
@@ -142,7 +142,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	                Map<String, Object> params = new HashMap<String, Object>();
 	                params.put("email", "jcertif@gmail.com");
 	                params.put("password", "testjcertif");
-	                params.put("title", "CTO");
+	                params.put("title", "Mlle");
 	                params.put("lastname", "John");
 	                params.put("firstname", "Hudson");
 	                params.put("website", "www.jcertif.com");
@@ -161,7 +161,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Logger.info(dbObjects.get(0).toString());
-	                Assert.assertEquals("CTO",dbObjects.get(0).get("title"));
+	                Assert.assertEquals("Mlle",dbObjects.get(0).get("title"));
 	                Assert.assertEquals("+33102030405",dbObjects.get(0).get("phone"));
 	                Assert.assertEquals("France",dbObjects.get(0).get("country"));
 	                Assert.assertEquals("[ \"01\" , \"02\" , \"03\" , \"04\"]",dbObjects.get(0).get("sessions").toString());
@@ -187,7 +187,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Logger.info(dbObjects.get(0).toString());
-		                Assert.assertEquals("Chief executor",dbObjects.get(0).get("title"));
+		                Assert.assertEquals("M.",dbObjects.get(0).get("title"));
 		                Assert.assertEquals("Johnson",dbObjects.get(0).get("lastname"));
 		                Assert.assertEquals("Andriew",dbObjects.get(0).get("firstname"));
 		                Assert.assertEquals("www.jandiew.com",dbObjects.get(0).get("website"));

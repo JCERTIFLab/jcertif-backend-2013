@@ -1,7 +1,7 @@
 db.speaker.remove();
 db.speaker.insert({
 	email: 'fowler@acm.org',
-	title: 'Java Expert',
+	title: 'M.',
 	password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
 	lastname: 'Fowler',
 	firstname: 'Martin',
@@ -15,7 +15,7 @@ db.speaker.insert({
 });
 db.speaker.insert({
 	email: 'larry.ellison@oracle.com',
-	title: 'CTO & Co-founder',
+	title: 'M.',
 	password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
 	lastname: 'Ellison',
 	firstname: 'Larry',

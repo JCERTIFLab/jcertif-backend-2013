@@ -47,7 +47,7 @@ public abstract class MemberControllerTest {
 						Map<String, Object> params = new HashMap<String, Object>();
 		                params.put("email", "jcertif@gmail.com");
 		                params.put("password", "testjcertif");
-		                params.put("title", "CTO");
+		                params.put("title", "M.");
 		                params.put("lastname", "John");
 		                params.put("firstname", "Hudson");
 		                params.put("website", "www.jcertif.com");
@@ -65,7 +65,7 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Logger.info(dbObjects.get(0).toString());
-		                Assert.assertEquals("CTO",dbObjects.get(0).get("title"));
+		                Assert.assertEquals("M.",dbObjects.get(0).get("title"));
 		                Assert.assertEquals("+33102030405",dbObjects.get(0).get("phone"));
 		                Assert.assertEquals("France",dbObjects.get(0).get("country"));
 					} catch (IOException e) {
@@ -85,7 +85,7 @@ public abstract class MemberControllerTest {
 						TestUtils.updateDatabase("test/data/member.js");
 						Map<String, Object> params = new HashMap<String, Object>();
 		                params.put("email", "jandiew@gmail.com");
-		                params.put("title", "CTO");
+		                params.put("title", "M.");
 		                params.put("website", "www.jandriewrebirth.com");
 		                params.put("city", "Somewhere");
 		                params.put("country", "Jungle");
@@ -100,7 +100,7 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Logger.info(dbObjects.get(0).toString());
-		                Assert.assertEquals("CTO",dbObjects.get(0).get("title"));
+		                Assert.assertEquals("M.",dbObjects.get(0).get("title"));
 		                Assert.assertEquals("Johnson",dbObjects.get(0).get("lastname"));
 		                Assert.assertEquals("Andriew",dbObjects.get(0).get("firstname"));
 		                Assert.assertEquals("www.jandriewrebirth.com",dbObjects.get(0).get("website"));

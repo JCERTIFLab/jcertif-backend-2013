@@ -16,3 +16,7 @@ db.category.insert({label: 'HTML5'});
 db.category.insert({label: 'Java'});
 db.category.insert({label: 'Entreprise'});
 db.category.insert({label: 'Web Design'});
+db.civilite.remove();
+db.civilite.insert({label: 'M.'});
+db.civilite.insert({label: 'Mme'});
+db.civilite.insert({label: 'Mlle'});

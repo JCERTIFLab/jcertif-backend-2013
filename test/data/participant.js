@@ -1,7 +1,7 @@
 db.participant.remove();
 db.participant.insert({
 	email: 'test@participant.com',
-	title: 'Developer',
+	title: 'Mme',
 	password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
 	lastname: 'Lastname',
 	firstname: 'Firstname',
@@ -15,7 +15,7 @@ db.participant.insert({
 });
 db.participant.insert({
 	email: 'test-senior@participant.com',
-	title: 'Senior Developer',
+	title: 'M.',
 	password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
 	lastname: 'Lastname',
 	firstname: 'Firstname',
@@ -29,7 +29,7 @@ db.participant.insert({
 });
 db.participant.insert({
 	email: 'jandiew@gmail.com',
-	title: 'Chief executor',
+	title: 'M.',
 	password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
 	lastname: 'Johnson',
 	firstname: 'Andriew',

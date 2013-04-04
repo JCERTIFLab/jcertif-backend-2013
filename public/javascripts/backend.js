@@ -17,6 +17,8 @@ Backend.init = function () {
 	Backend.removeSponsorLevel.initDialog();
 	Backend.addCategory.initDialog();      
 	Backend.removeCategory.initDialog();
+	Backend.addCivilite.initDialog();      
+	Backend.removeCivilite.initDialog();
 
     $("#register-participant").click(function () {
         Backend.registerParticipant.openDialog();
@@ -53,6 +55,12 @@ Backend.init = function () {
     });
 	$("#remove-category").click(function () {
         Backend.removeCategory.openDialog();
+    });
+	$("#add-civilite").click(function () {
+        Backend.addCivilite.openDialog();
+    });
+	$("#remove-civilite").click(function () {
+        Backend.removeCivilite.openDialog();
     });
 }
 
@@ -607,6 +615,74 @@ Backend.removeCategory = {
                         data: $('#dialog-remove-category form').serializeJSONString()
                     }).done(function (msg) {
                     	$("#dialog-remove-category").dialog("destroy");
+                    }).fail(function (msg) {
+                        alert("Opps : " + msg.responseText);
+                    });
+                }
+            }
+        });
+    }
+}
+
+//Service de création de nouvelles civilités
+Backend.addCivilite = {
+		
+	initDialog: function () {
+		$("#dialog-add-civilite form fieldset").append('<label for="label">Civilit&eacute;</label>');
+        $("#dialog-add-civilite form fieldset").append('<input type="text" name="label" id="label" class="text ui-widget-content ui-corner-all"/>');
+    },
+
+    openDialog: function () {
+    	$("#dialog-add-civilite").dialog({
+            width: 350,
+            height: 250,
+            modal: true,
+            buttons: {
+                "Add": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/ref/civilite/new",
+                        data: $('#dialog-add-civilite form').serializeJSONString()
+                    }).done(function (msg) {
+                    	$("#dialog-add-civilite").dialog("destroy");
+                    }).fail(function (msg) {
+                        alert("Opps : " + msg.responseText);
+                    });
+                }
+            }
+        });
+    }
+}
+
+//Service de suppression de civilités
+Backend.removeCivilite = {
+		
+	initDialog: function () {
+		$.getJSON("/ref/civilite/list", function(data){
+			options = "";
+			$.each(data, function(index, civilite) {
+				options=options+'<option value="'+civilite.label+'">'+civilite.label+'</option>';
+			});
+			$("#dialog-remove-civilite form fieldset").append('<label for="label">Civilit&eacute;</label>');
+	        $("#dialog-remove-civilite form fieldset").append('<select name="label" id="label" class="ui-widget-content ui-corner-all">'+options+'</select>');
+		});
+    },
+
+    openDialog: function () {
+    	$("#dialog-remove-civilite").dialog({
+            width: 350,
+            height: 200,
+            modal: true,
+            buttons: {
+                "Supprimer": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/ref/civilite/remove",
+                        data: $('#dialog-remove-civilite form').serializeJSONString()
+                    }).done(function (msg) {
+                    	$("#dialog-remove-civilite").dialog("destroy");
                     }).fail(function (msg) {
                         alert("Opps : " + msg.responseText);
                     });

@@ -14,6 +14,7 @@ public interface Constantes {
     String COLLECTION_SPONSOR = "sponsor";
     String COLLECTION_CATEGORY = "category";
     String COLLECTION_SPONSOR_LEVEL = "sponsor_level";
+    String COLLECTION_CIVILITE = "civilite";
 
     String DATEFORMAT = "dd/MM/yyyy HH:mm";
 

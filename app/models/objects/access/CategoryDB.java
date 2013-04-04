@@ -1,7 +1,5 @@
 package models.objects.access;
 
-import java.lang.reflect.ParameterizedType;
-
 import models.objects.Category;
 import models.util.Constantes;
 
