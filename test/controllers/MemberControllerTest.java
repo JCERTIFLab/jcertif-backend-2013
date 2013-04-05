@@ -1,6 +1,7 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static play.mvc.Http.Status.BAD_REQUEST;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.POST;
 import static play.test.Helpers.callAction;
@@ -15,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Test;
 
 import play.Logger;
 import play.api.mvc.HandlerRef;
@@ -35,7 +35,6 @@ public abstract class MemberControllerTest {
 	public abstract String getCollection();
 
 	
-	@Test
 	public void test_member_registration_ok(){
 		 Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		 additionalConfiguration.put("smtp.mock", true);
@@ -76,7 +75,35 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
-	@Test
+	public void test_member_registration_title_not_valid(){
+	     running(fakeApplication(), new Runnable() {
+	            public void run() {
+	            	Logger.info("Création d'un nouveau membre JCertif Conference");
+	            	try {
+						TestUtils.updateDatabase("test/data/member.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+		                params.put("email", "jcertif@gmail.com");
+		                params.put("password", "testjcertif");
+		                params.put("title", "toto");
+		                params.put("lastname", "John");
+		                params.put("firstname", "Hudson");
+		                params.put("website", "www.jcertif.com");
+		                params.put("city", "Paris");
+		                params.put("country", "France");
+		                params.put("company", "JCertif");
+		                params.put("phone", "+33102030405");
+		                params.put("photo", "http://jcertif.blog.com/pictures/photo.gif");
+		                params.put("biography", "This is all about me");
+		                Result result = callAction(getRegistrationURL(),fakeRequest().withJsonBody(Json.toJson(params),POST));
+		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	                
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}
+	                
+	            }
+	        });
+	}
+	
 	public void test_update_member_ok(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {
@@ -117,7 +144,30 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
-	@Test
+	public void test_update_member_title_not_valid(){
+	     running(fakeApplication(), new Runnable() {
+	            public void run() {
+	            	Logger.info("Mise à jour des informations d'un membre, la civilité doit être valide");
+	            	try {
+						TestUtils.updateDatabase("test/data/member.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+		                params.put("email", "jandiew@gmail.com");
+		                params.put("title", "toto");
+		                params.put("website", "www.jandriewrebirth.com");
+		                params.put("city", "Somewhere");
+		                params.put("country", "Jungle");
+		                params.put("company", "Lost");
+		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
+		                params.put("biography", "The new me");
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST));
+		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	                
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}	                
+	            }
+	        });
+	}
+	
 	public void test_member_changepassword_ok(){
 		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		 additionalConfiguration.put("smtp.mock", true);
@@ -144,7 +194,6 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
-	@Test
 	public void test_member_reinitpassword_ok(){
 		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		 additionalConfiguration.put("smtp.mock", true);
@@ -168,7 +217,6 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
-	@Test
 	public void test_member_remove_ok(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {

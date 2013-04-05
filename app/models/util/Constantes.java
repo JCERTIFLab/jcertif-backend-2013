@@ -27,4 +27,5 @@ public interface Constantes {
     String LABEL_ATTRIBUTE_NAME = "label";
     String PASSWORD_ATTRIBUTE_NAME = "password";
     String ID_ATTRIBUTE_NAME = "id";
+	String TITLE_ATTRIBUTE_NAME = "title";
 }

@@ -53,8 +53,7 @@ db.speaker.insert({
 	country: 'France',
 	company: 'Test SA',
 	phone: '0102030405',
-	biography: 'All about test',
-	sessions: ['01', '02']
+	biography: 'All about test'
 });
 db.speaker.insert({
 	email: 'test-senior@member.com',
@@ -67,8 +66,7 @@ db.speaker.insert({
 	country: 'France',
 	company: 'Test SA',
 	phone: '0102030405',
-	biography: 'All about test-senior',
-	sessions: ['01', '03', '05']
+	biography: 'All about test-senior'
 });
 db.speaker.insert({
 	email: 'jandiew@gmail.com',
@@ -81,6 +79,9 @@ db.speaker.insert({
 	country: 'Texas',
 	company: 'JCertif',
 	phone: '0102030405',
-	biography: 'All about Andriew',
-	sessions: ['02']
+	biography: 'All about Andriew'
 });
+db.civilite.remove();
+db.civilite.insert({label: 'M.'});
+db.civilite.insert({label: 'Mme'});
+db.civilite.insert({label: 'Mlle'});

@@ -11,7 +11,7 @@ db.speaker.insert({
 	company: 'ThoughtWorks',
 	phone: '0102030405',
 	photo: 'http://martinfowler.com/pictues/martinPic.gif',
-	biography: 'All about Martin',
+	biography: 'All about Martin'
 });
 db.speaker.insert({
 	email: 'larry.ellison@oracle.com',
@@ -25,5 +25,5 @@ db.speaker.insert({
 	company: 'Oracle Corporation',
 	phone: '0102030405',
 	photo: 'http://www.larryellison.com/pictues/LarryPic.gif',
-	biography: 'All about Larry',
+	biography: 'All about Larry'
 });
