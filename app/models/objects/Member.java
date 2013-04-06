@@ -2,6 +2,7 @@ package models.objects;
 
 import notifiers.EmailNotification;
 import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifResourceAccessException;
 import models.objects.checker.CheckerHelper;
 import models.util.Constantes;
 import models.util.crypto.CryptoUtil;
@@ -199,4 +200,11 @@ public abstract class Member extends JCertifObject {
 			EmailNotification.sendReinitpwdMail(this, newPassword);
 		}
 	}
+	
+	public void login(String password){   
+		
+    	if (!CryptoUtil.verifySaltedPassword(password.getBytes(), this.getPassword())) {
+            throw new JCertifResourceAccessException("Login failed!, Username or Password invalid");
+        }
+    }
 }

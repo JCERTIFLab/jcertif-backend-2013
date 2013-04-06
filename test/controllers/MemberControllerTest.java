@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import play.Logger;
 import play.api.mvc.HandlerRef;
@@ -34,7 +35,7 @@ public abstract class MemberControllerTest {
 	public abstract HandlerRef getUpdateURL();
 	public abstract String getCollection();
 
-	
+	@Test
 	public void test_member_registration_ok(){
 		 Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		 additionalConfiguration.put("smtp.mock", true);
@@ -75,6 +76,7 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
+	@Test
 	public void test_member_registration_title_not_valid(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {
@@ -104,6 +106,7 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
+	@Test
 	public void test_update_member_ok(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {
@@ -144,6 +147,7 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
+	@Test
 	public void test_update_member_title_not_valid(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {
@@ -168,6 +172,7 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
+	@Test
 	public void test_member_changepassword_ok(){
 		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		 additionalConfiguration.put("smtp.mock", true);
@@ -194,6 +199,7 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
+	@Test
 	public void test_member_reinitpassword_ok(){
 		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		 additionalConfiguration.put("smtp.mock", true);
@@ -217,6 +223,7 @@ public abstract class MemberControllerTest {
 	        });
 	}
 	
+	@Test
 	public void test_member_remove_ok(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {

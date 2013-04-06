@@ -57,41 +57,6 @@ public class SpeakerControllerTest extends MemberControllerTest{
 	}
 	
 	@Test
-	public void test_speaker_registration_ok(){
-		test_member_registration_ok();
-	}
-	
-	@Test
-	public void test_speaker_registration_title_not_valid(){
-		test_member_registration_title_not_valid();
-	}
-	
-	@Test
-	public void test_update_speaker_title_not_valid(){
-		test_update_member_title_not_valid();
-	}
-	
-	@Test
-	public void test_update_speaker_ok(){
-		test_update_member_ok();
-	}
-	
-	@Test
-	public void test_speaker_changepassword_ok(){
-		test_member_changepassword_ok();
-	}
-	
-	@Test
-	public void test_speaker_reinitpassword_ok(){
-		test_member_reinitpassword_ok();
-	}
-	
-	@Test
-	public void test_speaker_remove_ok(){
-		test_member_remove_ok();
-	}
-	
-	@Test
 	public void test_list_speakers(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {

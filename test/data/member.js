@@ -1,3 +1,7 @@
+db.civilite.remove();
+db.civilite.insert({label: 'M.'});
+db.civilite.insert({label: 'Mme'});
+db.civilite.insert({label: 'Mlle'});
 db.participant.remove();
 db.participant.insert({
 	email: 'test@member.com',
@@ -81,7 +85,3 @@ db.speaker.insert({
 	phone: '0102030405',
 	biography: 'All about Andriew'
 });
-db.civilite.remove();
-db.civilite.insert({label: 'M.'});
-db.civilite.insert({label: 'Mme'});
-db.civilite.insert({label: 'Mlle'});

@@ -68,41 +68,6 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	}
 	
 	@Test
-	public void test_participant_registration_ok(){
-		test_member_registration_ok();
-	}
-	
-	@Test
-	public void test_participant_registration_title_not_valid(){
-		test_member_registration_title_not_valid();
-	}
-	
-	@Test
-	public void test_update_participant_ok(){
-		test_update_member_ok();
-	}
-	
-	@Test
-	public void test_update_participant_title_not_valid(){
-		test_update_member_title_not_valid();
-	}
-	
-	@Test
-	public void test_participant_changepassword_ok(){
-		test_member_changepassword_ok();
-	}
-	
-	@Test
-	public void test_participant_reinitpassword_ok(){
-		test_member_reinitpassword_ok();
-	}
-	
-	@Test
-	public void test_participant_remove_ok(){
-		test_member_remove_ok();
-	}
-	
-	@Test
 	public void test_list_participant(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {

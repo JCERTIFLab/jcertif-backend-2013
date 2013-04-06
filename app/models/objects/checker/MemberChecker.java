@@ -3,13 +3,10 @@ package models.objects.checker;
 import static models.objects.checker.CheckerHelper.checkEmail;
 import static models.objects.checker.CheckerHelper.checkNull;
 import static models.objects.checker.CheckerHelper.checkPassword;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import models.exception.JCertifInvalidRequestException;
 import models.objects.JCertifObject;
 import models.objects.Member;
+import models.objects.access.CiviliteDB;
 import models.objects.access.JCertifObjectDB;
 import models.util.Constantes;
 import models.util.Tools;
@@ -24,11 +21,8 @@ import com.mongodb.BasicDBObject;
  *
  */
 public class MemberChecker extends Checker {
-
-	List<String> civilites = new ArrayList<String>();
 	
-	public MemberChecker(List<String> civilites){
-		this.civilites = civilites;
+	public MemberChecker(){
 	}
 	
 	@Override
@@ -79,16 +73,16 @@ public class MemberChecker extends Checker {
     	if (Tools.isBlankOrNull(title)) {
             throw new JCertifInvalidRequestException(this, "Title cannot be empty or null");
         }
-    	if (!civilites.contains(title)) {
-            throw new JCertifInvalidRequestException(this, "Invalid title, it should be in " + civilites);
+    	if (null == CiviliteDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, title)) {
+            throw new JCertifInvalidRequestException(this, "Invalid title");
         }    	
 	}
     
     private void updateCheckTitle(BasicDBObject objectToCheck) {
     	String title = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
     	if (!Tools.isBlankOrNull(title) &&
-    			!civilites.contains(title)) {
-    		throw new JCertifInvalidRequestException(this, "Invalid title, it should be in " + civilites);
+    			null == CiviliteDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, title)) {
+    		throw new JCertifInvalidRequestException(this, "Invalid title");
         }  	
 	}
     

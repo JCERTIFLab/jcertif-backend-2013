@@ -1,22 +1,23 @@
 package controllers;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-import com.mongodb.util.JSONParseException;
-
-import models.exception.JCertifException;
-import models.objects.Participant;
+import models.exception.JCertifObjectNotFoundException;
+import models.objects.Login;
+import models.objects.Member;
 import models.objects.access.LoginDB;
 import models.objects.access.ParticipantDB;
-import models.util.Tools;
-import models.util.crypto.CryptoUtil;
+import models.objects.access.SpeakerDB;
+
+import org.codehaus.jackson.JsonNode;
+
 import play.mvc.Result;
-import play.mvc.Http.RequestBody;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
 
 public class LoginController extends AbstractController {
 
     public static Result logins() {
-        allowCrossOriginJson();
+
         return ok(JSON.serialize(LoginDB.getInstance().list()));
     }
 
@@ -28,47 +29,21 @@ public class LoginController extends AbstractController {
      */
     public static Result login() {
 
-        allowCrossOriginJson();
+    	JsonNode jsonNode = request().body().asJson();
+		
+		Login login = new Login((BasicDBObject)JSON.parse(jsonNode.toString()));
+		
+		Member member = ParticipantDB.getInstance().get(login.getEmail());
+		
+		if(member == null){
+			member = SpeakerDB.getInstance().get(login.getEmail());
+		}
+		
+		if(member == null){
+			throw new JCertifObjectNotFoundException("Membre '" + login.getEmail() + "' inexistant");
+		}
 
-        RequestBody requestBody = request().body();
-        try {
-            Tools.verifyJSonRequest(requestBody);
-        } catch (JCertifException e) {
-            return badRequest(e.getMessage());
-        }
-
-        String loginObjInJSONForm = request().body().asJson().toString();
-
-        BasicDBObject params;
-        try {
-            params = (BasicDBObject) JSON.parse(loginObjInJSONForm);
-        } catch (JSONParseException exception) {
-            return badRequest(loginObjInJSONForm);
-        }
-        String email = params.getString("email");
-        String password = params.getString("password");
-
-        Participant participant;
-        try {
-            participant = ParticipantDB.getInstance().get(email);
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
-
-        if (participant == null) {
-            return internalServerError(JSON
-                    .serialize("Participant with email \"" + email
-                            + "\" does not exist"));
-        }
-
-        try {
-            if (!CryptoUtil.verifySaltedPassword(password.getBytes(), participant.getPassword())) {
-                return internalServerError(JSON
-                        .serialize("Login failed!, Username or Password invalid"));
-            }
-        } catch (JCertifException jcertifException) {
-            return internalServerError(jcertifException.getMessage());
-        }
+		member.login(login.getPassword());	
 
         return ok(JSON.serialize("Ok"));
     }
