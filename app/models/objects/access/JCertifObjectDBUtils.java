@@ -2,8 +2,6 @@ package models.objects.access;
 
 import java.lang.reflect.InvocationTargetException;
 
-import play.Logger;
-
 import models.exception.JCertifException;
 import models.exception.JCertifResourceAccessException;
 import models.objects.JCertifObject;

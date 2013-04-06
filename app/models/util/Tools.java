@@ -1,17 +1,23 @@
 package models.util;
 
-import com.mongodb.BasicDBList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import models.exception.JCertifInvalidRequestException;
 import play.Play;
 import play.mvc.Http;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Pattern;
+import com.mongodb.BasicDBList;
 
 public final class Tools {
 
@@ -50,14 +56,14 @@ public final class Tools {
         return "";
     }
 
-    public static void println(String comment, Map mapToPrint) {
+    public static void println(String comment, Map<?,?> mapToPrint) {
         if (((comment) != (null)) && ((0)<(comment.length()))) {
                 System.out.println(comment);
         }
         if ((mapToPrint) != (null)) {
-            Set entrySet = mapToPrint.entrySet();
-            for (Iterator itEntrySet = entrySet.iterator(); itEntrySet.hasNext(); ) {
-                Map.Entry entry = (Map.Entry)itEntrySet.next() ;
+            Set<?> entrySet = mapToPrint.entrySet();
+            for (Iterator<?> itEntrySet = entrySet.iterator(); itEntrySet.hasNext(); ) {
+                Map.Entry<?,?> entry = (Map.Entry<?,?>)itEntrySet.next() ;
                 System.out.println("     [" + entry.getKey() + " = " + entry.getValue().toString() + "]");
             }
         }
@@ -80,13 +86,13 @@ public final class Tools {
         return true;
     }
 
-    public static List basicDBListToJavaList(BasicDBList basicDBList){
-        List retList = new ArrayList();
+    public static List<String> basicDBListToJavaList(BasicDBList basicDBList){
+        List<String> retList = new ArrayList<String>();
         if((basicDBList)==(null)){
             return retList;
         }
-        for(Iterator iterator = basicDBList.iterator();iterator.hasNext();){
-            retList.add(iterator.next());
+        for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
+            retList.add((String)iterator.next());
         }
         return retList;
     }
@@ -103,7 +109,7 @@ public final class Tools {
     }
 
     public static BasicDBList javaStringToBasicDBList(String str){
-        List list;
+        List<String> list;
         
         // TODO: test a revoir, trouver un meilleur moyen pour détecter les délimiteur du contenu json
         if(null == str || "".equals(str)){

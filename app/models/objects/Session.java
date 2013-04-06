@@ -110,11 +110,11 @@ public class Session extends JCertifObject {
         this.end = end1;
     }
 
-    public final List getSpeakers() {
+    public final List<String> getSpeakers() {
         return speakers;
     }
 
-    public final void setSpeakers(List speakers1) {
+    public final void setSpeakers(List<String> speakers1) {
         this.speakers = speakers1;
     }
 
