@@ -63,7 +63,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
                     assertThat(contentType(result)).isEqualTo("application/json");
                     JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(3, jsonNode.size());
-
+                    TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                     Assert.fail(e.getMessage());
                 }
@@ -102,6 +102,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 	                params.put("label", "SponsorLevel3");
 	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(CONFLICT);
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -120,6 +121,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 	                params.put("label", "HTTP");
 	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(NOT_FOUND);
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -143,6 +145,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "SponsorLevel2"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}

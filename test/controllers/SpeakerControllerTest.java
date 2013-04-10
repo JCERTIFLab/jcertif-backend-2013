@@ -67,6 +67,7 @@ public class SpeakerControllerTest extends MemberControllerTest{
 		                assertThat(status(result)).isEqualTo(OK);
 		                JsonNode jsonNode = Json.parse(contentAsString(result));
 	                    Assert.assertEquals(2, jsonNode.size());
+	                    TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}

@@ -68,6 +68,7 @@ public abstract class MemberControllerTest {
 		                Assert.assertEquals("M.",dbObjects.get(0).get("title"));
 		                Assert.assertEquals("+33102030405",dbObjects.get(0).get("phone"));
 		                Assert.assertEquals("France",dbObjects.get(0).get("country"));
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -97,7 +98,8 @@ public abstract class MemberControllerTest {
 		                params.put("photo", "http://jcertif.blog.com/pictures/photo.gif");
 		                params.put("biography", "This is all about me");
 		                Result result = callAction(getRegistrationURL(),fakeRequest().withJsonBody(Json.toJson(params),POST));
-		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	                
+		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	   
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -140,6 +142,7 @@ public abstract class MemberControllerTest {
 		                Assert.assertEquals("0102030405",dbObjects.get(0).get("phone"));
 		                Assert.assertEquals("http://jandriewrebirth.blog.com/pictures/myPic.gif",dbObjects.get(0).get("photo"));
 		                Assert.assertEquals("The new me",dbObjects.get(0).get("biography"));
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}	                
@@ -164,7 +167,8 @@ public abstract class MemberControllerTest {
 		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
 		                params.put("biography", "The new me");
 		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST));
-		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	                
+		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	 
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}	                
@@ -192,6 +196,7 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -216,6 +221,7 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -239,6 +245,7 @@ public abstract class MemberControllerTest {
 		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(getCollection(), new BasicDBObject().append("email", "test@member.com"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(0,dbObjects.size());
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}

@@ -1,3 +1,6 @@
+db.civilite.remove();
+db.civilite.insert({label: 'M.'});
+db.civilite.insert({label: 'Mlle'});
 db.participant.remove();
 db.participant.insert({
 	email: 'test@participant.com',

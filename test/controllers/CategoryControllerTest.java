@@ -55,6 +55,7 @@ public class CategoryControllerTest extends ReferentielControllerTest {
                     assertThat(contentType(result)).isEqualTo("application/json");
                     JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(3, jsonNode.size());
+                    TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                     Assert.fail(e.getMessage());
                 }
@@ -97,6 +98,7 @@ public class CategoryControllerTest extends ReferentielControllerTest {
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "Category3"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}

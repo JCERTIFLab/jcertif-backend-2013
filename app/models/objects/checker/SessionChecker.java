@@ -88,7 +88,7 @@ public class SessionChecker extends Checker{
             throw new JCertifInvalidRequestException(this, e.getMessage() );
         }
 
-        String sessionStatus = (String) (SessionStatusDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, session.getStatus()).get(Constantes.LABEL_ATTRIBUTE_NAME));
+        BasicDBObject sessionStatus = SessionStatusDB.getInstance().get(Constantes.LABEL_ATTRIBUTE_NAME, session.getStatus());
         
         if(null==sessionStatus){
             throw new JCertifInvalidRequestException(this, "Session Status '" + session.getStatus() + "' does not exist. Check Session Status List" );

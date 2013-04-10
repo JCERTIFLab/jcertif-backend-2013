@@ -52,7 +52,7 @@ public class SponsorControllerTest {
                     assertThat(contentType(result)).isEqualTo("application/json");
                     JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(3, jsonNode.size());
-
+                    TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                     Assert.fail(e.getMessage());
                 }
@@ -134,6 +134,7 @@ public class SponsorControllerTest {
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "test@sponsor.com"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -183,6 +184,7 @@ public class SponsorControllerTest {
 	                Assert.assertEquals("myNewCoutry",dbObject.getString("country"));
 	                Assert.assertEquals("0504030201",dbObject.getString("phone"));
 	                Assert.assertEquals("All about test",dbObject.getString("about"));
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}

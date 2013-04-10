@@ -41,7 +41,8 @@ public class LoginControllerTest {
 	                params.put("email", "test@participant.com");
 	                params.put("password", "testjcertif");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
-	                assertThat(status(result)).isEqualTo(OK);	                
+	                assertThat(status(result)).isEqualTo(OK);	  
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -61,7 +62,8 @@ public class LoginControllerTest {
 					params.put("email", "test@participant.com");
 	                params.put("password", "wrongpassword");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
-	                assertThat(status(result)).isEqualTo(FORBIDDEN);	                
+	                assertThat(status(result)).isEqualTo(FORBIDDEN);	
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -81,7 +83,8 @@ public class LoginControllerTest {
 					params.put("email", "test@speaker.com");
 	                params.put("password", "testjcertif");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
-	                assertThat(status(result)).isEqualTo(OK);	                
+	                assertThat(status(result)).isEqualTo(OK);	
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -101,7 +104,8 @@ public class LoginControllerTest {
 					params.put("email", "test@speaker.com");
 	                params.put("password", "wrongpassword");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
-	                assertThat(status(result)).isEqualTo(FORBIDDEN);	                
+	                assertThat(status(result)).isEqualTo(FORBIDDEN);	
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}

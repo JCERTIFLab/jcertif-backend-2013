@@ -55,7 +55,7 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
                     assertThat(contentType(result)).isEqualTo("application/json");
                     JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(2, jsonNode.size());
-
+                    TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                     Assert.fail(e.getMessage());
                 }
@@ -80,6 +80,7 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -105,6 +106,7 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "Status1"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}

@@ -69,7 +69,7 @@ public class SessionControllerTest {
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(1).findPath("end").getTextValue());
 	                Assert.assertEquals("[\"21\",\"22\"]",jsonNode.get(1).findPath("speakers").toString().trim());
 	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(1).findPath("category").toString().trim());
-                    
+	                TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());
                 }
@@ -111,6 +111,7 @@ public class SessionControllerTest {
 	                Assert.assertEquals("12/02/2013 10:22",dbObjects.get(0).get("start"));
 	                Assert.assertEquals("16/02/2013 10:23",dbObjects.get(0).get("end"));
 	                Assert.assertEquals("[ \"01\" , \"02\"]",dbObjects.get(0).get("speakers").toString());
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
@@ -197,6 +198,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_session_deletion_unregistred_session_id ***");
+                        TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de l'existence de la session relative au inner ID", e);
 					}
@@ -218,7 +220,8 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         assertThat(SessionDB.getInstance().get("101") == null );
-                        Logger.info("*** FIN -> test_session_all_OK ***");
+                        Logger.info("*** FIN -> test_session_all_OK ***"); 
+                        TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						// TODO: handle exception
 						Logger.error("Une erreur est survenue lors du test de l'existence de la session relative au inner ID", e);
@@ -960,6 +963,7 @@ public class SessionControllerTest {
                         assertThat(status(result)).isEqualTo(OK);
                         assertThat(contentAsString(result)).contains("Ok");
                         Logger.info("*** FIN -> test_update_session_all_OK() ***");
+                        TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
 					}
@@ -999,6 +1003,7 @@ public class SessionControllerTest {
     	                Assert.assertEquals("12/02/2013 10:22",dbObject.getString("start"));
     	                Assert.assertEquals("16/02/2013 10:23",dbObject.getString("end"));
                         Logger.info("*** FIN -> test_session_update_OK ***");
+                        TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise à jour d'une session", e);
 						Assert.fail("Une erreur est survenue lors du test de mise à jour d'une session");
@@ -1020,6 +1025,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_session_update_unregistred_session_id ***");
+                        TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise à jour d'une session", e);
 						Assert.fail("Une erreur est survenue lors du test de mise à jour d'une session");

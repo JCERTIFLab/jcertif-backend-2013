@@ -78,6 +78,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                assertThat(status(result)).isEqualTo(OK);
 		                JsonNode jsonNode = Json.parse(contentAsString(result));
 	                    Assert.assertEquals(3, jsonNode.size());
+	                    TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -95,7 +96,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 						Result result = callAction(routes.ref.ParticipantController.listParticipantSession("test@participant.com"), fakeRequest());
 		                assertThat(status(result)).isEqualTo(OK);	                
 		                assertThat(contentAsString(result)).isEqualTo("[ \"01\" , \"02\"]");
-		                
+		                TestUtils.updateDatabase("test/data/purge.js");
 	            	} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -126,6 +127,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertEquals("0102030405",jsonNode.findPath("phone").getTextValue());
 		                Assert.assertEquals("All about test",jsonNode.findPath("biography").getTextValue());
 		                Assert.assertEquals("[\"01\",\"02\"]",jsonNode.findPath("sessions").toString().trim());
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -134,40 +136,46 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	}
 	
 	@Test
-	public void test_registration_ok(){
-		 Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
-		 additionalConfiguration.put("smtp.mock", true);
-	     running(fakeApplication(additionalConfiguration), new Runnable() {
-	            public void run() {
-	            	Logger.info("Création d'un nouveau participant");
-	                Map<String, Object> params = new HashMap<String, Object>();
-	                params.put("email", "jcertif@gmail.com");
-	                params.put("password", "testjcertif");
-	                params.put("title", "Mlle");
-	                params.put("lastname", "John");
-	                params.put("firstname", "Hudson");
-	                params.put("website", "www.jcertif.com");
-	                params.put("city", "Paris");
-	                params.put("country", "France");
-	                params.put("company", "JCertif");
-	                params.put("phone", "+33102030405");
-	                params.put("photo", "http://jcertif.blog.com/pictures/photo.gif");
-	                params.put("biography", "This is all about me");
-	                params.put("sessions", new String[]{"01","02","03","04"});
-	                Result result = callAction(routes.ref.ParticipantController.registerParticipant(), fakeRequest().withJsonBody(Json.toJson(params), POST));
-	                assertThat(status(result)).isEqualTo(OK);	                
+	public void test_registration_ok() {
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("smtp.mock", true);
+		running(fakeApplication(additionalConfiguration), new Runnable() {
+			public void run() {
+				Logger.info("Création d'un nouveau participant");
+				try {
+					TestUtils.updateDatabase("test/data/participant.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("email", "jcertif@gmail.com");
+					params.put("password", "testjcertif");
+					params.put("title", "Mlle");
+					params.put("lastname", "John");
+					params.put("firstname", "Hudson");
+					params.put("website", "www.jcertif.com");
+					params.put("city", "Paris");
+					params.put("country", "France");
+					params.put("company", "JCertif");
+					params.put("phone", "+33102030405");
+					params.put("photo", "http://jcertif.blog.com/pictures/photo.gif");
+					params.put("biography", "This is all about me");
+					params.put("sessions", new String[] { "01", "02", "03", "04" });
+					Result result = callAction(routes.ref.ParticipantController.registerParticipant(),fakeRequest().withJsonBody(Json.toJson(params),POST));
+					assertThat(status(result)).isEqualTo(OK);
 
-	                Logger.info("Vérification que le nouveau participant a bien été enregistré");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "jcertif@gmail.com"));
-	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(1,dbObjects.size());
-	                Logger.info(dbObjects.get(0).toString());
-	                Assert.assertEquals("Mlle",dbObjects.get(0).get("title"));
-	                Assert.assertEquals("+33102030405",dbObjects.get(0).get("phone"));
-	                Assert.assertEquals("France",dbObjects.get(0).get("country"));
-	                Assert.assertEquals("[ \"01\" , \"02\" , \"03\" , \"04\"]",dbObjects.get(0).get("sessions").toString());
-	            }
-	        });
+					Logger.info("Vérification que le nouveau participant a bien été enregistré");
+					List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT,new BasicDBObject().append("email","jcertif@gmail.com"));
+					Assert.assertTrue(null != dbObjects);
+					Assert.assertEquals(1, dbObjects.size());
+					Logger.info(dbObjects.get(0).toString());
+					Assert.assertEquals("Mlle", dbObjects.get(0).get("title"));
+					Assert.assertEquals("+33102030405",dbObjects.get(0).get("phone"));
+					Assert.assertEquals("France",dbObjects.get(0).get("country"));
+					Assert.assertEquals("[ \"01\" , \"02\" , \"03\" , \"04\"]",dbObjects.get(0).get("sessions").toString());
+					TestUtils.updateDatabase("test/data/purge.js");
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+			}
+		});
 	}
 	
 	@Test
@@ -198,6 +206,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertEquals("0102030405",dbObjects.get(0).get("phone"));
 		                Assert.assertEquals("All about Andriew",dbObjects.get(0).get("biography"));
 		                Assert.assertEquals("[ \"02\" , \"03\"]".trim(),dbObjects.get(0).get("sessions").toString());
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}	             
@@ -223,6 +232,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("[ \"01\" , \"03\" , \"05\" , \"101\"]",dbObjects.get(0).get("sessions").toString());
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -239,7 +249,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("toto@gmail.com", "101"), fakeRequest());
-		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -256,7 +267,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("jandiew@gmail.com", "105"), fakeRequest());
-		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);	
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -273,7 +285,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("test-senior@participant.com", "03"), fakeRequest());
-		                assertThat(status(result)).isEqualTo(CONFLICT);	                
+		                assertThat(status(result)).isEqualTo(CONFLICT);	     
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -299,6 +312,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("[ \"01\" , \"05\"]",dbObjects.get(0).get("sessions").toString());
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -315,7 +329,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("toto@participant.com", "03"), fakeRequest());
-		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);	
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -332,7 +347,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("jandiew@gmail.com", "103"), fakeRequest());
-		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}
@@ -349,7 +365,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
 						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("jandiew@gmail.com", "03"), fakeRequest());
-		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	                
+		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	 
+		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
 					}

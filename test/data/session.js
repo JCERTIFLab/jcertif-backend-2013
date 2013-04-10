@@ -1,3 +1,5 @@
+db.session_status.remove();
+db.session_status.insert({label: 'Brouillon'});
 db.session.remove();
 db.session.insert({
     id : "101",
