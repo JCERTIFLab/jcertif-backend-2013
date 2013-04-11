@@ -1,7 +1,7 @@
 package controllers;
 
 
-import models.util.properties.JCertifPropUtils;
+import play.Play;
 import play.mvc.Result;
 
 public class AdminController extends AbstractController {
@@ -10,7 +10,7 @@ public class AdminController extends AbstractController {
         String admin = session("admin");
         if (admin == null && request().body().asJson() != null && request().body().asJson().get("key") != null) {
             String requestKey = request().body().asJson().get("key").asText();
-            String serverKey = JCertifPropUtils.getInstance().getProperty("jcertifbackend.admin.key");
+            String serverKey = Play.application().configuration().getString("admin.key");
             if (serverKey.equals(requestKey)) {
                 // Ajout dans un cookie signé du paramètre "admin" si la clé est OK
                 session("admin", "admin");

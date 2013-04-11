@@ -1,14 +1,23 @@
 package models.database;
 
-import com.mongodb.*;
-import com.mongodb.util.JSON;
-import play.Logger;
-import models.util.Constantes;
-import models.util.Tools;
-import models.util.properties.JCertifPropUtils;
-
 import java.io.IOException;
 import java.net.UnknownHostException;
+
+import models.util.Constantes;
+import models.util.Tools;
+import play.Logger;
+import play.Play;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+import com.mongodb.util.JSON;
 
 public final class MongoDatabase {
 
@@ -19,16 +28,16 @@ public final class MongoDatabase {
 	private MongoDatabase() {
         super();
         Logger.info("Enter MongoDatabase()");
-		String dbhost = JCertifPropUtils.getInstance().getProperty(
-				"jcertifbackend.database.host");
-		String dbname = JCertifPropUtils.getInstance().getProperty(
-				"jcertifbackend.database.name");
-		String user = JCertifPropUtils.getInstance().getProperty(
-				"jcertifbackend.database.user");
-		String password = JCertifPropUtils.getInstance().getProperty(
-				"jcertifbackend.database.password");
-		int dbport = Integer.parseInt(JCertifPropUtils.getInstance().getProperty(
-				"jcertifbackend.database.port"));
+		String dbhost = Play.application().configuration().getString(
+				"database.host");
+		String dbname = Play.application().configuration().getString(
+				"database.name");
+		String user = Play.application().configuration().getString(
+				"database.user");
+		String password = Play.application().configuration().getString(
+				"database.password");
+		int dbport = Integer.parseInt(Play.application().configuration().getString(
+				"database.port"));
 
         Logger.debug("dbhost=" + dbhost + ", dbname=" + dbname + ", user=" + user + ", password=***, dbport=" + dbport);
 
@@ -61,8 +70,7 @@ public final class MongoDatabase {
         MongoClientOptions.Builder mco = new MongoClientOptions.Builder();
 
 		try {
-			mco.connectionsPerHost(Integer.parseInt(JCertifPropUtils.getInstance()
-					.getProperty("jcertifbackend.database.pool.size", "50")));
+			mco.connectionsPerHost(Integer.parseInt(Play.application().configuration().getString("database.pool.size", "50")));
 		} catch (NumberFormatException e) {
 			mco.connectionsPerHost(Integer.valueOf("50").intValue());
 		}

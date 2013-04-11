@@ -1,7 +1,7 @@
 package controllers;
 
 import models.exception.JCertifResourceAccessException;
-import models.util.properties.JCertifPropUtils;
+import play.Play;
 import play.mvc.Controller;
 
 public abstract class AbstractController extends Controller {
@@ -14,8 +14,8 @@ public abstract class AbstractController extends Controller {
     }
 
     protected static boolean isAdmin() {
-        System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + JCertifPropUtils.getInstance().getProperty("jcertifbackend.admin.active"));
-        if(!"true".equals(JCertifPropUtils.getInstance().getProperty("jcertifbackend.admin.active"))){
+        System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + Play.application().configuration().getBoolean("admin.active"));
+        if(!Play.application().configuration().getBoolean("admin.active")){
             System.out.print("***********************************************************");
             return true;
         }
