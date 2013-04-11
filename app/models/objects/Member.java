@@ -1,8 +1,8 @@
 package models.objects;
 
-import notifiers.EmailNotification;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifResourceAccessException;
+import models.notifiers.EmailNotification;
 import models.objects.checker.CheckerHelper;
 import models.util.Constantes;
 import models.util.crypto.CryptoUtil;

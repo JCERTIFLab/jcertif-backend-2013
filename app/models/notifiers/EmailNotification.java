@@ -1,4 +1,4 @@
-package notifiers;
+package models.notifiers;
 
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;

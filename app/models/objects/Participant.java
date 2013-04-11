@@ -5,10 +5,10 @@ import java.util.List;
 
 import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifInvalidRequestException;
+import models.notifiers.EmailNotification;
 import models.objects.access.JCertifObjectDB;
 import models.objects.access.ParticipantDB;
 import models.util.Tools;
-import notifiers.EmailNotification;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
