@@ -1,6 +1,7 @@
 package controllers;
 
 import models.exception.JCertifResourceAccessException;
+import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 
@@ -14,9 +15,9 @@ public abstract class AbstractController extends Controller {
     }
 
     protected static boolean isAdmin() {
-        System.out.print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + Play.application().configuration().getBoolean("admin.active"));
+        Logger.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + Play.application().configuration().getBoolean("admin.active"));
         if(!Play.application().configuration().getBoolean("admin.active")){
-            System.out.print("***********************************************************");
+        	Logger.info("***********************************************************");
             return true;
         }
         return session().get("admin") != null;

@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import models.exception.JCertifInvalidRequestException;
+import play.Logger;
 import play.Play;
 import play.mvc.Http;
 
@@ -58,13 +59,13 @@ public final class Tools {
 
     public static void println(String comment, Map<?,?> mapToPrint) {
         if (((comment) != (null)) && ((0)<(comment.length()))) {
-                System.out.println(comment);
+                Logger.info(comment);
         }
         if ((mapToPrint) != (null)) {
             Set<?> entrySet = mapToPrint.entrySet();
             for (Iterator<?> itEntrySet = entrySet.iterator(); itEntrySet.hasNext(); ) {
                 Map.Entry<?,?> entry = (Map.Entry<?,?>)itEntrySet.next() ;
-                System.out.println("     [" + entry.getKey() + " = " + entry.getValue().toString() + "]");
+                Logger.info("     [" + entry.getKey() + " = " + entry.getValue().toString() + "]");
             }
         }
     }
@@ -114,7 +115,7 @@ public final class Tools {
         // TODO: test a revoir, trouver un meilleur moyen pour détecter les délimiteur du contenu json
         if(null == str || "".equals(str)){
         	list = new ArrayList <String>();
-        } else if(-1 != str.indexOf("[") || -1 != str.indexOf("{")){
+        } else if(-1 != str.indexOf('[') || -1 != str.indexOf('{')){
         	list = Arrays.asList(str.substring(1, str.length() - 1).split(","));
 		} else{
 			list = Arrays.asList(str.split(","));

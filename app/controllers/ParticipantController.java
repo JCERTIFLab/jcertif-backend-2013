@@ -15,6 +15,9 @@ import com.mongodb.util.JSON;
 
 public class ParticipantController extends AbstractController {
 
+	private static final String PARTICIPANT_DOES_NOT_EXISTS = "Participant '{0}' doesn't exists";
+	private static final String SESSION_DOES_NOT_EXISTS = "Session with id '{0}' doesn't exists";
+	
 	/**
 	 * Update user's informations
 	 * 
@@ -39,7 +42,7 @@ public class ParticipantController extends AbstractController {
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException("Participant '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
 		/* We ensure that we don't return the password */
@@ -98,7 +101,7 @@ public class ParticipantController extends AbstractController {
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException("Participant '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 		
 		String oldPassword = passwords.getString("oldpassword");
@@ -140,13 +143,13 @@ public class ParticipantController extends AbstractController {
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException("Participant '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
 		Session session = SessionDB.getInstance().get(idSession);
 
 		if(session == null){
-			throw new JCertifObjectNotFoundException("Session with id '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException(String.format(SESSION_DOES_NOT_EXISTS, idSession));
 		}
 
 		participant.addToSession(session);
@@ -160,13 +163,13 @@ public class ParticipantController extends AbstractController {
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException("Participant '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
 		Session session = SessionDB.getInstance().get(idSession);
 
 		if(session == null){
-			throw new JCertifObjectNotFoundException("Session with id '" + idSession + "' inexistant");
+			throw new JCertifObjectNotFoundException(String.format(SESSION_DOES_NOT_EXISTS, idSession));
 		}
 
 		participant.removeFromSession(session);
@@ -179,7 +182,7 @@ public class ParticipantController extends AbstractController {
 		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException("Participant '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
         return ok(JSON.serialize(participant.getSessions()));

@@ -2,7 +2,7 @@ package models.objects.access;
 
 import java.lang.reflect.ParameterizedType;
 
-import models.exception.JCertifException;
+import models.objects.JCertifObjectUtils;
 import models.objects.Member;
 import models.objects.checker.MemberChecker;
 import models.util.Constantes;
@@ -31,8 +31,7 @@ public class MemberDB<T extends Member> extends JCertifObjectDB<T> {
 		return super.add(member.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
 	}
 	
-	public final boolean save(T member)
-			throws JCertifException {
+	public final boolean save(T member) {
 		return super.update(member.toBasicDBObject(), Constantes.EMAIL_ATTRIBUTE_NAME);
 	}
 	
@@ -41,8 +40,7 @@ public class MemberDB<T extends Member> extends JCertifObjectDB<T> {
 		if(null == dbObject){
 			return null;
 		}
-		T object = JCertifObjectDBUtils.instanciate(implementationClass, dbObject);
-		return object;
+		return JCertifObjectUtils.instanciate(implementationClass, dbObject);
 	}
 	
 	public final boolean remove(T member) {		

@@ -2,7 +2,7 @@ package models.objects.access;
 
 import java.lang.reflect.ParameterizedType;
 
-import models.exception.JCertifException;
+import models.objects.JCertifObjectUtils;
 import models.objects.Referentiel;
 import models.objects.checker.ReferentielChecker;
 import models.util.Constantes;
@@ -31,8 +31,7 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		return super.add(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
 	}
 	
-	public final boolean save(T referentiel)
-			throws JCertifException {
+	public final boolean save(T referentiel) {
 		return super.update(referentiel.toBasicDBObject(), Constantes.LABEL_ATTRIBUTE_NAME);
 	}
 	
@@ -41,7 +40,7 @@ public abstract class ReferentielDB<T extends Referentiel> extends JCertifObject
 		if(null == dbObject){
 			return null;
 		}
-		T object = JCertifObjectDBUtils.instanciate(implementationClass);
+		T object = JCertifObjectUtils.instanciate(implementationClass);
 		object.setLabel(label);
 		return object;
 	}

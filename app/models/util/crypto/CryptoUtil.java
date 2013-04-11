@@ -98,7 +98,7 @@ public final class CryptoUtil
         try {
             digest = MessageDigest.getInstance("SHA");
         } catch (NoSuchAlgorithmException e) {
-            throw new JCertifException(CryptoUtil.class, e.getMessage());
+            throw new JCertifException("SHA Algorithm not found", e);
         }
         digest.update( password );
         byte[] hash = digest.digest( salt );

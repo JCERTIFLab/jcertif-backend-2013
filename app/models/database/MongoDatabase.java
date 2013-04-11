@@ -119,7 +119,10 @@ public final class MongoDatabase {
 				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0).append("password", 0)));
 	}
 
-    /* Cette fonction configure la base de données JCertif (Création des collections, création des index) */
+    /**
+     * Cette fonction configure la base de données JCertif (Création des collections, création des index) 
+     * 
+     */
     public void configureJCertifDatabase() {
 		Logger.info("Enter configureJCertifDatabase()");
 

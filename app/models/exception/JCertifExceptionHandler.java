@@ -13,6 +13,9 @@ import play.mvc.Results;
  */
 public class JCertifExceptionHandler {
 
+	private JCertifExceptionHandler(){		
+	}
+	
 	public static Result resolve(Throwable throwable){
 		
 		Logger.info("JCertif ExceptionHandler");

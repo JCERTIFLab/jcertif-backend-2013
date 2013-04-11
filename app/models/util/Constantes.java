@@ -2,7 +2,6 @@ package models.util;
 
 public interface Constantes {
 
-    String PROPERTIES_FILE = "jcertifbackend.properties";
     String INIT_DATA_FILE = "referentiel.js";
     
     String COLLECTION_LOGIN = "login";
@@ -17,8 +16,6 @@ public interface Constantes {
     String COLLECTION_CIVILITE = "civilite";
 
     String DATEFORMAT = "dd/MM/yyyy HH:mm";
-
-    String EMAIL_PROPERTIES_FILE = "jcertifbackend_email.properties";
 
     int PASSWORD_MIN_LENGTH = 6;
 

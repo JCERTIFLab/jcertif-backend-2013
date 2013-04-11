@@ -12,6 +12,9 @@ import com.mongodb.BasicDBObject;
  */
 public class CheckerHelper {
 
+	private CheckerHelper(){		
+	}
+	
 	public static void checkNull(BasicDBObject objectToCheck){
 		if (null == objectToCheck) {
             throw new JCertifInvalidRequestException("Object cannot be null");

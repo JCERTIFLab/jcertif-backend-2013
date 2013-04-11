@@ -18,6 +18,9 @@ import views.html.*;
  */
 public class EmailNotification {
 
+	private EmailNotification(){		
+	}
+	
     /**
      * fromEmail représente l'expéditeur du courrier. De preference le lire dans un fichier de propriétés
      *
