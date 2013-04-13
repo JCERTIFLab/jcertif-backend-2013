@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.util.Constantes;
+import models.util.TestConstantes;
 
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -82,7 +82,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
                 assertThat(status(result)).isEqualTo(OK);
 
                 Logger.info("Vérification que le nouveau niveau de patenariat est bien présente en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "HTTT"));
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "HTTT"));
                 Assert.assertTrue(null != dbObjects);
                 Assert.assertEquals(1,dbObjects.size());
                 Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
@@ -142,7 +142,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le niveau de partenariat a bien été supprimmé en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "SponsorLevel2"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "SponsorLevel2"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
 	                TestUtils.updateDatabase("test/data/purge.js");

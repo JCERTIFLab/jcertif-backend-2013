@@ -1,10 +1,10 @@
 package controllers;
 
+import java.text.MessageFormat;
+
+import models.Participant;
+import models.Session;
 import models.exception.JCertifObjectNotFoundException;
-import models.objects.Participant;
-import models.objects.Session;
-import models.objects.access.ParticipantDB;
-import models.objects.access.SessionDB;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -39,10 +39,10 @@ public class ParticipantController extends AbstractController {
 	 * @return
 	 */
 	public static Result getParticipant(String emailParticipant) {
-		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
+		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
 		/* We ensure that we don't return the password */
@@ -53,7 +53,7 @@ public class ParticipantController extends AbstractController {
 
 	public static Result listParticipant() {
 
-		return ok(JSON.serialize(ParticipantDB.getInstance().list()));
+		return ok(JSON.serialize(Participant.findAll()));
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class ParticipantController extends AbstractController {
 		
     	Participant participant = new Participant((BasicDBObject)JSON.parse(jsonNode.toString()));
     	
-    	participant.add();
+    	participant.create();
 
 		return ok(JSON.serialize("Ok"));
 	}
@@ -98,10 +98,10 @@ public class ParticipantController extends AbstractController {
 		
 		BasicDBObject passwords = (BasicDBObject)JSON.parse(jsonNode.toString());
 
-		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
+		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 		
 		String oldPassword = passwords.getString("oldpassword");
@@ -119,7 +119,7 @@ public class ParticipantController extends AbstractController {
 	 */
 	public static Result reinitPasswordParticipant(String emailParticipant) {
 
-		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
+		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
 			throw new JCertifObjectNotFoundException("Participant '" + emailParticipant + "' inexistant");
@@ -140,16 +140,16 @@ public class ParticipantController extends AbstractController {
 	public static Result inscrireParticipantSession(String emailParticipant,
 			String idSession) {
 		
-		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
+		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
-		Session session = SessionDB.getInstance().get(idSession);
+		Session session = Session.find(idSession);
 
 		if(session == null){
-			throw new JCertifObjectNotFoundException(String.format(SESSION_DOES_NOT_EXISTS, idSession));
+			throw new JCertifObjectNotFoundException(MessageFormat.format(SESSION_DOES_NOT_EXISTS, idSession));
 		}
 
 		participant.addToSession(session);
@@ -160,16 +160,16 @@ public class ParticipantController extends AbstractController {
 	public static Result desinscrireParticipantSession(String emailParticipant,
 			String idSession) {
 
-		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
+		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
-		Session session = SessionDB.getInstance().get(idSession);
+		Session session = Session.find(idSession);
 
 		if(session == null){
-			throw new JCertifObjectNotFoundException(String.format(SESSION_DOES_NOT_EXISTS, idSession));
+			throw new JCertifObjectNotFoundException(MessageFormat.format(SESSION_DOES_NOT_EXISTS, idSession));
 		}
 
 		participant.removeFromSession(session);
@@ -179,10 +179,10 @@ public class ParticipantController extends AbstractController {
 
 	public static Result listParticipantSession(String emailParticipant) {
 
-		Participant participant = ParticipantDB.getInstance().get(emailParticipant);
+		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(String.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
         return ok(JSON.serialize(participant.getSessions()));

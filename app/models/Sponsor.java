@@ -1,13 +1,19 @@
-package models.objects;
+package models;
 
-import models.objects.access.JCertifObjectDB;
-import models.objects.access.SponsorDB;
+import static models.CheckerHelper.checkEmail;
+import static models.CheckerHelper.checkNull;
+
+import java.util.List;
+
+import models.exception.JCertifInvalidRequestException;
 import models.util.Constantes;
+import models.util.Tools;
 
 import com.mongodb.BasicDBObject;
 
-public class Sponsor extends JCertifObject {
-    private String email;
+public class Sponsor extends JCertifModel {
+	
+	private String email;
     private String name;
     private String logo;
     private String level;
@@ -118,14 +124,62 @@ public class Sponsor extends JCertifObject {
     }
     
     @Override
-	@SuppressWarnings("unchecked")
-	protected JCertifObjectDB<Sponsor> getDBObject() {
-		return SponsorDB.getInstance();
-	}
+    public final void updateCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+		checkEmail(objectToCheck);
+    }
+
+    @Override
+    public final void deleteCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+		checkEmail(objectToCheck);
+    }
+
+    @Override
+    public void addCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	
+        Sponsor sponsor = new Sponsor(objectToCheck);
+
+        if (Tools.isBlankOrNull(sponsor.getEmail())) {
+            throw new JCertifInvalidRequestException(this, "Email cannot be empty or null");
+        }
+
+        if (!Tools.isValidEmail(sponsor.getEmail())) {
+            throw new JCertifInvalidRequestException(this, sponsor.getEmail() + " is not a valid email");
+        }
+
+        if (Tools.isBlankOrNull(sponsor.getName())) {
+            throw new JCertifInvalidRequestException(this, "Name cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(sponsor.getLogo())) {
+            throw new JCertifInvalidRequestException(this, "Logo cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(sponsor.getLevel())) {
+            throw new JCertifInvalidRequestException(this, "Level cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(sponsor.getWebsite())) {
+            throw new JCertifInvalidRequestException(this, "Website cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(sponsor.getCity())) {
+            throw new JCertifInvalidRequestException(this, "City cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(sponsor.getCountry())) {
+            throw new JCertifInvalidRequestException(this, "Country cannot be empty or null");
+        }
+    }
 
 	@Override
 	public String getKeyName() {
 		return Constantes.EMAIL_ATTRIBUTE_NAME;
 	}
 
+	public static List<BasicDBObject> findAll(){
+		return new Model.Finder().findAll(Sponsor.class);
+	}
 }

@@ -1,13 +1,18 @@
-package models.objects;
+package models;
 
-import models.objects.access.JCertifObjectDB;
-import models.objects.access.LoginDB;
+import static models.CheckerHelper.checkEmail;
+import static models.CheckerHelper.checkNull;
+import static models.CheckerHelper.checkPassword;
+
+import java.util.List;
+
 import models.util.Constantes;
 
 import com.mongodb.BasicDBObject;
 
-public class Login extends JCertifObject {
-    private String email;
+public class Login extends JCertifModel {
+	
+	private String email;
     private String password;
 
     public Login(BasicDBObject basicDBObject) {
@@ -40,14 +45,33 @@ public class Login extends JCertifObject {
         return basicDBObject;
     }
 
+    public final void check(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    	checkPassword(objectToCheck);
+    }
+
+	@Override
+    public final void updateCheck(BasicDBObject objectToCheck) {
+    	check(objectToCheck);
+    }
+
     @Override
-	@SuppressWarnings("unchecked")
-	protected JCertifObjectDB<Login> getDBObject() {
-		return LoginDB.getInstance();
-	}
+    public final void deleteCheck(BasicDBObject objectToCheck) {
+    	check(objectToCheck);
+    }
+
+    @Override
+    public void addCheck(BasicDBObject objectToCheck) {
+    	check(objectToCheck);
+    }
 
 	@Override
 	public String getKeyName() {
 		return Constantes.EMAIL_ATTRIBUTE_NAME;
+	}
+	
+	public static List<BasicDBObject> findAll(){
+		return new Model.Finder().findAll(Login.class);
 	}
 }

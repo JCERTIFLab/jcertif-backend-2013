@@ -3,17 +3,6 @@ package models.util;
 public interface Constantes {
 
     String INIT_DATA_FILE = "referentiel.js";
-    
-    String COLLECTION_LOGIN = "login";
-    String COLLECTION_PARTICIPANT = "participant";
-    String COLLECTION_REFERENTIEL = "referentiel";
-    String COLLECTION_SESSION = "session";
-    String COLLECTION_SESSION_STATUS = "session_status";
-    String COLLECTION_SPEAKER = "speaker";
-    String COLLECTION_SPONSOR = "sponsor";
-    String COLLECTION_CATEGORY = "category";
-    String COLLECTION_SPONSOR_LEVEL = "sponsor_level";
-    String COLLECTION_CIVILITE = "civilite";
 
     String DATEFORMAT = "dd/MM/yyyy HH:mm";
 

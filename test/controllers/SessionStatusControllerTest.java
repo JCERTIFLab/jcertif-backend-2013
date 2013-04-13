@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.util.Constantes;
+import models.util.TestConstantes;
 
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -76,7 +76,7 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le nouveau statut est bien présent en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "HTTT"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "HTTT"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
@@ -103,7 +103,7 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le statut a bien été supprimmé en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "Status1"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "Status1"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
 	                TestUtils.updateDatabase("test/data/purge.js");

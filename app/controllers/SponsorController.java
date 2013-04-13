@@ -1,7 +1,6 @@
 package controllers;
 
-import models.objects.Sponsor;
-import models.objects.access.SponsorDB;
+import models.Sponsor;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -14,7 +13,7 @@ public class SponsorController extends AbstractController {
 
     public static Result listSponsor() {
 
-        return ok(JSON.serialize(SponsorDB.getInstance().list()));
+        return ok(JSON.serialize(Sponsor.findAll()));
     }
 
     public static Result updateSponsor() {
@@ -31,7 +30,7 @@ public class SponsorController extends AbstractController {
 		
     	Sponsor sponsor = new Sponsor((BasicDBObject)JSON.parse(jsonNode.toString()));
 		
-    	sponsor.add();
+    	sponsor.create();
 		return ok(JSON.serialize("Ok"));
     }
 

@@ -1,8 +1,7 @@
 package controllers;
 
 
-import models.objects.Category;
-import models.objects.access.CategoryDB;
+import models.Category;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -14,7 +13,7 @@ public class CategoryController extends AbstractController {
 
     public static Result list() {
 
-        return ok(JSON.serialize(CategoryDB.getInstance().list()));
+        return ok(JSON.serialize(Category.findAll()));
     }
 
     public static Result newCategory() {
@@ -22,7 +21,7 @@ public class CategoryController extends AbstractController {
 		
     	Category category = new Category(jsonNode.findPath("label").getTextValue());
 		
-    	category.add();
+    	category.create();
 		return ok(JSON.serialize("Ok"));
     }
 

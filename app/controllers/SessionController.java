@@ -1,7 +1,6 @@
 package controllers;
 
-import models.objects.Session;
-import models.objects.access.SessionDB;
+import models.Session;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -15,7 +14,7 @@ public class SessionController extends AbstractController {
 
     public static Result listSession() {
 
-        return ok(JSON.serialize(SessionDB.getInstance().list()));
+        return ok(JSON.serialize(Session.findAll()));
     }
 
     public static Result newSession() {
@@ -23,7 +22,7 @@ public class SessionController extends AbstractController {
 		
     	Session session = new Session((BasicDBObject)JSON.parse(jsonNode.toString()));
 		
-    	session.add();
+    	session.create();
 		return ok(JSON.serialize("Ok"));
     }
 

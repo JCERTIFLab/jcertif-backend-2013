@@ -49,14 +49,11 @@ public final class MongoDatabase {
 			if (user != null && !"".equals(user.trim())) {
 				db.authenticate(user, password.toCharArray());
 			}
-			initializeJCertifDB();
+			//TODO initialiser les données dans le Global
+			//initializeJCertifDB();
 		} catch (UnknownHostException e) {
 			Logger.error("Impossible d'initialiser le client MongoClient", e);
-		} catch (IOException e) {
-			Logger.error(
-					"Impossible d'initialiser la base avec les données référentielles",
-					e);
-		}
+		} 
         Logger.info("Exit MongoDatabase()");
 	}
 
@@ -83,12 +80,6 @@ public final class MongoDatabase {
         Logger.info("Enter loadDbWithData(" + filenameContainsData + ")");
         db.doEval(Tools.getFileContent(filenameContainsData));
         Logger.info("Exit getDBOptions()");
-	}
-
-	private void initializeJCertifDB() throws IOException {
-        Logger.info("Enter initializeJCertifDB()");
-        loadDbWithData(Constantes.INIT_DATA_FILE);
-        Logger.info("Exit initializeJCertifDB()");
 	}
 
 	public DBCollection getCollection(String collectionName) {
@@ -123,7 +114,7 @@ public final class MongoDatabase {
      * Cette fonction configure la base de données JCertif (Création des collections, création des index) 
      * 
      */
-    public void configureJCertifDatabase() {
+    /*public void configureJCertifDatabase() {
 		Logger.info("Enter configureJCertifDatabase()");
 
 		db.createCollection(Constantes.COLLECTION_LOGIN,
@@ -171,7 +162,7 @@ public final class MongoDatabase {
                 .createIndex(new BasicDBObject(Constantes.LABEL_ATTRIBUTE_NAME, 1));
 
         Logger.info("Exit configureJCertifDatabase()");
-	}
+	}*/
 
 	public WriteResult create(String collectionName,
             BasicDBObject objectToCreate) {

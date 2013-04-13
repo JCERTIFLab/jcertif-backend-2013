@@ -1,8 +1,7 @@
 package controllers;
 
+import models.Speaker;
 import models.exception.JCertifObjectNotFoundException;
-import models.objects.Speaker;
-import models.objects.access.SpeakerDB;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -15,7 +14,7 @@ public class SpeakerController extends AbstractController {
 
     public static Result listSpeaker() {
 
-        return ok(JSON.serialize(SpeakerDB.getInstance().list()));
+        return ok(JSON.serialize(Speaker.findAll()));
     }
 
     public static Result registerSpeaker() {
@@ -23,7 +22,7 @@ public class SpeakerController extends AbstractController {
 		
     	Speaker speaker = new Speaker((BasicDBObject)JSON.parse(jsonNode.toString()));
     	
-    	speaker.add();
+    	speaker.create();
 
 		return ok(JSON.serialize("Ok"));
     }
@@ -58,7 +57,7 @@ public class SpeakerController extends AbstractController {
 		
 		BasicDBObject passwords = (BasicDBObject)JSON.parse(jsonNode.toString());
 
-		Speaker speaker = SpeakerDB.getInstance().get(emailSpeaker);
+		Speaker speaker = Speaker.find(emailSpeaker);
 		
 		if(speaker == null){
 			throw new JCertifObjectNotFoundException("Speaker '" + emailSpeaker + "' inexistant");
@@ -79,7 +78,7 @@ public class SpeakerController extends AbstractController {
      */
     public static Result reinitPasswordSpeaker(String emailSpeaker) {
 
-    	Speaker speaker = SpeakerDB.getInstance().get(emailSpeaker);
+    	Speaker speaker = Speaker.find(emailSpeaker);
 		
 		if(speaker == null){
 			throw new JCertifObjectNotFoundException("Speaker '" + emailSpeaker + "' inexistant");

@@ -1,10 +1,13 @@
-package models.objects;
+package models;
 
+import static models.CheckerHelper.checkEmail;
+import static models.CheckerHelper.checkNull;
+import static models.CheckerHelper.checkPassword;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifResourceAccessException;
 import models.notifiers.EmailNotification;
-import models.objects.checker.CheckerHelper;
 import models.util.Constantes;
+import models.util.Tools;
 import models.util.crypto.CryptoUtil;
 
 import com.mongodb.BasicDBObject;
@@ -21,7 +24,7 @@ import com.mongodb.BasicDBObject;
  * @author Martial SOMDA
  *
  */
-public abstract class Member extends JCertifObject {
+public abstract class Member extends JCertifModel {
 	
 	private String email;
     private String password;
@@ -164,6 +167,80 @@ public abstract class Member extends JCertifObject {
         basicDBObject.put("photo", getPhoto());
         basicDBObject.put("biography", getBiography());
         return basicDBObject;
+    }
+    
+    @Override
+    public final void updateCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    	updateCheckTitle(objectToCheck);
+    }
+
+	@Override
+    public final void deleteCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    }
+
+    @Override
+    public final void addCheck(BasicDBObject objectToCheck) {
+    	checkNull(objectToCheck);
+    	checkEmail(objectToCheck);
+    	addCheckTitle(objectToCheck);
+    	
+        Member member = new DummyMember(objectToCheck);
+
+        checkPassword(member.getPassword(), null, false);
+        
+        //after check the password compliance according to policy we encrypt
+        objectToCheck.put("password", CryptoUtil.getSaltedPassword(member.getPassword().getBytes()));
+
+        if (Tools.isBlankOrNull(member.getLastname())) {
+            throw new JCertifInvalidRequestException(this, "Lastname cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(member.getFirstname())) {
+            throw new JCertifInvalidRequestException(this, "Firstname cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(member.getCity())) {
+            throw new JCertifInvalidRequestException(this, "City cannot be empty or null");
+        }
+
+        if (Tools.isBlankOrNull(member.getCountry())) {
+            throw new JCertifInvalidRequestException(this, "Country cannot be empty or null");
+        }
+    }
+    
+    private void addCheckTitle(BasicDBObject objectToCheck) {
+    	String title = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
+    	if (Tools.isBlankOrNull(title)) {
+            throw new JCertifInvalidRequestException(this, "Title cannot be empty or null");
+        }
+    	if (null == Civilite.find(title)) {
+            throw new JCertifInvalidRequestException(this, "Invalid title");
+        }    	
+	}
+    
+    private void updateCheckTitle(BasicDBObject objectToCheck) {
+    	String title = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
+    	if (!Tools.isBlankOrNull(title) &&
+    			null == Civilite.find(title)) {
+    		throw new JCertifInvalidRequestException(this, "Invalid title");
+        }  	
+	}
+    
+    class DummyMember extends Member {
+
+		public DummyMember(BasicDBObject basicDBObject) {
+			super(basicDBObject);
+		}
+
+		@Override
+		public String getKeyName() {
+			return null;
+		}
+    	
     }
     
     @Override

@@ -12,7 +12,7 @@ import static play.test.Helpers.status;
 
 import java.io.IOException;
 
-import models.util.Constantes;
+import models.util.TestConstantes;
 
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -53,7 +53,7 @@ public class SpeakerControllerTest extends MemberControllerTest{
 
 	@Override
 	public String getCollection() {
-		return Constantes.COLLECTION_SPEAKER;
+		return TestConstantes.COLLECTION_SPEAKER;
 	}
 	
 	@Test

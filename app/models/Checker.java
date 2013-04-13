@@ -1,8 +1,8 @@
-package models.objects.checker;
+package models;
 
 import com.mongodb.BasicDBObject;
 
-public abstract class Checker {
+public interface Checker {
 
 	/**
      * <p>Méthode validant un objet du model avant une opération de mise à jour en base</p>

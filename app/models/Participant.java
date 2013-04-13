@@ -1,4 +1,4 @@
-package models.objects;
+package models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +6,14 @@ import java.util.List;
 import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifInvalidRequestException;
 import models.notifiers.EmailNotification;
-import models.objects.access.JCertifObjectDB;
-import models.objects.access.ParticipantDB;
+import models.util.Constantes;
 import models.util.Tools;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 public class Participant extends Member {
-
+	
 	private List<String> sessions = new ArrayList<String>();
 
 	public Participant(BasicDBObject basicDBObject){
@@ -36,16 +35,10 @@ public class Participant extends Member {
         basicDBObject.put("sessions", Tools.javaListToBasicDBList(getSessions()));
         return basicDBObject;
     }
-
-    @Override
-	@SuppressWarnings("unchecked")
-	protected JCertifObjectDB<Participant> getDBObject() {
-		return ParticipantDB.getInstance();
-	}
 	
 	@Override
-	public boolean add() {
-		boolean isOk = super.add();
+	public boolean create() {
+		boolean isOk = super.create();
 		
 		if(isOk){
 			/* send email */
@@ -83,5 +76,20 @@ public class Participant extends Member {
 		}else if (!sessions.contains(session.getId())) {
 			throw new JCertifInvalidRequestException("Participant '"+ getEmail() +"' non inscrit à la session '"+ session.getTitle() +"'.");
 		}
+	}
+    
+    public static Participant find(String email){
+    	Participant participant = null;
+    	
+    	BasicDBObject dbObject = new Model.Finder().find(Participant.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
+    	
+    	if(null != dbObject){
+    		participant = new Participant(dbObject);
+    	}
+		return participant; 
+	}
+    
+    public static List<BasicDBObject> findAll(){
+		return new Model.Finder().findAll(Participant.class);
 	}
 }

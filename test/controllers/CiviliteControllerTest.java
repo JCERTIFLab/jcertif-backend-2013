@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.util.Constantes;
+import models.util.TestConstantes;
 
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -68,15 +68,22 @@ public class CiviliteControllerTest extends ReferentielControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("Création d'une nouvealle civilité");
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("label", "M.");
-                Result result = callAction(routes.ref.CiviliteController.addCivilite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(OK);
+                try {
+					TestUtils.updateDatabase("test/data/civilite.js");
+					Map<String, String> params = new HashMap<String, String>();
+	                params.put("label", "M.");
+	                Result result = callAction(routes.ref.CiviliteController.addCivilite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(OK);
 
-                Logger.info("Vérification que la nouvelle civilité est bien présente en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CIVILITE, new BasicDBObject().append("label", "M."));
-                Assert.assertTrue(null != dbObjects);
-                Assert.assertEquals(1,dbObjects.size());
+	                Logger.info("Vérification que la nouvelle civilité est bien présente en base de données");
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_CIVILITE, new BasicDBObject().append("label", "M."));
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(1,dbObjects.size());	                
+	                TestUtils.updateDatabase("test/data/purge.js");
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
             }
         });
     }
@@ -94,7 +101,7 @@ public class CiviliteControllerTest extends ReferentielControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la civilité a bien été supprimmé en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_CIVILITE, new BasicDBObject().append("label", "Civilite2"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_CIVILITE, new BasicDBObject().append("label", "Civilite2"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
 	                TestUtils.updateDatabase("test/data/purge.js");

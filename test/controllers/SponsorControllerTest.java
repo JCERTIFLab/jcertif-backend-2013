@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.util.Constantes;
+import models.util.TestConstantes;
 
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -90,7 +90,7 @@ public class SponsorControllerTest {
                 assertThat(status(result)).isEqualTo(OK);
 
                 Logger.info("Vérification que le nouveau sponsor a bien été sauvegardé en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "email@test.com"));
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "email@test.com"));
                 Assert.assertTrue(null != dbObjects);
                 Assert.assertEquals(1,dbObjects.size());
                 Assert.assertEquals("www.test.com",dbObjects.get(0).get("website"));
@@ -131,7 +131,7 @@ public class SponsorControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 	                
 	                Logger.info("Vérification que le sponsor a bien été supprimmé en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "test@sponsor.com"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "test@sponsor.com"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(0,dbObjects.size());
 	                TestUtils.updateDatabase("test/data/purge.js");
@@ -171,7 +171,7 @@ public class SponsorControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 	                
 	                Logger.info("Vérification que le sponsor a bien été modifié en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "test@sponsor.com"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "test@sponsor.com"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                BasicDBObject dbObject = dbObjects.get(0);

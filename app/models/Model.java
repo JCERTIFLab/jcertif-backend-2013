@@ -1,4 +1,4 @@
-package models.objects.access;
+package models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,121 +11,70 @@ import models.database.MongoDatabase;
 import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifException;
 import models.exception.JCertifObjectNotFoundException;
-import models.objects.JCertifObject;
-import models.objects.checker.Checker;
 import models.util.Tools;
+
+import org.apache.commons.lang.StringUtils;
+
 import play.Logger;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
-public abstract class JCertifObjectDB<T extends JCertifObject> implements
-		IDao<BasicDBObject> {
+public abstract class Model implements CRUD, Checker {
 
-	private Checker checker;
-	private String collectionName;
+	public abstract BasicDBObject toBasicDBObject();
+    public abstract String getKeyName();
 	
-	public JCertifObjectDB(String collectionName) {
-        super();
-		this.collectionName = collectionName;
-		checker = null;
-	}
-
-	public JCertifObjectDB(String collectionName, Checker checker) {
-        super();
-		this.collectionName = collectionName;
-		this.checker = checker;
-	}
-
-	public final Checker getChecker() {
-		return checker;
-	}
-
-	protected final void setChecker(Checker checker1) {
-		this.checker = checker1;
+	protected static String getCollectionName(Class<?> clazz){
+		String collectionName = "";
+		for(String name : StringUtils.splitByCharacterTypeCamelCase(clazz.getSimpleName())){
+			collectionName += "_" + name;
+		}
+		return collectionName.substring(1).toLowerCase();
 	}
 
 	/**
+	 * <p>This class provides static methods to retrieve data from database.</p>
 	 * 
-	 * @param query
-	 * @param columnToReturn
-	 * @return
+	 * @author Martial SOMDA
+	 *
 	 */
-	@Override
-	public final List<BasicDBObject> list(BasicDBObject query,
-			BasicDBObject columnToReturn) {
-		DBCursor dbCursor = MongoDatabase.getInstance().list(
-				getCollectionName(), query, columnToReturn);
-		BasicDBObject object;
-		List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
-		while (dbCursor.hasNext()) {
-			object = (BasicDBObject) dbCursor.next();
-			resultList.add(object);
-		}
-		return resultList;
-	}
+	public static class Finder {
 
-	@Override
-	public final List<BasicDBObject> list() {
-		DBCursor dbCursor = MongoDatabase.getInstance().list(
-				getCollectionName());
-		BasicDBObject object;
-		List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
-		while (dbCursor.hasNext()) {
-			object = (BasicDBObject) dbCursor.next();
-			resultList.add(object);
-		}
-		return resultList;
-	}
 
-	@Override
-	public final List<BasicDBObject> list(BasicDBObject query) {
-		DBCursor dbCursor = MongoDatabase.getInstance().list(
-				getCollectionName(), query);
-		BasicDBObject object;
-		List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
-		while (dbCursor.hasNext()) {
-			object = (BasicDBObject) dbCursor.next();
-			resultList.add(object);
-		}
-		return resultList;
-	}
-	
-	@Override
-	public final BasicDBObject get(String keyName, Object keyValue) {
-		if (null == keyName){
-			return null;
-        }
-		BasicDBObject dbObject = new BasicDBObject();
-		dbObject.put(keyName, keyValue);
-		
-		return get(dbObject);
-	}
-	
-	public final BasicDBObject get(BasicDBObject objectToGet) {
-		if (null == objectToGet){
-			return null;
+        public BasicDBObject find(Class<?> clazz, String keyName, Object keyValue) {
+        	BasicDBObject objectToFind = new BasicDBObject();
+        	objectToFind.put(keyName, keyValue);
+        	return MongoDatabase.getInstance().readOne(
+    				getCollectionName(clazz), objectToFind);
         }
 
-		/* If the object does not exist, null is returned */
-		return MongoDatabase.getInstance().readOne(
-				getCollectionName(), objectToGet);
-	}
+        public List<BasicDBObject> findAll(Class<?> clazz) {
+        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+    				getCollectionName(clazz));
+    		BasicDBObject object;
+    		List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
+    		while (dbCursor.hasNext()) {
+    			object = (BasicDBObject) dbCursor.next();
+    			resultList.add(object);
+    		}
+    		return resultList;
+        }
+    }
 
-	@Override
 	public final boolean add(BasicDBObject objectToAdd, String idKeyname) {
-		getChecker().addCheck(objectToAdd);		
+		addCheck(objectToAdd);		
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToAdd.get(idKeyname));
 		BasicDBObject existingObjectToAdd = MongoDatabase.getInstance()
-				.readOne(getCollectionName(), dbObject);
+				.readOne(getCollectionName(getClass()), dbObject);
 		if (null != existingObjectToAdd) {
 			throw new JCertifDuplicateObjectException(this, "Object '" + existingObjectToAdd.getString(idKeyname) + "' already exists");
 		}
 		
 		WriteResult result = MongoDatabase.getInstance().create(
-				getCollectionName(), objectToAdd);
+				getCollectionName(getClass()), objectToAdd);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this, result.getError());
 		}
@@ -140,13 +89,12 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 	 * @return
 	 * @throws JCertifException
 	 */
-	@Override
 	public final boolean update(BasicDBObject objectToUpdate, String idKeyname) {
-		getChecker().updateCheck(objectToUpdate);
+		updateCheck(objectToUpdate);
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToUpdate.get(idKeyname));
 		BasicDBObject existingObjectToUpdate = MongoDatabase.getInstance()
-				.readOne(getCollectionName(), dbObject);
+				.readOne(getCollectionName(getClass()), dbObject);
 		if (null == existingObjectToUpdate) {
 			Logger.info("not found");
 			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
@@ -155,7 +103,7 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		existingObjectToUpdate = merge(objectToUpdate,existingObjectToUpdate);
 
 		WriteResult result = MongoDatabase.getInstance().update(
-				getCollectionName(), existingObjectToUpdate);
+				getCollectionName(getClass()), existingObjectToUpdate);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this, result.getError());
 		}
@@ -185,31 +133,23 @@ public abstract class JCertifObjectDB<T extends JCertifObject> implements
 		return existingObjectToUpdate;
 	}
 
-	@Override
 	public final boolean remove(BasicDBObject objectToDelete, String idKeyname) {
-		getChecker().deleteCheck(objectToDelete);
+		deleteCheck(objectToDelete);
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToDelete.get(idKeyname));
 		BasicDBObject existingObjectToDelete = MongoDatabase.getInstance()
-				.readOne(getCollectionName(), dbObject);
+				.readOne(getCollectionName(getClass()), dbObject);
 		
 		if (null == existingObjectToDelete) {
 			throw new JCertifObjectNotFoundException(this, "Object to delete does not exist");
 		}
 
 		WriteResult result = MongoDatabase.getInstance().delete(
-				getCollectionName(), existingObjectToDelete);
+				getCollectionName(getClass()), existingObjectToDelete);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this, result.getError());
 		}
 		return true;
 	}
 
-	public final String getCollectionName() {
-		return collectionName;
-	}
-
-	public final void setCollectionName(String collectionName1) {
-		this.collectionName = collectionName1;
-	}
 }

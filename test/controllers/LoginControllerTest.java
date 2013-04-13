@@ -38,7 +38,7 @@ public class LoginControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/login.js");
 					Map<String, Object> params = new HashMap<String, Object>();
-	                params.put("email", "test@participant.com");
+	                params.put("email", "test@speaker.com");
 	                params.put("password", "testjcertif");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
 	                assertThat(status(result)).isEqualTo(OK);	  
@@ -59,7 +59,7 @@ public class LoginControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/login.js");
 					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("email", "test@participant.com");
+					params.put("email", "test@speaker.com");
 	                params.put("password", "wrongpassword");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
 	                assertThat(status(result)).isEqualTo(FORBIDDEN);	
@@ -80,7 +80,7 @@ public class LoginControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/login.js");
 					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("email", "test@speaker.com");
+					params.put("email", "test@participant.com");
 	                params.put("password", "testjcertif");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
 	                assertThat(status(result)).isEqualTo(OK);	
@@ -101,7 +101,7 @@ public class LoginControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/login.js");
 					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("email", "test@speaker.com");
+					params.put("email", "test@participant.com");
 	                params.put("password", "wrongpassword");
 	                Result result = callAction(routes.ref.LoginController.login(),fakeRequest().withJsonBody(Json.toJson(params),POST));
 	                assertThat(status(result)).isEqualTo(FORBIDDEN);	

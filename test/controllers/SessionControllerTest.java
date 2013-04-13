@@ -20,8 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.objects.access.SessionDB;
-import models.util.Constantes;
+import models.util.TestConstantes;
 
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -99,7 +98,7 @@ public class SessionControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la nouvelle session est bien présente en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION, new BasicDBObject().append("id", "105"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION, new BasicDBObject().append("id", "105"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Assert.assertEquals("Lost in the jungle",dbObjects.get(0).get("title"));
@@ -214,12 +213,13 @@ public class SessionControllerTest {
                 	try {
                 		Logger.info("Tous les inner params sont valides.");
                 		TestUtils.updateDatabase("test/data/session.js");
-                		assertThat(SessionDB.getInstance().get("101") != null );
                 		Map<String, Object> params = new HashMap<String, Object>();
                         params.put("id", "101");
                         Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
-                        assertThat(SessionDB.getInstance().get("101") == null );
+                        List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION, new BasicDBObject().append("id", "101"));
+                        Assert.assertTrue(null != dbObjects);
+    	                Assert.assertEquals(0,dbObjects.size());
                         Logger.info("*** FIN -> test_session_all_OK ***"); 
                         TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
@@ -990,7 +990,7 @@ public class SessionControllerTest {
                         assertThat(status(result)).isEqualTo(OK);
                         
                         Logger.info("Vérification que la session a bien été modifiée en base de données");
-    	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_SESSION, new BasicDBObject().append("id", "101"));
+    	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION, new BasicDBObject().append("id", "101"));
     	                Assert.assertTrue(null != dbObjects);
     	                Assert.assertEquals(1,dbObjects.size());
     	                BasicDBObject dbObject = dbObjects.get(0);

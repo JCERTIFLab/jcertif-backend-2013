@@ -1,6 +1,9 @@
+import java.io.IOException;
 import java.lang.reflect.Method;
 
+import models.database.MongoDatabase;
 import models.exception.JCertifExceptionHandler;
+import models.util.Constantes;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -23,6 +26,12 @@ public class Global extends GlobalSettings {
 	public void onStart(Application application) {
 		Logger.info("JCertif Backend Application running");
 		super.onStart(application);
+		Logger.info("Initialisation des données de référence");
+		try {
+			MongoDatabase.getInstance().loadDbWithData(Constantes.INIT_DATA_FILE);
+		} catch (IOException e) {
+			Logger.info("Impossible d'initialiser les données de réference : " + e.getMessage());			
+		}
 	}
 	
 	@Override

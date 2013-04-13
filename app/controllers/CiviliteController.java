@@ -1,7 +1,6 @@
 package controllers;
 
-import models.objects.Civilite;
-import models.objects.access.CiviliteDB;
+import models.Civilite;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -23,13 +22,13 @@ public class CiviliteController extends AbstractController{
 		
 		Civilite civilite = new Civilite(jsonNode.findPath("label").getTextValue());
 		
-		civilite.add();
+		civilite.create();
 		return ok(JSON.serialize("Ok"));
     }
 	
 	public static Result listCivilite() {
         
-		return ok(JSON.serialize(CiviliteDB.getInstance().list()));
+		return ok(JSON.serialize(Civilite.findAll()));
     }
 	
 	public static Result removeCivilite() {

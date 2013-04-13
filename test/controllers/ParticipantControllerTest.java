@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.util.Constantes;
+import models.util.TestConstantes;
 
 import org.codehaus.jackson.JsonNode;
 import org.junit.Assert;
@@ -64,7 +64,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 
 	@Override
 	public String getCollection() {
-		return Constantes.COLLECTION_PARTICIPANT;
+		return TestConstantes.COLLECTION_PARTICIPANT;
 	}
 	
 	@Test
@@ -162,7 +162,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 					assertThat(status(result)).isEqualTo(OK);
 
 					Logger.info("Vérification que le nouveau participant a bien été enregistré");
-					List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT,new BasicDBObject().append("email","jcertif@gmail.com"));
+					List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_PARTICIPANT,new BasicDBObject().append("email","jcertif@gmail.com"));
 					Assert.assertTrue(null != dbObjects);
 					Assert.assertEquals(1, dbObjects.size());
 					Logger.info(dbObjects.get(0).toString());
@@ -192,7 +192,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que les informations du participant ont bien été mises à jour");
-		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "jandiew@gmail.com"));
+		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "jandiew@gmail.com"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Logger.info(dbObjects.get(0).toString());
@@ -228,7 +228,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le nouveau participant a bien été ajouté à la session");
-		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "test-senior@participant.com"));
+		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "test-senior@participant.com"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("[ \"01\" , \"03\" , \"05\" , \"101\"]",dbObjects.get(0).get("sessions").toString());
@@ -308,7 +308,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le nouveau participant a bien été supprimé de la session");
-		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(Constantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "test-senior@participant.com"));
+		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_PARTICIPANT, new BasicDBObject().append("email", "test-senior@participant.com"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("[ \"01\" , \"05\"]",dbObjects.get(0).get("sessions").toString());

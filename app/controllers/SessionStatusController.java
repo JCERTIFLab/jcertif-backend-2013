@@ -1,7 +1,6 @@
 package controllers;
 
-import models.objects.SessionStatus;
-import models.objects.access.SessionStatusDB;
+import models.SessionStatus;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -13,7 +12,7 @@ public class SessionStatusController extends AbstractController {
 
     public static Result listStatusSession() {
 
-        return ok(JSON.serialize(SessionStatusDB.getInstance().list()));
+        return ok(JSON.serialize(SessionStatus.findAll()));
     }
 
     public static Result addSessionStatus() {
@@ -21,7 +20,7 @@ public class SessionStatusController extends AbstractController {
 		
 		SessionStatus sessionStatus = new SessionStatus(jsonNode.findPath("label").getTextValue());
 		
-		sessionStatus.add();
+		sessionStatus.create();
 		return ok(JSON.serialize("Ok"));
     }
 

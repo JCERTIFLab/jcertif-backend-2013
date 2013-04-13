@@ -1,4 +1,4 @@
-package models.objects.checker;
+package models;
 
 import models.exception.JCertifInvalidRequestException;
 import models.util.Constantes;

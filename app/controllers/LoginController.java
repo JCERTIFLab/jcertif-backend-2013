@@ -1,11 +1,10 @@
 package controllers;
 
+import models.Login;
+import models.Member;
+import models.Participant;
+import models.Speaker;
 import models.exception.JCertifObjectNotFoundException;
-import models.objects.Login;
-import models.objects.Member;
-import models.objects.access.LoginDB;
-import models.objects.access.ParticipantDB;
-import models.objects.access.SpeakerDB;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -18,7 +17,7 @@ public class LoginController extends AbstractController {
 
     public static Result logins() {
 
-        return ok(JSON.serialize(LoginDB.getInstance().list()));
+        return ok(JSON.serialize(Login.findAll()));
     }
 
     /**
@@ -33,10 +32,10 @@ public class LoginController extends AbstractController {
 		
 		Login login = new Login((BasicDBObject)JSON.parse(jsonNode.toString()));
 		
-		Member member = ParticipantDB.getInstance().get(login.getEmail());
+		Member member = Participant.find(login.getEmail());
 		
 		if(member == null){
-			member = SpeakerDB.getInstance().get(login.getEmail());
+			member = Speaker.find(login.getEmail());
 		}
 		
 		if(member == null){
