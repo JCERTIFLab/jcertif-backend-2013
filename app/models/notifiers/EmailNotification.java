@@ -22,7 +22,7 @@ import com.typesafe.plugin.MailerPlugin;
  *
  * @author bashizip
  */
-public class EmailNotification {
+public final class EmailNotification {
 
 	private EmailNotification(){		
 	}

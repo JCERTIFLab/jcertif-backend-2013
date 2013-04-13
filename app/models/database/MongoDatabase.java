@@ -49,8 +49,7 @@ public final class MongoDatabase {
 			if (user != null && !"".equals(user.trim())) {
 				db.authenticate(user, password.toCharArray());
 			}
-			//TODO initialiser les données dans le Global
-			//initializeJCertifDB();
+			
 		} catch (UnknownHostException e) {
 			Logger.error("Impossible d'initialiser le client MongoClient", e);
 		} 

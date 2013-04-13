@@ -10,7 +10,7 @@ import com.mongodb.BasicDBObject;
  * @author Martial SOMDA
  *
  */
-public class CheckerHelper {
+public final class CheckerHelper {
 
 	private CheckerHelper(){		
 	}
