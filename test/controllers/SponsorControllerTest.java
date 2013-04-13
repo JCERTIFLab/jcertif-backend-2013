@@ -2,6 +2,7 @@ package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.BAD_REQUEST;
+import static play.mvc.Http.Status.FORBIDDEN;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.POST;
@@ -60,7 +61,7 @@ public class SponsorControllerTest {
         });
     }
 	
-	/*@Test
+	@Test
     public void test_sponsor_new_forbidden() {
 		Logger.info("Une requête de création d'un sponsor requiert les droits d'administration");
         running(fakeApplication(), new Runnable() {
@@ -69,7 +70,7 @@ public class SponsorControllerTest {
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
-    }*/
+    }
 	
 	@Test
     public void test_sponsor_new_ok() {
@@ -144,7 +145,7 @@ public class SponsorControllerTest {
         });
     }
 	
-	/*@Test
+	@Test
     public void test_sponsor_remove_forbidden() {
 		Logger.info("Une requête de suppression d'un sponsor requiert les droits d'administration");
         running(fakeApplication(), new Runnable() {
@@ -153,7 +154,7 @@ public class SponsorControllerTest {
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
-    }*/
+    }
 	
 	@Test
     public void test_sponsor_update_ok() {
@@ -194,7 +195,7 @@ public class SponsorControllerTest {
         });
     }
 	
-	/*@Test
+	@Test
     public void test_sponsor_update_forbidden() {
 		Logger.info("Une requête de mise à jour d'un sponsor requiert les droits d'administration");
         running(fakeApplication(), new Runnable() {
@@ -203,5 +204,5 @@ public class SponsorControllerTest {
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
-    }*/
+    }
 }

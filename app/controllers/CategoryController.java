@@ -6,6 +6,7 @@ import models.Category;
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Result;
+import play.mvc.Security.Authenticated;
 
 import com.mongodb.util.JSON;
 
@@ -16,6 +17,7 @@ public class CategoryController extends AbstractController {
         return ok(JSON.serialize(Category.findAll()));
     }
 
+    @Authenticated(Admin.class)
     public static Result newCategory() {
     	JsonNode jsonNode = request().body().asJson();
 		
@@ -25,6 +27,7 @@ public class CategoryController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
+    @Authenticated(Admin.class)
     public static Result removeCategory() {
     	JsonNode jsonNode = request().body().asJson();
 		

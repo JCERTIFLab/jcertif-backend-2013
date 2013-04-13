@@ -124,7 +124,7 @@ public abstract class MemberControllerTest {
 		                params.put("company", "Lost");
 		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
 		                params.put("biography", "The new me");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que les informations du participant ont bien été mises à jour");
@@ -166,7 +166,7 @@ public abstract class MemberControllerTest {
 		                params.put("company", "Lost");
 		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
 		                params.put("biography", "The new me");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	 
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -238,7 +238,7 @@ public abstract class MemberControllerTest {
 						TestUtils.updateDatabase("test/data/member.js");
 						Map<String, Object> params = new HashMap<String, Object>();
 		                params.put("email", "test@member.com");
-						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withSession("admin", "admin"));
+						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withSession("admin", "admin").withSession("admin", "admin"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le membre a bien été supprimé");

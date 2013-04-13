@@ -6,6 +6,7 @@ import models.exception.JCertifObjectNotFoundException;
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Result;
+import play.mvc.Security.Authenticated;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
@@ -27,6 +28,7 @@ public class SpeakerController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
+    @Authenticated(Admin.class)
     public static Result updateSpeaker() {
     	JsonNode jsonNode = request().body().asJson();
 		
@@ -36,6 +38,7 @@ public class SpeakerController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
+    @Authenticated(Admin.class)
     public static Result removeSpeaker() {
     	JsonNode jsonNode = request().body().asJson();
 		

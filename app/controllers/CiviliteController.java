@@ -5,6 +5,7 @@ import models.Civilite;
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Result;
+import play.mvc.Security.Authenticated;
 
 import com.mongodb.util.JSON;
 
@@ -16,6 +17,7 @@ import com.mongodb.util.JSON;
  */
 public class CiviliteController extends AbstractController{
 
+	@Authenticated(Admin.class)
 	public static Result addCivilite() {
         
 		JsonNode jsonNode = request().body().asJson();
@@ -31,6 +33,7 @@ public class CiviliteController extends AbstractController{
 		return ok(JSON.serialize(Civilite.findAll()));
     }
 	
+	@Authenticated(Admin.class)
 	public static Result removeCivilite() {
         
 		JsonNode jsonNode = request().body().asJson();

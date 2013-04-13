@@ -23,10 +23,6 @@ public class RequestWrapper extends Action.Simple {
         Result result = null;
         
         try{	
-			
-        	if (Play.isProd() && !context.request().path().equals("/") && !context.request().path().equals("/admin")) {
-                checkAdmin(context.session());
-            }
         	
         	if("POST".equals(context.request().method())){
         		Tools.verifyJSonRequest(context.request().body());
@@ -45,12 +41,6 @@ public class RequestWrapper extends Action.Simple {
 		}
 
         return result;
-    }
-
-    private void checkAdmin(Http.Session session) {
-        if (Play.application().configuration().getBoolean("admin.active") && session.get("admin") == null) {
-            throw new JCertifResourceAccessException("Operation not allowed for non-administrators");
-        }
     }
 
     private void allowCrossOriginJson(Http.Response response) {

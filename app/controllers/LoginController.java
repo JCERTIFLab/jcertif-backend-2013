@@ -43,6 +43,8 @@ public class LoginController extends AbstractController {
 		}
 
 		member.login(login.getPassword());	
+		
+		session("admin", "admin");
 
         return ok(JSON.serialize("Ok"));
     }
