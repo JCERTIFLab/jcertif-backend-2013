@@ -48,9 +48,9 @@ public class EmailNotification {
         mail.addRecipient(user.getEmail());
         mail.addFrom(fromEmail);
 
-        //String body = welcome.render(user).body();
+        String body = welcome.render(user).body();
 
-        //mail.sendHtml(body);
+        mail.sendHtml(body);
 
         Logger.info("Exit sendWelcomeMail()");
     }
@@ -64,9 +64,9 @@ public class EmailNotification {
         mail.addRecipient(user.getEmail());
         mail.addFrom(fromEmail);
 
-        //String body = unenroll.render(user, session).body();
+        String body = unenroll.render(user, session).body();
 
-        //mail.sendHtml(body);
+        mail.sendHtml(body);
 
         Logger.info("Exit sendUnenrollpwdMail()");
     }
@@ -81,9 +81,9 @@ public class EmailNotification {
         mail.addRecipient(user.getEmail());
         mail.addFrom(fromEmail);
 
-        //String body = enroll.render(user, session).body();
+        String body = enroll.render(user, session).body();
 
-        //mail.sendHtml(body);
+        mail.sendHtml(body);
 
         Logger.info("Exit sendenrollMail()");
     }
@@ -107,11 +107,11 @@ public class EmailNotification {
     private static String getChangePwdMailBody(Member member) {
     	String body = "";
 		
-		/*if(member instanceof Participant){
+		if(member instanceof Participant){
 			body = pwdchange.render((Participant)member).body();
 		}else if(member instanceof Speaker){
 			body = pwdchangeSpeaker.render((Speaker)member).body();
-		}*/
+		}
 		
 		return body;
 	}
@@ -135,11 +135,11 @@ public class EmailNotification {
 	private static String getReinitpwdMailBody(Member member, String newPassword) {
 		String body = "";
 		
-		/*if(member instanceof Participant){
+		if(member instanceof Participant){
 			body = pwdinit.render((Participant)member, newPassword).body();
 		}else if(member instanceof Speaker){
 			body = pwdinitSpeaker.render((Speaker)member, newPassword).body();
-		}*/
+		}
 		
 		return body;
 	}
