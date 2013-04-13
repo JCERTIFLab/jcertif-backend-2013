@@ -2,6 +2,7 @@ package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.BAD_REQUEST;
+import static play.mvc.Http.Status.FORBIDDEN;
 import static play.test.Helpers.POST;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;

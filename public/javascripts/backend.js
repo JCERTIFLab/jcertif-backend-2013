@@ -111,7 +111,7 @@ Backend.registerParticipant = {
                     }).done(function (msg) {
                     		$('#dialog-register-participant').dialog("destroy");
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                 }
             }
@@ -147,7 +147,7 @@ Backend.addSession = {
             $("#dialog-add-session form fieldset").append('<select name="status" id="status" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
 						
 						
@@ -165,7 +165,7 @@ Backend.addSession = {
             $("#dialog-add-session form fieldset").append('<select name="category" id="category" multiple="true" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
 						
 						$.ajax({
@@ -182,7 +182,7 @@ Backend.addSession = {
             $("#dialog-add-session form fieldset").append('<select name="speaker" id="spraker" multiple="true" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
 
     },
@@ -202,7 +202,7 @@ Backend.addSession = {
                     }).done(function (msg) {
                     		$('#dialog-add-session').dialog("destroy");
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                 }
             }
@@ -236,7 +236,7 @@ Backend.addStatus = {
                     }).done(function (msg) {
                     		$('#dialog-add-status').dialog("destroy");
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                 }
             }
@@ -274,7 +274,7 @@ Backend.changePassword = {
                     }).done(function (msg) {
                     		$('#dialog-participant-changePassword').dialog("destroy");
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                 }
             }
@@ -306,7 +306,7 @@ Backend.reinitialPassword = {
                     }).done(function (msg) {
                     		$('#dialog-participant-reinitial').dialog("destroy");
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                 }
             }
@@ -338,7 +338,7 @@ participants=[];
             $("#dialog-add-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipantAdd" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                         
                         $.ajax({
@@ -355,7 +355,7 @@ participants=[];
             $("#dialog-add-participant-session form fieldset").append('<select name="idSession" id="idSessionAdd" class="ui-widget-content ui-corner-all">'+option+'</select>');
                  
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
 
            
@@ -374,7 +374,7 @@ participants=[];
                     }).done(function (msg) {
                     		$('#dialog-add-participant-session').dialog("destroy");
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                 }
             }
@@ -403,7 +403,7 @@ Backend.listParticipantSessions = {
             $("#dialog-list-participant-sessions form fieldset").append('<select name="emailParticipant" id="emailParticipantList" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
             }).fail(function (msg) {
-                alert("Opps : " + msg.responseText);
+                alert(msg.responseText);
             });
     },
 
@@ -443,7 +443,7 @@ Backend.removeParticipantFromSession = {
             $("#dialog-remove-participant-session form fieldset").append('<select name="emailParticipant" id="emailParticipantRemove" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                         
                         $.ajax({
@@ -460,7 +460,7 @@ Backend.removeParticipantFromSession = {
             $("#dialog-remove-participant-session form fieldset").append('<select name="idSession" id="idSession" class="ui-widget-content ui-corner-all">'+option+'</select>');
                  
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
 
            
@@ -479,7 +479,7 @@ Backend.removeParticipantFromSession = {
                     }).done(function (msg) {
                     		$('#dialog-remove-participant-session').dialog("destroy");
                         }).fail(function (msg) {
-                            alert("Opps : " + msg.responseText);
+                            alert(msg.responseText);
                         });
                 }
             }
@@ -511,7 +511,7 @@ Backend.addSponsorLevel = {
                     }).done(function (msg) {
                     	$("#dialog-add-sponsor-level").dialog("destroy");
                     }).fail(function (msg) {
-                        alert("Opps : " + msg.responseText);
+                        alert(msg.responseText);
                     });
                 }
             }
@@ -548,7 +548,7 @@ Backend.removeSponsorLevel = {
                     }).done(function (msg) {
                     	$("#dialog-remove-sponsor-level").dialog("destroy");
                     }).fail(function (msg) {
-                        alert("Opps : " + msg.responseText);
+                        alert(msg.responseText);
                     });
                 }
             }
@@ -579,7 +579,7 @@ Backend.addCategory = {
                     }).done(function (msg) {
                     	$("#dialog-add-category").dialog("destroy");
                     }).fail(function (msg) {
-                        alert("Opps : " + msg.responseText);
+                        alert(msg.responseText);
                     });
                 }
             }
@@ -616,7 +616,7 @@ Backend.removeCategory = {
                     }).done(function (msg) {
                     	$("#dialog-remove-category").dialog("destroy");
                     }).fail(function (msg) {
-                        alert("Opps : " + msg.responseText);
+                        alert(msg.responseText);
                     });
                 }
             }
@@ -647,7 +647,7 @@ Backend.addCivilite = {
                     }).done(function (msg) {
                     	$("#dialog-add-civilite").dialog("destroy");
                     }).fail(function (msg) {
-                        alert("Opps : " + msg.responseText);
+                        alert(msg.responseText);
                     });
                 }
             }
@@ -684,7 +684,7 @@ Backend.removeCivilite = {
                     }).done(function (msg) {
                     	$("#dialog-remove-civilite").dialog("destroy");
                     }).fail(function (msg) {
-                        alert("Opps : " + msg.responseText);
+                        alert(msg.responseText);
                     });
                 }
             }

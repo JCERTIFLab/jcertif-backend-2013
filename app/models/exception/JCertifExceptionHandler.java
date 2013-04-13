@@ -39,7 +39,7 @@ public final class JCertifExceptionHandler {
 	private static Throwable unwrap(Throwable throwable) {
 
 		Throwable unwrappedThrowable = throwable;
-		
+
 		while(unwrappedThrowable.getClass().getCanonicalName().contains("play.")){
 			unwrappedThrowable = unwrappedThrowable.getCause();
 		}

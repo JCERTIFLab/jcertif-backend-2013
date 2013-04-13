@@ -19,14 +19,15 @@ public class RequestWrapper extends Action.Simple {
     public Result call(Http.Context context) throws Throwable {
         Logger.debug(new StringBuilder().append(TRACE_REQUESTED_URL_TAG)
                 .append(context.request().path()).toString());
-        if (Play.isProd() && !context.request().path().equals("/") && !context.request().path().equals("/admin")) {
-            checkAdmin(context.session());
-        }
         
         Result result = null;
         
         try{	
 			
+        	if (Play.isProd() && !context.request().path().equals("/") && !context.request().path().equals("/admin")) {
+                checkAdmin(context.session());
+            }
+        	
         	if("POST".equals(context.request().method())){
         		Tools.verifyJSonRequest(context.request().body());
         	}
