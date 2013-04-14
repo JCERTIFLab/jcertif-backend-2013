@@ -2,13 +2,13 @@ package controllers;
 
 import play.mvc.Http.Context;
 import play.mvc.Result;
-import play.mvc.Security;
+import play.mvc.Security.Authenticator;
 
 /**
  * @author Martial SOMDA
  *
  */
-public class AdminAuthenticator extends Security.Authenticator {
+public class AdminAuthenticator extends Authenticator {
 
 	@Override
 	public String getUsername(Context context) {
