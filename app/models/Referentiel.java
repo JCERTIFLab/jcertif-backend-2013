@@ -1,7 +1,7 @@
 package models;
 
-import static models.CheckerHelper.checkLabel;
-import static models.CheckerHelper.checkNull;
+import static models.CheckHelper.checkLabel;
+import static models.CheckHelper.checkNull;
 import models.util.Constantes;
 
 import com.mongodb.BasicDBObject;

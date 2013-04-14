@@ -2,7 +2,7 @@ package models;
 
 import com.mongodb.BasicDBObject;
 
-public interface Checker {
+public interface Check {
 
 	/**
      * <p>Méthode validant un objet du model avant une opération de mise à jour en base</p>

@@ -1,8 +1,8 @@
 package models;
 
-import static models.CheckerHelper.checkEmail;
-import static models.CheckerHelper.checkNull;
-import static models.CheckerHelper.checkPassword;
+import static models.CheckHelper.checkEmail;
+import static models.CheckHelper.checkNull;
+import static models.CheckHelper.checkPassword;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifResourceAccessException;
 import models.notifiers.EmailNotification;
@@ -250,7 +250,7 @@ public abstract class Member extends JCertifModel {
     
     public void changePassword(String oldPassword, String newPassword) {
 		
-		CheckerHelper.checkPassword(oldPassword, newPassword, true);
+		CheckHelper.checkPassword(oldPassword, newPassword, true);
 		
 		if (!CryptoUtil.verifySaltedPassword(oldPassword.getBytes(), getPassword())) {
 				/* We compare oldPassword with the hashed password  */

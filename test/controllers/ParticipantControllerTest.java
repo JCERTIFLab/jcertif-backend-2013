@@ -93,7 +93,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("Liste des sessions d'un participant");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.listParticipantSession("test@participant.com"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.listParticipantSession("test@participant.com"), fakeRequest().withSession("email", "test@participant.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 		                assertThat(contentAsString(result)).isEqualTo("[ \"01\" , \"02\"]");
 		                TestUtils.updateDatabase("test/data/purge.js");
@@ -111,7 +111,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("Récuperer les informations d'un participant");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.getParticipant("test@participant.com"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.getParticipant("test@participant.com"), fakeRequest().withSession("email", "test@participant.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 		                
 		                Logger.info("Vérification des informations du participant");
@@ -188,7 +188,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 						Map<String, Object> params = new HashMap<String, Object>();
 		                params.put("email", "jandiew@gmail.com");
 		                params.put("sessions", new String[]{"02","03"});
-		                Result result = callAction(routes.ref.ParticipantController.updateParticipant(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+		                Result result = callAction(routes.ref.ParticipantController.updateParticipant(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que les informations du participant ont bien été mises à jour");
@@ -224,7 +224,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("Inscription d'un participant à une session");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("test-senior@participant.com", "101"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("test-senior@participant.com", "101"), fakeRequest().withSession("email", "test-senior@participant.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le nouveau participant a bien été ajouté à la session");
@@ -248,7 +248,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("On ne peut inscrire à une session qu'un participant répertorié");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("toto@gmail.com", "101"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("toto@gmail.com", "101"), fakeRequest().withSession("email", "toto@gmail.com"));
 		                assertThat(status(result)).isEqualTo(NOT_FOUND);
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -266,7 +266,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("On ne peut inscrire un participant qu' une session existante");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("jandiew@gmail.com", "105"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("jandiew@gmail.com", "105"), fakeRequest().withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(NOT_FOUND);	
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -284,7 +284,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("Un participant doit être inscrit à une session pour pouvoir en être déinscrit");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("test-senior@participant.com", "03"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.inscrireParticipantSession("test-senior@participant.com", "03"), fakeRequest().withSession("email", "test-senior@participant.com"));
 		                assertThat(status(result)).isEqualTo(CONFLICT);	     
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -304,7 +304,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("Désinscription d'un participant à une session");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("test-senior@participant.com", "03"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("test-senior@participant.com", "03"), fakeRequest().withSession("email", "test-senior@participant.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le nouveau participant a bien été supprimé de la session");
@@ -328,7 +328,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("Un participant doit exister pour pouvoir le désinscrire à une session");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("toto@participant.com", "03"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("toto@participant.com", "03"), fakeRequest().withSession("email", "toto@participant.com"));
 		                assertThat(status(result)).isEqualTo(NOT_FOUND);	
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -346,7 +346,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("On ne peut désinscrire un participant d'une session que lorsque la session existe");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("jandiew@gmail.com", "103"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("jandiew@gmail.com", "103"), fakeRequest().withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(NOT_FOUND);
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -364,7 +364,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	            	Logger.info("Un participant doit être inscrit à une session pour pouvoir en être déinscrit");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("jandiew@gmail.com", "03"), fakeRequest().withSession("admin", "admin"));
+						Result result = callAction(routes.ref.ParticipantController.desinscrireParticipantSession("jandiew@gmail.com", "03"), fakeRequest().withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	 
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {

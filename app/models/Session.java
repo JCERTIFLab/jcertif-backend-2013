@@ -1,7 +1,7 @@
 package models;
 
-import static models.CheckerHelper.checkId;
-import static models.CheckerHelper.checkNull;
+import static models.CheckHelper.checkId;
+import static models.CheckHelper.checkNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,8 +1,8 @@
 package models;
 
-import static models.CheckerHelper.checkEmail;
-import static models.CheckerHelper.checkNull;
-import static models.CheckerHelper.checkPassword;
+import static models.CheckHelper.checkEmail;
+import static models.CheckHelper.checkNull;
+import static models.CheckHelper.checkPassword;
 
 import java.util.List;
 

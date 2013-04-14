@@ -21,7 +21,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
-public abstract class Model implements CRUD, Checker {
+public abstract class Model implements CRUD, Check {
 
 	public abstract BasicDBObject toBasicDBObject();
     public abstract String getKeyName();

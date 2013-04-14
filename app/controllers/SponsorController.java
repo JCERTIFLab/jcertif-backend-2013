@@ -5,10 +5,11 @@ import models.Sponsor;
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Result;
-import play.mvc.Security.Authenticated;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
+
+import controllers.Security.Admin;
 
 public class SponsorController extends AbstractController {
 
@@ -17,7 +18,7 @@ public class SponsorController extends AbstractController {
         return ok(JSON.serialize(Sponsor.findAll()));
     }
 
-    @Authenticated(Admin.class)
+    @Admin
     public static Result updateSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		
@@ -27,7 +28,7 @@ public class SponsorController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
-    @Authenticated(Admin.class)
+    @Admin
     public static Result addSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		
@@ -37,7 +38,7 @@ public class SponsorController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
-    @Authenticated(Admin.class)
+    @Admin
     public static Result removeSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		

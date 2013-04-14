@@ -1,22 +1,23 @@
 package controllers;
 
-import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security;
+import play.mvc.Http.Context;
+
 
 /**
  * @author Martial SOMDA
  *
  */
-public class Admin extends Security.Authenticator {
+public class DefaultAuthenticator extends Security.Authenticator {
 
 	@Override
 	public String getUsername(Context context) {
-		return context.session().get("admin");
+		return context.session().get("email");
 	}
 	
 	@Override
 	public Result onUnauthorized(Context context) {
-		return forbidden("Operation not allowed for non-administrators");
+		return unauthorized("Operation not allowed for non-connected people");
 	}
 }

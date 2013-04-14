@@ -10,9 +10,9 @@ import com.mongodb.BasicDBObject;
  * @author Martial SOMDA
  *
  */
-public final class CheckerHelper {
+public final class CheckHelper {
 
-	private CheckerHelper(){		
+	private CheckHelper(){		
 	}
 	
 	public static void checkNull(BasicDBObject objectToCheck){
