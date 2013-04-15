@@ -11,7 +11,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
 import controllers.Security.Admin;
-import controllers.Security.Connected;
+import controllers.Security.Authenticated;
 
 public class SpeakerController extends AbstractController {
 
@@ -30,7 +30,7 @@ public class SpeakerController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
     }
 
-    @Connected
+    @Authenticated
     public static Result updateSpeaker() {
     	JsonNode jsonNode = request().body().asJson();
 		

@@ -5,6 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import models.exception.JCertifExceptionHandler;
 import play.mvc.Action;
 import play.mvc.Http.Context;
 import play.mvc.Result;
@@ -33,10 +34,10 @@ public class Security {
 	/*
 	 * Annotation pour les services nécessitant d'être connecté à l'application
 	 */
-	@With(ConnectedAction.class)
+	@With(AuthenticatedAction.class)
 	@Target({ElementType.TYPE, ElementType.METHOD})
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Connected {
+	public @interface Authenticated {
 	    Class<? extends Authenticator> value() default DefaultAuthenticator.class;
 	}
 	
@@ -48,7 +49,7 @@ public class Security {
 
     }
 	
-	public static class ConnectedAction extends Action<Connected> {
+	public static class AuthenticatedAction extends Action<Authenticated> {
         
         public Result call(Context ctx) throws Throwable{
             return executeAuthAction(this,configuration.value().newInstance(), ctx);     
@@ -56,22 +57,22 @@ public class Security {
     }
 	
 	private static Result executeAuthAction(Action action, Authenticator authenticator, Context ctx){
+		Result result = null;
 		try {
             String username = authenticator.getUsername(ctx);
             if(username == null) {
-                return authenticator.onUnauthorized(ctx);
+            	result = authenticator.onUnauthorized(ctx);
             } else {
                 try {
                     ctx.request().setUsername(username);
-                    return action.delegate.call(ctx);
+                    result = action.delegate.call(ctx);
                 } finally {
                     ctx.request().setUsername(null);
                 }
             }
-        } catch(RuntimeException e) {
-            throw e;
         } catch(Throwable t) {
-            throw new RuntimeException(t);
+        	result = JCertifExceptionHandler.resolve(t);
         }
+        return result;
 	}
 }

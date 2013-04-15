@@ -18,6 +18,6 @@ public class DefaultAuthenticator extends Authenticator {
 	
 	@Override
 	public Result onUnauthorized(Context context) {
-		return unauthorized("Operation not allowed for non-connected people");
+		return unauthorized("Operation not allowed for non-authenticated people");
 	}
 }

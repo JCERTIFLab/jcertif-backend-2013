@@ -14,7 +14,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
 import controllers.Security.Admin;
-import controllers.Security.Connected;
+import controllers.Security.Authenticated;
 
 public class ParticipantController extends AbstractController {
 
@@ -26,7 +26,7 @@ public class ParticipantController extends AbstractController {
 	 * 
 	 * @return
 	 */
-	@Connected
+	@Authenticated
 	public static Result updateParticipant() {
 		JsonNode jsonNode = request().body().asJson();
 		
@@ -42,7 +42,7 @@ public class ParticipantController extends AbstractController {
 	 * @param emailParticipant
 	 * @return
 	 */
-	@Connected
+	@Authenticated
 	public static Result getParticipant(String emailParticipant) {
 		Participant participant = Participant.find(emailParticipant);
 		
@@ -143,7 +143,7 @@ public class ParticipantController extends AbstractController {
 	 * @param idSession
 	 * @return
 	 */
-	@Connected
+	@Authenticated
 	public static Result inscrireParticipantSession(String emailParticipant,
 			String idSession) {
 		
@@ -164,7 +164,7 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
 	}
 
-	@Connected
+	@Authenticated
 	public static Result desinscrireParticipantSession(String emailParticipant,
 			String idSession) {
 
@@ -185,7 +185,7 @@ public class ParticipantController extends AbstractController {
 		return ok(JSON.serialize("Ok"));
 	}
 
-	@Connected
+	@Authenticated
 	public static Result listParticipantSession(String emailParticipant) {
 
 		Participant participant = Participant.find(emailParticipant);
