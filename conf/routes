@@ -49,7 +49,7 @@ POST    /speaker/remove             controllers.SpeakerController.removeSpeaker
 
 POST    /speaker/:emailSpeaker/changepassword  controllers.SpeakerController.changePasswordSpeaker(emailSpeaker: String)
 
-POST    /speaker/:emailSpeaker/lostpassword    controllers.SpeakerController.reinitPasswordSpeaker(emailSpeaker: String)
+GET    /speaker/:emailSpeaker/lostpassword    controllers.SpeakerController.reinitPasswordSpeaker(emailSpeaker: String)
 
 GET     /ref/sessionstatus/list     controllers.SessionStatusController.listStatusSession
 
@@ -79,7 +79,7 @@ POST    /participant/update         controllers.ParticipantController.updatePart
 
 POST    /participant/remove         controllers.ParticipantController.removeParticipant
 
-POST    /participant/:emailParticipant/lostpassword    controllers.ParticipantController.reinitPasswordParticipant(emailParticipant: String)
+GET    /participant/:emailParticipant/lostpassword    controllers.ParticipantController.reinitPasswordParticipant(emailParticipant: String)
 
 POST    /participant/:emailParticipant/session/add/:idSession    controllers.ParticipantController.inscrireParticipantSession(emailParticipant: String, idSession: String)
 

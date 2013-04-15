@@ -19,6 +19,7 @@ Backend.init = function () {
 	Backend.removeCategory.initDialog();
 	Backend.addCivilite.initDialog();      
 	Backend.removeCivilite.initDialog();
+	Backend.logIn.initDialog();
 
     $("#register-participant").click(function () {
         Backend.registerParticipant.openDialog();
@@ -61,6 +62,9 @@ Backend.init = function () {
     });
 	$("#remove-civilite").click(function () {
         Backend.removeCivilite.openDialog();
+    });
+	$("#login").click(function () {
+        Backend.logIn.openDialog();
     });
 }
 
@@ -301,7 +305,7 @@ Backend.reinitialPassword = {
             buttons: {
                 "réinitialiser": function () {
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         url: "/participant/"+$("#emailParticipantInit").val()+"/lostpassword"
                     }).done(function (msg) {
                     		$('#dialog-participant-reinitial').dialog("destroy");
@@ -688,6 +692,40 @@ Backend.removeCivilite = {
                     });
                 }
             }
+        });
+    }
+}
+
+//Service de login
+Backend.logIn = {
+		
+    initDialog: function () {
+    	$("#dialog-login form fieldset").append('<label for="email">Email</label>');
+        $("#dialog-login form fieldset").append('<input type="text" name="email" id="email" class="text ui-widget-content ui-corner-all"/>');
+        $("#dialog-login form fieldset").append('<label for="password">Mot de passe</label>');
+        $("#dialog-login form fieldset").append('<input type="password" name="password" id="password" class="text ui-widget-content ui-corner-all"/>');
+    },
+
+    openDialog: function () {
+        $("#dialog-login").dialog({
+            width: 300,
+            height: 350,
+            modal: true,
+            buttons: {
+                "Login": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/participant/login",
+                        data: $('#dialog-login form').serializeJSONString()
+                    }).done(function (msg) {
+                    		$('#dialog-login').dialog("destroy");
+                        }).fail(function (msg) {
+                            alert(msg.responseText);
+                        });
+                }
+            }
+
         });
     }
 }
