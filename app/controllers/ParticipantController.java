@@ -8,6 +8,7 @@ import models.exception.JCertifObjectNotFoundException;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.BasicDBObject;
@@ -16,7 +17,7 @@ import com.mongodb.util.JSON;
 import controllers.Security.Admin;
 import controllers.Security.Authenticated;
 
-public class ParticipantController extends AbstractController {
+public class ParticipantController extends Controller {
 
 	private static final String PARTICIPANT_DOES_NOT_EXISTS = "Participant '{0}' doesn't exists";
 	private static final String SESSION_DOES_NOT_EXISTS = "Session with id '{0}' doesn't exists";

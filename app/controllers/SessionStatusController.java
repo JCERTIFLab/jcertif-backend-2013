@@ -4,13 +4,14 @@ import models.SessionStatus;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.util.JSON;
 
 import controllers.Security.Admin;
 
-public class SessionStatusController extends AbstractController {
+public class SessionStatusController extends Controller {
 
     public static Result listStatusSession() {
 

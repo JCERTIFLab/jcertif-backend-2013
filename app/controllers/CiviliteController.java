@@ -4,6 +4,7 @@ import models.Civilite;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.util.JSON;
@@ -16,7 +17,7 @@ import controllers.Security.Admin;
  * @author Martial SOMDA
  *
  */
-public class CiviliteController extends AbstractController{
+public class CiviliteController extends Controller{
 
 	@Admin
 	public static Result addCivilite() {

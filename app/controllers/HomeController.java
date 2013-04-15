@@ -1,9 +1,10 @@
 package controllers;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 
-public class HomeController extends AbstractController {
+public class HomeController extends Controller {
 
     public static Result get() {
         return ok(index.render());

@@ -8,12 +8,13 @@ import models.exception.JCertifObjectNotFoundException;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
-public class LoginController extends AbstractController {
+public class LoginController extends Controller {
 
     public static Result logins() {
 

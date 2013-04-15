@@ -4,6 +4,7 @@ import models.SponsorLevel;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.util.JSON;
@@ -16,7 +17,7 @@ import controllers.Security.Admin;
  * @author Martial SOMDA
  *
  */
-public class SponsorLevelController extends AbstractController{
+public class SponsorLevelController extends Controller {
 
 	@Admin
 	public static Result addSponsorLevel() {

@@ -4,6 +4,7 @@ import models.Session;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.BasicDBObject;
@@ -12,7 +13,7 @@ import com.mongodb.util.JSON;
 import controllers.Security.Admin;
 
 
-public class SessionController extends AbstractController {
+public class SessionController extends Controller {
 
     public static Result listSession() {
 

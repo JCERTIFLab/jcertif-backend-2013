@@ -5,6 +5,7 @@ import models.exception.JCertifObjectNotFoundException;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.BasicDBObject;
@@ -13,7 +14,7 @@ import com.mongodb.util.JSON;
 import controllers.Security.Admin;
 import controllers.Security.Authenticated;
 
-public class SpeakerController extends AbstractController {
+public class SpeakerController extends Controller {
 
     public static Result listSpeaker() {
 

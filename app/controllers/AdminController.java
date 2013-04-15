@@ -2,9 +2,10 @@ package controllers;
 
 
 import play.Play;
+import play.mvc.Controller;
 import play.mvc.Result;
 
-public class AdminController extends AbstractController {
+public class AdminController extends Controller {
 
     public static Result check() {
         String admin = session("admin");

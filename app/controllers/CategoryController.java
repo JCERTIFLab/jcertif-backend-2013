@@ -5,13 +5,14 @@ import models.Category;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.mongodb.util.JSON;
 
 import controllers.Security.Admin;
 
-public class CategoryController extends AbstractController {
+public class CategoryController extends Controller {
 
     public static Result list() {
 
