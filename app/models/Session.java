@@ -2,6 +2,7 @@ package models;
 
 import static models.CheckHelper.checkId;
 import static models.CheckHelper.checkNull;
+import static models.CheckHelper.checkNullOrEmpty;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -160,40 +161,20 @@ public class Session extends JCertifModel {
 
         Session session = new Session(objectToCheck);
 
-        if (Tools.isBlankOrNull(session.getTitle())) {
-            throw new JCertifInvalidRequestException(this, "Title cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(session.getSummary())) {
-            throw new JCertifInvalidRequestException(this, "Summary cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(session.getDescription())) {
-            throw new JCertifInvalidRequestException(this, "Description cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(session.getStatus())) {
-            throw new JCertifInvalidRequestException(this, "Status cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(session.getKeyword())) {
-            throw new JCertifInvalidRequestException(this, "Keyword cannot be empty or null");
-        }
+        checkNullOrEmpty("Title", session.getTitle());
+        checkNullOrEmpty("Summary", session.getSummary());
+        checkNullOrEmpty("Description", session.getDescription());
+        checkNullOrEmpty("Status", session.getStatus());
+        checkNullOrEmpty("Keyword", session.getKeyword());
+        checkNullOrEmpty("Start Date", session.getStart());
+        checkNullOrEmpty("End Date", session.getEnd());
 
         if (Tools.isBlankOrNull(session.getCategory())) {
             throw new JCertifInvalidRequestException(this, "Category cannot be empty or null");
         }
 
-        if (null==session.getStart()) {
-            throw new JCertifInvalidRequestException(this, "Start Date cannot be null");
-        }
-
         if (!Tools.isValidDate(session.getStart())) {
             throw new JCertifInvalidRequestException(this, "Start Date is not valid, the format must be " + Constantes.DATEFORMAT);
-        }
-
-        if (null==session.getEnd()) {
-            throw new JCertifInvalidRequestException(this, "End Date cannot be null");
         }
 
         if (!Tools.isValidDate(session.getEnd())) {
@@ -226,7 +207,7 @@ public class Session extends JCertifModel {
 	public static Session find(String email){
 		Session session = null;
     	
-    	BasicDBObject dbObject = new Model.Finder().find(Session.class, Constantes.ID_ATTRIBUTE_NAME, email);
+    	BasicDBObject dbObject = finder.find(Session.class, Constantes.ID_ATTRIBUTE_NAME, email);
     	
     	if(null != dbObject){
     		session = new Session(dbObject);
@@ -235,6 +216,6 @@ public class Session extends JCertifModel {
 	}
 	
 	public static List<BasicDBObject> findAll(){
-		return new Model.Finder().findAll(Session.class);
+		return finder.findAll(Session.class);
 	}
 }

@@ -25,6 +25,7 @@ public abstract class Model implements CRUD, Check {
 
 	public abstract BasicDBObject toBasicDBObject();
     public abstract String getKeyName();
+    protected static Finder finder = new Finder();
 	
 	protected static String getCollectionName(Class<?> clazz){
 		String collectionName = "";

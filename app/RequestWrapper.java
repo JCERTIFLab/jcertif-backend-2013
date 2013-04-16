@@ -1,8 +1,6 @@
 import models.exception.JCertifExceptionHandler;
-import models.exception.JCertifResourceAccessException;
 import models.util.Tools;
 import play.Logger;
-import play.Play;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;

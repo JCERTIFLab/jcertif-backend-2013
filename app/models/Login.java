@@ -72,6 +72,6 @@ public class Login extends JCertifModel {
 	}
 	
 	public static List<BasicDBObject> findAll(){
-		return new Model.Finder().findAll(Login.class);
+		return finder.findAll(Login.class);
 	}
 }

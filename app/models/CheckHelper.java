@@ -21,6 +21,12 @@ public final class CheckHelper {
         }
 	}
 	
+	public static void checkNullOrEmpty(String fieldName, String fieldValue){
+		if (null == fieldValue) {
+            throw new JCertifInvalidRequestException(fieldName + " cannot be empty or null");
+        }
+	}
+	
 	public static void checkEmail(BasicDBObject objectToCheck){
 		String email = objectToCheck.getString(Constantes.EMAIL_ATTRIBUTE_NAME);
 		if (Tools.isBlankOrNull(email)) {

@@ -2,6 +2,7 @@ package models;
 
 import static models.CheckHelper.checkEmail;
 import static models.CheckHelper.checkNull;
+import static models.CheckHelper.checkNullOrEmpty;
 import static models.CheckHelper.checkPassword;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifResourceAccessException;
@@ -195,28 +196,16 @@ public abstract class Member extends JCertifModel {
         //after check the password compliance according to policy we encrypt
         objectToCheck.put("password", CryptoUtil.getSaltedPassword(member.getPassword().getBytes()));
 
-        if (Tools.isBlankOrNull(member.getLastname())) {
-            throw new JCertifInvalidRequestException(this, "Lastname cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(member.getFirstname())) {
-            throw new JCertifInvalidRequestException(this, "Firstname cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(member.getCity())) {
-            throw new JCertifInvalidRequestException(this, "City cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(member.getCountry())) {
-            throw new JCertifInvalidRequestException(this, "Country cannot be empty or null");
-        }
+        checkNullOrEmpty("Lastname", member.getLastname());
+        checkNullOrEmpty("Firstname", member.getFirstname());
+        checkNullOrEmpty("City", member.getCity());
+        checkNullOrEmpty("Country", member.getCountry());
     }
     
     private void addCheckTitle(BasicDBObject objectToCheck) {
     	String title = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
-    	if (Tools.isBlankOrNull(title)) {
-            throw new JCertifInvalidRequestException(this, "Title cannot be empty or null");
-        }
+    	checkNullOrEmpty("Title", title);
+
     	if (null == Civilite.find(title)) {
             throw new JCertifInvalidRequestException(this, "Invalid title");
         }    	

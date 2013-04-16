@@ -2,6 +2,7 @@ package models;
 
 import static models.CheckHelper.checkEmail;
 import static models.CheckHelper.checkNull;
+import static models.CheckHelper.checkNullOrEmpty;
 
 import java.util.List;
 
@@ -141,37 +142,18 @@ public class Sponsor extends JCertifModel {
     	
         Sponsor sponsor = new Sponsor(objectToCheck);
 
-        if (Tools.isBlankOrNull(sponsor.getEmail())) {
-            throw new JCertifInvalidRequestException(this, "Email cannot be empty or null");
-        }
+        checkNullOrEmpty("Email", sponsor.getEmail());
 
         if (!Tools.isValidEmail(sponsor.getEmail())) {
             throw new JCertifInvalidRequestException(this, sponsor.getEmail() + " is not a valid email");
         }
 
-        if (Tools.isBlankOrNull(sponsor.getName())) {
-            throw new JCertifInvalidRequestException(this, "Name cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(sponsor.getLogo())) {
-            throw new JCertifInvalidRequestException(this, "Logo cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(sponsor.getLevel())) {
-            throw new JCertifInvalidRequestException(this, "Level cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(sponsor.getWebsite())) {
-            throw new JCertifInvalidRequestException(this, "Website cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(sponsor.getCity())) {
-            throw new JCertifInvalidRequestException(this, "City cannot be empty or null");
-        }
-
-        if (Tools.isBlankOrNull(sponsor.getCountry())) {
-            throw new JCertifInvalidRequestException(this, "Country cannot be empty or null");
-        }
+        checkNullOrEmpty("Name", sponsor.getName());
+        checkNullOrEmpty("Logo", sponsor.getLogo());
+        checkNullOrEmpty("Level", sponsor.getLevel());
+        checkNullOrEmpty("Website", sponsor.getWebsite());
+        checkNullOrEmpty("City", sponsor.getCity());
+        checkNullOrEmpty("Country", sponsor.getCountry());
     }
 
 	@Override
@@ -180,6 +162,6 @@ public class Sponsor extends JCertifModel {
 	}
 
 	public static List<BasicDBObject> findAll(){
-		return new Model.Finder().findAll(Sponsor.class);
+		return finder.findAll(Sponsor.class);
 	}
 }

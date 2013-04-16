@@ -109,60 +109,6 @@ public final class MongoDatabase {
 				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0).append("password", 0)));
 	}
 
-    /**
-     * Cette fonction configure la base de données JCertif (Création des collections, création des index) 
-     * 
-     */
-    /*public void configureJCertifDatabase() {
-		Logger.info("Enter configureJCertifDatabase()");
-
-		db.createCollection(Constantes.COLLECTION_LOGIN,
-				null);
-		db.getCollection(Constantes.COLLECTION_LOGIN)
-				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
-
-		db.createCollection(
-				Constantes.COLLECTION_REFERENTIEL, null);
-		db.getCollection(Constantes.COLLECTION_REFERENTIEL)
-				.createIndex(new BasicDBObject("code", 1));
-
-		db.createCollection(
-				Constantes.COLLECTION_PARTICIPANT, null);
-		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
-				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
-		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
-				.createIndex(new BasicDBObject("lastname", 1));
-		db.getCollection(Constantes.COLLECTION_PARTICIPANT)
-				.createIndex(new BasicDBObject("firstname", 1));
-
-		db.createCollection(Constantes.COLLECTION_SPEAKER,
-				null);
-		db.getCollection(Constantes.COLLECTION_SPEAKER)
-				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
-		db.getCollection(Constantes.COLLECTION_SPEAKER)
-				.createIndex(new BasicDBObject("lastname", 1));
-		db.getCollection(Constantes.COLLECTION_SPEAKER)
-				.createIndex(new BasicDBObject("firstname", 1));
-
-		db.createCollection(Constantes.COLLECTION_SPONSOR,
-				null);
-		db.getCollection(Constantes.COLLECTION_SPONSOR)
-				.createIndex(new BasicDBObject(Constantes.EMAIL_ATTRIBUTE_NAME, 1));
-		db.getCollection(Constantes.COLLECTION_SPONSOR)
-				.createIndex(new BasicDBObject("name", 1));
-
-		db.createCollection(Constantes.COLLECTION_SESSION,
-				null);
-		db.getCollection(Constantes.COLLECTION_SESSION)
-				.createIndex(new BasicDBObject("title", 1));
-        db.createCollection(Constantes.COLLECTION_SESSION_STATUS,
-                null);
-        db.getCollection(Constantes.COLLECTION_SESSION_STATUS)
-                .createIndex(new BasicDBObject(Constantes.LABEL_ATTRIBUTE_NAME, 1));
-
-        Logger.info("Exit configureJCertifDatabase()");
-	}*/
-
 	public WriteResult create(String collectionName,
             BasicDBObject objectToCreate) {
         Logger.debug("create(collectionName=" + collectionName + ", objectToCreate="+objectToCreate+")");

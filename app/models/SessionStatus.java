@@ -28,7 +28,7 @@ public class SessionStatus extends Referentiel {
 	public static SessionStatus find(String status){
 		SessionStatus sessionStatus = null;
     	
-    	BasicDBObject dbObject = new Model.Finder().find(SessionStatus.class, Constantes.LABEL_ATTRIBUTE_NAME, status);
+    	BasicDBObject dbObject = finder.find(SessionStatus.class, Constantes.LABEL_ATTRIBUTE_NAME, status);
     	
     	if(null != dbObject){
     		sessionStatus = new SessionStatus(dbObject);
@@ -37,6 +37,6 @@ public class SessionStatus extends Referentiel {
 	}
 	
 	public static List<BasicDBObject> findAll(){
-		return new Model.Finder().findAll(SessionStatus.class);
+		return finder.findAll(SessionStatus.class);
 	}
 }

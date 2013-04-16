@@ -34,7 +34,7 @@ public class SponsorLevel extends Referentiel {
 	public static SponsorLevel find(String level){
 		SponsorLevel sponsorLevel = null;
     	
-    	BasicDBObject dbObject = new Model.Finder().find(SponsorLevel.class, Constantes.LABEL_ATTRIBUTE_NAME, level);
+    	BasicDBObject dbObject = finder.find(SponsorLevel.class, Constantes.LABEL_ATTRIBUTE_NAME, level);
     	
     	if(null != dbObject){
     		sponsorLevel = new SponsorLevel(dbObject);
@@ -43,7 +43,7 @@ public class SponsorLevel extends Referentiel {
 	}
 	
 	public static List<BasicDBObject> findAll(){
-		return new Model.Finder().findAll(SponsorLevel.class);
+		return finder.findAll(SponsorLevel.class);
 	}
 	
 }
