@@ -2,6 +2,7 @@ package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.BAD_REQUEST;
+import static play.mvc.Http.Status.NOT_FOUND;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.POST;
 import static play.test.Helpers.callAction;
@@ -151,6 +152,25 @@ public abstract class MemberControllerTest {
 	}
 	
 	@Test
+	public void test_update_member_not_found(){
+	     running(fakeApplication(), new Runnable() {
+	            public void run() {
+	            	Logger.info("Mise à jour des informations d'un membre");
+	            	try {
+						TestUtils.updateDatabase("test/data/member.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+		                params.put("email", "toto@toto.com");
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
+		                TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}	                
+	            }
+	        });
+	}
+	
+	@Test
 	public void test_update_member_title_not_valid(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {
@@ -177,6 +197,28 @@ public abstract class MemberControllerTest {
 	}
 	
 	@Test
+	public void test_member_changepassword_not_found(){
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		 additionalConfiguration.put("smtp.mock", true);
+	     running(fakeApplication(additionalConfiguration), new Runnable() {
+	            public void run() {
+	            	Logger.info("Changement du mot de passe d'un membre");
+	            	try {
+						TestUtils.updateDatabase("test/data/member.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+		                params.put("oldpassword", "testjcertif");
+		                params.put("newpassword", "testjcertifnew");
+		                Result result = callAction(getChangePasswordURL("toto@toto.com"), fakeRequest().withJsonBody(Json.toJson(params), POST));
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
+		                TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}
+	            }
+	        });
+	}
+	
+	@Test
 	public void test_member_changepassword_ok(){
 		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		 additionalConfiguration.put("smtp.mock", true);
@@ -196,6 +238,25 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
+		                TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}
+	            }
+	        });
+	}
+	
+	@Test
+	public void test_member_reinitpassword_not_found(){
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		 additionalConfiguration.put("smtp.mock", true);
+	     running(fakeApplication(additionalConfiguration), new Runnable() {
+	            public void run() {
+	            	Logger.info("Réinitialisation du mot de passe d'un membre");
+	            	try {
+						TestUtils.updateDatabase("test/data/member.js");
+						Result result = callAction(getReinitPasswordURL("toto@toto.com"), fakeRequest());
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());

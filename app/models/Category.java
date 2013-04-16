@@ -2,8 +2,6 @@ package models;
 
 import java.util.List;
 
-import models.Model;
-import models.Referentiel;
 import models.util.Constantes;
 
 import com.mongodb.BasicDBObject;

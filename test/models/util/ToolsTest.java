@@ -56,6 +56,11 @@ public class ToolsTest {
 	}
 	
 	@Test
+	public void test_NullIsNotValidDate(){
+		Assert.assertFalse(Tools.isValidDate(null));
+	}
+	
+	@Test
 	public void test_isValidDate(){
 		Assert.assertTrue(Tools.isNotValidNumber("08/06/2013 12:34"));
 	}

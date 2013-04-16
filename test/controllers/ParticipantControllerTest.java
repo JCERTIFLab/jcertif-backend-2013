@@ -105,6 +105,23 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	}
 	
 	@Test
+	public void test_get_participant_information_not_found(){
+	     running(fakeApplication(), new Runnable() {
+	            public void run() {
+	            	Logger.info("Récuperer les informations d'un participant");
+	            	try {
+						TestUtils.updateDatabase("test/data/participant.js");
+						Result result = callAction(routes.ref.ParticipantController.getParticipant("toto@toto.com"), fakeRequest().withSession("email", "toto@toto.com"));
+		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
+		                TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}
+	            }
+	        });
+	}
+	
+	@Test
 	public void test_get_participant_information(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {

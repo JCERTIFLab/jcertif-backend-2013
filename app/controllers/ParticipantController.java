@@ -129,7 +129,7 @@ public class ParticipantController extends Controller {
 		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException("Participant '" + emailParticipant + "' inexistant");
+			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
 		}
 
 		participant.reinitPassword();
