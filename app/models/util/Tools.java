@@ -125,7 +125,7 @@ public final class Tools {
     
     public static void verifyJSonRequest(Http.RequestBody requestBody) {
     	
-        if(((requestBody)==(null)) || ((requestBody.asJson())==(null))){
+        if(requestBody == null || requestBody.asJson() == null){
             throw new JCertifInvalidRequestException(Tools.class, "verifyJSonRequest(), Request has not JSon Content-Type");
         }
     }
