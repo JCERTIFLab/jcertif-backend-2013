@@ -101,6 +101,28 @@ public class SponsorControllerTest {
     }
 	
 	@Test
+    public void test_sponsor_new_invalid_email() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("Création d'un nouveau sponsor, l'email doit être valide");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", "email@");
+                params.put("name", "HTTT");
+                params.put("logo", "HTTT");
+                params.put("level", "HTTT");
+                params.put("website", "www.test.com");
+                params.put("city", "HTTT");
+                params.put("country", "HTTT");
+                params.put("phone", "HTTT");
+                params.put("about", "HTTT");
+                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+
+            }
+        });
+    }
+	
+	@Test
     public void test_sponsor_new_badrequest() {
         running(fakeApplication(), new Runnable() {
             public void run() {

@@ -96,6 +96,18 @@ public class CheckHelperTest {
 	}
 	
 	@Test(expected=JCertifInvalidRequestException.class)
+	public void ccheckPasswordsNotMatchedFirstNull(){
+		String firstPaswword = null;
+		CheckHelper.checkPassword(firstPaswword, "testjcertif", true);
+	}
+	
+	@Test(expected=JCertifInvalidRequestException.class)
+	public void checkPasswordsNotMatchedSecondNull(){
+		String secondPaswword = null;
+		CheckHelper.checkPassword("testjcertif", secondPaswword, true);
+	}
+	
+	@Test(expected=JCertifInvalidRequestException.class)
 	public void checkPasswordsDoesNoRespectPolicy(){
 		CheckHelper.checkPassword("test", "test", true);
 	}
@@ -105,9 +117,10 @@ public class CheckHelperTest {
 		CheckHelper.checkPassword("test", "", false);
 	}
 	
+	
 	@Test
 	public void checkTwoPassword(){
-		CheckHelper.checkPassword("testjcertif", "testjcertif", true);
+		CheckHelper.checkPassword("testjcertif", "testjcertifnew", true);
 	}
 	
 	@Test(expected=JCertifInvalidRequestException.class)

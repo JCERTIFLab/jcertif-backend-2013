@@ -81,7 +81,7 @@ public class Participant extends Member {
     public static Participant find(String email){
     	Participant participant = null;
     	
-    	BasicDBObject dbObject = finder.find(Participant.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
+    	BasicDBObject dbObject = getFinder().find(Participant.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
     	
     	if(null != dbObject){
     		participant = new Participant(dbObject);
@@ -90,6 +90,6 @@ public class Participant extends Member {
 	}
     
     public static List<BasicDBObject> findAll(){
-		return finder.findAll(Participant.class);
+		return getFinder().findAll(Participant.class);
 	}
 }

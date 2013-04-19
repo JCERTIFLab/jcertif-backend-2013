@@ -162,6 +162,6 @@ public class Sponsor extends JCertifModel {
 	}
 
 	public static List<BasicDBObject> findAll(){
-		return finder.findAll(Sponsor.class);
+		return getFinder().findAll(Sponsor.class);
 	}
 }

@@ -33,7 +33,7 @@ public class Category extends Referentiel {
 	public static Category find(String categoryStr){
 		Category category = null;
     	
-    	BasicDBObject dbObject = finder.find(Category.class, Constantes.LABEL_ATTRIBUTE_NAME, categoryStr);
+    	BasicDBObject dbObject = getFinder().find(Category.class, Constantes.LABEL_ATTRIBUTE_NAME, categoryStr);
     	
     	if(null != dbObject){
     		category = new Category(dbObject);
@@ -42,7 +42,7 @@ public class Category extends Referentiel {
 	}
 	
 	public static List<BasicDBObject> findAll(){
-		return finder.findAll(Category.class);
+		return getFinder().findAll(Category.class);
 	}
 
 }

@@ -22,7 +22,7 @@ public final class CheckHelper {
 	}
 	
 	public static void checkNullOrEmpty(String fieldName, String fieldValue){
-		if (null == fieldValue) {
+		if (Tools.isBlankOrNull(fieldValue)) {
             throw new JCertifInvalidRequestException(fieldName + " cannot be empty or null");
         }
 	}
@@ -51,19 +51,18 @@ public final class CheckHelper {
 	
 	public static void checkPassword(String oldPassword, String newPassword, boolean checkTwo){
         boolean isPasswordValid = false;
+        
 		if(checkTwo){
-
-            if (oldPassword==null || newPassword==null) {
-            	isPasswordValid = false;
+			
+			boolean arePasswordsNotNull = oldPassword != null && newPassword != null;
+            if (arePasswordsNotNull
+            		&& !oldPassword.equals(newPassword)
+            		&& newPassword.length() >= Constantes.PASSWORD_MIN_LENGTH) {
+            	isPasswordValid = true;
             }
-
-            if(oldPassword.equals(newPassword)){
-            	isPasswordValid = false;
-            }
-
-            isPasswordValid = oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH && newPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
+            
         }else{
-        	isPasswordValid = oldPassword!=null && oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
+        	isPasswordValid = oldPassword !=null && oldPassword.length() >= Constantes.PASSWORD_MIN_LENGTH;
         }
 		
 		if(!isPasswordValid){

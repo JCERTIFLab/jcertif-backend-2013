@@ -15,7 +15,7 @@ public class Speaker extends Member {
     public static Speaker find(String email){
     	Speaker speaker = null;
     	
-    	BasicDBObject dbObject = finder.find(Speaker.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
+    	BasicDBObject dbObject = getFinder().find(Speaker.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
     	
     	if(null != dbObject){
     		speaker = new Speaker(dbObject);
@@ -24,7 +24,7 @@ public class Speaker extends Member {
 	}
     
     public static List<BasicDBObject> findAll(){
-		return finder.findAll(Speaker.class);
+		return getFinder().findAll(Speaker.class);
 	}
 
 }

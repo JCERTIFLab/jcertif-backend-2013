@@ -22,11 +22,23 @@ import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 
 public abstract class Model implements CRUD, Check {
-
+	
 	public abstract BasicDBObject toBasicDBObject();
     public abstract String getKeyName();
-    protected static Finder finder = new Finder();
-	
+    private static final Finder finder = new Finder();
+   
+    public static Finder getFinder() {
+		return finder;
+	}
+    
+	/**
+	 * Retourne le nom conventionnel d'un collection en fonction du nom de la classe du model.
+	 * <br/>Une classe du model portant le nom <code>VoiciMonModel</code> aurra pour nom de collection
+	 * voici_mon_model
+	 * 
+	 * @param clazz Classe du model
+	 * @return Le nom conventionnel de la collection associe à la classe
+	 */
 	protected static String getCollectionName(Class<?> clazz){
 		String collectionName = "";
 		for(String name : StringUtils.splitByCharacterTypeCamelCase(clazz.getSimpleName())){

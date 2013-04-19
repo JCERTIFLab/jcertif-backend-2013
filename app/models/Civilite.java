@@ -32,7 +32,7 @@ public class Civilite extends Referentiel {
 	public static Civilite find(String civiliteStr){
 		Civilite civilite = null;
     	
-    	BasicDBObject dbObject = finder.find(Civilite.class, Constantes.LABEL_ATTRIBUTE_NAME, civiliteStr);
+    	BasicDBObject dbObject = getFinder().find(Civilite.class, Constantes.LABEL_ATTRIBUTE_NAME, civiliteStr);
     	
     	if(null != dbObject){
     		civilite = new Civilite(dbObject);
@@ -41,6 +41,6 @@ public class Civilite extends Referentiel {
 	}
 	
 	public static List<BasicDBObject> findAll(){
-		return finder.findAll(Civilite.class);
+		return getFinder().findAll(Civilite.class);
 	}
 }
