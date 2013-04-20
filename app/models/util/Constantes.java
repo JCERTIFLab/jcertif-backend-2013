@@ -14,4 +14,5 @@ public interface Constantes {
     String PASSWORD_ATTRIBUTE_NAME = "password";
     String ID_ATTRIBUTE_NAME = "id";
 	String TITLE_ATTRIBUTE_NAME = "title";
+	String NAME_ATTRIBUTE_NAME = "name";
 }

@@ -6,17 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
-
 import models.exception.JCertifInvalidRequestException;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.annotate.JsonCreator;
 import org.junit.Test;
 
 import play.libs.Json;
 import play.mvc.Http.RequestBody;
-import play.test.FakeRequest;
-import play.test.Helpers;
 
 /**
  * <p>Tests unitaires pour la classe {@link Tools}</p>

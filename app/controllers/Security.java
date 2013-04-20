@@ -69,7 +69,7 @@ public class Security {
 	 * 
 	 * @param action Action à exécuter
 	 * @param authenticator Classe permettant de vérifier les droits de l'utilisateur 
-	 * @param ctx Contexte web
+	 * @param ctx Contexte HTTP
 	 * 
 	 * @return Le résltat de l'action exécutée
 	 */
