@@ -143,6 +143,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Title cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_title_null ***");
 					} catch (Exception e) {
@@ -175,6 +176,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Title cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_title_empty ***");
 					} catch (Exception e) {
@@ -208,6 +210,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Summary cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_summary_empty ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -239,6 +242,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Summary cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_summary_null ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -271,6 +275,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Description cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_description_empty ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -302,6 +307,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Description cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_description_null ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -334,6 +340,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Status cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_status_empty ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -365,6 +372,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Status cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_status_null ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -397,6 +405,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Keyword cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_keyword_empty ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -428,6 +437,7 @@ public class SessionControllerTest {
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
+                        assertThat(contentAsString(result)).contains("Keyword cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_keyword_null() ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -459,6 +469,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Category cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_category_empty ***");
 					} catch (Exception e) {
@@ -490,6 +501,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Category cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_category_null() ***");
 					} catch (Exception e) {
@@ -522,6 +534,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Start Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_start_empty ***");
 					} catch (Exception e) {
@@ -532,7 +545,7 @@ public class SessionControllerTest {
     }
     
     @Test
-    public void test_session_new_invalid_satrt_null() {
+    public void test_session_new_invalid_start_null() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_session_new_invalid_satrt_null() ***");
@@ -553,6 +566,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Start Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_satrt_null() ***");
 					} catch (Exception e) {
@@ -585,6 +599,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("End Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_end_empty ***");
 					} catch (Exception e) {
@@ -595,7 +610,7 @@ public class SessionControllerTest {
     }
     
     @Test
-    public void test_session_new_invalid_send_null() {
+    public void test_session_new_invalid_end_null() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_session_new_invalid_send_null() ***");
@@ -616,6 +631,7 @@ public class SessionControllerTest {
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("End Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_send_null() ***");
 					} catch (Exception e) {
@@ -641,13 +657,14 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category","HTML 5"});
+                        params.put("category", new String[]{"Android","HTML 5"});
                         params.put("start", "2013/6/5 7:23");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13","34"});
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Start Date is not valid");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_date_start_format ***");
 					} catch (Exception e) {
@@ -673,13 +690,14 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category","HTML 5"} );
+                        params.put("category", new String[]{"Android","HTML 5"} );
                         params.put("start", "16/12/2013 10:23");
-                        params.put("end", "7/4/2013 3:43");
+                        params.put("end", "2013/04/07 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("End Date is not valid");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_invalid_date_end_format() ***");
 					} catch (Exception e) {
@@ -705,47 +723,16 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category","HTML 5"} );
+                        params.put("category", new String[]{"Android","HTML 5"} );
                         params.put("start", "16/12/2013 10:23");
                         params.put("end", "07/04/2013 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("Start Date must not be equals or greater than End Date");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_inconsitent_start_date() ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
-					}
-            }
-        });
-    }
-    
-    @Test
-    public void test_session_new_unregistred_session() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_session_new_unregistred_session() ***");
-                	Logger.info("Ne peut être mise a jour qu'une session déjà enrégistrée ");
-                	try {
-                		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
-
-                        params.put("id", "100002");
-                        params.put("title", "title 2");
-                        params.put("summary", "summary 2");
-                        params.put("description", "description 2");
-                        params.put("status", "Status2");
-                        params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category","HTML 5"} );
-                        params.put("start", "16/12/2013 10:23");
-                        params.put("end", "07/04/2013 3:43");
-                        params.put("speakers", new String[]{"13","34"});
-                        
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                        assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        Logger.info("*** FIN -> test_session_new_unregistred_session() ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
 					}
@@ -769,15 +756,49 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "status 89");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category","HTML 5"} );
+                        params.put("category", new String[]{"Android","HTML 5"} );
                         params.put("start", "16/12/2013 10:23");
-                        params.put("end", "07/04/2013 3:43");
+                        params.put("end", "20/12/2013 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("does not exist. Check Session Status List");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_unregistred_session_status() ***");
+					} catch (Exception e) {
+						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
+					}
+            }
+        });
+    }
+    
+    @Test
+    public void test_session_new_unregistred_category() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                	Logger.info("*** DEBUT -> test_session_new_unregistred_category() ***");
+                	Logger.info("Les catégories d'une session doivent faire partie de la liste des caégories");
+                	try {
+                		TestUtils.updateDatabase("test/data/session_update.js");
+                        Map<String, Object> params = new HashMap<String, Object>();
+
+                        params.put("id", "111");
+                        params.put("title", "title 2");
+                        params.put("summary", "summary 2");
+                        params.put("description", "description 2");
+                        params.put("status", "Status1");
+                        params.put("keyword", "keyword 2");
+                        params.put("category", new String[]{"category","NotAValidCategory"} );
+                        params.put("start", "16/12/2013 10:23");
+                        params.put("end", "20/12/2013 3:43");
+                        params.put("speakers", new String[]{"13","34"});
+                        
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("does not exist. Check Category List");
+                        TestUtils.updateDatabase("test/data/purge.js");
+                        Logger.info("*** FIN -> test_session_new_unregistred_category() ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
 					}
@@ -976,7 +997,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category","HTML 5"});
+                        params.put("category", new String[]{"Android","HTML 5"});
                         params.put("start", "16/10/2013 10:23");
                         params.put("end", "27/12/2013 03:43");
                         params.put("speakers", new String[]{"13","34"});

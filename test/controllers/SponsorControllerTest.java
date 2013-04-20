@@ -77,24 +77,61 @@ public class SponsorControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("Création d'un nouveau sponsor");
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "email@test.com");
-                params.put("name", "HTTT");
-                params.put("logo", "HTTT");
-                params.put("level", "HTTT");
-                params.put("website", "www.test.com");
-                params.put("city", "HTTT");
-                params.put("country", "HTTT");
-                params.put("phone", "HTTT");
-                params.put("about", "HTTT");
-                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(OK);
+                try {
+					TestUtils.updateDatabase("test/data/sponsor.js");
+					Map<String, String> params = new HashMap<String, String>();
+	                params.put("email", "email@test.com");
+	                params.put("name", "HTTT");
+	                params.put("logo", "HTTT");
+	                params.put("level", "SponsorLevel1");
+	                params.put("website", "www.test.com");
+	                params.put("city", "HTTT");
+	                params.put("country", "HTTT");
+	                params.put("phone", "HTTT");
+	                params.put("about", "HTTT");
+	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(OK);
 
-                Logger.info("Vérification que le nouveau sponsor a bien été sauvegardé en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "email@test.com"));
-                Assert.assertTrue(null != dbObjects);
-                Assert.assertEquals(1,dbObjects.size());
-                Assert.assertEquals("www.test.com",dbObjects.get(0).get("website"));
+	                Logger.info("Vérification que le nouveau sponsor a bien été sauvegardé en base de données");
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "email@test.com"));
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("www.test.com",dbObjects.get(0).get("website"));
+	                TestUtils.updateDatabase("test/data/purge.js");
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
+
+            }
+        });
+    }
+	
+	@Test
+    public void test_sponsor_new_unregistred_sponsor_level() {
+		running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("Création d'un nouveau sponsor, le niveau de parteariat doit être dans la liste des niveaux de partenariat");
+                try {
+					TestUtils.updateDatabase("test/data/sponsor.js");
+					Map<String, String> params = new HashMap<String, String>();
+	                params.put("email", "email@test.com");
+	                params.put("name", "HTTT");
+	                params.put("logo", "HTTT");
+	                params.put("level", "NotAValidSponsorLevel");
+	                params.put("website", "www.test.com");
+	                params.put("city", "HTTT");
+	                params.put("country", "HTTT");
+	                params.put("phone", "HTTT");
+	                params.put("about", "HTTT");
+	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                assertThat(contentAsString(result)).contains("does not exist. Check Sponsor Level List");
+	                TestUtils.updateDatabase("test/data/purge.js");
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
 
             }
         });
@@ -105,18 +142,26 @@ public class SponsorControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("Création d'un nouveau sponsor, l'email doit être valide");
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "email@");
-                params.put("name", "HTTT");
-                params.put("logo", "HTTT");
-                params.put("level", "HTTT");
-                params.put("website", "www.test.com");
-                params.put("city", "HTTT");
-                params.put("country", "HTTT");
-                params.put("phone", "HTTT");
-                params.put("about", "HTTT");
-                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                try {
+					TestUtils.updateDatabase("test/data/sponsor.js");
+					Map<String, String> params = new HashMap<String, String>();
+	                params.put("email", "email@");
+	                params.put("name", "HTTT");
+	                params.put("logo", "HTTT");
+	                params.put("level", "SponsorLevel1");
+	                params.put("website", "www.test.com");
+	                params.put("city", "HTTT");
+	                params.put("country", "HTTT");
+	                params.put("phone", "HTTT");
+	                params.put("about", "HTTT");
+	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                assertThat(contentAsString(result)).contains("is not a valid email");
+	                TestUtils.updateDatabase("test/data/purge.js");
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
 
             }
         });
@@ -127,16 +172,23 @@ public class SponsorControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("Création d'un nouveau sponsor");
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "email@test.com");
-                params.put("level", "HTTT");
-                params.put("website", "www.test.com");
-                params.put("city", "HTTT");
-                params.put("country", "HTTT");
-                params.put("phone", "HTTT");
-                params.put("about", "HTTT");
-                Result result = route(fakeRequest(POST, "/sponsor/new").withJsonBody(Json.toJson(params)).withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                try {
+					TestUtils.updateDatabase("test/data/sponsor.js");
+					Map<String, String> params = new HashMap<String, String>();
+	                params.put("email", "email@test.com");
+	                params.put("level", "SponsorLevel1");
+	                params.put("website", "www.test.com");
+	                params.put("city", "HTTT");
+	                params.put("country", "HTTT");
+	                params.put("phone", "HTTT");
+	                params.put("about", "HTTT");
+	                Result result = route(fakeRequest(POST, "/sponsor/new").withJsonBody(Json.toJson(params)).withSession("admin", "admin"));
+	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                TestUtils.updateDatabase("test/data/purge.js");
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+                
             }
         });
     }

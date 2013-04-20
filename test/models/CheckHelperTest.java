@@ -117,6 +117,12 @@ public class CheckHelperTest {
 		CheckHelper.checkPassword("test", "", false);
 	}
 	
+	@Test(expected=JCertifInvalidRequestException.class)
+	public void checkPasswordNullDoesNoRespectPolicy(){
+		String oldPassword = null;
+		CheckHelper.checkPassword(oldPassword, "", false);
+	}
+	
 	
 	@Test
 	public void checkTwoPassword(){

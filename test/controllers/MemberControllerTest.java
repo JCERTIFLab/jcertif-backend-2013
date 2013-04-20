@@ -29,11 +29,11 @@ import com.mongodb.BasicDBObject;
 
 public abstract class MemberControllerTest {
 	
-	public abstract HandlerRef getChangePasswordURL(String email);
-	public abstract HandlerRef getReinitPasswordURL(String email);
-	public abstract HandlerRef getRegistrationURL();
-	public abstract HandlerRef getDeletionURL();
-	public abstract HandlerRef getUpdateURL();
+	public abstract HandlerRef<?> getChangePasswordURL(String email);
+	public abstract HandlerRef<?> getReinitPasswordURL(String email);
+	public abstract HandlerRef<?> getRegistrationURL();
+	public abstract HandlerRef<?> getDeletionURL();
+	public abstract HandlerRef<?> getUpdateURL();
 	public abstract String getCollection();
 
 	@Test

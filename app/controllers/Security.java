@@ -41,6 +41,10 @@ public class Security {
 	    Class<? extends Authenticator> value() default DefaultAuthenticator.class;
 	}
 	
+	/**
+	 * Action exécutée pour les services nécessitant les droits admin
+	 * @see Admin
+	 */
 	public static class AdminAction extends Action<Admin> {
         
 		public Result call(Context ctx) throws Throwable{
@@ -49,6 +53,10 @@ public class Security {
 
     }
 	
+	/**
+	 * Action exécutée pour les services nécessitant une authentification uilisateur
+	 * @see Authenticated
+	 */
 	public static class AuthenticatedAction extends Action<Authenticated> {
         
         public Result call(Context ctx) throws Throwable{
@@ -56,7 +64,16 @@ public class Security {
         }
     }
 	
-	private static Result executeAuthAction(Action action, Authenticator authenticator, Context ctx){
+	/**
+	 * Exécute une action que si l'utilisateur possède les droits idoines
+	 * 
+	 * @param action Action à exécuter
+	 * @param authenticator Classe permettant de vérifier les droits de l'utilisateur 
+	 * @param ctx Contexte web
+	 * 
+	 * @return Le résltat de l'action exécutée
+	 */
+	private static Result executeAuthAction(Action<?> action, Authenticator authenticator, Context ctx){
 		Result result = null;
 		try {
             String username = authenticator.getUsername(ctx);

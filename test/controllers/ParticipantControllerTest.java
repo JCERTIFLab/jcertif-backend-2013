@@ -38,27 +38,27 @@ import com.mongodb.BasicDBObject;
 public class ParticipantControllerTest extends MemberControllerTest{
 	
 	@Override
-	public HandlerRef getChangePasswordURL(String email) {
+	public HandlerRef<?> getChangePasswordURL(String email) {
 		return routes.ref.ParticipantController.changePasswordParticipant(email);
 	}
 
 	@Override
-	public HandlerRef getReinitPasswordURL(String email) {
+	public HandlerRef<?> getReinitPasswordURL(String email) {
 		return routes.ref.ParticipantController.reinitPasswordParticipant(email);
 	}
 
 	@Override
-	public HandlerRef getRegistrationURL() {
+	public HandlerRef<?> getRegistrationURL() {
 		return routes.ref.ParticipantController.registerParticipant();
 	}
 
 	@Override
-	public HandlerRef getDeletionURL() {
+	public HandlerRef<?> getDeletionURL() {
 		return routes.ref.ParticipantController.removeParticipant();
 	}
 	
 	@Override
-	public HandlerRef getUpdateURL() {
+	public HandlerRef<?> getUpdateURL() {
 		return routes.ref.ParticipantController.updateParticipant();
 	}
 

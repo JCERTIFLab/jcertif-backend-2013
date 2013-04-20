@@ -27,27 +27,27 @@ import util.TestUtils;
 public class SpeakerControllerTest extends MemberControllerTest{
 	
 	@Override
-	public HandlerRef getChangePasswordURL(String email) {
+	public HandlerRef<?> getChangePasswordURL(String email) {
 		return routes.ref.SpeakerController.changePasswordSpeaker(email);
 	}
 
 	@Override
-	public HandlerRef getReinitPasswordURL(String email) {
+	public HandlerRef<?> getReinitPasswordURL(String email) {
 		return routes.ref.SpeakerController.reinitPasswordSpeaker(email);
 	}
 
 	@Override
-	public HandlerRef getRegistrationURL() {
+	public HandlerRef<?> getRegistrationURL() {
 		return routes.ref.SpeakerController.registerSpeaker();
 	}
 	
 	@Override
-	public HandlerRef getDeletionURL() {
+	public HandlerRef<?> getDeletionURL() {
 		return routes.ref.SpeakerController.removeSpeaker();
 	}
 
 	@Override
-	public HandlerRef getUpdateURL() {
+	public HandlerRef<?> getUpdateURL() {
 		return routes.ref.SpeakerController.updateSpeaker();
 	}
 

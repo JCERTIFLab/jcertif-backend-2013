@@ -189,9 +189,17 @@ public class Session extends JCertifModel {
                 throw new JCertifInvalidRequestException(this, "Start Date must not be equals or greater than End Date" );
             }
         } catch (ParseException e) {
-            throw new JCertifInvalidRequestException(this, e.getMessage() );
+            throw new JCertifInvalidRequestException(this, e.getMessage());
         }
-
+        
+        Category category ;
+        for(String categoryStr : session.getCategory()){
+        	category = Category.find(categoryStr);      	
+        	if(null==category){
+                throw new JCertifInvalidRequestException(this, "Category '" + categoryStr + "' does not exist. Check Category List" );
+            }
+        }
+        
         SessionStatus sessionStatus = SessionStatus.find(session.getStatus());
         
         if(null==sessionStatus){

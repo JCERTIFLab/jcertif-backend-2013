@@ -71,7 +71,7 @@ public final class Tools {
     }
 
     public static boolean isValidDate(String dateToValidate){
-        if((dateToValidate) == (null)){
+        if(dateToValidate == null){
             return false;
         }
 
@@ -89,7 +89,7 @@ public final class Tools {
 
     public static List<String> basicDBListToJavaList(BasicDBList basicDBList){
         List<String> retList = new ArrayList<String>();
-        if((basicDBList)==(null)){
+        if(basicDBList==null){
             return retList;
         }
         for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
@@ -100,7 +100,7 @@ public final class Tools {
 
     public static BasicDBList javaListToBasicDBList(List<?> javaList){
         BasicDBList retList = new BasicDBList();
-        if((javaList)==(null)){
+        if(javaList==null){
             return retList;
         }
         for(Iterator<?> iterator = javaList.iterator();iterator.hasNext();){

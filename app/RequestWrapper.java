@@ -9,7 +9,7 @@ public class RequestWrapper extends Action.Simple {
 
     private static final String TRACE_REQUESTED_URL_TAG = "Requested URL : ";
 
-    public RequestWrapper(Action action) {
+    public RequestWrapper(Action<?> action) {
         this.delegate = action;
     }
 

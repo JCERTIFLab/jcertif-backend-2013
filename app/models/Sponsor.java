@@ -8,7 +8,6 @@ import java.util.List;
 
 import models.exception.JCertifInvalidRequestException;
 import models.util.Constantes;
-import models.util.Tools;
 
 import com.mongodb.BasicDBObject;
 
@@ -139,14 +138,9 @@ public class Sponsor extends JCertifModel {
     @Override
     public void addCheck(BasicDBObject objectToCheck) {
     	checkNull(objectToCheck);
-    	
-        Sponsor sponsor = new Sponsor(objectToCheck);
-
-        checkNullOrEmpty("Email", sponsor.getEmail());
-
-        if (!Tools.isValidEmail(sponsor.getEmail())) {
-            throw new JCertifInvalidRequestException(this, sponsor.getEmail() + " is not a valid email");
-        }
+    	checkEmail(objectToCheck);
+        
+    	Sponsor sponsor = new Sponsor(objectToCheck);
 
         checkNullOrEmpty("Name", sponsor.getName());
         checkNullOrEmpty("Logo", sponsor.getLogo());
@@ -154,6 +148,12 @@ public class Sponsor extends JCertifModel {
         checkNullOrEmpty("Website", sponsor.getWebsite());
         checkNullOrEmpty("City", sponsor.getCity());
         checkNullOrEmpty("Country", sponsor.getCountry());
+        
+        SponsorLevel sponsorLevel = SponsorLevel.find(sponsor.getLevel());
+        
+        if(null==sponsorLevel){
+            throw new JCertifInvalidRequestException(this, "Sponsor Level '" + sponsor.getLevel() + "' does not exist. Check Sponsor Level List" );
+        }
     }
 
 	@Override

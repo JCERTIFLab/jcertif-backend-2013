@@ -25,10 +25,10 @@ public abstract class Model implements CRUD, Check {
 	
 	public abstract BasicDBObject toBasicDBObject();
     public abstract String getKeyName();
-    private static final Finder finder = new Finder();
+    private static final Finder FINDER = new Finder();
    
     public static Finder getFinder() {
-		return finder;
+		return FINDER;
 	}
     
 	/**

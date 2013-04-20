@@ -1,6 +1,9 @@
 db.session_status.remove();
 db.session_status.insert({label: 'Status1'});
 db.session_status.insert({label: 'Status2'});
+db.category.remove();
+db.category.insert({label: 'HTML 5'});
+db.category.insert({label: 'Android'});
 db.session.remove();
 db.session.insert({
     id : "101",

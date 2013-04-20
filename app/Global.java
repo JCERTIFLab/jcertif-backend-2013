@@ -41,7 +41,7 @@ public class Global extends GlobalSettings {
 	}
 
     @Override
-    public Action onRequest(Http.Request request, Method method) {
+    public Action<?> onRequest(Http.Request request, Method method) {
         return new RequestWrapper(super.onRequest(request, method));
     }
 
