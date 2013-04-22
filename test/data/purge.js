@@ -6,3 +6,4 @@ db.session_status.remove();
 db.speaker.remove();
 db.sponsor_level.remove();
 db.sponsor.remove();
+db.site.remove();

@@ -96,7 +96,7 @@ public class CheckHelperTest {
 	}
 	
 	@Test(expected=JCertifInvalidRequestException.class)
-	public void ccheckPasswordsNotMatchedFirstNull(){
+	public void checkPasswordsNotMatchedFirstNull(){
 		String firstPaswword = null;
 		CheckHelper.checkPassword(firstPaswword, "testjcertif", true);
 	}

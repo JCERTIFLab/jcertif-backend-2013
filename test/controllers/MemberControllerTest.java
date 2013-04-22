@@ -132,7 +132,6 @@ public abstract class MemberControllerTest {
 		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(getCollection(), new BasicDBObject().append("email", "jandiew@gmail.com"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
-		                Logger.info(dbObjects.get(0).toString());
 		                Assert.assertEquals("M.",dbObjects.get(0).get("title"));
 		                Assert.assertEquals("Johnson",dbObjects.get(0).get("lastname"));
 		                Assert.assertEquals("Andriew",dbObjects.get(0).get("firstname"));
