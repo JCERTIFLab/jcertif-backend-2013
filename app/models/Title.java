@@ -19,28 +19,28 @@ import com.mongodb.BasicDBObject;
  * @author Martial SOMDA
  *
  */
-public class Civilite extends Referentiel {
+public class Title extends Referentiel {
 	
-	public Civilite(String label) {
+	public Title(String label) {
 		super(label);
 	}
 	
-	public Civilite(BasicDBObject basicDBObject){
+	public Title(BasicDBObject basicDBObject){
 		super(basicDBObject);
 	}
 
-	public static Civilite find(String civiliteStr){
-		Civilite civilite = null;
+	public static Title find(String titleStr){
+		Title title = null;
     	
-    	BasicDBObject dbObject = getFinder().find(Civilite.class, Constantes.LABEL_ATTRIBUTE_NAME, civiliteStr);
+    	BasicDBObject dbObject = getFinder().find(Title.class, Constantes.LABEL_ATTRIBUTE_NAME, titleStr);
     	
     	if(null != dbObject){
-    		civilite = new Civilite(dbObject);
+    		title = new Title(dbObject);
     	}
-		return civilite; 
+		return title; 
 	}
 	
 	public static List<BasicDBObject> findAll(){
-		return getFinder().findAll(Civilite.class);
+		return getFinder().findAll(Title.class);
 	}
 }

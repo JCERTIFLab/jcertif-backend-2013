@@ -206,7 +206,7 @@ public abstract class Member extends JCertifModel {
     	String titleToCheck = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
     	checkNullOrEmpty("Title", titleToCheck);
 
-    	if (null == Civilite.find(titleToCheck)) {
+    	if (null == Title.find(titleToCheck)) {
             throw new JCertifInvalidRequestException(this, "Invalid title");
         }    	
 	}
@@ -214,7 +214,7 @@ public abstract class Member extends JCertifModel {
     private void updateCheckTitle(BasicDBObject objectToCheck) {
     	String titleToCheck = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
     	if (!Tools.isBlankOrNull(titleToCheck) &&
-    			null == Civilite.find(titleToCheck)) {
+    			null == Title.find(titleToCheck)) {
     		throw new JCertifInvalidRequestException(this, "Invalid title");
         }  	
 	}

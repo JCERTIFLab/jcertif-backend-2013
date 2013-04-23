@@ -646,7 +646,7 @@ Backend.addCivilite = {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/ref/civilite/new",
+                        url: "/ref/title/new",
                         data: $('#dialog-add-civilite form').serializeJSONString()
                     }).done(function (msg) {
                     	$("#dialog-add-civilite").dialog("destroy");
@@ -663,7 +663,7 @@ Backend.addCivilite = {
 Backend.removeCivilite = {
 		
 	initDialog: function () {
-		$.getJSON("/ref/civilite/list", function(data){
+		$.getJSON("/ref/title/list", function(data){
 			options = "";
 			$.each(data, function(index, civilite) {
 				options=options+'<option value="'+civilite.label+'">'+civilite.label+'</option>';
@@ -683,7 +683,7 @@ Backend.removeCivilite = {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/ref/civilite/remove",
+                        url: "/ref/title/remove",
                         data: $('#dialog-remove-civilite form').serializeJSONString()
                     }).done(function (msg) {
                     	$("#dialog-remove-civilite").dialog("destroy");

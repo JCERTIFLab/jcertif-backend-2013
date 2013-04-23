@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Civilite;
+import models.Title;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -17,32 +17,32 @@ import controllers.Security.Admin;
  * @author Martial SOMDA
  *
  */
-public class CiviliteController extends Controller{
+public class TitleController extends Controller{
 
 	@Admin
-	public static Result addCivilite() {
+	public static Result addTitle() {
         
 		JsonNode jsonNode = request().body().asJson();
 		
-		Civilite civilite = new Civilite(jsonNode.findPath("label").getTextValue());
+		Title title = new Title(jsonNode.findPath("label").getTextValue());
 		
-		civilite.create();
+		title.create();
 		return ok(JSON.serialize("Ok"));
     }
 	
-	public static Result listCivilite() {
+	public static Result listTitle() {
         
-		return ok(JSON.serialize(Civilite.findAll()));
+		return ok(JSON.serialize(Title.findAll()));
     }
 	
 	@Admin
-	public static Result removeCivilite() {
+	public static Result removeTitle() {
         
 		JsonNode jsonNode = request().body().asJson();
 		
-		Civilite civilite = new Civilite(jsonNode.findPath("label").getTextValue());
+		Title title = new Title(jsonNode.findPath("label").getTextValue());
 		
-		civilite.remove();
+		title.remove();
 		return ok(JSON.serialize("Ok"));
     }
 }

@@ -13,6 +13,6 @@ public interface TestConstantes {
 	public static final String COLLECTION_SPONSOR_LEVEL = "sponsor_level";
 	public static final String COLLECTION_SESSION = "session";
 	public static final String COLLECTION_SESSION_STATUS = "session_status";
-	public static final String COLLECTION_CIVILITE = "civilite";
+	public static final String COLLECTION_TITLE = "title";
 	public static final String COLLECTION_SITE = "site";
 }

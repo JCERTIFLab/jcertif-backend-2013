@@ -1,7 +1,7 @@
-db.civilite.remove();
-db.civilite.insert({label: 'M.'});
-db.civilite.insert({label: 'Mme'});
-db.civilite.insert({label: 'Mlle'});
+db.title.remove();
+db.title.insert({label: 'M.'});
+db.title.insert({label: 'Mme'});
+db.title.insert({label: 'Mlle'});
 db.participant.remove();
 db.participant.insert({
 	email: 'test@member.com',

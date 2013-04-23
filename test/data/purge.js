@@ -1,5 +1,5 @@
 db.category.remove();
-db.civilite.remove();
+db.title.remove();
 db.participant.remove();
 db.session.remove();
 db.session_status.remove();
