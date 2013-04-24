@@ -15,4 +15,5 @@ public interface TestConstantes {
 	public static final String COLLECTION_SESSION_STATUS = "session_status";
 	public static final String COLLECTION_TITLE = "title";
 	public static final String COLLECTION_SITE = "site";
+	public static final String COLLECTION_ROOM = "room";
 }

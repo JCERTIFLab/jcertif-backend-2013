@@ -7,3 +7,4 @@ db.speaker.remove();
 db.sponsor_level.remove();
 db.sponsor.remove();
 db.site.remove();
+db.room.remove();

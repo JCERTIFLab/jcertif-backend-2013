@@ -191,7 +191,7 @@ public class SiteControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_site_new_invalid_id_empty ***");
-                	Logger.info("Le champ id d'un site ne ddoit être vide");
+                	Logger.info("Le champ id d'un site ne doit être vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/site.js");
     					Map<String, Object> params = new HashMap<String, Object>();
@@ -215,7 +215,7 @@ public class SiteControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_id ***");
-            	Logger.info("Le champ id d'un site ne ddoit être vide");
+            	Logger.info("Le champ id d'un site ne doit être vide");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
 					Map<String, Object> params = new HashMap<String, Object>();
@@ -729,7 +729,7 @@ public class SiteControllerTest {
                         
                         Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
-                        Logger.info("Vérification que les informations du participant ont bien été mises à jour");
+                        Logger.info("Vérification que les informations du site ont bien été mises à jour");
 		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SITE, new BasicDBObject().append("id", "101"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());

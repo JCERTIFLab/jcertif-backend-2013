@@ -75,6 +75,16 @@ POST    /site/remove             	controllers.SiteController.removeSite
 
 POST    /site/update             	controllers.SiteController.updateSite
 
+GET     /room/list               	controllers.RoomController.listRoom
+
+GET    	/room/get/:idRoom           controllers.RoomController.getRoom(idRoom: String)
+
+POST    /room/new                	controllers.RoomController.newRoom
+
+POST    /room/remove             	controllers.RoomController.removeRoom
+
+POST    /room/update             	controllers.RoomController.updateRoom
+
 POST    /participant/register       controllers.ParticipantController.registerParticipant
 
 GET     /participant/list           controllers.ParticipantController.listParticipant
