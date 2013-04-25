@@ -1,9 +1,13 @@
+import java.io.UnsupportedEncodingException;
+
 import models.exception.JCertifExceptionHandler;
 import models.util.Tools;
 import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
+import play.mvc.Http.Response;
 import play.mvc.Result;
+import play.mvc.Results;
 
 public class RequestWrapper extends Action.Simple {
 
@@ -30,7 +34,14 @@ public class RequestWrapper extends Action.Simple {
 			
 			// Cross Origin que si c'est un service
 	        if (!context.request().path().equals("/")) {
-	            allowCrossOriginJson(context.response());
+	        	String jsonpCallback = context.request().getQueryString("jsonp");
+	        	if(null != jsonpCallback 
+	        			&& "GET".equals(context.request().method())){
+	        		result = jsonpify(result, jsonpCallback);
+	        		allowCrossOriginJsonP(context.response());
+	        	}else{
+	        		allowCrossOriginJson(context.response());
+	        	}
 	        }
 			
 		}catch (Throwable throwable){
@@ -41,10 +52,25 @@ public class RequestWrapper extends Action.Simple {
         return result;
     }
 
-    private void allowCrossOriginJson(Http.Response response) {
+    private Result jsonpify(Result result, String callback) throws UnsupportedEncodingException {
+    	int status = play.core.j.JavaResultExtractor.getStatus(result);
+		String body = new String(play.core.j.JavaResultExtractor.getBody(result),"utf-8");
+		return Results.status(status, callback + "(" + body + ")");
+	}
+
+	private void allowCrossOriginJsonP(Response response) {
+    	allowCrossOrigin(response);
+        response.setHeader("Content-Type", "text/javascript; charset=utf-8");
+	}
+
+	private void allowCrossOriginJson(Http.Response response) {
+		allowCrossOrigin(response);
+        response.setHeader("Content-Type", "application/json; charset=utf-8");
+    }
+	
+	private void allowCrossOrigin(Http.Response response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        response.setHeader("Content-Type", "application/json; charset=utf-8");
     }
 }

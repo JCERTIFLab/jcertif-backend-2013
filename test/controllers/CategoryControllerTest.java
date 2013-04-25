@@ -62,6 +62,26 @@ public class CategoryControllerTest extends ReferentielControllerTest {
             }
         });
     }
+    
+    @Test
+    public void test_category_list_jsonp() throws IOException {
+
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                try {
+                	TestUtils.updateDatabase("test/data/category.js");
+                    Result result = route(fakeRequest(GET, "/ref/category/list?jsonp=myFonction"));
+                    assertThat(status(result)).isEqualTo(OK);
+                    assertThat(contentType(result)).isEqualTo("text/javascript");
+                    assertThat(contentAsString(result).contains("myFonction"));
+                    Logger.info("Test : " + contentAsString(result));
+                    TestUtils.updateDatabase("test/data/purge.js");
+                } catch (IOException e) {
+                    Assert.fail(e.getMessage());
+                }
+            }
+        });
+    }
 
     @Test
     public void test_category_new_ok() {
