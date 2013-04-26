@@ -988,7 +988,7 @@ public class SessionControllerTest {
                 	Logger.info("*** DEBUT -> test_update_session_unreistered_room() ***");
                 	Logger.info("Tous les inner params sont valides ");
                 	try {
-                		TestUtils.updateDatabase("test/data/session_update.js");
+                		TestUtils.updateDatabase("test/data/session.js");
                         Map<String, Object> params = new HashMap<String, Object>();
 
                         params.put("id", "101");
@@ -1030,7 +1030,7 @@ public class SessionControllerTest {
                         params.put("description", "description 3");
                         params.put("status", "status 3");
                         params.put("keyword", "keyword 3");
-                        params.put("room", "101");
+                        params.put("room", "01");
                         Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         
@@ -1045,7 +1045,7 @@ public class SessionControllerTest {
     	                Assert.assertEquals("description 3",dbObject.getString("description"));
     	                Assert.assertEquals("status 3",dbObject.getString("status"));
     	                Assert.assertEquals("keyword 3",dbObject.getString("keyword"));
-    	                Assert.assertEquals("101",dbObject.getString("room"));
+    	                Assert.assertEquals("01",dbObject.getString("room"));
     	                Assert.assertEquals("12/02/2013 10:22",dbObject.getString("start"));
     	                Assert.assertEquals("16/02/2013 10:23",dbObject.getString("end"));
                         Logger.info("*** FIN -> test_session_update_OK ***");

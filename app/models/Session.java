@@ -166,7 +166,7 @@ public class Session extends JCertifModel {
         	Room room = Room.find(session.getRoom());
             
             if(null==room){
-                throw new JCertifInvalidRequestException(this, "Room '" + session.getStatus() + "' does not exist. Check Room List" );
+                throw new JCertifInvalidRequestException(this, "Room '" + session.getRoom() + "' does not exist. Check Room List" );
             }
         }
     }
