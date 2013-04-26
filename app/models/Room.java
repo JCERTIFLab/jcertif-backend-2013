@@ -132,10 +132,10 @@ public class Room extends JCertifModel {
 		return Constantes.ID_ATTRIBUTE_NAME;
 	}
 	
-	public static Room find(String idSalle){
+	public static Room find(String idRoom){
 		Room salle = null;
     	
-    	BasicDBObject dbObject = getFinder().find(Room.class, Constantes.ID_ATTRIBUTE_NAME, idSalle);
+    	BasicDBObject dbObject = getFinder().find(Room.class, Constantes.ID_ATTRIBUTE_NAME, idRoom);
     	
     	if(null != dbObject){
     		salle = new Room(dbObject);
@@ -145,6 +145,10 @@ public class Room extends JCertifModel {
 	
 	public static List<BasicDBObject> findAll(){
 		return getFinder().findAll(Room.class);
+	}
+	
+	public static List<BasicDBObject> findAll(String idSite){
+		return getFinder().findAll(Room.class, Constantes.SITE_ATTRIBUTE_NAME, idSite);
 	}
 
 }

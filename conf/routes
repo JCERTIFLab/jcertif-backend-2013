@@ -69,6 +69,8 @@ GET     /site/list               	controllers.SiteController.listSite
 
 GET    	/site/get/:idSite           controllers.SiteController.getSite(idSite: String)
 
+GET     /site/:idSite/room/list     controllers.SiteController.listSiteRoom(idSite: String)
+
 POST    /site/new                	controllers.SiteController.newSite
 
 POST    /site/remove             	controllers.SiteController.removeSite

@@ -21,3 +21,20 @@ db.site.insert({
     description : "description 2",
     photo : "http://www.website2.com/pictures/website2.gif"
 });
+db.room.remove();
+db.room.insert({
+	id : "01",
+    name : "name 1",
+    site : "101",
+    seats : "500",
+    description : "This is the bigest room",
+    photo : "http://www.website1.com/pictures/rooms/room1.gif"
+});
+db.room.insert({
+    id : "02",
+    name : "name 2",
+    site : "101",
+    seats : "200",
+    description : "A medium size room",
+    photo : "http://www.website1.com/pictures/rooms/room2.gif"
+});

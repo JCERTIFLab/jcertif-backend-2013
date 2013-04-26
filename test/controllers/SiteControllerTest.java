@@ -121,6 +121,55 @@ public class SiteControllerTest {
 	        });
 	}
 	
+	@Test
+    public void test_listSiteRoom() throws java.io.IOException {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                try {
+                    TestUtils.updateDatabase("test/data/site.js");
+                    Result result = callAction(routes.ref.SiteController.listSiteRoom("101"), fakeRequest());
+                    assertThat(status(result)).isEqualTo(OK);
+                    
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(2, jsonNode.size());
+	                Assert.assertEquals("01",jsonNode.get(0).findPath("id").getTextValue());
+	                Assert.assertEquals("name 1",jsonNode.get(0).findPath("name").getTextValue());
+	                Assert.assertEquals("101",jsonNode.get(0).findPath("site").getTextValue());
+	                Assert.assertEquals("500",jsonNode.get(0).findPath("seats").getTextValue());
+	                Assert.assertEquals("This is the bigest room",jsonNode.get(0).findPath("description").getTextValue());
+	                Assert.assertEquals("http://www.website1.com/pictures/rooms/room1.gif",jsonNode.get(0).findPath("photo").getTextValue());
+	                
+	                Assert.assertEquals("02",jsonNode.get(1).findPath("id").getTextValue());
+	                Assert.assertEquals("name 2",jsonNode.get(1).findPath("name").getTextValue());
+	                Assert.assertEquals("101",jsonNode.get(1).findPath("site").getTextValue());
+	                Assert.assertEquals("200",jsonNode.get(1).findPath("seats").getTextValue());
+	                Assert.assertEquals("A medium size room",jsonNode.get(1).findPath("description").getTextValue());
+	                Assert.assertEquals("http://www.website1.com/pictures/rooms/room2.gif",jsonNode.get(1).findPath("photo").getTextValue());
+	                TestUtils.updateDatabase("test/data/purge.js");
+                } catch (IOException e) {
+                	Assert.fail(e.getMessage());
+                }
+            }
+        });
+    }
+	
+	@Test
+    public void test_listSiteRoom_unregistered_site() throws java.io.IOException {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                try {
+                    TestUtils.updateDatabase("test/data/site.js");
+                    Result result = callAction(routes.ref.SiteController.listSiteRoom("10000"), fakeRequest());
+                    assertThat(status(result)).isEqualTo(NOT_FOUND);
+                    assertThat(contentAsString(result).contains("doesn't exists"));
+	                TestUtils.updateDatabase("test/data/purge.js");
+                } catch (IOException e) {
+                	Assert.fail(e.getMessage());
+                }
+            }
+        });
+    }
+	
     @Test
     public void test_site_new_ok() {
         running(fakeApplication(), new Runnable() {

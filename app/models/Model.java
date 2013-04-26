@@ -11,6 +11,7 @@ import models.database.MongoDatabase;
 import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifException;
 import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
 import models.util.Tools;
 
 import org.apache.commons.lang.StringUtils;
@@ -62,18 +63,31 @@ public abstract class Model implements CRUD, Check {
         	return MongoDatabase.getInstance().readOne(
     				getCollectionName(clazz), objectToFind);
         }
+        
+        public List<BasicDBObject> findAll(Class<?> clazz, String keyName, Object keyValue) {
+        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+    				getCollectionName(clazz), new BasicDBObject(keyName, keyValue), 
+    				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0));
+    		return buildResultList(dbCursor);
+        }
 
         public List<BasicDBObject> findAll(Class<?> clazz) {
         	DBCursor dbCursor = MongoDatabase.getInstance().list(
     				getCollectionName(clazz));
-    		BasicDBObject object;
+        	return buildResultList(dbCursor);
+        }
+        
+        private List<BasicDBObject> buildResultList(DBCursor dbCursor) {
+        	BasicDBObject object;
     		List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
     		while (dbCursor.hasNext()) {
     			object = (BasicDBObject) dbCursor.next();
     			resultList.add(object);
     		}
-    		return resultList;
-        }
+    		return resultList;			
+		}
+
+		
     }
 
 	public final boolean add(BasicDBObject objectToAdd, String idKeyname) {

@@ -2,6 +2,7 @@ package controllers;
 
 import java.text.MessageFormat;
 
+import models.Room;
 import models.Site;
 import models.exception.JCertifObjectNotFoundException;
 
@@ -66,4 +67,15 @@ public class SiteController extends Controller {
 		return ok(JSON.serialize("Ok"));
    
    }
+    
+    public static Result listSiteRoom(String idSite) {
+
+    	Site site = Site.find(idSite);
+		
+		if(site == null){
+			throw new JCertifObjectNotFoundException(MessageFormat.format(SITE_DOES_NOT_EXISTS, idSite));
+		}
+		
+        return ok(JSON.serialize(Room.findAll(idSite)));
+    }
 }
