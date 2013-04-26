@@ -25,3 +25,20 @@ db.session.insert({
     end : "16/02/2013 10:23",
     speakers : ["21", "22"]
 });
+db.room.remove();
+db.room.insert({
+	id : "01",
+    name : "name 1",
+    site : "101",
+    seats : "500",
+    description : "This is the bigest room",
+    photo : "http://www.website1.com/pictures/rooms/room1.gif"
+});
+db.room.insert({
+    id : "02",
+    name : "name 2",
+    site : "101",
+    seats : "200",
+    description : "A medium size room",
+    photo : "http://www.website1.com/pictures/rooms/room2.gif"
+});

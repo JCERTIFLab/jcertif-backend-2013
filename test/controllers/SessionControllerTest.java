@@ -982,10 +982,10 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void test_update_session_all_OK() {
+    public void test_update_session_unreistered_room() {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                	Logger.info("*** DEBUT -> test_update_session_all_OK() ***");
+                	Logger.info("*** DEBUT -> test_update_session_unreistered_room() ***");
                 	Logger.info("Tous les inner params sont valides ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
@@ -997,15 +997,16 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
+                        params.put("room", "105");
                         params.put("category", new String[]{"Android","HTML 5"});
                         params.put("start", "16/10/2013 10:23");
                         params.put("end", "27/12/2013 03:43");
                         params.put("speakers", new String[]{"13","34"});
                         
                         Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                        assertThat(status(result)).isEqualTo(OK);
-                        assertThat(contentAsString(result)).contains("Ok");
-                        Logger.info("*** FIN -> test_update_session_all_OK() ***");
+                        assertThat(status(result)).isEqualTo(BAD_REQUEST);
+                        assertThat(contentAsString(result)).contains("does not exist. Check Room List");
+                        Logger.info("*** FIN -> test_update_session_unreistered_room() ***");
                         TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
@@ -1029,6 +1030,7 @@ public class SessionControllerTest {
                         params.put("description", "description 3");
                         params.put("status", "status 3");
                         params.put("keyword", "keyword 3");
+                        params.put("room", "101");
                         Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         
@@ -1043,6 +1045,7 @@ public class SessionControllerTest {
     	                Assert.assertEquals("description 3",dbObject.getString("description"));
     	                Assert.assertEquals("status 3",dbObject.getString("status"));
     	                Assert.assertEquals("keyword 3",dbObject.getString("keyword"));
+    	                Assert.assertEquals("101",dbObject.getString("room"));
     	                Assert.assertEquals("12/02/2013 10:22",dbObject.getString("start"));
     	                Assert.assertEquals("16/02/2013 10:23",dbObject.getString("end"));
                         Logger.info("*** FIN -> test_session_update_OK ***");
