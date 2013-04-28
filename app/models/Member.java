@@ -207,7 +207,7 @@ public abstract class Member extends JCertifModel {
     	checkNullOrEmpty("Title", titleToCheck);
 
     	if (null == Title.find(titleToCheck)) {
-            throw new JCertifInvalidRequestException(this, "Invalid title");
+            throw new JCertifInvalidRequestException("Invalid title");
         }    	
 	}
     
@@ -215,7 +215,7 @@ public abstract class Member extends JCertifModel {
     	String titleToCheck = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
     	if (!Tools.isBlankOrNull(titleToCheck) &&
     			null == Title.find(titleToCheck)) {
-    		throw new JCertifInvalidRequestException(this, "Invalid title");
+    		throw new JCertifInvalidRequestException("Invalid title");
         }  	
 	}
     

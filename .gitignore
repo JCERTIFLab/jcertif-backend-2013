@@ -20,3 +20,6 @@ server.pid
 *.iml
 *.eml
 /dist
+
+# Ignore Star UML temp files
+*.~ml

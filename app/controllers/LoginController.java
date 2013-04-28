@@ -40,7 +40,7 @@ public class LoginController extends Controller {
 		}
 		
 		if(member == null){
-			throw new JCertifObjectNotFoundException("Membre '" + login.getEmail() + "' inexistant");
+			throw new JCertifObjectNotFoundException(Member.class,login.getEmail());
 		}
 
 		member.login(login.getPassword());	

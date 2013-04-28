@@ -1,7 +1,5 @@
 package controllers;
 
-import java.text.MessageFormat;
-
 import models.Speaker;
 import models.exception.JCertifObjectNotFoundException;
 
@@ -17,8 +15,6 @@ import controllers.Security.Admin;
 import controllers.Security.Authenticated;
 
 public class SpeakerController extends Controller {
-
-    private static final String SPEAKER_DOES_NOT_EXISTS = "Speaker '{0}' doesn't exist";
 
 	public static Result listSpeaker() {
 
@@ -83,7 +79,7 @@ public class SpeakerController extends Controller {
 		Speaker speaker = Speaker.find(emailSpeaker);
 		
 		if(speaker == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(SPEAKER_DOES_NOT_EXISTS, emailSpeaker));
+			throw new JCertifObjectNotFoundException(Speaker.class, emailSpeaker);
 		}
 		
 		String oldPassword = passwords.getString("oldpassword");
@@ -104,7 +100,7 @@ public class SpeakerController extends Controller {
     	Speaker speaker = Speaker.find(emailSpeaker);
 		
 		if(speaker == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(SPEAKER_DOES_NOT_EXISTS, emailSpeaker));
+			throw new JCertifObjectNotFoundException(Speaker.class, emailSpeaker);
 		}
 
 		speaker.reinitPassword();

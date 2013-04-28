@@ -1,7 +1,5 @@
 package controllers;
 
-import java.text.MessageFormat;
-
 import models.Room;
 import models.exception.JCertifObjectNotFoundException;
 
@@ -18,7 +16,6 @@ import controllers.Security.Admin;
 
 public class RoomController extends Controller {
 
-    private static final String ROOM_DOES_NOT_EXISTS = "Room '{0}' doesn't exists";
 
 	public static Result listRoom() {
 
@@ -30,7 +27,7 @@ public class RoomController extends Controller {
     	Room room = Room.find(idRoom);
 		
 		if(room == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(ROOM_DOES_NOT_EXISTS, idRoom));
+			throw new JCertifObjectNotFoundException(Room.class, idRoom);
 		}
 		
         return ok(JSON.serialize(room.toBasicDBObject()));

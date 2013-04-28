@@ -13,8 +13,8 @@ public class JCertifException extends RuntimeException {
         super(message,exception);
     }
 	
-    public JCertifException(Object concerned, String message) {
-        super(concerned.getClass().getSimpleName() + " : " + message);
+    public JCertifException(Class<?> concerned, String message) {
+        super(concerned.getSimpleName() + " : " + message);
     }
 
     public JCertifException(String message) {

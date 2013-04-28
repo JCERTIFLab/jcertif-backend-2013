@@ -1,5 +1,7 @@
 package models.exception;
 
+import java.text.MessageFormat;
+
 import play.mvc.Http;
 
 /**
@@ -12,8 +14,10 @@ import play.mvc.Http;
 @JCertifExceptionMapping(status=Http.Status.CONFLICT)
 public class JCertifDuplicateObjectException extends JCertifException{
 
-	public JCertifDuplicateObjectException(Object concerned, String message) {
-        super(concerned,message);
+	public static final String MESSAGE = "'{0}' already exists";
+	
+	public JCertifDuplicateObjectException(Class<?> classConcerned, String objectReference) {
+        super(classConcerned,MessageFormat.format(MESSAGE, objectReference));
     }
 	
 	public JCertifDuplicateObjectException(String message) {

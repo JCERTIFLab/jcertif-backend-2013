@@ -12,7 +12,7 @@ import play.mvc.Http;
 @JCertifExceptionMapping(status=Http.Status.BAD_REQUEST)
 public class JCertifInvalidRequestException extends JCertifException{
 
-	public JCertifInvalidRequestException(Object concerned, String message) {
+	public JCertifInvalidRequestException(Class<?> concerned, String message) {
         super(concerned,message);
     }
 	

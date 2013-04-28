@@ -1,7 +1,5 @@
 package controllers;
 
-import java.text.MessageFormat;
-
 import models.Room;
 import models.Site;
 import models.exception.JCertifObjectNotFoundException;
@@ -19,8 +17,6 @@ import controllers.Security.Admin;
 
 public class SiteController extends Controller {
 
-    private static final String SITE_DOES_NOT_EXISTS = "Site '{0}' doesn't exists";
-
 	public static Result listSite() {
 
         return ok(JSON.serialize(Site.findAll()));
@@ -31,7 +27,7 @@ public class SiteController extends Controller {
     	Site site = Site.find(idSite);
 		
 		if(site == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(SITE_DOES_NOT_EXISTS, idSite));
+			throw new JCertifObjectNotFoundException(Site.class, idSite);
 		}
 		
         return ok(JSON.serialize(site.toBasicDBObject()));
@@ -73,7 +69,7 @@ public class SiteController extends Controller {
     	Site site = Site.find(idSite);
 		
 		if(site == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(SITE_DOES_NOT_EXISTS, idSite));
+			throw new JCertifObjectNotFoundException(Site.class, idSite);
 		}
 		
         return ok(JSON.serialize(Room.findAll(idSite)));

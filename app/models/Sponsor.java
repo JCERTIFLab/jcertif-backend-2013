@@ -152,7 +152,7 @@ public class Sponsor extends JCertifModel {
         SponsorLevel sponsorLevel = SponsorLevel.find(sponsor.getLevel());
         
         if(null==sponsorLevel){
-            throw new JCertifInvalidRequestException(this, "Sponsor Level '" + sponsor.getLevel() + "' does not exist. Check Sponsor Level List" );
+            throw new JCertifInvalidRequestException("Sponsor Level '" + sponsor.getLevel() + "' does not exist. Check Sponsor Level List" );
         }
     }
 

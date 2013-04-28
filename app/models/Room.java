@@ -111,7 +111,7 @@ public class Room extends JCertifModel {
         Site site = Site.find(salle.getSite());
         
         if(null==site){
-            throw new JCertifInvalidRequestException(this, "Room '" + salle.getSite() + "' does not exist. Check Room List" );
+            throw new JCertifInvalidRequestException("Room '" + salle.getSite() + "' does not exist. Check Room List" );
         }
 	}
 

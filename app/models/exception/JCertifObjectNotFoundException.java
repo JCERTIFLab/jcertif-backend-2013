@@ -1,5 +1,7 @@
 package models.exception;
 
+import java.text.MessageFormat;
+
 import play.mvc.Http;
 
 /**
@@ -12,8 +14,10 @@ import play.mvc.Http;
 @JCertifExceptionMapping(status=Http.Status.NOT_FOUND)
 public class JCertifObjectNotFoundException extends JCertifException{
 
-	public JCertifObjectNotFoundException(Object concerned, String message) {
-		super(concerned,message);
+	public static final String MESSAGE = "'{0}' doesn't exists";
+	
+	public JCertifObjectNotFoundException(Class<?> classConcerned, String objectReference) {
+		super(classConcerned,MessageFormat.format(MESSAGE, objectReference));
     }
 	
 	public JCertifObjectNotFoundException(String message) {

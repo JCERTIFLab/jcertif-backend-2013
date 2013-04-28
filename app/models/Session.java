@@ -166,7 +166,7 @@ public class Session extends JCertifModel {
         	Room room = Room.find(session.getRoom());
             
             if(null==room){
-                throw new JCertifInvalidRequestException(this, "Room '" + session.getRoom() + "' does not exist. Check Room List" );
+                throw new JCertifInvalidRequestException("Room '" + session.getRoom() + "' does not exist. Check Room List" );
             }
         }
     }
@@ -193,15 +193,15 @@ public class Session extends JCertifModel {
         checkNullOrEmpty("End Date", session.getEnd());
 
         if (Tools.isBlankOrNull(session.getCategory())) {
-            throw new JCertifInvalidRequestException(this, "Category cannot be empty or null");
+            throw new JCertifInvalidRequestException("Category cannot be empty or null");
         }
 
         if (!Tools.isValidDate(session.getStart())) {
-            throw new JCertifInvalidRequestException(this, "Start Date is not valid, the format must be " + Constantes.DATEFORMAT);
+            throw new JCertifInvalidRequestException("Start Date is not valid, the format must be " + Constantes.DATEFORMAT);
         }
 
         if (!Tools.isValidDate(session.getEnd())) {
-            throw new JCertifInvalidRequestException(this, "End Date is not valid, the format must be " + Constantes.DATEFORMAT);
+            throw new JCertifInvalidRequestException("End Date is not valid, the format must be " + Constantes.DATEFORMAT);
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT, Locale.FRANCE);
@@ -209,31 +209,31 @@ public class Session extends JCertifModel {
             Date startDate = sdf.parse(session.getStart());
             Date endDate = sdf.parse(session.getEnd());
             if(startDate.compareTo(endDate)>=0){
-                throw new JCertifInvalidRequestException(this, "Start Date must not be equals or greater than End Date" );
+                throw new JCertifInvalidRequestException("Start Date must not be equals or greater than End Date" );
             }
         } catch (ParseException e) {
-            throw new JCertifInvalidRequestException(this, e.getMessage());
+            throw new JCertifInvalidRequestException(e.getMessage());
         }
         
         Category category ;
         for(String categoryStr : session.getCategory()){
         	category = Category.find(categoryStr);      	
         	if(null==category){
-                throw new JCertifInvalidRequestException(this, "Category '" + categoryStr + "' does not exist. Check Category List" );
+                throw new JCertifInvalidRequestException("Category '" + categoryStr + "' does not exist. Check Category List" );
             }
         }
         
         SessionStatus sessionStatus = SessionStatus.find(session.getStatus());
         
         if(null==sessionStatus){
-            throw new JCertifInvalidRequestException(this, "Session Status '" + session.getStatus() + "' does not exist. Check Session Status List" );
+            throw new JCertifInvalidRequestException("Session Status '" + session.getStatus() + "' does not exist. Check Session Status List" );
         }
         
         if(null != session.getRoom()){
         	Room room = Room.find(session.getRoom());
             
             if(null==room){
-                throw new JCertifInvalidRequestException(this, "Room '" + session.getStatus() + "' does not exist. Check Room List" );
+                throw new JCertifInvalidRequestException("Room '" + session.getStatus() + "' does not exist. Check Room List" );
             }
         }       
     }

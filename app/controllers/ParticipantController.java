@@ -1,7 +1,5 @@
 package controllers;
 
-import java.text.MessageFormat;
-
 import models.Participant;
 import models.Session;
 import models.exception.JCertifObjectNotFoundException;
@@ -18,9 +16,6 @@ import controllers.Security.Admin;
 import controllers.Security.Authenticated;
 
 public class ParticipantController extends Controller {
-
-	private static final String PARTICIPANT_DOES_NOT_EXISTS = "Participant '{0}' doesn't exists";
-	private static final String SESSION_DOES_NOT_EXISTS = "Session with id '{0}' doesn't exists";
 	
 	/**
 	 * Update user's informations
@@ -48,7 +43,7 @@ public class ParticipantController extends Controller {
 		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(Participant.class, emailParticipant);
 		}
 
 		/* We ensure that we don't return the password */
@@ -108,7 +103,7 @@ public class ParticipantController extends Controller {
 		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(Participant.class, emailParticipant);
 		}
 		
 		String oldPassword = passwords.getString("oldpassword");
@@ -129,7 +124,7 @@ public class ParticipantController extends Controller {
 		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(Participant.class, emailParticipant);
 		}
 
 		participant.reinitPassword();
@@ -151,13 +146,13 @@ public class ParticipantController extends Controller {
 		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(Participant.class, emailParticipant);
 		}
 
 		Session session = Session.find(idSession);
 
 		if(session == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(SESSION_DOES_NOT_EXISTS, idSession));
+			throw new JCertifObjectNotFoundException(Session.class, idSession);
 		}
 
 		participant.addToSession(session);
@@ -172,13 +167,13 @@ public class ParticipantController extends Controller {
 		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(Participant.class, emailParticipant);
 		}
 
 		Session session = Session.find(idSession);
 
 		if(session == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(SESSION_DOES_NOT_EXISTS, idSession));
+			throw new JCertifObjectNotFoundException(Session.class, idSession);
 		}
 
 		participant.removeFromSession(session);
@@ -192,7 +187,7 @@ public class ParticipantController extends Controller {
 		Participant participant = Participant.find(emailParticipant);
 		
 		if(participant == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(PARTICIPANT_DOES_NOT_EXISTS, emailParticipant));
+			throw new JCertifObjectNotFoundException(Participant.class, emailParticipant);
 		}
 
         return ok(JSON.serialize(participant.getSessions()));

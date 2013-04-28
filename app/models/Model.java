@@ -97,13 +97,13 @@ public abstract class Model implements CRUD, Check {
 		BasicDBObject existingObjectToAdd = MongoDatabase.getInstance()
 				.readOne(getCollectionName(getClass()), dbObject);
 		if (null != existingObjectToAdd) {
-			throw new JCertifDuplicateObjectException(this, "Object '" + existingObjectToAdd.getString(idKeyname) + "' already exists");
+			throw new JCertifDuplicateObjectException(this.getClass(), existingObjectToAdd.getString(idKeyname));
 		}
 		
 		WriteResult result = MongoDatabase.getInstance().create(
 				getCollectionName(getClass()), objectToAdd);
 		if (!Tools.isBlankOrNull(result.getError())) {
-			throw new JCertifException(this, result.getError());
+			throw new JCertifException(this.getClass(), result.getError());
 		}
 		return true;
 	}
@@ -124,7 +124,7 @@ public abstract class Model implements CRUD, Check {
 				.readOne(getCollectionName(getClass()), dbObject);
 		if (null == existingObjectToUpdate) {
 			Logger.info("not found");
-			throw new JCertifObjectNotFoundException(this, "Object to update does not exist");
+			throw new JCertifObjectNotFoundException(this.getClass(), objectToUpdate.get(idKeyname).toString());
 		}
 
 		existingObjectToUpdate = merge(objectToUpdate,existingObjectToUpdate);
@@ -132,7 +132,7 @@ public abstract class Model implements CRUD, Check {
 		WriteResult result = MongoDatabase.getInstance().update(
 				getCollectionName(getClass()), existingObjectToUpdate);
 		if (!Tools.isBlankOrNull(result.getError())) {
-			throw new JCertifException(this, result.getError());
+			throw new JCertifException(this.getClass(), result.getError());
 		}
 		return true;
 	}
@@ -168,13 +168,13 @@ public abstract class Model implements CRUD, Check {
 				.readOne(getCollectionName(getClass()), dbObject);
 		
 		if (null == existingObjectToDelete) {
-			throw new JCertifObjectNotFoundException(this, "Object to delete does not exist");
+			throw new JCertifObjectNotFoundException(this.getClass(), objectToDelete.get(idKeyname).toString());
 		}
 
 		WriteResult result = MongoDatabase.getInstance().delete(
 				getCollectionName(getClass()), existingObjectToDelete);
 		if (!Tools.isBlankOrNull(result.getError())) {
-			throw new JCertifException(this, result.getError());
+			throw new JCertifException(this.getClass(), result.getError());
 		}
 		return true;
 	}
