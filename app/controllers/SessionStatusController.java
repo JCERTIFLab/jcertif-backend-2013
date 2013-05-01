@@ -7,6 +7,7 @@ import org.codehaus.jackson.JsonNode;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
 import controllers.Security.Admin;
@@ -22,7 +23,7 @@ public class SessionStatusController extends Controller {
     public static Result addSessionStatus() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		SessionStatus sessionStatus = new SessionStatus(jsonNode.findPath("label").getTextValue());
+		SessionStatus sessionStatus = new SessionStatus((BasicDBObject)JSON.parse(jsonNode.toString()));
 		
 		sessionStatus.create();
 		return ok(JSON.serialize("Ok"));
@@ -32,7 +33,7 @@ public class SessionStatusController extends Controller {
     public static Result removeSessionStatus() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		SessionStatus sessionStatus = new SessionStatus(jsonNode.findPath("label").getTextValue());
+		SessionStatus sessionStatus = new SessionStatus((BasicDBObject)JSON.parse(jsonNode.toString()));
 		
 		sessionStatus.remove();
 		return ok(JSON.serialize("Ok"));

@@ -10,10 +10,10 @@ package models;
  */
 public interface CRUD {
 
-	boolean create();
+	int create();
 
-	boolean save();
+	int save();
 
-	boolean remove();
+	int remove();
 
 }

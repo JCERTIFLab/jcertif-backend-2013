@@ -1,6 +1,6 @@
 db.title.remove();
-db.title.insert({label: 'M.'});
-db.title.insert({label: 'Mlle'});
+db.title.insert({label: 'M.', version: '01', deleted: 'false'});
+db.title.insert({label: 'Mlle', version: '01', deleted: 'false'});
 db.participant.remove();
 db.participant.insert({
 	email: 'test@participant.com',
@@ -14,7 +14,25 @@ db.participant.insert({
 	company: 'Test SA',
 	phone: '0102030405',
 	biography: 'All about test',
-	sessions: ['01', '02']
+	sessions: ['01', '02'], 
+	version: '01', 
+	deleted: 'false'
+});
+db.participant.insert({
+	email: 'test2@participant.com',
+	title: 'Mme',
+	password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
+	lastname: 'Lastname',
+	firstname: 'Firstname',
+	website: 'www.test.com',
+	city: 'Paris',
+	country: 'France',
+	company: 'Test SA',
+	phone: '0102030405',
+	biography: 'All about test',
+	sessions: ['01', '02'], 
+	version: '02', 
+	deleted: 'true'
 });
 db.participant.insert({
 	email: 'test-senior@participant.com',
@@ -28,7 +46,9 @@ db.participant.insert({
 	company: 'Test SA',
 	phone: '0102030405',
 	biography: 'All about test-senior',
-	sessions: ['01', '03', '05']
+	sessions: ['01', '03', '05'], 
+	version: '01', 
+	deleted: 'false'
 });
 db.participant.insert({
 	email: 'jandiew@gmail.com',
@@ -42,7 +62,9 @@ db.participant.insert({
 	company: 'JCertif',
 	phone: '0102030405',
 	biography: 'All about Andriew',
-	sessions: ['02']
+	sessions: ['02'], 
+	version: '01', 
+	deleted: 'false'
 });
 db.session.remove();
 db.session.insert({
@@ -55,7 +77,9 @@ db.session.insert({
     category : ["HTML 5", "Android"],
     start : "12/02/2013 10:22",
     end : "16/02/2013 10:23",
-    speakers : ["11", "12"]
+    speakers : ["11", "12"], 
+	version: '01', 
+	deleted: 'false'
 });
 db.session.insert({
     id : "101",
@@ -67,7 +91,9 @@ db.session.insert({
     category : ["HTML 5", "Android"],
     start : "12/02/2013 10:22",
     end : "16/02/2013 10:23",
-    speakers : ["11", "12"]
+    speakers : ["11", "12"], 
+	version: '01', 
+	deleted: 'false'
 });
 db.session.insert({
     id : "102",
@@ -79,5 +105,7 @@ db.session.insert({
     category : ["HTML 5", "Android"],
     start : "12/02/2013 10:22",
     end : "16/02/2013 10:23",
-    speakers : ["21", "22"]
+    speakers : ["21", "22"], 
+	version: '01', 
+	deleted: 'false'
 });

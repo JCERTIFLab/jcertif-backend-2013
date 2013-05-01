@@ -11,12 +11,11 @@ import models.database.MongoDatabase;
 import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifException;
 import models.exception.JCertifObjectNotFoundException;
+import models.exception.JCertifStaleObjectException;
 import models.util.Constantes;
 import models.util.Tools;
 
 import org.apache.commons.lang.StringUtils;
-
-import play.Logger;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -24,12 +23,52 @@ import com.mongodb.WriteResult;
 
 public abstract class Model implements CRUD, Check {
 	
-	public abstract BasicDBObject toBasicDBObject();
-    public abstract String getKeyName();
-    private static final Finder FINDER = new Finder();
-   
-    public static Finder getFinder() {
+	private static final Finder FINDER = new Finder();
+	public static Finder getFinder() {
 		return FINDER;
+	}
+	
+	private String version;
+	private String deleted;
+	
+	public Model(BasicDBObject basicDBObject){
+		this.version = basicDBObject.getString("version");
+		this.deleted = basicDBObject.getString("deleted");
+	}
+
+	public abstract String getKeyName();
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+	
+	public boolean isDeleted() {
+		return Boolean.valueOf(deleted);
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.deleted = Boolean.toString(isDeleted);
+	}
+
+	public BasicDBObject toBasicDBObject(){
+		BasicDBObject dbObject = new BasicDBObject();
+		dbObject.put("version", version);
+		dbObject.put("deleted", deleted);
+		return dbObject;
+	}
+    
+	private int increment(BasicDBObject basicDBObject){
+		int currentVersion = Integer.parseInt(basicDBObject.getString("version"));
+		int nextVersion = currentVersion+1;
+		if(nextVersion < 10){
+			basicDBObject.put("version", String.format("%02d", nextVersion));
+		}else{
+			basicDBObject.put("version", Integer.toString(nextVersion));
+		}		
+		return nextVersion++;
 	}
     
 	/**
@@ -48,49 +87,7 @@ public abstract class Model implements CRUD, Check {
 		return collectionName.substring(1).toLowerCase();
 	}
 
-	/**
-	 * <p>This class provides static methods to retrieve data from database.</p>
-	 * 
-	 * @author Martial SOMDA
-	 *
-	 */
-	public static class Finder {
-
-
-        public BasicDBObject find(Class<?> clazz, String keyName, Object keyValue) {
-        	BasicDBObject objectToFind = new BasicDBObject();
-        	objectToFind.put(keyName, keyValue);
-        	return MongoDatabase.getInstance().readOne(
-    				getCollectionName(clazz), objectToFind);
-        }
-        
-        public List<BasicDBObject> findAll(Class<?> clazz, String keyName, Object keyValue) {
-        	DBCursor dbCursor = MongoDatabase.getInstance().list(
-    				getCollectionName(clazz), new BasicDBObject(keyName, keyValue), 
-    				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0));
-    		return buildResultList(dbCursor);
-        }
-
-        public List<BasicDBObject> findAll(Class<?> clazz) {
-        	DBCursor dbCursor = MongoDatabase.getInstance().list(
-    				getCollectionName(clazz));
-        	return buildResultList(dbCursor);
-        }
-        
-        private List<BasicDBObject> buildResultList(DBCursor dbCursor) {
-        	BasicDBObject object;
-    		List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
-    		while (dbCursor.hasNext()) {
-    			object = (BasicDBObject) dbCursor.next();
-    			resultList.add(object);
-    		}
-    		return resultList;			
-		}
-
-		
-    }
-
-	public final boolean add(BasicDBObject objectToAdd, String idKeyname) {
+	public final int add(BasicDBObject objectToAdd, String idKeyname) {
 		addCheck(objectToAdd);		
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToAdd.get(idKeyname));
@@ -99,13 +96,13 @@ public abstract class Model implements CRUD, Check {
 		if (null != existingObjectToAdd) {
 			throw new JCertifDuplicateObjectException(this.getClass(), existingObjectToAdd.getString(idKeyname));
 		}
-		
+
 		WriteResult result = MongoDatabase.getInstance().create(
 				getCollectionName(getClass()), objectToAdd);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this.getClass(), result.getError());
 		}
-		return true;
+		return 1;
 	}
 
 	/**
@@ -116,25 +113,29 @@ public abstract class Model implements CRUD, Check {
 	 * @return
 	 * @throws JCertifException
 	 */
-	public final boolean update(BasicDBObject objectToUpdate, String idKeyname) {
+	public final int update(BasicDBObject objectToUpdate, String idKeyname) {
 		updateCheck(objectToUpdate);
 		BasicDBObject dbObject = new BasicDBObject();
 		dbObject.put(idKeyname, objectToUpdate.get(idKeyname));
 		BasicDBObject existingObjectToUpdate = MongoDatabase.getInstance()
 				.readOne(getCollectionName(getClass()), dbObject);
 		if (null == existingObjectToUpdate) {
-			Logger.info("not found");
 			throw new JCertifObjectNotFoundException(this.getClass(), objectToUpdate.get(idKeyname).toString());
 		}
-
+		
+		if(!existingObjectToUpdate.getString("version").equals(objectToUpdate.getString("version"))){
+			throw new JCertifStaleObjectException(this.getClass(), objectToUpdate.get(idKeyname).toString());
+		}
+		
 		existingObjectToUpdate = merge(objectToUpdate,existingObjectToUpdate);
+		int newId = increment(existingObjectToUpdate);
 
 		WriteResult result = MongoDatabase.getInstance().update(
 				getCollectionName(getClass()), existingObjectToUpdate);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this.getClass(), result.getError());
 		}
-		return true;
+		return newId;
 	}
 
 	/**
@@ -160,23 +161,44 @@ public abstract class Model implements CRUD, Check {
 		return existingObjectToUpdate;
 	}
 
-	public final boolean remove(BasicDBObject objectToDelete, String idKeyname) {
-		deleteCheck(objectToDelete);
-		BasicDBObject dbObject = new BasicDBObject();
-		dbObject.put(idKeyname, objectToDelete.get(idKeyname));
-		BasicDBObject existingObjectToDelete = MongoDatabase.getInstance()
-				.readOne(getCollectionName(getClass()), dbObject);
-		
-		if (null == existingObjectToDelete) {
-			throw new JCertifObjectNotFoundException(this.getClass(), objectToDelete.get(idKeyname).toString());
-		}
+	/**
+	 * <p>This class provides static methods to retrieve data from database.</p>
+	 * 
+	 * @author Martial SOMDA
+	 *
+	 */
+	public static class Finder {
 
-		WriteResult result = MongoDatabase.getInstance().delete(
-				getCollectionName(getClass()), existingObjectToDelete);
-		if (!Tools.isBlankOrNull(result.getError())) {
-			throw new JCertifException(this.getClass(), result.getError());
-		}
-		return true;
-	}
 
+        public BasicDBObject find(Class<?> clazz, String keyName, Object keyValue) {
+        	return MongoDatabase.getInstance().readOne(
+        			getCollectionName(clazz), 
+        			new BasicDBObject(keyName, keyValue).append("deleted", "false"));
+        }
+        
+        public List<BasicDBObject> findAll(Class<?> clazz, String keyName, Object keyValue) {
+        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+    				getCollectionName(clazz), 
+    				new BasicDBObject(keyName, keyValue).append("deleted", "false"), 
+    				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0));
+    		return buildResultList(dbCursor);
+        }
+
+        public List<BasicDBObject> findAll(Class<?> clazz) {
+        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+    				getCollectionName(clazz), 
+    				new BasicDBObject().append("deleted", "false"));
+        	return buildResultList(dbCursor);
+        }
+        
+        private List<BasicDBObject> buildResultList(DBCursor dbCursor) {
+        	BasicDBObject object;
+    		List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
+    		while (dbCursor.hasNext()) {
+    			object = (BasicDBObject) dbCursor.next();
+    			resultList.add(object);
+    		}
+    		return resultList;			
+		}
+    }
 }

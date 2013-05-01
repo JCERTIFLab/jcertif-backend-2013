@@ -21,10 +21,6 @@ import com.mongodb.BasicDBObject;
  */
 public class Title extends Referentiel {
 	
-	public Title(String label) {
-		super(label);
-	}
-	
 	public Title(BasicDBObject basicDBObject){
 		super(basicDBObject);
 	}

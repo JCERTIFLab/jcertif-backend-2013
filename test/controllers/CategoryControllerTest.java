@@ -97,6 +97,8 @@ public class CategoryControllerTest extends ReferentielControllerTest {
                 List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "HTTT"));
                 Assert.assertTrue(null != dbObjects);
                 Assert.assertEquals(1,dbObjects.size());
+                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
                 Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
             }
         });
@@ -111,13 +113,16 @@ public class CategoryControllerTest extends ReferentielControllerTest {
 					Logger.info("Suppression d'une catégorie");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Category3");
+	                params.put("version", "01");
 	                Result result = callAction(routes.ref.CategoryController.removeCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la catégorie a bien été supprimmé en base de données");
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "Category3"));
 	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(0,dbObjects.size());
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
+	                Assert.assertEquals("02",dbObjects.get(0).getString("version"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());

@@ -14,7 +14,7 @@ import play.mvc.Http;
 @JCertifExceptionMapping(status=Http.Status.NOT_FOUND)
 public class JCertifObjectNotFoundException extends JCertifException{
 
-	public static final String MESSAGE = "'{0}' doesn't exists";
+	public static final String MESSAGE = "{0} doesn't exists";
 	
 	public JCertifObjectNotFoundException(Class<?> classConcerned, String objectReference) {
 		super(classConcerned,MessageFormat.format(MESSAGE, objectReference));

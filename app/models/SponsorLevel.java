@@ -23,10 +23,6 @@ import com.mongodb.BasicDBObject;
  */
 public class SponsorLevel extends Referentiel {
 	
-	public SponsorLevel(String label) {
-		super(label);
-	}
-	
 	public SponsorLevel(BasicDBObject basicDBObject) {
 		super(basicDBObject);
 	}

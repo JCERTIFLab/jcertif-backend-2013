@@ -8,7 +8,9 @@ db.site.insert({
     contact : "contact@website1.com",
     website : "www.website1.com",
     description : "description 1",
-    photo : "http://www.website1.com/pictures/website1.gif"
+    photo : "http://www.website1.com/pictures/website1.gif", 
+	version: '01', 
+	deleted: 'false'
 });
 db.site.insert({
     id : "102",
@@ -19,7 +21,9 @@ db.site.insert({
     contact : "contact@website2.com",
     website : "www.website2.com",
     description : "description 2",
-    photo : "http://www.website2.com/pictures/website2.gif"
+    photo : "http://www.website2.com/pictures/website2.gif", 
+	version: '01', 
+	deleted: 'false'
 });
 db.room.remove();
 db.room.insert({
@@ -28,7 +32,9 @@ db.room.insert({
     site : "101",
     seats : "500",
     description : "This is the bigest room",
-    photo : "http://www.website1.com/pictures/rooms/room1.gif"
+    photo : "http://www.website1.com/pictures/rooms/room1.gif", 
+	version: '01', 
+	deleted: 'false'
 });
 db.room.insert({
     id : "02",
@@ -36,7 +42,9 @@ db.room.insert({
     site : "101",
     seats : "200",
     description : "A medium size room",
-    photo : "http://www.website1.com/pictures/rooms/room2.gif"
+    photo : "http://www.website1.com/pictures/rooms/room2.gif", 
+	version: '01', 
+	deleted: 'false'
 });
 db.room.insert({
     id : "03",
@@ -44,5 +52,17 @@ db.room.insert({
     site : "102",
     seats : "100",
     description : "A small size room",
-    photo : "http://www.website2.com/pictures/rooms/room3.gif"
+    photo : "http://www.website2.com/pictures/rooms/room3.gif", 
+	version: '01', 
+	deleted: 'false'
+});
+db.room.insert({
+    id : "04",
+    name : "name 4",
+    site : "102",
+    seats : "100",
+    description : "A small size room",
+    photo : "http://www.website2.com/pictures/rooms/room4.gif", 
+	version: '02', 
+	deleted: 'true'
 });

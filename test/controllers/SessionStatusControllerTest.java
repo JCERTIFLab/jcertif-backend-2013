@@ -79,6 +79,8 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "HTTT"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 	                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
@@ -99,13 +101,17 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 					Logger.info("Suppression d'un statut de session");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Status1");
+	                params.put("version", "01");
+	                params.put("deleted", "false");
 	                Result result = callAction(routes.ref.SessionStatusController.removeSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le statut a bien été supprimmé en base de données");
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION_STATUS, new BasicDBObject().append("label", "Status1"));
 	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(0,dbObjects.size());
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+	                Assert.assertEquals("true",dbObjects.get(0).get("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());

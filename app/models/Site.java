@@ -29,7 +29,7 @@ public class Site extends JCertifModel {
     private String photo;
     
     public Site(BasicDBObject basicDBObject){
-    	super();
+    	super(basicDBObject);
     	this.id = basicDBObject.getString("id");
         this.name = basicDBObject.getString("name");
         this.street = basicDBObject.getString("street");
@@ -142,7 +142,7 @@ public class Site extends JCertifModel {
 
 	@Override
 	public BasicDBObject toBasicDBObject() {
-		BasicDBObject basicDBObject = new BasicDBObject();
+		BasicDBObject basicDBObject = super.toBasicDBObject();
         basicDBObject.put("id", getId());
         basicDBObject.put("name", getName());
         basicDBObject.put("street", getStreet());

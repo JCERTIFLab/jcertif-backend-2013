@@ -37,15 +37,16 @@ public class Participant extends Member {
     }
 	
 	@Override
-	public boolean create() {
-		boolean isOk = super.create();
+	public int create() {
+		int id = super.create();
+		boolean isOK = Integer.parseInt(getVersion()) < id;
 		
-		if(isOk){
+		if(isOK){
 			/* send email */
 			EmailNotification.sendWelcomeMail(this);
 		}
 		
-		return isOk;
+		return id;
 	}
 	
 	public void addToSession(Session session) {
@@ -53,7 +54,7 @@ public class Participant extends Member {
 				!sessions.contains(session.getId())){
 			sessions.add(session.getId());
 			
-			boolean isOK = save();
+			boolean isOK = Integer.parseInt(getVersion()) < save();
 			
 			if(isOK){
 				EmailNotification.sendenrollMail(this, session);
@@ -68,7 +69,7 @@ public class Participant extends Member {
 				sessions.contains(session.getId())){
 			sessions.remove(session.getId());
 			
-			boolean isOK = save();
+			boolean isOK = Integer.parseInt(getVersion()) < save();
 			
 			if(isOK){
 				EmailNotification.sendUnenrollpwdMail(this, session);

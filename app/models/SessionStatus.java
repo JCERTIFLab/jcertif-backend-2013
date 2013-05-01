@@ -17,10 +17,6 @@ import com.mongodb.BasicDBObject;
  */
 public class SessionStatus extends Referentiel {
 	
-	public SessionStatus(String label) {
-		super(label);
-	}
-	
 	public SessionStatus(BasicDBObject basicDBObject){
 		super(basicDBObject);
 	}

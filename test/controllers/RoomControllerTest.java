@@ -54,6 +54,8 @@ public class RoomControllerTest {
 	                Assert.assertEquals("500",jsonNode.get(0).findPath("seats").getTextValue());
 	                Assert.assertEquals("This is the bigest room",jsonNode.get(0).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website1.com/pictures/rooms/room1.gif",jsonNode.get(0).findPath("photo").getTextValue());
+	                Assert.assertEquals("01",jsonNode.get(0).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
 	                
 	                Assert.assertEquals("02",jsonNode.get(1).findPath("id").getTextValue());
 	                Assert.assertEquals("name 2",jsonNode.get(1).findPath("name").getTextValue());
@@ -61,6 +63,8 @@ public class RoomControllerTest {
 	                Assert.assertEquals("200",jsonNode.get(1).findPath("seats").getTextValue());
 	                Assert.assertEquals("A medium size room",jsonNode.get(1).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website1.com/pictures/rooms/room2.gif",jsonNode.get(1).findPath("photo").getTextValue());
+	                Assert.assertEquals("01",jsonNode.get(1).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
 	                
 	                Assert.assertEquals("03",jsonNode.get(2).findPath("id").getTextValue());
 	                Assert.assertEquals("name 3",jsonNode.get(2).findPath("name").getTextValue());
@@ -68,6 +72,8 @@ public class RoomControllerTest {
 	                Assert.assertEquals("100",jsonNode.get(2).findPath("seats").getTextValue());
 	                Assert.assertEquals("A small size room",jsonNode.get(2).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website2.com/pictures/rooms/room3.gif",jsonNode.get(2).findPath("photo").getTextValue());
+	                Assert.assertEquals("01",jsonNode.get(2).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(2).findPath("deleted").getTextValue());
 	                TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());
@@ -110,6 +116,8 @@ public class RoomControllerTest {
 		                Assert.assertEquals("500",jsonNode.findPath("seats").getTextValue());
 		                Assert.assertEquals("This is the bigest room",jsonNode.findPath("description").getTextValue());
 		                Assert.assertEquals("http://www.website1.com/pictures/rooms/room1.gif",jsonNode.findPath("photo").getTextValue());
+		                Assert.assertEquals("01",jsonNode.findPath("version").getTextValue());
+		                Assert.assertEquals("false",jsonNode.findPath("deleted").getTextValue());
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -144,6 +152,8 @@ public class RoomControllerTest {
 	                Assert.assertEquals("600",dbObjects.get(0).get("seats"));
 	                Assert.assertEquals("The bigest room",dbObjects.get(0).get("description"));
 	                Assert.assertEquals("http://www.website2.com/pictures/rooms/room5.gif",dbObjects.get(0).get("photo"));
+	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
@@ -542,11 +552,14 @@ public class RoomControllerTest {
                 		TestUtils.updateDatabase("test/data/room.js");
                 		Map<String, Object> params = new HashMap<String, Object>();
                         params.put("id", "01");
+                        params.put("version", "01");
+		                params.put("deleted", "false");
                         Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "01"));
                         Assert.assertTrue(null != dbObjects);
-    	                Assert.assertEquals(0,dbObjects.size());
+                        Assert.assertEquals(1,dbObjects.size());
+		                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
                         Logger.info("*** FIN -> test_room_deletion_ok ***"); 
                         TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
@@ -625,11 +638,12 @@ public class RoomControllerTest {
                 	try {
                 		TestUtils.updateDatabase("test/data/room.js");
                         Map<String, Object> params = new HashMap<String, Object>();
-
                         params.put("id", "01");
                         params.put("name", "changedName");
                         params.put("description", "changedDescription");
-                        
+                        params.put("version", "01");
+		                params.put("deleted", "false");
+		                
                         Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         Logger.info("Vérification que les informations de la salle ont bien été mises à jour");
@@ -641,6 +655,8 @@ public class RoomControllerTest {
 		                Assert.assertEquals("500",dbObjects.get(0).get("seats").toString());
 		                Assert.assertEquals("changedDescription",dbObjects.get(0).get("description").toString());
 		                Assert.assertEquals("http://www.website1.com/pictures/rooms/room1.gif",dbObjects.get(0).get("photo").toString());
+		                Assert.assertEquals("02",dbObjects.get(0).get("version").toString());
+		                Assert.assertEquals("false",dbObjects.get(0).get("deleted").toString());
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);

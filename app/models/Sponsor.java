@@ -24,7 +24,7 @@ public class Sponsor extends JCertifModel {
     private String about;
 
     public Sponsor(BasicDBObject basicDBObject) {
-        super();
+    	super(basicDBObject);
         this.email = basicDBObject.getString("email");
         this.name = basicDBObject.getString("name");
         this.logo = basicDBObject.getString("logo");
@@ -110,7 +110,7 @@ public class Sponsor extends JCertifModel {
 
     @Override
     public final BasicDBObject toBasicDBObject() {
-        BasicDBObject basicDBObject = new BasicDBObject();
+        BasicDBObject basicDBObject = super.toBasicDBObject();
         basicDBObject.put("email", getEmail());
         basicDBObject.put("name", getName());
         basicDBObject.put("logo", getLogo());

@@ -161,6 +161,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertEquals("0102030405",jsonNode.findPath("phone").getTextValue());
 		                Assert.assertEquals("All about test",jsonNode.findPath("biography").getTextValue());
 		                Assert.assertEquals("[\"01\",\"02\"]",jsonNode.findPath("sessions").toString().trim());
+		                Assert.assertEquals("01",jsonNode.findPath("version").getTextValue());
+		                Assert.assertEquals("false",jsonNode.findPath("deleted").getTextValue());
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -203,6 +205,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 					Assert.assertEquals("Mlle", dbObjects.get(0).get("title"));
 					Assert.assertEquals("+33102030405",dbObjects.get(0).get("phone"));
 					Assert.assertEquals("France",dbObjects.get(0).get("country"));
+					Assert.assertEquals("01",dbObjects.get(0).get("version"));
+					Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 					Assert.assertEquals("[ \"01\" , \"02\" , \"03\" , \"04\"]",dbObjects.get(0).get("sessions").toString());
 					TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
@@ -222,6 +226,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 						Map<String, Object> params = new HashMap<String, Object>();
 		                params.put("email", "jandiew@gmail.com");
 		                params.put("sessions", new String[]{"02","03"});
+		                params.put("version", "01");
+		                params.put("deleted", "false");
 		                Result result = callAction(routes.ref.ParticipantController.updateParticipant(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
@@ -240,6 +246,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertEquals("0102030405",dbObjects.get(0).get("phone"));
 		                Assert.assertEquals("All about Andriew",dbObjects.get(0).get("biography"));
 		                Assert.assertEquals("[ \"02\" , \"03\"]".trim(),dbObjects.get(0).get("sessions").toString());
+		                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+						Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -266,6 +274,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("[ \"01\" , \"03\" , \"05\" , \"101\"]",dbObjects.get(0).get("sessions").toString());
+		                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+						Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -346,6 +356,8 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("[ \"01\" , \"05\"]",dbObjects.get(0).get("sessions").toString());
+		                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+						Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());

@@ -57,6 +57,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("www.website1.com",jsonNode.get(0).findPath("website").getTextValue());
 	                Assert.assertEquals("description 1",jsonNode.get(0).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website1.com/pictures/website1.gif",jsonNode.get(0).findPath("photo").getTextValue());
+	                Assert.assertEquals("01",jsonNode.get(0).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
 	                
 	                Assert.assertEquals("102",jsonNode.get(1).findPath("id").getTextValue());
 	                Assert.assertEquals("name 2",jsonNode.get(1).findPath("name").getTextValue());
@@ -67,6 +69,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("www.website2.com",jsonNode.get(1).findPath("website").getTextValue());
 	                Assert.assertEquals("description 2",jsonNode.get(1).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website2.com/pictures/website2.gif",jsonNode.get(1).findPath("photo").getTextValue());
+	                Assert.assertEquals("01",jsonNode.get(1).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
 	                TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());
@@ -113,6 +117,8 @@ public class SiteControllerTest {
 		                Assert.assertEquals("www.website1.com",jsonNode.findPath("website").getTextValue());
 		                Assert.assertEquals("description 1",jsonNode.findPath("description").getTextValue());
 		                Assert.assertEquals("http://www.website1.com/pictures/website1.gif",jsonNode.findPath("photo").getTextValue());
+		                Assert.assertEquals("01",jsonNode.findPath("version").getTextValue());
+		                Assert.assertEquals("false",jsonNode.findPath("deleted").getTextValue());
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -138,6 +144,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("500",jsonNode.get(0).findPath("seats").getTextValue());
 	                Assert.assertEquals("This is the bigest room",jsonNode.get(0).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website1.com/pictures/rooms/room1.gif",jsonNode.get(0).findPath("photo").getTextValue());
+	                Assert.assertEquals("01",jsonNode.get(0).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
 	                
 	                Assert.assertEquals("02",jsonNode.get(1).findPath("id").getTextValue());
 	                Assert.assertEquals("name 2",jsonNode.get(1).findPath("name").getTextValue());
@@ -145,6 +153,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("200",jsonNode.get(1).findPath("seats").getTextValue());
 	                Assert.assertEquals("A medium size room",jsonNode.get(1).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website1.com/pictures/rooms/room2.gif",jsonNode.get(1).findPath("photo").getTextValue());
+	                Assert.assertEquals("01",jsonNode.get(1).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
 	                TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());
@@ -202,6 +212,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("www.website5.com",dbObjects.get(0).get("website"));
 	                Assert.assertEquals("description 5",dbObjects.get(0).get("description"));
 	                Assert.assertEquals("http://www.website5.com/pictures/website5.gif",dbObjects.get(0).get("photo"));
+	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
@@ -687,11 +699,15 @@ public class SiteControllerTest {
                 		TestUtils.updateDatabase("test/data/site.js");
                 		Map<String, Object> params = new HashMap<String, Object>();
                         params.put("id", "101");
+                        params.put("version", "01");
+		                params.put("deleted", "false");
                         Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SITE, new BasicDBObject().append("id", "101"));
                         Assert.assertTrue(null != dbObjects);
-    	                Assert.assertEquals(0,dbObjects.size());
+                        Assert.assertEquals(1,dbObjects.size());
+                        Assert.assertEquals("02",dbObjects.get(0).getString("version"));
+		                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
                         Logger.info("*** FIN -> test_site_deletion_ok ***"); 
                         TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
@@ -770,12 +786,13 @@ public class SiteControllerTest {
                 	try {
                 		TestUtils.updateDatabase("test/data/site.js");
                         Map<String, Object> params = new HashMap<String, Object>();
-
                         params.put("id", "101");
                         params.put("name", "changedName");
                         params.put("street", "changedStreet");
                         params.put("description", "changedDescription");
-                        
+                        params.put("version", "01");
+		                params.put("deleted", "false");
+		                
                         Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         Logger.info("Vérification que les informations du site ont bien été mises à jour");
@@ -790,6 +807,8 @@ public class SiteControllerTest {
 		                Assert.assertEquals("www.website1.com",dbObjects.get(0).get("website").toString());
 		                Assert.assertEquals("changedDescription",dbObjects.get(0).get("description").toString());
 		                Assert.assertEquals("http://www.website1.com/pictures/website1.gif",dbObjects.get(0).get("photo").toString());
+		                Assert.assertEquals("02",dbObjects.get(0).get("version").toString());
+		                Assert.assertEquals("false",dbObjects.get(0).get("deleted").toString());
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour du site", e);

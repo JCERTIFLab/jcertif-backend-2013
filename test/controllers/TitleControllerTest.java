@@ -78,7 +78,9 @@ public class TitleControllerTest extends ReferentielControllerTest {
 	                Logger.info("Vérification que la nouvelle civilité est bien présente en base de données");
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_TITLE, new BasicDBObject().append("label", "M."));
 	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(1,dbObjects.size());	                
+	                Assert.assertEquals(1,dbObjects.size());	
+	                Assert.assertEquals("01",dbObjects.get(0).getString("version"));
+	                Assert.assertEquals("false",dbObjects.get(0).getString("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
@@ -97,13 +99,17 @@ public class TitleControllerTest extends ReferentielControllerTest {
 					Logger.info("Suppression d'une catégorie");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Title2");
+	                params.put("version", "01");
+	                
 	                Result result = callAction(routes.ref.TitleController.removeTitle(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la civilité a bien été supprimmé en base de données");
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_TITLE, new BasicDBObject().append("label", "Title2"));
 	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(0,dbObjects.size());
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("02",dbObjects.get(0).getString("version"));
+	                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());

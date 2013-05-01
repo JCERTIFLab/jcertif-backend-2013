@@ -41,7 +41,7 @@ public abstract class Member extends JCertifModel {
     private String biography;
 
     public Member(BasicDBObject basicDBObject) {
-        super();
+    	super(basicDBObject);
         this.email = basicDBObject.getString("email");
         this.password = basicDBObject.getString("password");
         this.title = basicDBObject.getString("title");
@@ -154,7 +154,7 @@ public abstract class Member extends JCertifModel {
 
     @Override
     public BasicDBObject toBasicDBObject() {
-        BasicDBObject basicDBObject = new BasicDBObject();
+        BasicDBObject basicDBObject = super.toBasicDBObject();
         basicDBObject.put("email", getEmail());
         basicDBObject.put("password", getPassword());
         basicDBObject.put("title", getTitle());
@@ -247,7 +247,7 @@ public abstract class Member extends JCertifModel {
 		}
 		
 		setPassword(CryptoUtil.getSaltedPassword(newPassword.getBytes()));
-		boolean isOK = save();
+		boolean isOK = Integer.parseInt(getVersion()) < save();
 		
 		if(isOK){
 			EmailNotification.sendChangePwdMail(this);
@@ -260,7 +260,7 @@ public abstract class Member extends JCertifModel {
 		String newPassword = CryptoUtil.generateRandomPassword();
 		setPassword(CryptoUtil.getSaltedPassword(newPassword.getBytes()));
 		
-		boolean isOK = save();
+		boolean isOK = Integer.parseInt(getVersion()) < save();
 		
 		if(isOK){
 			EmailNotification.sendReinitpwdMail(this, newPassword);

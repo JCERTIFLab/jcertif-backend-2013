@@ -96,6 +96,8 @@ public class SponsorControllerTest {
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "email@test.com"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 	                Assert.assertEquals("www.test.com",dbObjects.get(0).get("website"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
@@ -202,13 +204,18 @@ public class SponsorControllerTest {
 					TestUtils.updateDatabase("test/data/sponsor.js");
 					Map<String, String> params = new HashMap<String, String>();
 	                params.put("email", "test@sponsor.com");
+	                params.put("version", "01");
+	                params.put("deleted", "false");
+	                
 	                Result result = callAction(routes.ref.SponsorController.removeSponsor(), fakeRequest().withJsonBody(Json.toJson(params),POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 	                
 	                Logger.info("Vérification que le sponsor a bien été supprimmé en base de données");
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR, new BasicDBObject().append("email", "test@sponsor.com"));
 	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(0,dbObjects.size());
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("02",dbObjects.get(0).getString("version"));
+	                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
@@ -242,6 +249,9 @@ public class SponsorControllerTest {
 	                params.put("city", "myNewCity");
 	                params.put("country", "myNewCoutry");
 	                params.put("phone", "0504030201");
+	                params.put("version", "01");
+	                params.put("deleted", "false");
+	                
 	                Result result = callAction(routes.ref.SponsorController.updateSponsor(), fakeRequest().withJsonBody(Json.toJson(params),POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 	                
@@ -259,6 +269,8 @@ public class SponsorControllerTest {
 	                Assert.assertEquals("myNewCoutry",dbObject.getString("country"));
 	                Assert.assertEquals("0504030201",dbObject.getString("phone"));
 	                Assert.assertEquals("All about test",dbObject.getString("about"));
+	                Assert.assertEquals("02",dbObject.getString("version"));
+	                Assert.assertEquals("false",dbObject.getString("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());

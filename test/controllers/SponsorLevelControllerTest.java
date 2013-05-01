@@ -86,7 +86,8 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
                 Assert.assertTrue(null != dbObjects);
                 Assert.assertEquals(1,dbObjects.size());
                 Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
-
+                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
             }
         });
     }
@@ -138,13 +139,18 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 					Logger.info("Suppression d'un niveau de partenariat");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "SponsorLevel2");
+	                params.put("version", "01");
+	                params.put("deleted", "false");
+	                
 	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le niveau de partenariat a bien été supprimmé en base de données");
 	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "SponsorLevel2"));
 	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(0,dbObjects.size());
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("02",dbObjects.get(0).getString("version"));
+	                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());

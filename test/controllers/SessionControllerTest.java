@@ -58,6 +58,8 @@ public class SessionControllerTest {
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(0).findPath("end").getTextValue());
 	                Assert.assertEquals("[\"11\",\"12\"]",jsonNode.get(0).findPath("speakers").toString().trim());
 	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(0).findPath("category").toString().trim());
+	                Assert.assertEquals("01",jsonNode.get(0).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
 	                
 	                Assert.assertEquals("102",jsonNode.get(1).findPath("id").getTextValue());
 	                Assert.assertEquals("title 2",jsonNode.get(1).findPath("title").getTextValue());
@@ -69,6 +71,8 @@ public class SessionControllerTest {
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(1).findPath("end").getTextValue());
 	                Assert.assertEquals("[\"21\",\"22\"]",jsonNode.get(1).findPath("speakers").toString().trim());
 	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(1).findPath("category").toString().trim());
+	                Assert.assertEquals("01",jsonNode.get(1).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
 	                TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());
@@ -111,6 +115,8 @@ public class SessionControllerTest {
 	                Assert.assertEquals("12/02/2013 10:22",dbObjects.get(0).get("start"));
 	                Assert.assertEquals("16/02/2013 10:23",dbObjects.get(0).get("end"));
 	                Assert.assertEquals("[ \"01\" , \"02\"]",dbObjects.get(0).get("speakers").toString());
+	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+	                Assert.assertEquals("false",dbObjects.get(0).get("deleted").toString());
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
@@ -901,11 +907,14 @@ public class SessionControllerTest {
                 		TestUtils.updateDatabase("test/data/session.js");
                 		Map<String, Object> params = new HashMap<String, Object>();
                         params.put("id", "101");
+                        params.put("version", "01");
                         Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION, new BasicDBObject().append("id", "101"));
                         Assert.assertTrue(null != dbObjects);
-    	                Assert.assertEquals(0,dbObjects.size());
+                        Assert.assertEquals(1,dbObjects.size());
+                        Assert.assertEquals("02",dbObjects.get(0).getString("version"));
+		                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
                         Logger.info("*** FIN -> test_session_all_OK ***"); 
                         TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {
@@ -990,7 +999,6 @@ public class SessionControllerTest {
                 	try {
                 		TestUtils.updateDatabase("test/data/session.js");
                         Map<String, Object> params = new HashMap<String, Object>();
-
                         params.put("id", "101");
                         params.put("title", "title 2");
                         params.put("summary", "summary 2");
@@ -1031,6 +1039,9 @@ public class SessionControllerTest {
                         params.put("status", "status 3");
                         params.put("keyword", "keyword 3");
                         params.put("room", "01");
+                        params.put("version", "01");
+		                params.put("deleted", "false");
+		                
                         Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         
@@ -1048,6 +1059,8 @@ public class SessionControllerTest {
     	                Assert.assertEquals("01",dbObject.getString("room"));
     	                Assert.assertEquals("12/02/2013 10:22",dbObject.getString("start"));
     	                Assert.assertEquals("16/02/2013 10:23",dbObject.getString("end"));
+    	                Assert.assertEquals("02",dbObject.getString("version"));
+    	                Assert.assertEquals("false",dbObject.getString("deleted"));
                         Logger.info("*** FIN -> test_session_update_OK ***");
                         TestUtils.updateDatabase("test/data/purge.js");
 					} catch (Exception e) {

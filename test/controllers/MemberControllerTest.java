@@ -69,6 +69,8 @@ public abstract class MemberControllerTest {
 		                Assert.assertEquals("M.",dbObjects.get(0).get("title"));
 		                Assert.assertEquals("+33102030405",dbObjects.get(0).get("phone"));
 		                Assert.assertEquals("France",dbObjects.get(0).get("country"));
+		                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+		                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -125,6 +127,8 @@ public abstract class MemberControllerTest {
 		                params.put("company", "Lost");
 		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
 		                params.put("biography", "The new me");
+		                params.put("version", "01");
+		                params.put("deleted", "false");
 		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
@@ -142,6 +146,8 @@ public abstract class MemberControllerTest {
 		                Assert.assertEquals("0102030405",dbObjects.get(0).get("phone"));
 		                Assert.assertEquals("http://jandriewrebirth.blog.com/pictures/myPic.gif",dbObjects.get(0).get("photo"));
 		                Assert.assertEquals("The new me",dbObjects.get(0).get("biography"));
+		                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+		                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -229,6 +235,8 @@ public abstract class MemberControllerTest {
 						Map<String, Object> params = new HashMap<String, Object>();
 		                params.put("oldpassword", "testjcertif");
 		                params.put("newpassword", "testjcertifnew");
+		                params.put("version", "01");
+		                params.put("deleted", "false");
 		                Result result = callAction(getChangePasswordURL("test@member.com"), fakeRequest().withJsonBody(Json.toJson(params), POST));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
@@ -237,6 +245,8 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
+		                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+		                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -281,6 +291,8 @@ public abstract class MemberControllerTest {
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertNotSame("mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg=",dbObjects.get(0).get("password"));
+		                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+		                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());
@@ -298,13 +310,17 @@ public abstract class MemberControllerTest {
 						TestUtils.updateDatabase("test/data/member.js");
 						Map<String, Object> params = new HashMap<String, Object>();
 		                params.put("email", "test@member.com");
+		                params.put("version", "01");
+		                params.put("deleted", "false");
 						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withSession("admin", "admin").withSession("admin", "admin"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le membre a bien été supprimé");
 		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(getCollection(), new BasicDBObject().append("email", "test@member.com"));
 		                Assert.assertTrue(null != dbObjects);
-		                Assert.assertEquals(0,dbObjects.size());
+		                Assert.assertEquals(1,dbObjects.size());
+		                Assert.assertEquals("02",dbObjects.get(0).get("version"));
+		                Assert.assertEquals("true",dbObjects.get(0).get("deleted"));
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());

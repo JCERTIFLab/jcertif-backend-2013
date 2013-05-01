@@ -14,7 +14,7 @@ import play.mvc.Http;
 @JCertifExceptionMapping(status=Http.Status.CONFLICT)
 public class JCertifDuplicateObjectException extends JCertifException{
 
-	public static final String MESSAGE = "'{0}' already exists";
+	public static final String MESSAGE = "{0} already exists";
 	
 	public JCertifDuplicateObjectException(Class<?> classConcerned, String objectReference) {
         super(classConcerned,MessageFormat.format(MESSAGE, objectReference));

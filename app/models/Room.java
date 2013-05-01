@@ -27,7 +27,7 @@ public class Room extends JCertifModel {
     private String photo;
     
     public Room(BasicDBObject basicDBObject){
-    	super();
+    	super(basicDBObject);
     	this.id = basicDBObject.getString("id");
     	this.name = basicDBObject.getString("name");
     	this.site = basicDBObject.getString("site");
@@ -108,16 +108,16 @@ public class Room extends JCertifModel {
         checkNullOrEmpty("Seats", salle.getSeats());
         checkNullOrEmpty("Description", salle.getDescription());
         
-        Site site = Site.find(salle.getSite());
+        Site roomSite = Site.find(salle.getSite());
         
-        if(null==site){
+        if(null==roomSite){
             throw new JCertifInvalidRequestException("Room '" + salle.getSite() + "' does not exist. Check Room List" );
         }
 	}
 
 	@Override
 	public BasicDBObject toBasicDBObject() {
-		BasicDBObject dbObject = new BasicDBObject();
+		BasicDBObject dbObject = super.toBasicDBObject();
 		dbObject.put("id", getId());
 		dbObject.put("name", getName());
 		dbObject.put("site", getSite());

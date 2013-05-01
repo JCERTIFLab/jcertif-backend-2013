@@ -33,7 +33,7 @@ public class Session extends JCertifModel {
     private String room;
 
     public Session(BasicDBObject basicDBObject){
-        super();
+    	super(basicDBObject);
         this.id = basicDBObject.getString("id");
         this.title = basicDBObject.getString("title");
         this.summary = basicDBObject.getString("summary");
@@ -140,7 +140,7 @@ public class Session extends JCertifModel {
 
 	@Override
     public final BasicDBObject toBasicDBObject() {
-        BasicDBObject basicDBObject = new BasicDBObject();
+        BasicDBObject basicDBObject = super.toBasicDBObject();
         basicDBObject.put("id", getId());
         basicDBObject.put("title", getTitle());
         basicDBObject.put("summary", getSummary());
@@ -163,9 +163,9 @@ public class Session extends JCertifModel {
     	Session session = new Session(objectToCheck);
     	
     	if(null != session.getRoom()){
-        	Room room = Room.find(session.getRoom());
+        	Room sessionRoom = Room.find(session.getRoom());
             
-            if(null==room){
+            if(null==sessionRoom){
                 throw new JCertifInvalidRequestException("Room '" + session.getRoom() + "' does not exist. Check Room List" );
             }
         }
@@ -215,10 +215,10 @@ public class Session extends JCertifModel {
             throw new JCertifInvalidRequestException(e.getMessage());
         }
         
-        Category category ;
+        Category sessionCategory ;
         for(String categoryStr : session.getCategory()){
-        	category = Category.find(categoryStr);      	
-        	if(null==category){
+        	sessionCategory = Category.find(categoryStr);      	
+        	if(null==sessionCategory){
                 throw new JCertifInvalidRequestException("Category '" + categoryStr + "' does not exist. Check Category List" );
             }
         }
@@ -230,9 +230,9 @@ public class Session extends JCertifModel {
         }
         
         if(null != session.getRoom()){
-        	Room room = Room.find(session.getRoom());
+        	Room sessionRoom = Room.find(session.getRoom());
             
-            if(null==room){
+            if(null==sessionRoom){
                 throw new JCertifInvalidRequestException("Room '" + session.getStatus() + "' does not exist. Check Room List" );
             }
         }       

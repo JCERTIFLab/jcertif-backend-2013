@@ -16,7 +16,7 @@ public class Login extends JCertifModel {
     private String password;
 
     public Login(BasicDBObject basicDBObject) {
-        super();
+    	super(basicDBObject);
         this.email = basicDBObject.getString("email");
         this.password = basicDBObject.getString("password");
     }
@@ -39,7 +39,7 @@ public class Login extends JCertifModel {
 
     @Override
     public BasicDBObject toBasicDBObject() {
-        BasicDBObject basicDBObject = new BasicDBObject();
+        BasicDBObject basicDBObject = super.toBasicDBObject();
         basicDBObject.put("email", email);
         basicDBObject.put("password", password);
         return basicDBObject;

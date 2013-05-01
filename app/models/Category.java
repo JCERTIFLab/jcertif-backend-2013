@@ -21,11 +21,6 @@ import com.mongodb.BasicDBObject;
  */
 public class Category extends Referentiel {
 	
-	public Category(String label) {
-		super(label);
-	}
-	
-	//keep it up for backward-compatibility
 	public Category(BasicDBObject basicDBObject){
 		super(basicDBObject);
 	}

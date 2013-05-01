@@ -11,13 +11,8 @@ public abstract class Referentiel extends JCertifModel {
     private String label;
 
     public Referentiel(BasicDBObject basicDBObject){
-        super();
+    	super(basicDBObject);
         this.label  = basicDBObject.getString(Constantes.LABEL_ATTRIBUTE_NAME);
-    }
-    
-    public Referentiel(String label1){
-        super();
-        this.label  = label1;
     }
 
     public final String getLabel() {
@@ -30,7 +25,7 @@ public abstract class Referentiel extends JCertifModel {
 
     @Override
     public final BasicDBObject toBasicDBObject() {
-        BasicDBObject basicDBObject = new BasicDBObject();
+        BasicDBObject basicDBObject = super.toBasicDBObject();
         basicDBObject.put(Constantes.LABEL_ATTRIBUTE_NAME, label);
         return basicDBObject;
     }

@@ -7,6 +7,7 @@ import org.codehaus.jackson.JsonNode;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
 import controllers.Security.Admin;
@@ -24,7 +25,7 @@ public class TitleController extends Controller{
         
 		JsonNode jsonNode = request().body().asJson();
 		
-		Title title = new Title(jsonNode.findPath("label").getTextValue());
+		Title title = new Title((BasicDBObject)JSON.parse(jsonNode.toString()));
 		
 		title.create();
 		return ok(JSON.serialize("Ok"));
@@ -40,7 +41,7 @@ public class TitleController extends Controller{
         
 		JsonNode jsonNode = request().body().asJson();
 		
-		Title title = new Title(jsonNode.findPath("label").getTextValue());
+		Title title = new Title((BasicDBObject)JSON.parse(jsonNode.toString()));
 		
 		title.remove();
 		return ok(JSON.serialize("Ok"));
