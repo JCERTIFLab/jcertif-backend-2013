@@ -39,5 +39,9 @@ public class Category extends Referentiel {
 	public static List<BasicDBObject> findAll(){
 		return getFinder().findAll(Category.class);
 	}
+	
+	public static List<BasicDBObject> findAll(String version){
+		return getFinder().findAll(Category.class, version);
+	}
 
 }

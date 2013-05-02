@@ -16,4 +16,6 @@ public interface Constantes {
 	String TITLE_ATTRIBUTE_NAME = "title";
 	String NAME_ATTRIBUTE_NAME = "name";
 	String SITE_ATTRIBUTE_NAME = "site";
+	String VERSION_ATTRIBUTE_NAME = "version";
+	String DELETED_ATTRIBUTE_NAME = "deleted";
 }

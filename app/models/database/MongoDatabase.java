@@ -12,6 +12,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
@@ -89,8 +90,8 @@ public final class MongoDatabase {
 		return db;
 	}
 
-	public DBCursor list(String collectionName, BasicDBObject query,
-			BasicDBObject columnToReturn) {
+	public DBCursor list(String collectionName, DBObject query,
+			DBObject columnToReturn) {
         Logger.debug("list(collectionName=" + collectionName + ", query=" + query + ", columnToReturn=" + columnToReturn +")");
 		return db.getCollection(collectionName).find(query, columnToReturn);
 	}
@@ -110,37 +111,37 @@ public final class MongoDatabase {
 	}
 
 	public WriteResult create(String collectionName,
-            BasicDBObject objectToCreate) {
+            DBObject objectToCreate) {
         Logger.debug("create(collectionName=" + collectionName + ", objectToCreate="+objectToCreate+")");
 		return db.getCollection(collectionName).insert(objectToCreate,
 				WriteConcern.SAFE);
 	}
 
 	public WriteResult update(String collectionName,
-			BasicDBObject objectToUpdate) {
+			DBObject objectToUpdate) {
         Logger.debug("update(collectionName=" + collectionName + ", objectToUpdate="+objectToUpdate+")");
 		return db.getCollection(collectionName).update(
 				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, objectToUpdate.get(Constantes.MONGOD_ID_ATTRIBUTE_NAME)),
 				objectToUpdate);
 	}
 
-	public WriteResult save(String collectionName, BasicDBObject objectToUpdate) {
+	public WriteResult save(String collectionName, DBObject objectToUpdate) {
         Logger.debug("save(collectionName=" + collectionName + ", objectToUpdate="+objectToUpdate+")");
 		return db.getCollection(collectionName).save(objectToUpdate);
 	}
 
-	public BasicDBObject readOne(String collectionName, BasicDBObject query) {
+	public BasicDBObject readOne(String collectionName, DBObject query) {
         Logger.debug("readOne(collectionName=" + collectionName + ", query="+query+")");
 		return (BasicDBObject) db.getCollection(collectionName).findOne(query);
 	}
 
-	public DBCursor list(String collectionName, BasicDBObject query) {
+	public DBCursor list(String collectionName, DBObject query) {
         Logger.debug("list(collectionName=" + collectionName + ", query="+query+")");
 		return db.getCollection(collectionName).find(query);
 	}
 
 	public WriteResult delete(String collectionName,
-			BasicDBObject objectToDelete) {
+			DBObject objectToDelete) {
         Logger.debug("delete(collectionName=" + collectionName + ", objectToDelete="+objectToDelete+")");
 		return db.getCollection(collectionName).remove(objectToDelete,
 				WriteConcern.SAFE);

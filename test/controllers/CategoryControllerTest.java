@@ -64,6 +64,34 @@ public class CategoryControllerTest extends ReferentielControllerTest {
     }
     
     @Test
+    public void test_category_list_diff() throws IOException {
+
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                try {
+                	TestUtils.updateDatabase("test/data/category.js");
+                    Result result = route(fakeRequest(GET, "/ref/category/list/01"));
+                    assertThat(status(result)).isEqualTo(OK);
+                    assertThat(contentType(result)).isEqualTo("application/json");
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(2, jsonNode.size());                   
+                    Assert.assertEquals("Category2",jsonNode.get(0).findPath("label").getTextValue());
+	                Assert.assertEquals("02",jsonNode.get(0).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
+	                
+	                Assert.assertEquals("Category3",jsonNode.get(1).findPath("label").getTextValue());
+	                Assert.assertEquals("03",jsonNode.get(1).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
+	                
+                    TestUtils.updateDatabase("test/data/purge.js");
+                } catch (IOException e) {
+                    Assert.fail(e.getMessage());
+                }
+            }
+        });
+    }
+    
+    @Test
     public void test_category_list_jsonp() throws IOException {
 
         running(fakeApplication(), new Runnable() {
@@ -113,7 +141,7 @@ public class CategoryControllerTest extends ReferentielControllerTest {
 					Logger.info("Suppression d'une catégorie");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Category3");
-	                params.put("version", "01");
+	                params.put("version", "03");
 	                Result result = callAction(routes.ref.CategoryController.removeCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
@@ -122,7 +150,7 @@ public class CategoryControllerTest extends ReferentielControllerTest {
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
-	                Assert.assertEquals("02",dbObjects.get(0).getString("version"));
+	                Assert.assertEquals("04",dbObjects.get(0).getString("version"));
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());

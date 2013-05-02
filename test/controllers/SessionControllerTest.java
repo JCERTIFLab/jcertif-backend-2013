@@ -71,8 +71,41 @@ public class SessionControllerTest {
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(1).findPath("end").getTextValue());
 	                Assert.assertEquals("[\"21\",\"22\"]",jsonNode.get(1).findPath("speakers").toString().trim());
 	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(1).findPath("category").toString().trim());
-	                Assert.assertEquals("01",jsonNode.get(1).findPath("version").getTextValue());
+	                Assert.assertEquals("03",jsonNode.get(1).findPath("version").getTextValue());
 	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
+	                TestUtils.updateDatabase("test/data/purge.js");
+                } catch (IOException e) {
+                	Assert.fail(e.getMessage());
+                }
+            }
+        });
+    }
+    
+    @Test
+    public void test_listSession_diff() throws java.io.IOException {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                try {
+                    TestUtils.updateDatabase("test/data/session.js");
+                    Result result = route(fakeRequest(GET, "/session/list/02"));
+                    assertThat(status(result)).isEqualTo(OK);
+                    assertThat(contentType(result)).isEqualTo("application/json");
+                    
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(1, jsonNode.size());
+	                Assert.assertEquals("102",jsonNode.get(0).findPath("id").getTextValue());
+	                Assert.assertEquals("title 2",jsonNode.get(0).findPath("title").getTextValue());
+	                Assert.assertEquals("summary 2",jsonNode.get(0).findPath("summary").getTextValue());
+	                Assert.assertEquals("description 2",jsonNode.get(0).findPath("description").getTextValue());
+	                Assert.assertEquals("status 2",jsonNode.get(0).findPath("status").getTextValue());
+	                Assert.assertEquals("keyword 2",jsonNode.get(0).findPath("keyword").getTextValue());
+	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(0).findPath("start").getTextValue());
+	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(0).findPath("end").getTextValue());
+	                Assert.assertEquals("[\"21\",\"22\"]",jsonNode.get(0).findPath("speakers").toString().trim());
+	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(0).findPath("category").toString().trim());
+	                Assert.assertEquals("03",jsonNode.get(0).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
+	                
 	                TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());

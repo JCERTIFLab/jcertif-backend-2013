@@ -20,6 +20,11 @@ public class SpeakerController extends Controller {
 
         return ok(JSON.serialize(Speaker.findAll()));
     }
+	
+	public static Result listSpeakerVersion(String version) {
+
+        return ok(JSON.serialize(Speaker.findAll(version)));
+    }
 
     public static Result registerSpeaker() {
     	JsonNode jsonNode = request().body().asJson();

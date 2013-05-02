@@ -19,6 +19,11 @@ public class SessionController extends Controller {
 
         return ok(JSON.serialize(Session.findAll()));
     }
+    
+    public static Result listSessionVersion(String version) {
+
+        return ok(JSON.serialize(Session.findAll(version)));
+    }
 
     @Admin
     public static Result newSession() {

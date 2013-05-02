@@ -63,7 +63,7 @@ db.session.insert({
     start : "12/02/2013 10:22",
     end : "16/02/2013 10:23",
     speakers : ["21", "22"], 
-	version: '01', 
+	version: '03', 
 	deleted: 'false'
 });
 db.session.insert({

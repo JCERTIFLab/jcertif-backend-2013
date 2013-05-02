@@ -34,4 +34,8 @@ public class Speaker extends Member {
     public static List<BasicDBObject> findAll(){
 		return getFinder().findAll(Speaker.class);
 	}
+    
+    public static List<BasicDBObject> findAll(String version){
+		return getFinder().findAll(Speaker.class, version);
+	}
 }

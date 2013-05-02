@@ -257,4 +257,8 @@ public class Session extends JCertifModel {
 	public static List<BasicDBObject> findAll(){
 		return getFinder().findAll(Session.class);
 	}
+	
+	public static List<BasicDBObject> findAll(String version){
+		return getFinder().findAll(Session.class, version);
+	}
 }

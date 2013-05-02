@@ -18,6 +18,11 @@ public class SponsorController extends Controller {
 
         return ok(JSON.serialize(Sponsor.findAll()));
     }
+    
+    public static Result listSponsorVersion(String version) {
+
+        return ok(JSON.serialize(Sponsor.findAll(version)));
+    }
 
     @Admin
     public static Result updateSponsor() {

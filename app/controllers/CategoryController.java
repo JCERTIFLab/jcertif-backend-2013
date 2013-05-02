@@ -19,6 +19,11 @@ public class CategoryController extends Controller {
 
         return ok(JSON.serialize(Category.findAll()));
     }
+    
+    public static Result listVersion(String version) {
+
+        return ok(JSON.serialize(Category.findAll(version)));
+    }
 
     @Admin
     public static Result newCategory() {

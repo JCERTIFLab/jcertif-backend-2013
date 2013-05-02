@@ -19,6 +19,8 @@ POST	/ref/sponsorlevel/remove	controllers.SponsorLevelController.removeSponsorLe
 
 GET 	/ref/category/list			controllers.CategoryController.list
 
+GET 	/ref/category/list/:version	controllers.CategoryController.listVersion(version: String)
+
 POST 	/ref/category/new			controllers.CategoryController.newCategory
 
 POST 	/ref/category/remove		controllers.CategoryController.removeCategory
@@ -33,6 +35,8 @@ GET 	/login/list			        controllers.LoginController.logins
 
 GET     /sponsor/list               controllers.SponsorController.listSponsor
 
+GET     /sponsor/list/:version      controllers.SponsorController.listSponsorVersion(version: String)
+
 POST    /sponsor/update             controllers.SponsorController.updateSponsor
 
 POST    /sponsor/new                controllers.SponsorController.addSponsor
@@ -40,6 +44,8 @@ POST    /sponsor/new                controllers.SponsorController.addSponsor
 POST    /sponsor/remove             controllers.SponsorController.removeSponsor
 
 GET     /speaker/list               controllers.SpeakerController.listSpeaker
+
+GET     /speaker/list/:version      controllers.SpeakerController.listSpeakerVersion(version: String)
 
 POST    /speaker/register           controllers.SpeakerController.registerSpeaker
 
@@ -58,6 +64,8 @@ POST    /ref/sessionstatus/new      controllers.SessionStatusController.addSessi
 POST    /ref/sessionstatus/remove   controllers.SessionStatusController.removeSessionStatus
 
 GET     /session/list               controllers.SessionController.listSession
+
+GET     /session/list/:version      controllers.SessionController.listSessionVersion(version: String)
 
 POST    /session/new                controllers.SessionController.newSession
 

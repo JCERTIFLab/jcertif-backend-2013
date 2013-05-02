@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.QueryBuilder;
 import com.mongodb.WriteResult;
 
 public abstract class Model implements CRUD, Check {
@@ -32,8 +33,8 @@ public abstract class Model implements CRUD, Check {
 	private String deleted;
 	
 	public Model(BasicDBObject basicDBObject){
-		this.version = basicDBObject.getString("version");
-		this.deleted = basicDBObject.getString("deleted");
+		this.version = basicDBObject.getString(Constantes.VERSION_ATTRIBUTE_NAME);
+		this.deleted = basicDBObject.getString(Constantes.DELETED_ATTRIBUTE_NAME);
 	}
 
 	public abstract String getKeyName();
@@ -55,18 +56,18 @@ public abstract class Model implements CRUD, Check {
 
 	public BasicDBObject toBasicDBObject(){
 		BasicDBObject dbObject = new BasicDBObject();
-		dbObject.put("version", version);
-		dbObject.put("deleted", deleted);
+		dbObject.put(Constantes.VERSION_ATTRIBUTE_NAME, version);
+		dbObject.put(Constantes.DELETED_ATTRIBUTE_NAME, deleted);
 		return dbObject;
 	}
     
 	private int increment(BasicDBObject basicDBObject){
-		int currentVersion = Integer.parseInt(basicDBObject.getString("version"));
+		int currentVersion = Integer.parseInt(basicDBObject.getString(Constantes.VERSION_ATTRIBUTE_NAME));
 		int nextVersion = currentVersion+1;
 		if(nextVersion < 10){
-			basicDBObject.put("version", String.format("%02d", nextVersion));
+			basicDBObject.put(Constantes.VERSION_ATTRIBUTE_NAME, String.format("%02d", nextVersion));
 		}else{
-			basicDBObject.put("version", Integer.toString(nextVersion));
+			basicDBObject.put(Constantes.VERSION_ATTRIBUTE_NAME, Integer.toString(nextVersion));
 		}		
 		return nextVersion++;
 	}
@@ -123,7 +124,7 @@ public abstract class Model implements CRUD, Check {
 			throw new JCertifObjectNotFoundException(this.getClass(), objectToUpdate.get(idKeyname).toString());
 		}
 		
-		if(!existingObjectToUpdate.getString("version").equals(objectToUpdate.getString("version"))){
+		if(!existingObjectToUpdate.getString(Constantes.VERSION_ATTRIBUTE_NAME).equals(objectToUpdate.getString(Constantes.VERSION_ATTRIBUTE_NAME))){
 			throw new JCertifStaleObjectException(this.getClass(), objectToUpdate.get(idKeyname).toString());
 		}
 		
@@ -173,13 +174,15 @@ public abstract class Model implements CRUD, Check {
         public BasicDBObject find(Class<?> clazz, String keyName, Object keyValue) {
         	return MongoDatabase.getInstance().readOne(
         			getCollectionName(clazz), 
-        			new BasicDBObject(keyName, keyValue).append("deleted", "false"));
+        			QueryBuilder.start().put(keyName).is(keyValue)
+        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
         }
         
         public List<BasicDBObject> findAll(Class<?> clazz, String keyName, Object keyValue) {
         	DBCursor dbCursor = MongoDatabase.getInstance().list(
     				getCollectionName(clazz), 
-    				new BasicDBObject(keyName, keyValue).append("deleted", "false"), 
+    				QueryBuilder.start().put(keyName).is(keyValue)
+        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get(), 
     				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0));
     		return buildResultList(dbCursor);
         }
@@ -187,9 +190,17 @@ public abstract class Model implements CRUD, Check {
         public List<BasicDBObject> findAll(Class<?> clazz) {
         	DBCursor dbCursor = MongoDatabase.getInstance().list(
     				getCollectionName(clazz), 
-    				new BasicDBObject().append("deleted", "false"));
+    				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
         	return buildResultList(dbCursor);
         }
+        
+        public List<BasicDBObject> findAll(Class<?> clazz, String version) {
+        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+    				getCollectionName(clazz), 
+    				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false")
+        			.put(Constantes.VERSION_ATTRIBUTE_NAME).greaterThan(version).get());
+        	return buildResultList(dbCursor);
+		}
         
         private List<BasicDBObject> buildResultList(DBCursor dbCursor) {
         	BasicDBObject object;

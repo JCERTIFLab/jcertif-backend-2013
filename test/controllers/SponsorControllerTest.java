@@ -62,6 +62,26 @@ public class SponsorControllerTest {
     }
 	
 	@Test
+    public void test_sponsor_list_diff() throws IOException {
+
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                try {
+                	TestUtils.updateDatabase("test/data/sponsor.js");
+                    Result result = route(fakeRequest(GET, "/sponsor/list/01"));
+                    assertThat(status(result)).isEqualTo(OK);
+                    assertThat(contentType(result)).isEqualTo("application/json");
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(0, jsonNode.size());
+                    TestUtils.updateDatabase("test/data/purge.js");
+                } catch (IOException e) {
+                    Assert.fail(e.getMessage());
+                }
+            }
+        });
+    }
+	
+	@Test
     public void test_sponsor_new_forbidden() {
 		Logger.info("Une requête de création d'un sponsor requiert les droits d'administration");
         running(fakeApplication(), new Runnable() {

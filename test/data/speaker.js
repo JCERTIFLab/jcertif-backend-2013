@@ -12,7 +12,7 @@ db.speaker.insert({
 	phone: '0102030405',
 	photo: 'http://martinfowler.com/pictues/martinPic.gif',
 	biography: 'All about Martin', 
-	version: '01', 
+	version: '03', 
 	deleted: 'false'
 });
 db.speaker.insert({

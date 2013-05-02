@@ -74,4 +74,26 @@ public class SpeakerControllerTest extends MemberControllerTest{
 	            }
 	        });
 	}
+	
+	@Test
+	public void test_list_speakers_diff(){
+	     running(fakeApplication(), new Runnable() {
+	            public void run() {
+	            	Logger.info("Liste des speakers");
+	            	try {
+						TestUtils.updateDatabase("test/data/speaker.js");
+						Result result = route(fakeRequest(GET, "/speaker/list/02"));
+		                assertThat(status(result)).isEqualTo(OK);
+		                JsonNode jsonNode = Json.parse(contentAsString(result));
+	                    Assert.assertEquals(1, jsonNode.size());
+	                    Assert.assertEquals("fowler@acm.org",jsonNode.get(0).findPath("email").getTextValue());
+		                Assert.assertEquals("Fowler",jsonNode.get(0).findPath("lastname").getTextValue());
+		                Assert.assertEquals("Martin",jsonNode.get(0).findPath("firstname").getTextValue());		                
+	                    TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}
+	            }
+	        });
+	}
 }
