@@ -1,6 +1,10 @@
 package controllers;
 
 import models.Title;
+import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
+import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -41,8 +45,18 @@ public class TitleController extends Controller{
         
 		JsonNode jsonNode = request().body().asJson();
 		
-		Title title = new Title((BasicDBObject)JSON.parse(jsonNode.toString()));
+		String label = jsonNode.findPath(Constantes.LABEL_ATTRIBUTE_NAME).getTextValue();
 		
+		if(Tools.isBlankOrNull(label)){
+			throw new JCertifInvalidRequestException("Label cannot be null or empty");
+		}
+		
+		Title title = Title.find(label);
+		
+		if(null == title){
+			throw new JCertifObjectNotFoundException(Title.class, label);
+		}
+
 		title.remove();
 		return ok(JSON.serialize("Ok"));
     }

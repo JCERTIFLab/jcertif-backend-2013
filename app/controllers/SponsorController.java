@@ -1,6 +1,11 @@
 package controllers;
 
 import models.Sponsor;
+import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
+import models.util.Tools;
+import models.validation.CheckHelper;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -27,10 +32,23 @@ public class SponsorController extends Controller {
     @Admin
     public static Result updateSponsor() {
     	JsonNode jsonNode = request().body().asJson();
+		String email = jsonNode.findPath(Constantes.EMAIL_ATTRIBUTE_NAME).getTextValue();
+		String version = jsonNode.findPath(Constantes.VERSION_ATTRIBUTE_NAME).getTextValue();
 		
-    	Sponsor sponsor = new Sponsor((BasicDBObject)JSON.parse(jsonNode.toString()));
+		if(Tools.isBlankOrNull(email)){
+			throw new JCertifInvalidRequestException("Email cannot be null or empty");
+		}
 		
-    	sponsor.save();
+		Sponsor sponsor = Sponsor.find(email);
+		
+		if(null == sponsor){
+			throw new JCertifObjectNotFoundException(Sponsor.class, email);
+		}
+		
+		CheckHelper.checkVersion(sponsor, version);
+		
+		sponsor.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		sponsor.save();
 		return ok(JSON.serialize("Ok"));
     }
 
@@ -48,9 +66,19 @@ public class SponsorController extends Controller {
     public static Result removeSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		
-    	Sponsor sponsor = new Sponsor((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	String email = jsonNode.findPath(Constantes.EMAIL_ATTRIBUTE_NAME).getTextValue();
+    	
+    	if(Tools.isBlankOrNull(email)){
+			throw new JCertifInvalidRequestException("Email cannot be null or empty");
+		}
+    	
+    	Sponsor sponsor = Sponsor.find(email);
 		
-    	sponsor.remove();
+		if(null == sponsor){
+			throw new JCertifObjectNotFoundException(Sponsor.class, email);
+		}
+
+		sponsor.remove();
 		return ok(JSON.serialize("Ok"));
     }
 }

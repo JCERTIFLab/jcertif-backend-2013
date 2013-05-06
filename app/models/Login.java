@@ -1,18 +1,17 @@
 package models;
 
-import static models.CheckHelper.checkEmail;
-import static models.CheckHelper.checkNull;
-import static models.CheckHelper.checkPassword;
-
 import java.util.List;
 
-import models.util.Constantes;
+import models.validation.Constraints.NotBlank;
+import play.data.validation.Constraints.Email;
 
 import com.mongodb.BasicDBObject;
 
 public class Login extends JCertifModel {
 	
+	@NotBlank(propertyName="Email") @Email(message="{value} is not a valid email")
 	private String email;
+	@NotBlank(propertyName="Password")
     private String password;
 
     public Login(BasicDBObject basicDBObject) {
@@ -44,32 +43,6 @@ public class Login extends JCertifModel {
         basicDBObject.put("password", password);
         return basicDBObject;
     }
-
-    public final void check(BasicDBObject objectToCheck) {
-    	checkNull(objectToCheck);
-    	checkEmail(objectToCheck);
-    	checkPassword(objectToCheck);
-    }
-
-	@Override
-    public final void updateCheck(BasicDBObject objectToCheck) {
-    	check(objectToCheck);
-    }
-
-    @Override
-    public final void deleteCheck(BasicDBObject objectToCheck) {
-    	check(objectToCheck);
-    }
-
-    @Override
-    public void addCheck(BasicDBObject objectToCheck) {
-    	check(objectToCheck);
-    }
-
-	@Override
-	public String getKeyName() {
-		return Constantes.EMAIL_ATTRIBUTE_NAME;
-	}
 	
 	public static List<BasicDBObject> findAll(){
 		return getFinder().findAll(Login.class);

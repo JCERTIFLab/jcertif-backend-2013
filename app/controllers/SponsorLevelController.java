@@ -1,6 +1,10 @@
 package controllers;
 
 import models.SponsorLevel;
+import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
+import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -41,8 +45,18 @@ public class SponsorLevelController extends Controller {
         
 		JsonNode jsonNode = request().body().asJson();
 		
-		SponsorLevel sponsorLevel = new SponsorLevel((BasicDBObject)JSON.parse(jsonNode.toString()));
+		String label = jsonNode.findPath(Constantes.LABEL_ATTRIBUTE_NAME).getTextValue();
 		
+		if(Tools.isBlankOrNull(label)){
+			throw new JCertifInvalidRequestException("Label cannot be null or empty");
+		}
+		
+		SponsorLevel sponsorLevel = SponsorLevel.find(label);
+		
+		if(null == sponsorLevel){
+			throw new JCertifObjectNotFoundException(SponsorLevel.class, label);
+		}
+
 		sponsorLevel.remove();
 		return ok(JSON.serialize("Ok"));
     }

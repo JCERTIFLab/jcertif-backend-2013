@@ -1,24 +1,34 @@
 package models;
 
-import static models.CheckHelper.checkEmail;
-import static models.CheckHelper.checkNull;
-import static models.CheckHelper.checkNullOrEmpty;
-
 import java.util.List;
 
-import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifDuplicateObjectException;
 import models.util.Constantes;
+import models.validation.Constraints.NotBlank;
+import models.validation.Constraints.SponsorLevel;
+import play.data.validation.Constraints.Email;
 
 import com.mongodb.BasicDBObject;
 
+/**
+ * <p>Objet metier représentant un sponsor de l'évènement JCertif Conference.</p>
+ *
+ */
 public class Sponsor extends JCertifModel {
 	
+	@NotBlank(propertyName="Email") @Email(message="{value} is not a valid email")
 	private String email;
+	@NotBlank(propertyName="Name")
     private String name;
+	@NotBlank(propertyName="Logo")
     private String logo;
+	@NotBlank(propertyName="Level") @SponsorLevel
     private String level;
+	@NotBlank(propertyName="Website")
     private String website;
+	@NotBlank(propertyName="City")
     private String city;
+	@NotBlank(propertyName="Country")
     private String country;
     private String phone;
     private String about;
@@ -40,72 +50,72 @@ public class Sponsor extends JCertifModel {
         return email;
     }
 
-    public final void setEmail(String email1) {
-        this.email = email1;
+    public final void setEmail(String email) {
+        this.email = email;
     }
 
     public final String getName() {
         return name;
     }
 
-    public final void setName(String name1) {
-        this.name = name1;
+    public final void setName(String name) {
+        this.name = name;
     }
 
     public final String getLogo() {
         return logo;
     }
 
-    public final void setLogo(String logo1) {
-        this.logo = logo1;
+    public final void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public final String getLevel() {
         return level;
     }
 
-    public final void setLevel(String level1) {
-        this.level = level1;
+    public final void setLevel(String level) {
+        this.level = level;
     }
 
     public final String getWebsite() {
         return website;
     }
 
-    public final void setWebsite(String website1) {
-        this.website = website1;
+    public final void setWebsite(String website) {
+        this.website = website;
     }
 
     public final String getCity() {
         return city;
     }
 
-    public final void setCity(String city1) {
-        this.city = city1;
+    public final void setCity(String city) {
+        this.city = city;
     }
 
     public final String getCountry() {
         return country;
     }
 
-    public final void setCountry(String country1) {
-        this.country = country1;
+    public final void setCountry(String country) {
+        this.country = country;
     }
 
     public final String getPhone() {
         return phone;
     }
 
-    public final void setPhone(String phone1) {
-        this.phone = phone1;
+    public final void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public final String getAbout() {
         return about;
     }
 
-    public final void setAbout(String about1) {
-        this.about = about1;
+    public final void setAbout(String about) {
+        this.about = about;
     }
 
     @Override
@@ -122,45 +132,25 @@ public class Sponsor extends JCertifModel {
         basicDBObject.put("about", getAbout());
         return basicDBObject;
     }
-    
-    @Override
-    public final void updateCheck(BasicDBObject objectToCheck) {
-    	checkNull(objectToCheck);
-		checkEmail(objectToCheck);
-    }
 
     @Override
-    public final void deleteCheck(BasicDBObject objectToCheck) {
-    	checkNull(objectToCheck);
-		checkEmail(objectToCheck);
+    public int create() {
+    	if(find(email) != null){
+    		throw new JCertifDuplicateObjectException(getClass(), email);
+    	}
+    	return super.create();
     }
-
-    @Override
-    public void addCheck(BasicDBObject objectToCheck) {
-    	checkNull(objectToCheck);
-    	checkEmail(objectToCheck);
-        
-    	Sponsor sponsor = new Sponsor(objectToCheck);
-
-        checkNullOrEmpty("Name", sponsor.getName());
-        checkNullOrEmpty("Logo", sponsor.getLogo());
-        checkNullOrEmpty("Level", sponsor.getLevel());
-        checkNullOrEmpty("Website", sponsor.getWebsite());
-        checkNullOrEmpty("City", sponsor.getCity());
-        checkNullOrEmpty("Country", sponsor.getCountry());
-        
-        SponsorLevel sponsorLevel = SponsorLevel.find(sponsor.getLevel());
-        
-        if(null==sponsorLevel){
-            throw new JCertifInvalidRequestException("Sponsor Level '" + sponsor.getLevel() + "' does not exist. Check Sponsor Level List" );
-        }
-    }
-
-	@Override
-	public String getKeyName() {
-		return Constantes.EMAIL_ATTRIBUTE_NAME;
+    public static Sponsor find(String email){
+    	Sponsor sponsor = null;
+    	
+    	BasicDBObject dbObject = getFinder().find(Sponsor.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
+    	
+    	if(null != dbObject){
+    		sponsor = new Sponsor(dbObject);
+    	}
+		return sponsor; 
 	}
-
+    
 	public static List<BasicDBObject> findAll(){
 		return getFinder().findAll(Sponsor.class);
 	}

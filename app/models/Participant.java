@@ -11,7 +11,10 @@ import models.util.Tools;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-
+/**
+ * <p>Objet mtier représentant un participant de JCertif Conference.</p>
+ *
+ */
 public class Participant extends Member {
 	
 	private List<String> sessions = new ArrayList<String>();
@@ -39,7 +42,7 @@ public class Participant extends Member {
 	@Override
 	public int create() {
 		int id = super.create();
-		boolean isOK = Integer.parseInt(getVersion()) < id;
+		boolean isOK = id == 1;
 		
 		if(isOK){
 			/* send email */

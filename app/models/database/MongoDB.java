@@ -20,15 +20,15 @@ import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 
-public final class MongoDatabase {
+public final class MongoDB {
 
     private DB db = null;
 
-	private static MongoDatabase instance = new MongoDatabase();
+	private static MongoDB instance = new MongoDB();
 
-	private MongoDatabase() {
+	private MongoDB() {
         super();
-        Logger.info("Enter MongoDatabase()");
+        Logger.info("Enter MongoDB()");
 		String dbhost = Play.application().configuration().getString(
 				"database.host");
 		String dbname = Play.application().configuration().getString(
@@ -54,10 +54,10 @@ public final class MongoDatabase {
 		} catch (UnknownHostException e) {
 			Logger.error("Impossible d'initialiser le client MongoClient", e);
 		} 
-        Logger.info("Exit MongoDatabase()");
+        Logger.info("Exit MongoDB()");
 	}
 
-	public static MongoDatabase getInstance() {
+	public static MongoDB getInstance() {
 		return instance;
 	}
 
@@ -133,6 +133,14 @@ public final class MongoDatabase {
 	public BasicDBObject readOne(String collectionName, DBObject query) {
         Logger.debug("readOne(collectionName=" + collectionName + ", query="+query+")");
 		return (BasicDBObject) db.getCollection(collectionName).findOne(query);
+	}
+	
+	public BasicDBObject readNextSequence(String collectionName) {
+		BasicDBObject query = new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, collectionName);
+		BasicDBObject seqField = new BasicDBObject(Constantes.SEQ_ATTRIBUTE_NAME, 1);
+		BasicDBObject update = new BasicDBObject("$inc", seqField);
+        Logger.debug("readNextSequence(collectionName=counters , query="+query+")");
+		return (BasicDBObject) db.getCollection("counters").findAndModify(query, seqField, null, false, update, true, true);
 	}
 
 	public DBCursor list(String collectionName, DBObject query) {

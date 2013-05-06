@@ -96,7 +96,7 @@ public class TitleControllerTest extends ReferentielControllerTest {
             public void run() {
             	try {
 					TestUtils.updateDatabase("test/data/title.js");
-					Logger.info("Suppression d'une catégorie");
+					Logger.info("Suppression d'une civilité");
 	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Title2");
 	                params.put("version", "01");

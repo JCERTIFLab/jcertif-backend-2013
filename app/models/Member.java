@@ -1,15 +1,17 @@
 package models;
 
-import static models.CheckHelper.checkEmail;
-import static models.CheckHelper.checkNull;
-import static models.CheckHelper.checkNullOrEmpty;
-import static models.CheckHelper.checkPassword;
+import static models.validation.CheckHelper.checkPassword;
+import models.exception.JCertifDuplicateObjectException;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifResourceAccessException;
 import models.notifiers.EmailNotification;
 import models.util.Constantes;
-import models.util.Tools;
 import models.util.crypto.CryptoUtil;
+import models.validation.CheckHelper;
+import models.validation.Constraints.NotBlank;
+import models.validation.Constraints.Password;
+import models.validation.Constraints.Title;
+import play.data.validation.Constraints.Email;
 
 import com.mongodb.BasicDBObject;
 
@@ -27,13 +29,20 @@ import com.mongodb.BasicDBObject;
  */
 public abstract class Member extends JCertifModel {
 	
+	@NotBlank(propertyName="Email") @Email(message="{value} is not a valid email")
 	private String email;
+	@NotBlank(propertyName="Password") @Password
     private String password;
+	@NotBlank(propertyName="Title") @Title
     private String title;
+	@NotBlank(propertyName="LastName")
     private String lastname;
+	@NotBlank(propertyName="FirstName")
     private String firstname;
     private String website;
+    @NotBlank(propertyName="City")
     private String city;
+    @NotBlank(propertyName="Country")
     private String country;
     private String company;
     private String phone;
@@ -170,73 +179,21 @@ public abstract class Member extends JCertifModel {
         return basicDBObject;
     }
     
-    @Override
-    public final void updateCheck(BasicDBObject objectToCheck) {
-    	checkNull(objectToCheck);
-    	checkEmail(objectToCheck);
-    	updateCheckTitle(objectToCheck);
-    }
-
-	@Override
-    public final void deleteCheck(BasicDBObject objectToCheck) {
-    	checkNull(objectToCheck);
-    	checkEmail(objectToCheck);
-    }
-
-    @Override
-    public final void addCheck(BasicDBObject objectToCheck) {
-    	checkNull(objectToCheck);
-    	checkEmail(objectToCheck);
-    	addCheckTitle(objectToCheck);
+    public int create() {
     	
-        Member member = new DummyMember(objectToCheck);
-
-        checkPassword(member.getPassword(), null, false);
+    	if(getFinder().find(getClass(), Constantes.EMAIL_ATTRIBUTE_NAME, email) != null){
+    		throw new JCertifDuplicateObjectException(getClass(), email);
+    	}
+    	
+    	checkPassword(getPassword(), null, false);
         
         //after check the password compliance according to policy we encrypt
-        objectToCheck.put("password", CryptoUtil.getSaltedPassword(member.getPassword().getBytes()));
+        setPassword(CryptoUtil.getSaltedPassword(getPassword().getBytes()));
+        
+        return super.create();
 
-        checkNullOrEmpty("Lastname", member.getLastname());
-        checkNullOrEmpty("Firstname", member.getFirstname());
-        checkNullOrEmpty("City", member.getCity());
-        checkNullOrEmpty("Country", member.getCountry());
-    }
-    
-    private void addCheckTitle(BasicDBObject objectToCheck) {
-    	String titleToCheck = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
-    	checkNullOrEmpty("Title", titleToCheck);
-
-    	if (null == Title.find(titleToCheck)) {
-            throw new JCertifInvalidRequestException("Invalid title");
-        }    	
 	}
-    
-    private void updateCheckTitle(BasicDBObject objectToCheck) {
-    	String titleToCheck = objectToCheck.getString(Constantes.TITLE_ATTRIBUTE_NAME);
-    	if (!Tools.isBlankOrNull(titleToCheck) &&
-    			null == Title.find(titleToCheck)) {
-    		throw new JCertifInvalidRequestException("Invalid title");
-        }  	
-	}
-    
-    class DummyMember extends Member {
 
-		public DummyMember(BasicDBObject basicDBObject) {
-			super(basicDBObject);
-		}
-
-		@Override
-		public String getKeyName() {
-			return null;
-		}
-    	
-    }
-    
-    @Override
-	public String getKeyName() {
-		return Constantes.EMAIL_ATTRIBUTE_NAME;
-	}
-    
     public void changePassword(String oldPassword, String newPassword) {
 		
 		CheckHelper.checkPassword(oldPassword, newPassword, true);

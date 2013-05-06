@@ -5,7 +5,7 @@ import com.google.common.io.Files;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 
-import models.database.MongoDatabase;
+import models.database.MongoDB;
 import play.Logger;
 import play.Play;
 
@@ -30,7 +30,7 @@ public class TestUtils {
             sb.append(instr);
         }
         Logger.info("############ Update database ########### \n " + sb.toString());
-        MongoDatabase.getInstance().getDb().eval(sb.toString());
+        MongoDB.getInstance().getDb().eval(sb.toString());
 
     }
     
@@ -42,7 +42,7 @@ public class TestUtils {
      * @return Une liste correspondant aux résultats de la requete.
      */
     public static List<BasicDBObject> loadFromDatabase(String collectionName, BasicDBObject query) {
-    	DBCursor dbCursor =  MongoDatabase.getInstance().list(collectionName, query);
+    	DBCursor dbCursor =  MongoDB.getInstance().list(collectionName, query);
         List<BasicDBObject> resultList = new ArrayList<BasicDBObject>();
         BasicDBObject result = null;
 		while (dbCursor.hasNext()) {

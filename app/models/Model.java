@@ -1,43 +1,56 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import models.database.MongoDatabase;
-import models.exception.JCertifDuplicateObjectException;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import models.database.MongoDB;
 import models.exception.JCertifException;
-import models.exception.JCertifObjectNotFoundException;
-import models.exception.JCertifStaleObjectException;
 import models.util.Constantes;
 import models.util.Tools;
+import models.validation.ContextualMessageInterpolator;
+import models.validation.ValidationUtils;
 
 import org.apache.commons.lang.StringUtils;
+import org.bson.types.ObjectId;
+import org.hibernate.validator.HibernateValidator;
+import org.hibernate.validator.HibernateValidatorConfiguration;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.QueryBuilder;
 import com.mongodb.WriteResult;
 
-public abstract class Model implements CRUD, Check {
+public abstract class Model implements CRUD {
 	
+	private static final ValidatorFactory validationFactory;
+	
+	static {
+		HibernateValidatorConfiguration configuration = Validation.byProvider(HibernateValidator.class).configure().failFast(true);
+		validationFactory = configuration.messageInterpolator(new ContextualMessageInterpolator(configuration.getDefaultMessageInterpolator()))
+	    .buildValidatorFactory();
+	}
+    	
 	private static final Finder FINDER = new Finder();
 	public static Finder getFinder() {
 		return FINDER;
 	}
 	
+	private ObjectId _id;
 	private String version;
 	private String deleted;
 	
 	public Model(BasicDBObject basicDBObject){
+		this._id = basicDBObject.getObjectId(Constantes.MONGOD_ID_ATTRIBUTE_NAME);
 		this.version = basicDBObject.getString(Constantes.VERSION_ATTRIBUTE_NAME);
 		this.deleted = basicDBObject.getString(Constantes.DELETED_ATTRIBUTE_NAME);
 	}
 
-	public abstract String getKeyName();
 	public void setVersion(String version) {
 		this.version = version;
 	}
@@ -80,7 +93,7 @@ public abstract class Model implements CRUD, Check {
 	 * @param clazz Classe du model
 	 * @return Le nom conventionnel de la collection associe à la classe
 	 */
-	protected static String getCollectionName(Class<?> clazz){
+	public static String getCollectionName(Class<?> clazz){
 		String collectionName = "";
 		for(String name : StringUtils.splitByCharacterTypeCamelCase(clazz.getSimpleName())){
 			collectionName += "_" + name;
@@ -88,78 +101,42 @@ public abstract class Model implements CRUD, Check {
 		return collectionName.substring(1).toLowerCase();
 	}
 
-	public final int add(BasicDBObject objectToAdd, String idKeyname) {
-		addCheck(objectToAdd);		
-		BasicDBObject dbObject = new BasicDBObject();
-		dbObject.put(idKeyname, objectToAdd.get(idKeyname));
-		BasicDBObject existingObjectToAdd = MongoDatabase.getInstance()
-				.readOne(getCollectionName(getClass()), dbObject);
-		if (null != existingObjectToAdd) {
-			throw new JCertifDuplicateObjectException(this.getClass(), existingObjectToAdd.getString(idKeyname));
+	public final int add() {
+		Validator validator = validationFactory.getValidator();
+		Set<ConstraintViolation<Model>> violations = validator.validate(this);				
+		
+		if(violations.size() > 0){
+			ValidationUtils.throwException(violations);
 		}
-
-		WriteResult result = MongoDatabase.getInstance().create(
-				getCollectionName(getClass()), objectToAdd);
+		
+		BasicDBObject dbObjectToAdd = toBasicDBObject();
+		
+		WriteResult result = MongoDB.getInstance().create(
+				getCollectionName(getClass()), dbObjectToAdd);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this.getClass(), result.getError());
 		}
 		return 1;
 	}
 
-	/**
-	 * This method sould be revisited
-	 * 
-	 * @param objectToUpdate
-	 * @param idKeyname
-	 * @return
-	 * @throws JCertifException
-	 */
-	public final int update(BasicDBObject objectToUpdate, String idKeyname) {
-		updateCheck(objectToUpdate);
-		BasicDBObject dbObject = new BasicDBObject();
-		dbObject.put(idKeyname, objectToUpdate.get(idKeyname));
-		BasicDBObject existingObjectToUpdate = MongoDatabase.getInstance()
-				.readOne(getCollectionName(getClass()), dbObject);
-		if (null == existingObjectToUpdate) {
-			throw new JCertifObjectNotFoundException(this.getClass(), objectToUpdate.get(idKeyname).toString());
+	public final int update() {
+		Validator validator = validationFactory.getValidator();
+		Set<ConstraintViolation<Model>> violations = validator.validate(this);
+		
+		if(violations.size() > 0){
+			ValidationUtils.throwException(violations);
 		}
 		
-		if(!existingObjectToUpdate.getString(Constantes.VERSION_ATTRIBUTE_NAME).equals(objectToUpdate.getString(Constantes.VERSION_ATTRIBUTE_NAME))){
-			throw new JCertifStaleObjectException(this.getClass(), objectToUpdate.get(idKeyname).toString());
-		}
-		
-		existingObjectToUpdate = merge(objectToUpdate,existingObjectToUpdate);
-		int newId = increment(existingObjectToUpdate);
+		BasicDBObject dbObjectToUpdate = toBasicDBObject();
+		dbObjectToUpdate.append(Constantes.MONGOD_ID_ATTRIBUTE_NAME, _id);
+		int newId = increment(dbObjectToUpdate);
 
-		WriteResult result = MongoDatabase.getInstance().update(
-				getCollectionName(getClass()), existingObjectToUpdate);
+		WriteResult result = MongoDB.getInstance().update(
+				getCollectionName(getClass()), dbObjectToUpdate);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this.getClass(), result.getError());
 		}
 		return newId;
-	}
-
-	/**
-	 * @param objectToUpdate
-	 * @param existingObjectToUpdate
-	 * @return
-	 */
-	private BasicDBObject merge(BasicDBObject objectToUpdate,
-			BasicDBObject existingObjectToUpdate) {
-		
-		Map<String, Object> fieldMap = objectToUpdate.toMap();
-		Map<String, Object> fieldToSaveMap = new HashMap<String, Object>();
-		for (Entry<String, Object> entry : (Set<Entry<String, Object>>)fieldMap.entrySet()) {
-			if(entry.getValue() != null && 
-					(!(entry.getValue() instanceof List<?>)||
-					((entry.getValue() instanceof List<?>) &&
-							!Tools.isBlankOrNull((ArrayList<?>)entry.getValue())))){
-				fieldToSaveMap.put(entry.getKey(), entry.getValue());
-			}
-		}
-		existingObjectToUpdate.putAll(fieldToSaveMap);
-		
-		return existingObjectToUpdate;
 	}
 
 	/**
@@ -171,31 +148,41 @@ public abstract class Model implements CRUD, Check {
 	public static class Finder {
 
 
+		public String findNextSequence(Class<?> clazz) {
+        	int id = Integer.parseInt(MongoDB.getInstance().readNextSequence(
+        			getCollectionName(clazz)).getString(Constantes.SEQ_ATTRIBUTE_NAME));
+        	
+        	if(id < 10){
+        		return String.format("%02d", id);
+        	}else{
+        		return Integer.toString(id);
+        	}
+        }
+		
         public BasicDBObject find(Class<?> clazz, String keyName, Object keyValue) {
-        	return MongoDatabase.getInstance().readOne(
+        	return MongoDB.getInstance().readOne(
         			getCollectionName(clazz), 
         			QueryBuilder.start().put(keyName).is(keyValue)
         			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
         }
         
         public List<BasicDBObject> findAll(Class<?> clazz, String keyName, Object keyValue) {
-        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+        	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
     				QueryBuilder.start().put(keyName).is(keyValue)
-        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get(), 
-    				new BasicDBObject(Constantes.MONGOD_ID_ATTRIBUTE_NAME, 0));
+        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
     		return buildResultList(dbCursor);
         }
 
         public List<BasicDBObject> findAll(Class<?> clazz) {
-        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+        	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
     				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
         	return buildResultList(dbCursor);
         }
         
         public List<BasicDBObject> findAll(Class<?> clazz, String version) {
-        	DBCursor dbCursor = MongoDatabase.getInstance().list(
+        	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
     				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false")
         			.put(Constantes.VERSION_ATTRIBUTE_NAME).greaterThan(version).get());

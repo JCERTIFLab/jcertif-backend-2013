@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -32,11 +33,11 @@ public final class Tools {
     private static final Pattern NUMBER_PATTERN = Pattern.compile(".*[^0-9].*");
     
     public static boolean isBlankOrNull(String str) {
-        return ((null == str) || (str.trim().length() == 0));
+        return (null == str || str.trim().length() == 0);
     }
 
-    public static boolean isBlankOrNull(List<?> list) {
-        return ((null == list) || (list.isEmpty()));
+    public static boolean isBlankOrNull(Collection<?> list) {
+        return (null == list) || (list.isEmpty());
     }
 
     public static boolean isValidEmail(String email) {
@@ -71,7 +72,7 @@ public final class Tools {
     }
 
     public static boolean isValidDate(String dateToValidate){
-        if(dateToValidate == null){
+        if(Tools.isBlankOrNull(dateToValidate)){
             return false;
         }
 

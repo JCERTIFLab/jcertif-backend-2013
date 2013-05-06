@@ -191,6 +191,7 @@ public abstract class MemberControllerTest {
 		                params.put("company", "Lost");
 		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
 		                params.put("biography", "The new me");
+		                params.put("version", "01");
 		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	 
 		                TestUtils.updateDatabase("test/data/purge.js");

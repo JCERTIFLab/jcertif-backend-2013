@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import models.database.MongoDatabase;
+import models.database.MongoDB;
 import models.exception.JCertifExceptionHandler;
 import models.util.Constantes;
 import play.Application;
@@ -28,7 +28,7 @@ public class Global extends GlobalSettings {
 		super.onStart(application);
 		Logger.info("Initialisation des données de référence");
 		try {
-			MongoDatabase.getInstance().loadDbWithData(Constantes.INIT_DATA_FILE);
+			MongoDB.getInstance().loadDbWithData(Constantes.INIT_DATA_FILE);
 		} catch (IOException e) {
 			Logger.info("Impossible d'initialiser les données de réference : " + e.getMessage());			
 		}

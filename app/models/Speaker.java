@@ -6,6 +6,10 @@ import models.util.Constantes;
 
 import com.mongodb.BasicDBObject;
 
+/**
+ * <p>Objet metier représentant un présentateur JCertif Conference.</p>
+ *
+ */
 public class Speaker extends Member {
 	
     public Speaker(BasicDBObject basicDBObject) {

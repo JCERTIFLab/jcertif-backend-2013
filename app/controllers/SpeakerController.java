@@ -1,7 +1,11 @@
 package controllers;
 
 import models.Speaker;
+import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
+import models.util.Tools;
+import models.validation.CheckHelper;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -52,10 +56,23 @@ public class SpeakerController extends Controller {
     @Authenticated
     public static Result updateSpeaker() {
     	JsonNode jsonNode = request().body().asJson();
+		String email = jsonNode.findPath(Constantes.EMAIL_ATTRIBUTE_NAME).getTextValue();
+		String version = jsonNode.findPath(Constantes.VERSION_ATTRIBUTE_NAME).getTextValue();
 		
-    	Speaker speaker = new Speaker((BasicDBObject)JSON.parse(jsonNode.toString()));
+		if(Tools.isBlankOrNull(email)){
+			throw new JCertifInvalidRequestException("Email cannot be null or empty");
+		}
 		
-    	speaker.save();
+		Speaker speaker = Speaker.find(email);
+		
+		if(null == speaker){
+			throw new JCertifObjectNotFoundException(Speaker.class, email);
+		}
+		
+		CheckHelper.checkVersion(speaker, version);
+		
+		speaker.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		speaker.save();
 		return ok(JSON.serialize("Ok"));
     }
 
@@ -63,10 +80,19 @@ public class SpeakerController extends Controller {
     public static Result removeSpeaker() {
     	JsonNode jsonNode = request().body().asJson();
 		
-    	Speaker speaker = new Speaker((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	String email = jsonNode.findPath(Constantes.EMAIL_ATTRIBUTE_NAME).getTextValue();
     	
-    	speaker.remove();
+    	if(Tools.isBlankOrNull(email)){
+			throw new JCertifInvalidRequestException("Email cannot be null or empty");
+		}
+    	
+    	Speaker speaker = Speaker.find(email);
+		
+		if(null == speaker){
+			throw new JCertifObjectNotFoundException(Speaker.class, email);
+		}
 
+		speaker.remove();
 		return ok(JSON.serialize("Ok"));
     }
 

@@ -15,7 +15,7 @@ public final class JCertifExceptionHandler {
 
 	private JCertifExceptionHandler(){		
 	}
-	
+
 	public static Result resolve(Throwable throwable){
 		
 		Logger.info("JCertif ExceptionHandler");

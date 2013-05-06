@@ -8,3 +8,4 @@ db.sponsor_level.remove();
 db.sponsor.remove();
 db.site.remove();
 db.room.remove();
+db.counters.remove();

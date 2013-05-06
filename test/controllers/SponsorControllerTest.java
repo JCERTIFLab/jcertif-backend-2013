@@ -283,7 +283,7 @@ public class SponsorControllerTest {
 	                Assert.assertEquals("test@sponsor.com",dbObject.getString("email"));
 	                Assert.assertEquals("Test SA",dbObject.getString("name"));
 	                Assert.assertEquals("http://www.test.com/icons/logo.gif",dbObject.getString("logo"));
-	                Assert.assertEquals("Platinium",dbObject.getString("level"));
+	                Assert.assertEquals("SponsorLevel1",dbObject.getString("level"));
 	                Assert.assertEquals("www.test.com",dbObject.getString("website"));
 	                Assert.assertEquals("myNewCity",dbObject.getString("city"));
 	                Assert.assertEquals("myNewCoutry",dbObject.getString("country"));

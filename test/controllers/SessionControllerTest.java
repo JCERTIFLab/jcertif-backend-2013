@@ -52,7 +52,7 @@ public class SessionControllerTest {
 	                Assert.assertEquals("title 1",jsonNode.get(0).findPath("title").getTextValue());
 	                Assert.assertEquals("summary 1",jsonNode.get(0).findPath("summary").getTextValue());
 	                Assert.assertEquals("description 1",jsonNode.get(0).findPath("description").getTextValue());
-	                Assert.assertEquals("status 1",jsonNode.get(0).findPath("status").getTextValue());
+	                Assert.assertEquals("Status1",jsonNode.get(0).findPath("status").getTextValue());
 	                Assert.assertEquals("keyword 1",jsonNode.get(0).findPath("keyword").getTextValue());
 	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(0).findPath("start").getTextValue());
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(0).findPath("end").getTextValue());
@@ -65,7 +65,7 @@ public class SessionControllerTest {
 	                Assert.assertEquals("title 2",jsonNode.get(1).findPath("title").getTextValue());
 	                Assert.assertEquals("summary 2",jsonNode.get(1).findPath("summary").getTextValue());
 	                Assert.assertEquals("description 2",jsonNode.get(1).findPath("description").getTextValue());
-	                Assert.assertEquals("status 2",jsonNode.get(1).findPath("status").getTextValue());
+	                Assert.assertEquals("Status2",jsonNode.get(1).findPath("status").getTextValue());
 	                Assert.assertEquals("keyword 2",jsonNode.get(1).findPath("keyword").getTextValue());
 	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(1).findPath("start").getTextValue());
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(1).findPath("end").getTextValue());
@@ -97,7 +97,7 @@ public class SessionControllerTest {
 	                Assert.assertEquals("title 2",jsonNode.get(0).findPath("title").getTextValue());
 	                Assert.assertEquals("summary 2",jsonNode.get(0).findPath("summary").getTextValue());
 	                Assert.assertEquals("description 2",jsonNode.get(0).findPath("description").getTextValue());
-	                Assert.assertEquals("status 2",jsonNode.get(0).findPath("status").getTextValue());
+	                Assert.assertEquals("Status2",jsonNode.get(0).findPath("status").getTextValue());
 	                Assert.assertEquals("keyword 2",jsonNode.get(0).findPath("keyword").getTextValue());
 	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(0).findPath("start").getTextValue());
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(0).findPath("end").getTextValue());
@@ -122,7 +122,6 @@ public class SessionControllerTest {
                 try {
 					TestUtils.updateDatabase("test/data/session.js");
 					Map<String, Object> params = new HashMap<String, Object>();
-	                params.put("id", "105");
 	                params.put("title", "Lost in the jungle");
 	                params.put("summary", "Learn how to suvive in the jungle");
 	                params.put("description", "A small desc of lost in the jungle");
@@ -136,7 +135,7 @@ public class SessionControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la nouvelle session est bien présente en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION, new BasicDBObject().append("id", "105"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION, new BasicDBObject().append("id", "01"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Assert.assertEquals("Lost in the jungle",dbObjects.get(0).get("title"));
@@ -175,7 +174,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -241,7 +240,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -273,7 +272,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -306,7 +305,7 @@ public class SessionControllerTest {
                         params.put("description", "");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -338,7 +337,7 @@ public class SessionControllerTest {
                         params.put("summary", "summary 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -371,7 +370,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -403,7 +402,7 @@ public class SessionControllerTest {
                         params.put("summary", "summary 2");
                         params.put("description", "description 2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -436,7 +435,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -468,7 +467,7 @@ public class SessionControllerTest {
                         params.put("summary", "summary 2");
                         params.put("description", "description 2");
                         params.put("status", "Status2");
-                        params.put("category", new String[]{"HTML"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:22");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -566,7 +565,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category 2"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "");
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
@@ -599,7 +598,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category 2"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
@@ -631,7 +630,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category 2"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "12/12/2013 10:23");
                         params.put("end", "");
                         params.put("speakers", new String[]{"13"});
@@ -664,7 +663,7 @@ public class SessionControllerTest {
                         params.put("description", "description 2");
                         params.put("status", "Status2");
                         params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"category 2"});
+                        params.put("category", new String[]{"HTML 5"});
                         params.put("start", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
@@ -731,7 +730,7 @@ public class SessionControllerTest {
                         params.put("keyword", "keyword 2");
                         params.put("category", new String[]{"Android","HTML 5"} );
                         params.put("start", "16/12/2013 10:23");
-                        params.put("end", "2013/04/07 3:43");
+                        params.put("end", "2013/12/23 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
                         Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
@@ -895,21 +894,6 @@ public class SessionControllerTest {
     }
     
     @Test
-    public void test_session_deletion_invalid_id() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_session_deletion_invalid_id ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "abc1_");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_session_deletion_invalid_id ***");
-            }
-        });
-    }
-    
-    @Test
     public void test_session_deletion_unregistred_session_id() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -986,7 +970,6 @@ public class SessionControllerTest {
             	Map<String, Object> params = new HashMap<String, Object>();
                 params.put("", "101");
             	Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-            	Logger.info("tracked result is : " + status(result));
             	assertThat(status(result)).isEqualTo(BAD_REQUEST);
             }
         });
@@ -1024,7 +1007,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void test_update_session_unreistered_room() {
+    public void test_update_session_unregistered_room() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_session_unreistered_room() ***");
@@ -1043,6 +1026,7 @@ public class SessionControllerTest {
                         params.put("start", "16/10/2013 10:23");
                         params.put("end", "27/12/2013 03:43");
                         params.put("speakers", new String[]{"13","34"});
+                        params.put("version", "01");
                         
                         Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -1069,7 +1053,7 @@ public class SessionControllerTest {
                         params.put("title", "title 3");
                         params.put("summary", "summary 3");
                         params.put("description", "description 3");
-                        params.put("status", "status 3");
+                        params.put("status", "Status3");
                         params.put("keyword", "keyword 3");
                         params.put("room", "01");
                         params.put("version", "01");
@@ -1087,7 +1071,7 @@ public class SessionControllerTest {
     	                Assert.assertEquals("title 3",dbObject.getString("title"));
     	                Assert.assertEquals("summary 3",dbObject.getString("summary"));
     	                Assert.assertEquals("description 3",dbObject.getString("description"));
-    	                Assert.assertEquals("status 3",dbObject.getString("status"));
+    	                Assert.assertEquals("Status3",dbObject.getString("status"));
     	                Assert.assertEquals("keyword 3",dbObject.getString("keyword"));
     	                Assert.assertEquals("01",dbObject.getString("room"));
     	                Assert.assertEquals("12/02/2013 10:22",dbObject.getString("start"));

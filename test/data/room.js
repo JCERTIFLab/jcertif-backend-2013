@@ -27,7 +27,7 @@ db.site.insert({
 });
 db.room.remove();
 db.room.insert({
-	id : "01",
+	id : "101",
     name : "name 1",
     site : "101",
     seats : "500",
@@ -37,7 +37,7 @@ db.room.insert({
 	deleted: 'false'
 });
 db.room.insert({
-    id : "02",
+    id : "102",
     name : "name 2",
     site : "101",
     seats : "200",
@@ -47,7 +47,7 @@ db.room.insert({
 	deleted: 'false'
 });
 db.room.insert({
-    id : "03",
+    id : "103",
     name : "name 3",
     site : "102",
     seats : "100",
@@ -57,7 +57,7 @@ db.room.insert({
 	deleted: 'false'
 });
 db.room.insert({
-    id : "04",
+    id : "104",
     name : "name 4",
     site : "102",
     seats : "100",

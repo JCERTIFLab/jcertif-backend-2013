@@ -1,13 +1,14 @@
 package models;
 
-import static models.CheckHelper.checkLabel;
-import static models.CheckHelper.checkNull;
+import models.exception.JCertifDuplicateObjectException;
 import models.util.Constantes;
+import models.validation.Constraints.NotBlank;
 
 import com.mongodb.BasicDBObject;
 
 public abstract class Referentiel extends JCertifModel {
 
+	@NotBlank(propertyName="Label")
     private String label;
 
     public Referentiel(BasicDBObject basicDBObject){
@@ -30,30 +31,12 @@ public abstract class Referentiel extends JCertifModel {
         return basicDBObject;
     }
     
-    
     @Override
-	public String getKeyName() {
-		return Constantes.LABEL_ATTRIBUTE_NAME;
-	}
-    
-    public final void check(BasicDBObject objectToCheck) {
-		checkNull(objectToCheck);
-		checkLabel(objectToCheck);
-	}
-
-	@Override
-	public final void updateCheck(BasicDBObject objectToCheck) {
-		check(objectToCheck);
-	}
-	
-	@Override
-	public final void deleteCheck(BasicDBObject objectToCheck) {
-		check(objectToCheck);
-	}
-
-	@Override
-	public final void addCheck(BasicDBObject objectToCheck) {
-		check(objectToCheck);
-	}
+    public int create() {
+    	if(getFinder().find(getClass(),Constantes.LABEL_ATTRIBUTE_NAME,label) != null){
+    		throw new JCertifDuplicateObjectException(getClass(), label);
+    	}
+    	return super.create();
+    }
 
 }

@@ -1,6 +1,10 @@
 package controllers;
 
 import models.SessionStatus;
+import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
+import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -33,8 +37,18 @@ public class SessionStatusController extends Controller {
     public static Result removeSessionStatus() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		SessionStatus sessionStatus = new SessionStatus((BasicDBObject)JSON.parse(jsonNode.toString()));
+		String label = jsonNode.findPath(Constantes.LABEL_ATTRIBUTE_NAME).getTextValue();
 		
+		if(Tools.isBlankOrNull(label)){
+			throw new JCertifInvalidRequestException("Label cannot be null or empty");
+		}
+		
+		SessionStatus sessionStatus = SessionStatus.find(label);
+		
+		if(null == sessionStatus){
+			throw new JCertifObjectNotFoundException(SessionStatus.class, label);
+		}
+
 		sessionStatus.remove();
 		return ok(JSON.serialize("Ok"));
     }

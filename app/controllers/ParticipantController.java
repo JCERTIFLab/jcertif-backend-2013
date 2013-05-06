@@ -2,7 +2,10 @@ package controllers;
 
 import models.Participant;
 import models.Session;
+import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
+import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -26,8 +29,18 @@ public class ParticipantController extends Controller {
 	public static Result updateParticipant() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		Participant participant = new Participant((BasicDBObject)JSON.parse(jsonNode.toString()));
+		String email = jsonNode.findPath(Constantes.EMAIL_ATTRIBUTE_NAME).getTextValue();
+    	
+    	if(Tools.isBlankOrNull(email)){
+			throw new JCertifInvalidRequestException("Email cannot be null or empty");
+		}
+    	
+		Participant participant = Participant.find(email);
 		
+		if(null == participant){
+			throw new JCertifObjectNotFoundException(Participant.class, email);
+		}
+		participant.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
 		participant.save();
 		return ok(JSON.serialize("Ok"));
 	}
@@ -82,10 +95,19 @@ public class ParticipantController extends Controller {
 	public static Result removeParticipant() {
     	JsonNode jsonNode = request().body().asJson();
 		
-    	Participant participant = new Participant((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	String email = jsonNode.findPath(Constantes.EMAIL_ATTRIBUTE_NAME).getTextValue();
     	
-    	participant.remove();
+    	if(Tools.isBlankOrNull(email)){
+			throw new JCertifInvalidRequestException("Email cannot be null or empty");
+		}
+    	
+    	Participant participant = Participant.find(email);
+		
+		if(null == participant){
+			throw new JCertifObjectNotFoundException(Participant.class, email);
+		}
 
+		participant.remove();
 		return ok(JSON.serialize("Ok"));
     }
 

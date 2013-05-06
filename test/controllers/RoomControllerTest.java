@@ -48,7 +48,7 @@ public class RoomControllerTest {
                     
                     JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(3, jsonNode.size());
-	                Assert.assertEquals("01",jsonNode.get(0).findPath("id").getTextValue());
+	                Assert.assertEquals("101",jsonNode.get(0).findPath("id").getTextValue());
 	                Assert.assertEquals("name 1",jsonNode.get(0).findPath("name").getTextValue());
 	                Assert.assertEquals("101",jsonNode.get(0).findPath("site").getTextValue());
 	                Assert.assertEquals("500",jsonNode.get(0).findPath("seats").getTextValue());
@@ -57,7 +57,7 @@ public class RoomControllerTest {
 	                Assert.assertEquals("01",jsonNode.get(0).findPath("version").getTextValue());
 	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
 	                
-	                Assert.assertEquals("02",jsonNode.get(1).findPath("id").getTextValue());
+	                Assert.assertEquals("102",jsonNode.get(1).findPath("id").getTextValue());
 	                Assert.assertEquals("name 2",jsonNode.get(1).findPath("name").getTextValue());
 	                Assert.assertEquals("101",jsonNode.get(1).findPath("site").getTextValue());
 	                Assert.assertEquals("200",jsonNode.get(1).findPath("seats").getTextValue());
@@ -66,7 +66,7 @@ public class RoomControllerTest {
 	                Assert.assertEquals("01",jsonNode.get(1).findPath("version").getTextValue());
 	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
 	                
-	                Assert.assertEquals("03",jsonNode.get(2).findPath("id").getTextValue());
+	                Assert.assertEquals("103",jsonNode.get(2).findPath("id").getTextValue());
 	                Assert.assertEquals("name 3",jsonNode.get(2).findPath("name").getTextValue());
 	                Assert.assertEquals("102",jsonNode.get(2).findPath("site").getTextValue());
 	                Assert.assertEquals("100",jsonNode.get(2).findPath("seats").getTextValue());
@@ -106,7 +106,7 @@ public class RoomControllerTest {
 	            	Logger.info("Récuperer les informations d'une salle");
 	            	try {
 						TestUtils.updateDatabase("test/data/room.js");
-						Result result = callAction(routes.ref.RoomController.getRoom("01"), fakeRequest());
+						Result result = callAction(routes.ref.RoomController.getRoom("101"), fakeRequest());
 		                assertThat(status(result)).isEqualTo(OK);	                
 		                
 		                Logger.info("Vérification des informations de la salle");
@@ -134,7 +134,6 @@ public class RoomControllerTest {
                 try {
 					TestUtils.updateDatabase("test/data/room.js");
 					Map<String, Object> params = new HashMap<String, Object>();
-	                params.put("id", "05");
 	                params.put("name", "name 5");
 	                params.put("site", "102");
 	                params.put("seats", "600");
@@ -144,7 +143,7 @@ public class RoomControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la nouvelle salle est en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "05"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "01"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Assert.assertEquals("name 5",dbObjects.get(0).get("name"));
@@ -163,77 +162,6 @@ public class RoomControllerTest {
             }
         });
     }
-
-    @Test
-    public void test_room_new_invalid_id_null() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_room_new_invalid_id_null ***");
-                	Logger.info("Le champ id d'une salle ne peut etre absent");
-                	try {
-                		TestUtils.updateDatabase("test/data/room.js");
-    					Map<String, Object> params = new HashMap<String, Object>();
-    	                params.put("name", "name 5");
-    	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-    	                
-    	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        assertThat(contentAsString(result)).contains("Id cannot be empty or null");
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        Logger.info("*** FIN -> test_room_new_invalid_id_null ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);
-					}
-            }
-        });
-    }
-    
-    @Test
-    public void test_room_new_invalid_id_empty() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_room_new_invalid_id_empty ***");
-                	Logger.info("Le champ id d'une salle ne doit être vide");
-                	try {
-                		TestUtils.updateDatabase("test/data/room.js");
-    					Map<String, Object> params = new HashMap<String, Object>();
-    					params.put("id", "");
-    	                params.put("name", "name 5");
-    	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-    	                
-    	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        assertThat(contentAsString(result)).contains("Id cannot be empty or null");
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        Logger.info("*** FIN -> test_room_new_invalid_id_empty ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);
-					}
-            }
-        });
-    }    
-    
-    @Test
-    public void test_room_new_invalid_id() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-            	Logger.info("*** DEBUT -> test_room_new_invalid_id ***");
-            	Logger.info("Le champ id d'une salle ne doit être vide");
-            	try {
-            		TestUtils.updateDatabase("test/data/room.js");
-					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "__");
-	                params.put("name", "name 5");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-	                
-	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    assertThat(contentAsString(result)).contains("Id must be a valid number");
-                    TestUtils.updateDatabase("test/data/purge.js");
-                    Logger.info("*** FIN -> test_room_new_invalid_id ***");
-				} catch (Exception e) {
-					Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);
-				}
-            }
-        });
-    }
     
     @Test
     public void test_room_new_invalid_name_null() {
@@ -244,7 +172,10 @@ public class RoomControllerTest {
                 	try {
                 		TestUtils.updateDatabase("test/data/room.js");
                 		Map<String, Object> params = new HashMap<String, Object>();
-    					params.put("id", "05");
+    	                params.put("site", "102");
+    	                params.put("seats", "600");
+    	                params.put("description", "The bigest room");
+    	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
     	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
     	                
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -267,8 +198,11 @@ public class RoomControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "05");
 					params.put("name", "");
+	                params.put("site", "102");
+	                params.put("seats", "600");
+	                params.put("description", "The bigest room");
+	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
 	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -291,8 +225,10 @@ public class RoomControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "05");
 					params.put("name", "name 5");
+					params.put("seats", "600");
+	                params.put("description", "The bigest room");
+	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
 	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -315,9 +251,11 @@ public class RoomControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "05");
 					params.put("name", "name 5");
 					params.put("site", "");
+					params.put("seats", "600");
+	                params.put("description", "The bigest room");
+	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
 	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -340,9 +278,10 @@ public class RoomControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "05");
 					params.put("name", "name 5");
 					params.put("site", "101");
+					params.put("description", "The bigest room");
+	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
 	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -365,10 +304,11 @@ public class RoomControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "05");
 					params.put("name", "name 5");
 					params.put("site", "101");
 					params.put("seats", "");
+					params.put("description", "The bigest room");
+	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
 	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -391,10 +331,10 @@ public class RoomControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "05");
 					params.put("name", "name 5");
 					params.put("site", "101");
 					params.put("seats", "600");
+	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
 	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -422,6 +362,7 @@ public class RoomControllerTest {
 					params.put("site", "101");
 					params.put("seats", "600");
 					params.put("description", "");
+					params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
 	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -444,7 +385,6 @@ public class RoomControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-            		params.put("id", "05");
 					params.put("name", "name 5");
 					params.put("site", "1000001");
 					params.put("seats", "600");
@@ -453,7 +393,7 @@ public class RoomControllerTest {
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
-                    assertThat(contentAsString(result)).contains("does not exist. Check Room List");
+                    assertThat(contentAsString(result)).contains("does not exist. Check Site List");
                     Logger.info("*** FIN -> test_room_new_unregistred_site ***");
 				} catch (Exception e) {
 					Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);
@@ -469,7 +409,7 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("id", "01");
+                params.put("id", "101");
             	Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("user", "normal").withJsonBody(Json.toJson(params), POST));
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
@@ -483,7 +423,7 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "01");
+                params.put("", "101");
             	Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
             	assertThat(status(result)).isEqualTo(BAD_REQUEST);
             }
@@ -551,12 +491,12 @@ public class RoomControllerTest {
                 		Logger.info("Tous les inner params sont valides.");
                 		TestUtils.updateDatabase("test/data/room.js");
                 		Map<String, Object> params = new HashMap<String, Object>();
-                        params.put("id", "01");
+                        params.put("id", "101");
                         params.put("version", "01");
 		                params.put("deleted", "false");
                         Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
-                        List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "01"));
+                        List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "101"));
                         Assert.assertTrue(null != dbObjects);
                         Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("true",dbObjects.get(0).getString("deleted"));
@@ -576,7 +516,7 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("id", "01");
+                params.put("id", "101");
             	Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("user", "normal").withJsonBody(Json.toJson(params), POST));
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
@@ -591,7 +531,7 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "01");
+                params.put("", "101");
             	Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
             	assertThat(status(result)).isEqualTo(BAD_REQUEST);
             }
@@ -638,7 +578,7 @@ public class RoomControllerTest {
                 	try {
                 		TestUtils.updateDatabase("test/data/room.js");
                         Map<String, Object> params = new HashMap<String, Object>();
-                        params.put("id", "01");
+                        params.put("id", "101");
                         params.put("name", "changedName");
                         params.put("description", "changedDescription");
                         params.put("version", "01");
@@ -647,7 +587,7 @@ public class RoomControllerTest {
                         Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         Logger.info("Vérification que les informations de la salle ont bien été mises à jour");
-		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "01"));
+		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "101"));
 		                Assert.assertTrue(null != dbObjects);
 		                Assert.assertEquals(1,dbObjects.size());
 		                Assert.assertEquals("changedName",dbObjects.get(0).get("name").toString());

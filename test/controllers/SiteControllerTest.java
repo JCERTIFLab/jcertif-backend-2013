@@ -188,7 +188,6 @@ public class SiteControllerTest {
                 try {
 					TestUtils.updateDatabase("test/data/site.js");
 					Map<String, Object> params = new HashMap<String, Object>();
-	                params.put("id", "105");
 	                params.put("name", "name 5");
 	                params.put("street", "street 5");
 	                params.put("city", "city 5");
@@ -201,7 +200,7 @@ public class SiteControllerTest {
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le nouveau site est en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SITE, new BasicDBObject().append("id", "105"));
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SITE, new BasicDBObject().append("id", "01"));
 	                Assert.assertTrue(null != dbObjects);
 	                Assert.assertEquals(1,dbObjects.size());
 	                Assert.assertEquals("name 5",dbObjects.get(0).get("name"));
@@ -223,77 +222,6 @@ public class SiteControllerTest {
             }
         });
     }
-
-    @Test
-    public void test_site_new_invalid_id_null() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_site_new_invalid_id_null ***");
-                	Logger.info("Le champ id d'un site ne peut etre absent");
-                	try {
-                		TestUtils.updateDatabase("test/data/site.js");
-    					Map<String, Object> params = new HashMap<String, Object>();
-    	                params.put("name", "name 5");
-    	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-    	                
-    	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        assertThat(contentAsString(result)).contains("Id cannot be empty or null");
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        Logger.info("*** FIN -> test_site_new_invalid_id_null ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour du site", e);
-					}
-            }
-        });
-    }
-    
-    @Test
-    public void test_site_new_invalid_id_empty() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_site_new_invalid_id_empty ***");
-                	Logger.info("Le champ id d'un site ne doit être vide");
-                	try {
-                		TestUtils.updateDatabase("test/data/site.js");
-    					Map<String, Object> params = new HashMap<String, Object>();
-    					params.put("id", "");
-    	                params.put("name", "name 5");
-    	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-    	                
-    	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        assertThat(contentAsString(result)).contains("Id cannot be empty or null");
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        Logger.info("*** FIN -> test_site_new_invalid_id_empty ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour du site", e);
-					}
-            }
-        });
-    }    
-    
-    @Test
-    public void test_site_new_invalid_id() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-            	Logger.info("*** DEBUT -> test_site_new_invalid_id ***");
-            	Logger.info("Le champ id d'un site ne doit être vide");
-            	try {
-            		TestUtils.updateDatabase("test/data/site.js");
-					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "__");
-	                params.put("name", "name 5");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-	                
-	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    assertThat(contentAsString(result)).contains("Id must be a valid number");
-                    TestUtils.updateDatabase("test/data/purge.js");
-                    Logger.info("*** FIN -> test_site_new_invalid_id ***");
-				} catch (Exception e) {
-					Logger.error("Une erreur est survenue lors du test de mise a jour du site", e);
-				}
-            }
-        });
-    }
     
     @Test
     public void test_site_new_invalid_name_null() {
@@ -304,7 +232,13 @@ public class SiteControllerTest {
                 	try {
                 		TestUtils.updateDatabase("test/data/site.js");
                 		Map<String, Object> params = new HashMap<String, Object>();
-    					params.put("id", "105");
+                		params.put("street", "street 5");
+    	                params.put("city", "city 5");
+    	                params.put("country", "country 5");
+    	                params.put("contact", "contact@website5.com");
+    	                params.put("website", "www.website5.com");
+    	                params.put("description", "description 5");
+    	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
     	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
     	                
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -327,8 +261,14 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "");
+					params.put("street", "street 5");
+	                params.put("city", "city 5");
+	                params.put("country", "country 5");
+	                params.put("contact", "contact@website5.com");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
+	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -351,8 +291,13 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
+	                params.put("city", "city 5");
+	                params.put("country", "country 5");
+	                params.put("contact", "contact@website5.com");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
+	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -375,9 +320,14 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "");
+	                params.put("city", "city 5");
+	                params.put("country", "country 5");
+	                params.put("contact", "contact@website5.com");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
+	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -400,9 +350,13 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
+	                params.put("country", "country 5");
+	                params.put("contact", "contact@website5.com");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
+	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -425,10 +379,14 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "");
+	                params.put("country", "country 5");
+	                params.put("contact", "contact@website5.com");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
+	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -451,10 +409,13 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
+	                params.put("contact", "contact@website5.com");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
+	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -477,11 +438,13 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
 					params.put("country", "");
+					params.put("contact", "contact@website5.com");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -504,11 +467,12 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
 					params.put("country", "country 5");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -531,12 +495,13 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
 					params.put("country", "country 5");
 					params.put("contact", "");
+	                params.put("website", "www.website5.com");
+	                params.put("description", "description 5");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
@@ -559,7 +524,6 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
@@ -588,7 +552,6 @@ public class SiteControllerTest {
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
             		Map<String, Object> params = new HashMap<String, Object>();
-					params.put("id", "105");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");

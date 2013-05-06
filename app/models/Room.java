@@ -1,13 +1,10 @@
 package models;
 
-import static models.CheckHelper.checkId;
-import static models.CheckHelper.checkNull;
-import static models.CheckHelper.checkNullOrEmpty;
-
 import java.util.List;
 
-import models.exception.JCertifInvalidRequestException;
 import models.util.Constantes;
+import models.validation.Constraints.NotBlank;
+import models.validation.Constraints.Site;
 
 import com.mongodb.BasicDBObject;
 
@@ -19,10 +16,15 @@ import com.mongodb.BasicDBObject;
  */
 public class Room extends JCertifModel {
 
+	@NotBlank(propertyName="Id")
 	private String id;
+	@NotBlank(propertyName="Name")
     private String name;
+	@NotBlank(propertyName="Site") @Site
     private String site;
+	@NotBlank(propertyName="Seats")
     private String seats;
+	@NotBlank(propertyName="Description")
     private String description;
     private String photo;
     
@@ -85,37 +87,6 @@ public class Room extends JCertifModel {
 	}
 
 	@Override
-	public void updateCheck(BasicDBObject objectToCheck) {
-		checkNull(objectToCheck);
-    	checkId(objectToCheck);
-	}
-
-	@Override
-	public void deleteCheck(BasicDBObject objectToCheck) {
-		checkNull(objectToCheck);
-    	checkId(objectToCheck);
-	}
-
-	@Override
-	public void addCheck(BasicDBObject objectToCheck) {
-		checkNull(objectToCheck);
-    	checkId(objectToCheck);
-
-        Room salle = new Room(objectToCheck);
-
-        checkNullOrEmpty("Name", salle.getName());
-        checkNullOrEmpty("Site", salle.getSite());
-        checkNullOrEmpty("Seats", salle.getSeats());
-        checkNullOrEmpty("Description", salle.getDescription());
-        
-        Site roomSite = Site.find(salle.getSite());
-        
-        if(null==roomSite){
-            throw new JCertifInvalidRequestException("Room '" + salle.getSite() + "' does not exist. Check Room List" );
-        }
-	}
-
-	@Override
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject dbObject = super.toBasicDBObject();
 		dbObject.put("id", getId());
@@ -126,10 +97,11 @@ public class Room extends JCertifModel {
 		dbObject.put("photo", getPhoto());
 		return dbObject;
 	}
-
+	
 	@Override
-	public String getKeyName() {
-		return Constantes.ID_ATTRIBUTE_NAME;
+	public int create() {
+		setId(getFinder().findNextSequence(Room.class));
+		return super.create();
 	}
 	
 	public static Room find(String idRoom){

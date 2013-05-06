@@ -2,6 +2,10 @@ package controllers;
 
 
 import models.Category;
+import models.exception.JCertifInvalidRequestException;
+import models.exception.JCertifObjectNotFoundException;
+import models.util.Constantes;
+import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -39,9 +43,19 @@ public class CategoryController extends Controller {
     public static Result removeCategory() {
     	JsonNode jsonNode = request().body().asJson();
 		
-    	Category category = new Category((BasicDBObject)JSON.parse(jsonNode.toString()));
+		String label = jsonNode.findPath(Constantes.LABEL_ATTRIBUTE_NAME).getTextValue();
 		
-    	category.remove();
+		if(Tools.isBlankOrNull(label)){
+			throw new JCertifInvalidRequestException("Label cannot be null or empty");
+		}
+		
+		Category category = Category.find(label);
+		 
+		if(null == category){
+			throw new JCertifObjectNotFoundException(Category.class, label);
+		}
+
+		category.remove();
 		return ok(JSON.serialize("Ok"));
     }
 }

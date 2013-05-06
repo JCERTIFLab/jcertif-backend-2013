@@ -1,6 +1,11 @@
 db.session_status.remove();
 db.session_status.insert({label: 'Brouillon', version: '01', deleted: 'false'});
+db.session_status.insert({label: 'Status1', version: '01', deleted: 'false'});
+db.session_status.insert({label: 'Status2', version: '01', deleted: 'false'});
+db.session_status.insert({label: 'Status3', version: '01', deleted: 'false'});
 db.category.remove();
+db.category.insert({label: 'HTML 5', version: '01', deleted: 'false'});
+db.category.insert({label: 'Android', version: '01', deleted: 'false'});
 db.category.insert({label: 'Java', version: '01', deleted: 'false'});
 db.site.remove();
 db.site.insert({
@@ -43,7 +48,7 @@ db.session.insert({
     title : "title 1",
     summary : "summary 1",
     description : "description 1",
-    status : "status 1",
+    status: "Status1",
     keyword : "keyword 1",
     category : ["HTML 5", "Android"],
     start : "12/02/2013 10:22",
@@ -57,7 +62,7 @@ db.session.insert({
     title : "title 2",
     summary : "summary 2",
     description : "description 2",
-    status : "status 2",
+    status: "Status2",
     keyword : "keyword 2",
     category : ["HTML 5", "Android"],
     start : "12/02/2013 10:22",
@@ -71,7 +76,7 @@ db.session.insert({
     title : "title 3",
     summary : "summary 3",
     description : "description 3",
-    status : "status 3",
+    status: "Status3",
     keyword : "keyword 3",
     category : ["HTML 5", "Android"],
     start : "12/02/2013 10:22",

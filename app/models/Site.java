@@ -1,12 +1,9 @@
 package models;
 
-import static models.CheckHelper.checkId;
-import static models.CheckHelper.checkNull;
-import static models.CheckHelper.checkNullOrEmpty;
-
 import java.util.List;
 
 import models.util.Constantes;
+import models.validation.Constraints.NotBlank;
 
 import com.mongodb.BasicDBObject;
 
@@ -18,13 +15,20 @@ import com.mongodb.BasicDBObject;
  */
 public class Site extends JCertifModel {
 
+	@NotBlank(propertyName="Id")
 	private String id;
+	@NotBlank(propertyName="Name")
     private String name;
+	@NotBlank(propertyName="Street")
     private String street;
+	@NotBlank(propertyName="City")
     private String city;
+	@NotBlank(propertyName="Country")
     private String country;
+	@NotBlank(propertyName="Contact")
     private String contact;
     private String website;
+    @NotBlank(propertyName="Description")
     private String description;
     private String photo;
     
@@ -114,33 +118,6 @@ public class Site extends JCertifModel {
 	}
 
 	@Override
-	public void updateCheck(BasicDBObject objectToCheck) {
-		checkNull(objectToCheck);
-    	checkId(objectToCheck);
-	}
-
-	@Override
-	public void deleteCheck(BasicDBObject objectToCheck) {
-		checkNull(objectToCheck);
-    	checkId(objectToCheck);
-	}
-
-	@Override
-	public void addCheck(BasicDBObject objectToCheck) {
-		checkNull(objectToCheck);
-    	checkId(objectToCheck);
-
-        Site site = new Site(objectToCheck);
-
-        checkNullOrEmpty("Name", site.getName());
-        checkNullOrEmpty("Street", site.getStreet());
-        checkNullOrEmpty("City", site.getCity());
-        checkNullOrEmpty("Country", site.getCountry());
-        checkNullOrEmpty("Contact", site.getContact());
-        checkNullOrEmpty("Description", site.getDescription());
-	}
-
-	@Override
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject basicDBObject = super.toBasicDBObject();
         basicDBObject.put("id", getId());
@@ -154,10 +131,11 @@ public class Site extends JCertifModel {
         basicDBObject.put("photo", getPhoto());
         return basicDBObject;
 	}
-
+	
 	@Override
-	public String getKeyName() {
-		return Constantes.ID_ATTRIBUTE_NAME;
+	public int create() {
+		setId(getFinder().findNextSequence(Site.class));
+		return super.create();
 	}
 	
 	public static Site find(String idSite){
