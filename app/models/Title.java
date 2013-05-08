@@ -26,17 +26,10 @@ public class Title extends Referentiel {
 	}
 
 	public static Title find(String titleStr){
-		Title title = null;
-    	
-    	BasicDBObject dbObject = getFinder().find(Title.class, Constantes.LABEL_ATTRIBUTE_NAME, titleStr);
-    	
-    	if(null != dbObject){
-    		title = new Title(dbObject);
-    	}
-		return title; 
+    	return getFinder().find(Title.class, Constantes.LABEL_ATTRIBUTE_NAME, titleStr);
 	}
 	
-	public static List<BasicDBObject> findAll(){
+	public static List<Title> findAll(){
 		return getFinder().findAll(Title.class);
 	}
 }

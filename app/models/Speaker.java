@@ -17,29 +17,14 @@ public class Speaker extends Member {
     }
     
     public static Speaker find(String email){
-    	
-    	return buildSpeaker(getFinder().find(Speaker.class, Constantes.EMAIL_ATTRIBUTE_NAME, email));
+    	return getFinder().find(Speaker.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
 	}
     
-    /*public static Speaker findByName(String name){
-  	
-    	return buildSpeaker(getFinder().find(Speaker.class, Constantes.NAME_ATTRIBUTE_NAME, name));
-	}*/
-    
-    private static Speaker buildSpeaker(BasicDBObject dbObject){
-    	Speaker speaker = null;
-    	
-    	if(null != dbObject){
-    		speaker = new Speaker(dbObject);
-    	}
-		return speaker; 
-    }
-    
-    public static List<BasicDBObject> findAll(){
+    public static List<Speaker> findAll(){
 		return getFinder().findAll(Speaker.class);
 	}
     
-    public static List<BasicDBObject> findAll(String version){
+    public static List<Speaker> findAll(String version){
 		return getFinder().findAll(Speaker.class, version);
 	}
 }

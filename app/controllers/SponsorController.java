@@ -4,6 +4,7 @@ import models.Sponsor;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 import models.validation.CheckHelper;
 
@@ -11,22 +12,18 @@ import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 import controllers.Security.Admin;
 
 public class SponsorController extends Controller {
 
     public static Result listSponsor() {
 
-        return ok(JSON.serialize(Sponsor.findAll()));
+        return ok(Json.serialize(Sponsor.findAll()));
     }
     
     public static Result listSponsorVersion(String version) {
 
-        return ok(JSON.serialize(Sponsor.findAll(version)));
+        return ok(Json.serialize(Sponsor.findAll(version)));
     }
 
     @Admin
@@ -47,19 +44,19 @@ public class SponsorController extends Controller {
 		
 		CheckHelper.checkVersion(sponsor, version);
 		
-		sponsor.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		sponsor.merge(Json.parse(Sponsor.class, jsonNode.toString()));
 		sponsor.save();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
     public static Result addSponsor() {
     	JsonNode jsonNode = request().body().asJson();
 		
-    	Sponsor sponsor = new Sponsor((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	Sponsor sponsor = Json.parse(Sponsor.class, jsonNode.toString());
 		
     	sponsor.create();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -79,6 +76,6 @@ public class SponsorController extends Controller {
 		}
 
 		sponsor.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 }

@@ -13,6 +13,9 @@ import models.exception.JCertifInvalidRequestException;
  */
 public class ValidationUtils {
 
+	private ValidationUtils(){		
+	}
+	
 	public static void throwException(Set<ConstraintViolation<Model>> violations){
 		StringBuilder builder = new StringBuilder();
 		for(ConstraintViolation<Model> violation : violations){

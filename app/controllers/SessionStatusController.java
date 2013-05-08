@@ -4,33 +4,30 @@ import models.SessionStatus;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 import controllers.Security.Admin;
 
 public class SessionStatusController extends Controller {
 
     public static Result listStatusSession() {
 
-        return ok(JSON.serialize(SessionStatus.findAll()));
+        return ok(Json.serialize(SessionStatus.findAll()));
     }
 
     @Admin
     public static Result addSessionStatus() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		SessionStatus sessionStatus = new SessionStatus((BasicDBObject)JSON.parse(jsonNode.toString()));
+		SessionStatus sessionStatus = Json.parse(SessionStatus.class, jsonNode.toString());
 		
 		sessionStatus.create();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -50,6 +47,6 @@ public class SessionStatusController extends Controller {
 		}
 
 		sessionStatus.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 }

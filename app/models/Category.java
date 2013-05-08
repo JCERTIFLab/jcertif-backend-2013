@@ -25,22 +25,15 @@ public class Category extends Referentiel {
 		super(basicDBObject);
 	}
 	
-	public static Category find(String categoryStr){
-		Category category = null;
-    	
-    	BasicDBObject dbObject = getFinder().find(Category.class, Constantes.LABEL_ATTRIBUTE_NAME, categoryStr);
-    	
-    	if(null != dbObject){
-    		category = new Category(dbObject);
-    	}
-		return category; 
+	public static Category find(String categoryStr){   	
+    	return getFinder().find(Category.class, Constantes.LABEL_ATTRIBUTE_NAME, categoryStr);	
 	}
 	
-	public static List<BasicDBObject> findAll(){
+	public static List<Category> findAll(){
 		return getFinder().findAll(Category.class);
 	}
 	
-	public static List<BasicDBObject> findAll(String version){
+	public static List<Category> findAll(String version){
 		return getFinder().findAll(Category.class, version);
 	}
 

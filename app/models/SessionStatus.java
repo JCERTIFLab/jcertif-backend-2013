@@ -22,17 +22,10 @@ public class SessionStatus extends Referentiel {
 	}
 	
 	public static SessionStatus find(String status){
-		SessionStatus sessionStatus = null;
-    	
-    	BasicDBObject dbObject = getFinder().find(SessionStatus.class, Constantes.LABEL_ATTRIBUTE_NAME, status);
-    	
-    	if(null != dbObject){
-    		sessionStatus = new SessionStatus(dbObject);
-    	}
-		return sessionStatus;
+    	return getFinder().find(SessionStatus.class, Constantes.LABEL_ATTRIBUTE_NAME, status);
 	}
 	
-	public static List<BasicDBObject> findAll(){
+	public static List<SessionStatus> findAll(){
 		return getFinder().findAll(SessionStatus.class);
 	}
 }

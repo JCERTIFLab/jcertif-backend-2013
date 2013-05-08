@@ -141,21 +141,14 @@ public class Sponsor extends JCertifModel {
     	return super.create();
     }
     public static Sponsor find(String email){
-    	Sponsor sponsor = null;
-    	
-    	BasicDBObject dbObject = getFinder().find(Sponsor.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
-    	
-    	if(null != dbObject){
-    		sponsor = new Sponsor(dbObject);
-    	}
-		return sponsor; 
+    	return getFinder().find(Sponsor.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
 	}
     
-	public static List<BasicDBObject> findAll(){
+	public static List<Sponsor> findAll(){
 		return getFinder().findAll(Sponsor.class);
 	}
 	
-	public static List<BasicDBObject> findAll(String version){
+	public static List<Sponsor> findAll(String version){
 		return getFinder().findAll(Sponsor.class, version);
 	}
 }

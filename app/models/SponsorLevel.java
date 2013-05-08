@@ -28,17 +28,10 @@ public class SponsorLevel extends Referentiel {
 	}
 	
 	public static SponsorLevel find(String level){
-		SponsorLevel sponsorLevel = null;
-    	
-    	BasicDBObject dbObject = getFinder().find(SponsorLevel.class, Constantes.LABEL_ATTRIBUTE_NAME, level);
-    	
-    	if(null != dbObject){
-    		sponsorLevel = new SponsorLevel(dbObject);
-    	}
-		return sponsorLevel; 
+    	return getFinder().find(SponsorLevel.class, Constantes.LABEL_ATTRIBUTE_NAME, level);
 	}
 	
-	public static List<BasicDBObject> findAll(){
+	public static List<SponsorLevel> findAll(){
 		return getFinder().findAll(SponsorLevel.class);
 	}
 	

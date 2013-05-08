@@ -28,11 +28,11 @@ import com.mongodb.WriteResult;
 
 public abstract class Model implements CRUD {
 	
-	private static final ValidatorFactory validationFactory;
+	private static final ValidatorFactory FACTORY;
 	
 	static {
 		HibernateValidatorConfiguration configuration = Validation.byProvider(HibernateValidator.class).configure().failFast(true);
-		validationFactory = configuration.messageInterpolator(new ContextualMessageInterpolator(configuration.getDefaultMessageInterpolator()))
+		FACTORY = configuration.messageInterpolator(new ContextualMessageInterpolator(configuration.getDefaultMessageInterpolator()))
 	    .buildValidatorFactory();
 	}
     	
@@ -102,7 +102,7 @@ public abstract class Model implements CRUD {
 	}
 
 	public final int add() {
-		Validator validator = validationFactory.getValidator();
+		Validator validator = FACTORY.getValidator();
 		Set<ConstraintViolation<Model>> violations = validator.validate(this);				
 		
 		if(violations.size() > 0){
@@ -120,7 +120,7 @@ public abstract class Model implements CRUD {
 	}
 
 	public final int update() {
-		Validator validator = validationFactory.getValidator();
+		Validator validator = FACTORY.getValidator();
 		Set<ConstraintViolation<Model>> violations = validator.validate(this);
 		
 		if(violations.size() > 0){
@@ -159,34 +159,41 @@ public abstract class Model implements CRUD {
         	}
         }
 		
-        public BasicDBObject find(Class<?> clazz, String keyName, Object keyValue) {
-        	return MongoDB.getInstance().readOne(
+        public <T extends Model> T find(Class<T> clazz, String keyName, Object keyValue) {
+        	
+        	T object = null;
+        	BasicDBObject dbObject = MongoDB.getInstance().readOne(
         			getCollectionName(clazz), 
         			QueryBuilder.start().put(keyName).is(keyValue)
         			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
+        	
+        	if(null != dbObject){
+        		object = ModelUtils.instanciate(clazz, dbObject);
+        	}
+        	return object;
         }
         
-        public List<BasicDBObject> findAll(Class<?> clazz, String keyName, Object keyValue) {
+        public <T extends Model> List<T> findAll(Class<T> clazz, String keyName, Object keyValue) {
         	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
     				QueryBuilder.start().put(keyName).is(keyValue)
         			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
-    		return buildResultList(dbCursor);
+    		return ModelUtils.instanciate(clazz, buildResultList(dbCursor));
         }
 
-        public List<BasicDBObject> findAll(Class<?> clazz) {
+        public <T extends Model> List<T> findAll(Class<T> clazz) {
         	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
     				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
-        	return buildResultList(dbCursor);
+        	return ModelUtils.instanciate(clazz, buildResultList(dbCursor));
         }
         
-        public List<BasicDBObject> findAll(Class<?> clazz, String version) {
+        public <T extends Model> List<T> findAll(Class<T> clazz, String version) {
         	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
     				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false")
         			.put(Constantes.VERSION_ATTRIBUTE_NAME).greaterThan(version).get());
-        	return buildResultList(dbCursor);
+        	return ModelUtils.instanciate(clazz, buildResultList(dbCursor));
 		}
         
         private List<BasicDBObject> buildResultList(DBCursor dbCursor) {

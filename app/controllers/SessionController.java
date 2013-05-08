@@ -4,6 +4,7 @@ import models.Session;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 import models.validation.CheckHelper;
 
@@ -11,10 +12,6 @@ import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 import controllers.Security.Admin;
 
 
@@ -22,22 +19,22 @@ public class SessionController extends Controller {
 
     public static Result listSession() {
 
-        return ok(JSON.serialize(Session.findAll()));
+        return ok(Json.serialize(Session.findAll()));
     }
     
     public static Result listSessionVersion(String version) {
 
-        return ok(JSON.serialize(Session.findAll(version)));
+        return ok(Json.serialize(Session.findAll(version)));
     }
 
     @Admin
     public static Result newSession() {
 		JsonNode jsonNode = request().body().asJson();
 		
-    	Session session = new Session((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	Session session = Json.parse(Session.class, jsonNode.toString());
 		
     	session.create();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -61,7 +58,7 @@ public class SessionController extends Controller {
 		}
 
 		session.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -86,9 +83,9 @@ public class SessionController extends Controller {
 		
 		CheckHelper.checkVersion(session, version);
 		
-		session.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		session.merge(Json.parse(Session.class, jsonNode.toString()));
 		session.save();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
    
    }
 }

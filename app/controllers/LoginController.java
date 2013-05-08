@@ -5,20 +5,18 @@ import models.Member;
 import models.Participant;
 import models.Speaker;
 import models.exception.JCertifObjectNotFoundException;
+import models.util.Json;
 
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 public class LoginController extends Controller {
 
     public static Result logins() {
 
-        return ok(JSON.serialize(Login.findAll()));
+        return ok(Json.serialize(Login.findAll()));
     }
 
     /**
@@ -31,7 +29,7 @@ public class LoginController extends Controller {
 
     	JsonNode jsonNode = request().body().asJson();
 		
-		Login login = new Login((BasicDBObject)JSON.parse(jsonNode.toString()));
+		Login login = Json.parse(Login.class, jsonNode.toString());
 		
 		Member member = Participant.find(login.getEmail());
 		
@@ -47,6 +45,6 @@ public class LoginController extends Controller {
 		
 		session("email", login.getEmail());
 
-        return ok(JSON.serialize("Ok"));
+        return ok(Json.serialize("Ok"));
     }
 }

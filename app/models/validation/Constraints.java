@@ -77,7 +77,7 @@ public class Constraints {
 		Class<?>[] groups() default {};		
 		Class<? extends Payload>[] payload() default {};
 		String propertyName() default Constantes.LABEL_ATTRIBUTE_NAME;
-		Class<?> modelClass() default models.Title.class;
+		Class<models.Title> modelClass() default models.Title.class;
 	}
 	
 	@Target({ElementType.FIELD})
@@ -88,7 +88,7 @@ public class Constraints {
 		Class<?>[] groups() default {};		
 		Class<? extends Payload>[] payload() default {};
 		String propertyName() default Constantes.LABEL_ATTRIBUTE_NAME;
-		Class<?> modelClass() default models.Category.class;
+		Class<models.Category> modelClass() default models.Category.class;
 	}
 	
 	@Target({ElementType.FIELD})
@@ -99,7 +99,7 @@ public class Constraints {
 		Class<?>[] groups() default {};		
 		Class<? extends Payload>[] payload() default {};
 		String propertyName() default Constantes.LABEL_ATTRIBUTE_NAME;
-		Class<?> modelClass() default models.SessionStatus.class;
+		Class<models.SessionStatus> modelClass() default models.SessionStatus.class;
 	}
 	
 	@Target({ElementType.FIELD})
@@ -110,7 +110,7 @@ public class Constraints {
 		Class<?>[] groups() default {};		
 		Class<? extends Payload>[] payload() default {};
 		String propertyName() default Constantes.ID_ATTRIBUTE_NAME;
-		Class<?> modelClass() default models.Site.class;
+		Class<models.Site> modelClass() default models.Site.class;
 	}
 	
 	@Target({ElementType.FIELD})
@@ -121,7 +121,7 @@ public class Constraints {
 		Class<?>[] groups() default {};		
 		Class<? extends Payload>[] payload() default {};
 		String propertyName() default Constantes.ID_ATTRIBUTE_NAME;
-		Class<?> modelClass() default models.Room.class;
+		Class<models.Room> modelClass() default models.Room.class;
 	}
 	
 	@Target({ElementType.FIELD})
@@ -132,7 +132,7 @@ public class Constraints {
 		Class<?>[] groups() default {};		
 		Class<? extends Payload>[] payload() default {};
 		String propertyName() default Constantes.LABEL_ATTRIBUTE_NAME;
-		Class<?> modelClass() default models.SponsorLevel.class;
+		Class<models.SponsorLevel> modelClass()default models.SponsorLevel.class;
 	}
 	
 }

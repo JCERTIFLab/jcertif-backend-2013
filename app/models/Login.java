@@ -44,7 +44,7 @@ public class Login extends JCertifModel {
         return basicDBObject;
     }
 	
-	public static List<BasicDBObject> findAll(){
+	public static List<Login> findAll(){
 		return getFinder().findAll(Login.class);
 	}
 }

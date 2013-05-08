@@ -4,6 +4,7 @@ import models.Room;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 import models.validation.CheckHelper;
 
@@ -11,10 +12,6 @@ import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 import controllers.Security.Admin;
 
 
@@ -23,7 +20,7 @@ public class RoomController extends Controller {
 
 	public static Result listRoom() {
 
-        return ok(JSON.serialize(Room.findAll()));
+        return ok(Json.serialize(Room.findAll()));
     }
     
     public static Result getRoom(String idRoom) {
@@ -34,17 +31,17 @@ public class RoomController extends Controller {
 			throw new JCertifObjectNotFoundException(Room.class, idRoom);
 		}
 		
-        return ok(JSON.serialize(room.toBasicDBObject()));
+        return ok(Json.serialize(room));
     }
 
     @Admin
     public static Result newRoom() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		Room room = new Room((BasicDBObject)JSON.parse(jsonNode.toString()));
+		Room room = Json.parse(Room.class, jsonNode.toString());
 		
     	room.create();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -68,7 +65,7 @@ public class RoomController extends Controller {
 		}
 
 		room.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -93,9 +90,9 @@ public class RoomController extends Controller {
 		
 		CheckHelper.checkVersion(room, version);
 		
-		room.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		room.merge(Json.parse(Room.class, jsonNode.toString()));
 		room.save();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
    
    }
 }

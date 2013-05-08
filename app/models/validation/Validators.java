@@ -139,12 +139,12 @@ public class Validators {
 
 	public static class CategoryValidator implements ConstraintValidator<Category, Collection<String>>{
 
-		private ExistsValidator existsValidator;
+		private ExistsValidator<models.Category> existsValidator;
 		
 		@Override
 		public void initialize(Category existsAnnotation) {
 			existsValidator = 
-				new ExistsValidator(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
+				new ExistsValidator<models.Category>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
 		}
 
 		@Override
@@ -163,12 +163,12 @@ public class Validators {
 	
 	public static class SessionStatusValidator implements ConstraintValidator<SessionStatus, String>{
 
-		private ExistsValidator existsValidator;
+		private ExistsValidator<models.SessionStatus> existsValidator;
 		
 		@Override
 		public void initialize(SessionStatus existsAnnotation) {
 			existsValidator = 
-				new ExistsValidator(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
+				new ExistsValidator<models.SessionStatus>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
 		}
 
 		@Override
@@ -179,12 +179,12 @@ public class Validators {
 	
 	public static class TitleValidator implements ConstraintValidator<Title, String>{
 
-		private ExistsValidator existsValidator;
+		private ExistsValidator<models.Title> existsValidator;
 		
 		@Override
 		public void initialize(Title existsAnnotation) {
 			existsValidator = 
-				new ExistsValidator(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
+				new ExistsValidator<models.Title>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
 		}
 
 		@Override
@@ -195,12 +195,12 @@ public class Validators {
 	
 	public static class SiteValidator implements ConstraintValidator<Site, String>{
 
-		private ExistsValidator existsValidator;
+		private ExistsValidator<models.Site> existsValidator;
 		
 		@Override
 		public void initialize(Site existsAnnotation) {
 			existsValidator = 
-				new ExistsValidator(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
+				new ExistsValidator<models.Site>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
 		}
 
 		@Override
@@ -211,12 +211,12 @@ public class Validators {
 	
 	public static class RoomValidator implements ConstraintValidator<Room, String>{
 
-		private ExistsValidator existsValidator;
+		private ExistsValidator<models.Room> existsValidator;
 		
 		@Override
 		public void initialize(Room existsAnnotation) {
 			existsValidator = 
-				new ExistsValidator(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
+				new ExistsValidator<models.Room>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
 		}
 
 		@Override
@@ -227,12 +227,12 @@ public class Validators {
 	
 	public static class SponsorLevelValidator implements ConstraintValidator<SponsorLevel, String>{
 
-		private ExistsValidator existsValidator;
+		private ExistsValidator<models.SponsorLevel> existsValidator;
 		
 		@Override
 		public void initialize(SponsorLevel existsAnnotation) {
 			existsValidator = 
-				new ExistsValidator(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
+				new ExistsValidator<models.SponsorLevel>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
 		}
 
 		@Override
@@ -241,12 +241,12 @@ public class Validators {
 		}
 	}
 	
-	public static class ExistsValidator {
+	public static class ExistsValidator<T extends Model> {
 
 		private String propertyName;
-		private Class<?> modelClass;
+		private Class<T> modelClass;
 		
-		public ExistsValidator(String propertyName, Class<?> modelClass) {
+		public ExistsValidator(String propertyName, Class<T> modelClass) {
 			this.propertyName = propertyName;	
 			this.modelClass = modelClass;	
 		}

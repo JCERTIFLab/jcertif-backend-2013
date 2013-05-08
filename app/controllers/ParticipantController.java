@@ -5,7 +5,9 @@ import models.Session;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
+import models.validation.CheckHelper;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -30,6 +32,7 @@ public class ParticipantController extends Controller {
 		JsonNode jsonNode = request().body().asJson();
 		
 		String email = jsonNode.findPath(Constantes.EMAIL_ATTRIBUTE_NAME).getTextValue();
+		String version = jsonNode.findPath(Constantes.VERSION_ATTRIBUTE_NAME).getTextValue();
     	
     	if(Tools.isBlankOrNull(email)){
 			throw new JCertifInvalidRequestException("Email cannot be null or empty");
@@ -40,9 +43,12 @@ public class ParticipantController extends Controller {
 		if(null == participant){
 			throw new JCertifObjectNotFoundException(Participant.class, email);
 		}
-		participant.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		
+		CheckHelper.checkVersion(participant, version);
+		
+		participant.merge(Json.parse(Participant.class, jsonNode.toString()));
 		participant.save();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
 	}
 
 	/**
@@ -62,12 +68,12 @@ public class ParticipantController extends Controller {
 		/* We ensure that we don't return the password */
 		participant.setPassword("-");
 
-		return ok(JSON.serialize(participant.toBasicDBObject()));
+		return ok(Json.serialize(participant));
 	}
 
 	public static Result listParticipant() {
 
-		return ok(JSON.serialize(Participant.findAll()));
+		return ok(Json.serialize(Participant.findAll()));
 	}
 
 	/**
@@ -78,11 +84,11 @@ public class ParticipantController extends Controller {
 	public static Result registerParticipant() {
 		JsonNode jsonNode = request().body().asJson();
 		
-    	Participant participant = new Participant((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	Participant participant = Json.parse(Participant.class, jsonNode.toString());
     	
     	participant.create();
 
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
 	}
 	
 	
@@ -108,7 +114,7 @@ public class ParticipantController extends Controller {
 		}
 
 		participant.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
 	/**
@@ -133,7 +139,7 @@ public class ParticipantController extends Controller {
 
 		participant.changePassword(oldPassword, newPassword);	
 
-        return ok(JSON.serialize("Ok"));
+        return ok(Json.serialize("Ok"));
 	}
 
 	/**
@@ -151,7 +157,7 @@ public class ParticipantController extends Controller {
 
 		participant.reinitPassword();
 
-        return ok(JSON.serialize("Ok"));
+        return ok(Json.serialize("Ok"));
 	}
 	
 	
@@ -179,7 +185,7 @@ public class ParticipantController extends Controller {
 
 		participant.addToSession(session);
 
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
 	}
 
 	@Authenticated
@@ -200,7 +206,7 @@ public class ParticipantController extends Controller {
 
 		participant.removeFromSession(session);
 		
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
 	}
 
 	@Authenticated

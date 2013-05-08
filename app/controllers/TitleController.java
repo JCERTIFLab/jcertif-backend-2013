@@ -4,16 +4,13 @@ import models.Title;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 import controllers.Security.Admin;
 
 /**
@@ -29,15 +26,15 @@ public class TitleController extends Controller{
         
 		JsonNode jsonNode = request().body().asJson();
 		
-		Title title = new Title((BasicDBObject)JSON.parse(jsonNode.toString()));
+		Title title = Json.parse(Title.class, jsonNode.toString());
 		
 		title.create();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 	
 	public static Result listTitle() {
         
-		return ok(JSON.serialize(Title.findAll()));
+		return ok(Json.serialize(Title.findAll()));
     }
 	
 	@Admin
@@ -58,6 +55,6 @@ public class TitleController extends Controller{
 		}
 
 		title.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 }

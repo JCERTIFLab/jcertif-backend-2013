@@ -4,6 +4,7 @@ import models.Speaker;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 import models.validation.CheckHelper;
 
@@ -22,36 +23,23 @@ public class SpeakerController extends Controller {
 
 	public static Result listSpeaker() {
 
-        return ok(JSON.serialize(Speaker.findAll()));
+        return ok(Json.serialize(Speaker.findAll()));
     }
 	
 	public static Result listSpeakerVersion(String version) {
 
-        return ok(JSON.serialize(Speaker.findAll(version)));
+        return ok(Json.serialize(Speaker.findAll(version)));
     }
 
     public static Result registerSpeaker() {
     	JsonNode jsonNode = request().body().asJson();
 		
-    	Speaker speaker = new Speaker((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	Speaker speaker = Json.parse(Speaker.class, jsonNode.toString());
     	
     	speaker.create();
 
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
-    
-	/*public static Result getSpeaker(String name) {
-		Speaker speaker = Speaker.findByName(name);
-		
-		if(speaker == null){
-			throw new JCertifObjectNotFoundException(MessageFormat.format(SPEAKER_DOES_NOT_EXISTS, name));
-		}
-
-		// We ensure that we don't return the password
-		speaker.setPassword("-");
-
-		return ok(JSON.serialize(speaker.toBasicDBObject()));
-	}*/
 
     @Authenticated
     public static Result updateSpeaker() {
@@ -71,9 +59,9 @@ public class SpeakerController extends Controller {
 		
 		CheckHelper.checkVersion(speaker, version);
 		
-		speaker.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		speaker.merge(Json.parse(Speaker.class, jsonNode.toString()));
 		speaker.save();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -93,7 +81,7 @@ public class SpeakerController extends Controller {
 		}
 
 		speaker.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     /**
@@ -118,7 +106,7 @@ public class SpeakerController extends Controller {
 
 		speaker.changePassword(oldPassword, newPassword);	
 
-        return ok(JSON.serialize("Ok"));
+        return ok(Json.serialize("Ok"));
     }
 
     /**
@@ -136,6 +124,6 @@ public class SpeakerController extends Controller {
 
 		speaker.reinitPassword();
 
-        return ok(JSON.serialize("Ok"));
+        return ok(Json.serialize("Ok"));
     }
 }

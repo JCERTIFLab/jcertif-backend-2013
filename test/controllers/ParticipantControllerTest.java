@@ -77,6 +77,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 						Result result = route(fakeRequest(GET, "/participant/list").withSession("admin", "admin"));
 		                assertThat(status(result)).isEqualTo(OK);
 		                JsonNode jsonNode = Json.parse(contentAsString(result));
+		                Logger.info("test : " + contentAsString(result));
 	                    Assert.assertEquals(3, jsonNode.size());
 	                    TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {

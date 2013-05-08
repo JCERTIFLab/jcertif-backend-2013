@@ -11,7 +11,7 @@ import javax.validation.MessageInterpolator.Context;
  */
 public class ContextualMessageInterpolator implements MessageInterpolator {
 
-	MessageInterpolator defaultMessageInterpolator;
+	private MessageInterpolator defaultMessageInterpolator;
 	
 	public ContextualMessageInterpolator(MessageInterpolator defaultMessageInterpolator){
 		this.defaultMessageInterpolator = defaultMessageInterpolator;

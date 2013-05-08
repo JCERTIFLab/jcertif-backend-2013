@@ -1,6 +1,7 @@
 package models;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public abstract class JCertifModel extends Model {
 		return id;
     }
     
-    public void merge(BasicDBObject objectToUpdate) {
+    public <T extends Model> void merge(T objectToUpdate) {
 
 		Map<String, Field> fieldMap = new HashMap<String, Field>();
 		Class<?> clazz = this.getClass();
@@ -52,27 +53,44 @@ public abstract class JCertifModel extends Model {
 			clazz = clazz.getSuperclass();
 		}
 
-		Map<String, Object> fieldToUpdateMap = objectToUpdate.toMap();
 		try {
-			for (Entry<String, Object> entry : (Set<Entry<String, Object>>)fieldToUpdateMap.entrySet()) {
+			Map<String, Object> fieldToUpdateValuesMap = getFieldsMap(objectToUpdate);
+			
+			for (Entry<String, Object> entry : (Set<Entry<String, Object>>)fieldToUpdateValuesMap.entrySet()) {
 				if(entry.getValue() != null && 
 						(!(entry.getValue() instanceof List<?>)||
 						((entry.getValue() instanceof List<?>) &&
-								!Tools.isBlankOrNull((ArrayList<?>)entry.getValue())))){
-					
-					if(null != fieldMap.get(entry.getKey())){	
-							fieldMap.get(entry.getKey()).set(this, entry.getValue());
-					}
+								!Tools.isBlankOrNull((ArrayList<?>)entry.getValue())))
+								&& null != fieldMap.get(entry.getKey())){
+
+						fieldMap.get(entry.getKey()).set(this, entry.getValue());
 				}
 			}
-		} catch (IllegalArgumentException e) {
-			throw new JCertifException(e.getMessage(),e);
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			throw new JCertifException(e.getMessage(),e);
 		}
 
 
 	}
+    
+    private <T extends Model> Map<String, Object> getFieldsMap(T objectToUpdate) throws IllegalArgumentException, IllegalAccessException {
+    	Map<String, Object> fieldValuesMap = new HashMap<String, Object>();
+    	
+    	Class<?> clazz = objectToUpdate.getClass();
+		while(null != clazz){
+			for(Field field : clazz.getDeclaredFields()){
+				
+				if (!Modifier.isFinal(field.getModifiers())){
+					field.setAccessible(true);
+					fieldValuesMap.put(field.getName(), field.get(objectToUpdate));
+				}
+				
+			}
+			clazz = clazz.getSuperclass();
+		}
+    	
+		return fieldValuesMap;    	
+    }
     
     @Override
 	public String toString() {

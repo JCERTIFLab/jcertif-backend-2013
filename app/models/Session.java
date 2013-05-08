@@ -170,21 +170,14 @@ public class Session extends JCertifModel {
     }
 	
 	public static Session find(String email){
-		Session session = null;
-    	
-    	BasicDBObject dbObject = getFinder().find(Session.class, Constantes.ID_ATTRIBUTE_NAME, email);
-    	
-    	if(null != dbObject){
-    		session = new Session(dbObject);
-    	}
-		return session; 
+    	return getFinder().find(Session.class, Constantes.ID_ATTRIBUTE_NAME, email);
 	}
 	
-	public static List<BasicDBObject> findAll(){
+	public static List<Session> findAll(){
 		return getFinder().findAll(Session.class);
 	}
 	
-	public static List<BasicDBObject> findAll(String version){
+	public static List<Session> findAll(String version){
 		return getFinder().findAll(Session.class, version);
 	}
 }

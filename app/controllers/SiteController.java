@@ -5,6 +5,7 @@ import models.Site;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 import models.validation.CheckHelper;
 
@@ -12,10 +13,6 @@ import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 import controllers.Security.Admin;
 
 
@@ -23,7 +20,7 @@ public class SiteController extends Controller {
 
 	public static Result listSite() {
 
-        return ok(JSON.serialize(Site.findAll()));
+        return ok(Json.serialize(Site.findAll()));
     }
     
     public static Result getSite(String idSite) {
@@ -34,17 +31,17 @@ public class SiteController extends Controller {
 			throw new JCertifObjectNotFoundException(Site.class, idSite);
 		}
 		
-        return ok(JSON.serialize(site.toBasicDBObject()));
+        return ok(Json.serialize(site));
     }
 
     @Admin
     public static Result newSite() {
 		JsonNode jsonNode = request().body().asJson();
 		
-		Site site = new Site((BasicDBObject)JSON.parse(jsonNode.toString()));
+		Site site = Json.parse(Site.class, jsonNode.toString());
 		
     	site.create();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -68,7 +65,7 @@ public class SiteController extends Controller {
 		}
 
 		site.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -93,9 +90,9 @@ public class SiteController extends Controller {
 		
 		CheckHelper.checkVersion(site, version);
 		
-		site.merge(BasicDBObject.class.cast(JSON.parse(jsonNode.toString())));
+		site.merge(Json.parse(Site.class, jsonNode.toString()));
 		site.save();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
    }
     
     public static Result listSiteRoom(String idSite) {
@@ -106,6 +103,6 @@ public class SiteController extends Controller {
 			throw new JCertifObjectNotFoundException(Site.class, idSite);
 		}
 		
-        return ok(JSON.serialize(Room.findAll(idSite)));
+        return ok(Json.serialize(Room.findAll(idSite)));
     }
 }

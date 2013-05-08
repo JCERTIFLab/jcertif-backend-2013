@@ -5,38 +5,35 @@ import models.Category;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Constantes;
+import models.util.Json;
 import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.util.JSON;
-
 import controllers.Security.Admin;
 
 public class CategoryController extends Controller {
 
     public static Result list() {
 
-        return ok(JSON.serialize(Category.findAll()));
+        return ok(Json.serialize(Category.findAll()));
     }
     
     public static Result listVersion(String version) {
 
-        return ok(JSON.serialize(Category.findAll(version)));
+        return ok(Json.serialize(Category.findAll(version)));
     }
 
     @Admin
     public static Result newCategory() {
     	JsonNode jsonNode = request().body().asJson();
 		
-    	Category category = new Category((BasicDBObject)JSON.parse(jsonNode.toString()));
+    	Category category = Json.parse(Category.class, jsonNode.toString());
 		
     	category.create();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 
     @Admin
@@ -56,6 +53,6 @@ public class CategoryController extends Controller {
 		}
 
 		category.remove();
-		return ok(JSON.serialize("Ok"));
+		return ok(Json.serialize("Ok"));
     }
 }

@@ -139,17 +139,10 @@ public class Site extends JCertifModel {
 	}
 	
 	public static Site find(String idSite){
-		Site site = null;
-    	
-    	BasicDBObject dbObject = getFinder().find(Site.class, Constantes.ID_ATTRIBUTE_NAME, idSite);
-    	
-    	if(null != dbObject){
-    		site = new Site(dbObject);
-    	}
-		return site; 
+    	return getFinder().find(Site.class, Constantes.ID_ATTRIBUTE_NAME, idSite);
 	}
 	
-	public static List<BasicDBObject> findAll(){
+	public static List<Site> findAll(){
 		return getFinder().findAll(Site.class);
 	}
 
