@@ -1,0 +1,64 @@
+@(form: Form[models.oauth2.ResourceOwnerIdentity])
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title> JCertif Backend </title>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+
+</head>
+<body>
+    
+    <div id="login">
+
+	@helper.form(routes.LoginController.authenticateUser) {
+
+	<h1>Sign In</h1>
+
+		@if(form.hasGlobalErrors) { 
+            <p class="error">
+                @form.globalError.message
+            </p>
+        }
+		@if(flash.contains("success")) {
+            <p class="success">
+                @flash.get("success")
+            </p>
+        }
+        
+        @if(flash.contains("redirect_uri")) {
+        <input type="hidden" name="redirectUri" id="redirectUri"" value="@flash.get("redirect_uri")" />
+        }
+        
+        @if(flash.contains("state")) {
+        <input type="hidden" name="state" id="state"" value="@flash.get("state")" />
+        }
+        
+        @if(flash.contains("client_id")) {
+        <input type="hidden" name="clientId" id="clientId"" value="@flash.get("client_id")" />
+        }
+	
+		<p id="username-field">
+			<label for="email">Email</label>
+			<input type="text" name="email" id="email" value="@form("email").value" />
+		</p>
+		<p id="password-field">
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" value="@form("password").value" />
+		</p>
+		<p id="remember-field">
+			<input type="checkbox" name="remember" id="remember" value="true" />
+			<label for="remember">Se souvenir de mes identifiants</label>
+		</p>
+		<p id="signin-field">
+			<input type="submit" id="signin" value="Login" />
+		</p>
+		
+	}
+
+</div>
+
+</body>
+</html>

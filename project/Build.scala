@@ -14,7 +14,8 @@ object ApplicationBuild extends Build {
   val appDependencies = Seq(
     "org.mongodb" % "mongo-java-driver" % "2.10.1",
     javaCore,"com.typesafe" %% "play-plugins-mailer" % "2.1.0",
-    "commons-lang" % "commons-lang" % "2.4"
+    "commons-lang" % "commons-lang" % "2.4",
+    "org.springframework.security.oauth" % "spring-security-oauth2" % "1.0.4.RELEASE"
   )
 
   val main = play.Project(appName, appVersion, appDependencies, settings = s).settings(

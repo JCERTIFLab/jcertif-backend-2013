@@ -20,6 +20,7 @@ Backend.init = function () {
 	Backend.addCivilite.initDialog();      
 	Backend.removeCivilite.initDialog();
 	Backend.logIn.initDialog();
+	Backend.registerApplication.initDialog();
 
     $("#register-participant").click(function () {
         Backend.registerParticipant.openDialog();
@@ -65,6 +66,9 @@ Backend.init = function () {
     });
 	$("#login").click(function () {
         Backend.logIn.openDialog();
+    });
+	$("#add-application").click(function () {
+        Backend.registerApplication.openDialog();
     });
 }
 
@@ -720,6 +724,43 @@ Backend.logIn = {
                         data: $('#dialog-login form').serializeJSONString()
                     }).done(function (msg) {
                     		$('#dialog-login').dialog("destroy");
+                        }).fail(function (msg) {
+                            alert(msg.responseText);
+                        });
+                }
+            }
+
+        });
+    }
+}
+
+//Service de login
+Backend.registerApplication = {
+		
+    initDialog: function () {
+    	$("#dialog-add-application form fieldset").append('<label for="name">AppName</label>');
+        $("#dialog-add-application form fieldset").append('<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all"/>');
+        $("#dialog-add-application form fieldset").append('<label for="scope">Perimetre</label>');
+        $("#dialog-add-application form fieldset").append('<select name="scope" id="scope" multiple="true" class="ui-widget-content ui-corner-all">'
+        		+'<option value="user">user</option>'
+        		+'<option value="admin">admin</option>'
+        		+'</select>');
+    },
+
+    openDialog: function () {
+        $("#dialog-add-application").dialog({
+            width: 300,
+            height: 350,
+            modal: true,
+            buttons: {
+                "Register": function () {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/login/oauth/v2/app/register",
+                        data: $('#dialog-add-application form').serializeJSONString()
+                    }).done(function (msg) {
+                    		$('#dialog-add-application').dialog("destroy");
                         }).fail(function (msg) {
                             alert(msg.responseText);
                         });

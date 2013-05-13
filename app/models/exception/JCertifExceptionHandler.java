@@ -40,7 +40,8 @@ public final class JCertifExceptionHandler {
 
 		Throwable unwrappedThrowable = throwable;
 
-		while(unwrappedThrowable.getClass().getCanonicalName().contains("play.")){
+		while(null != unwrappedThrowable
+				&& !unwrappedThrowable.getClass().getCanonicalName().contains("models.exception.")){
 			unwrappedThrowable = unwrappedThrowable.getCause();
 		}
 		return unwrappedThrowable;

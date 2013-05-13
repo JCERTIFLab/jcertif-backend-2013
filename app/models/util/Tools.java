@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -90,6 +91,17 @@ public final class Tools {
 
     public static List<String> basicDBListToJavaList(BasicDBList basicDBList){
         List<String> retList = new ArrayList<String>();
+        if(basicDBList==null){
+            return retList;
+        }
+        for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
+            retList.add((String)iterator.next());
+        }
+        return retList;
+    }
+    
+    public static Set<String> basicDBListToJavaSet(BasicDBList basicDBList){
+        Set<String> retList = new HashSet<String>();
         if(basicDBList==null){
             return retList;
         }

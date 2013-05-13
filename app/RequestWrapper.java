@@ -1,4 +1,6 @@
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.exception.JCertifExceptionHandler;
 import models.util.Tools;
@@ -12,6 +14,14 @@ import play.mvc.Results;
 public class RequestWrapper extends Action.Simple {
 
     private static final String TRACE_REQUESTED_URL_TAG = "Requested URL : ";
+    private static final List<String> NON_JSON_SERVICES = new ArrayList<String>();
+    
+    static {
+    	NON_JSON_SERVICES.add("/");
+    	NON_JSON_SERVICES.add("/login/oauth/v2/authorize");
+    	NON_JSON_SERVICES.add("/login/oauth/v2/authenticate");
+    	NON_JSON_SERVICES.add("/backoffice/home");  	
+    }
 
     public RequestWrapper(Action<?> action) {
         this.delegate = action;
@@ -26,14 +36,15 @@ public class RequestWrapper extends Action.Simple {
         
         try{	
         	
-        	if("POST".equals(context.request().method())){
+        	if("POST".equals(context.request().method()) 
+        			&& isJsonService(context.request().path())){
         		Tools.verifyJSonRequest(context.request().body());
         	}
         	
 			result = delegate.call(context);
 			
 			// Cross Origin que si c'est un service
-	        if (!context.request().path().equals("/")) {
+	        if (isJsonService(context.request().path())) {
 	        	String jsonpCallback = context.request().getQueryString("jsonp");
 	        	if(null != jsonpCallback 
 	        			&& "GET".equals(context.request().method())){
@@ -52,7 +63,11 @@ public class RequestWrapper extends Action.Simple {
         return result;
     }
 
-    private Result jsonpify(Result result, String callback) throws UnsupportedEncodingException {
+    private boolean isJsonService(String path) {
+		return !NON_JSON_SERVICES.contains(path);
+	}
+
+	private Result jsonpify(Result result, String callback) throws UnsupportedEncodingException {
     	int status = play.core.j.JavaResultExtractor.getStatus(result);
 		String body = new String(play.core.j.JavaResultExtractor.getBody(result),"utf-8");
 		return Results.status(status, callback + "(" + body + ")");

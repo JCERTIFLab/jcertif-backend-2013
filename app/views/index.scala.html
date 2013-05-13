@@ -4,6 +4,8 @@
 
 <ul id="menu">
 
+	<li> <a href="javascript:void(0);" id="add-application"> Register Application </a> </li>
+	<li> <a href="/login/oauth/v2/authorize?response_type=code&client_id=backoffice&state=xyz&scope=user,admin&redirect_uri=http://localhost:9000/backoffice/home" id="oauth-login"> Login via OAuth v2 </a> </li>
 	<li> <a href="javascript:void(0);" id="login"> Login </a> </li>
 	<li> <a href="javascript:void(0);" id="add-civilite"> Ajouter une civilit&eacute; </a> </li>
 	<li> <a href="/ref/title/list"> Liste des civilit&eacute;s </a> </li>
@@ -140,6 +142,13 @@
 </div>
 
 <div id="dialog-login" title="Login" hidden="hidden">
+    <form>
+        <fieldset>
+        </fieldset>
+    </form>
+</div>
+
+<div id="dialog-add-application" title="Ajout d'une Application" hidden="hidden">
     <form>
         <fieldset>
         </fieldset>

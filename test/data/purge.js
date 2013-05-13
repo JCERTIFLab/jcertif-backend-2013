@@ -9,3 +9,6 @@ db.sponsor.remove();
 db.site.remove();
 db.room.remove();
 db.counters.remove();
+db.client.remove();
+db.oath_access_token.remove();
+db.oath_refresh_token.remove();
