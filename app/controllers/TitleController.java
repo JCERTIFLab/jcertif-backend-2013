@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import models.Title;
 import models.exception.JCertifInvalidRequestException;
 import models.exception.JCertifObjectNotFoundException;
@@ -9,6 +11,7 @@ import models.util.Tools;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import controllers.Security.Admin;
@@ -33,8 +36,9 @@ public class TitleController extends Controller{
     }
 	
 	public static Result listTitle() {
-        
-		return ok(Json.serialize(Title.findAll()));
+		List<Title> titles = Title.findAll();
+		Logger.info("titles : " + titles);
+		return ok(Json.serialize(titles));
     }
 	
 	@Admin

@@ -30,7 +30,7 @@ public class Global extends GlobalSettings {
 		try {
 			MongoDB.getInstance().loadDbWithData(Constantes.INIT_DATA_FILE);
 		} catch (IOException e) {
-			Logger.info("Impossible d'initialiser les données de réference : " + e.getMessage());			
+			Logger.error("Impossible d'initialiser les données de réference : " + e.getMessage());			
 		}
 	}
 	
@@ -48,6 +48,7 @@ public class Global extends GlobalSettings {
     @Override
 	public Result onError(RequestHeader requestHeader, Throwable throwable) {
 		Logger.info("JCertif Backend onError Global Handler");
+		Logger.info("Error URI" + requestHeader.uri());
 		Logger.error("Erreur inattendue", throwable);
 		
 		return JCertifExceptionHandler.resolve(throwable);
