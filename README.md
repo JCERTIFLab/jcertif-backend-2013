@@ -3,10 +3,9 @@ jcertif-backend-2013 [![Build Status](http://192.95.24.101:8080/jenkins/job/JCer
 
 JCertif Back End 2013 : application exposant des services web (REST) que vont consommer les différentes applications de JCertif (site web, application mobile, etc…).
 
-# J'écris du texte
+Stack Technique :
 
-## Titre de niveau 2
-
-hshshsh
+* [Play Framework](http://www.playframework.com/)
+* [MongoDB](http://www.mongodb.org/)
 
 
