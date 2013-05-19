@@ -133,13 +133,15 @@ public class RoomControllerTest {
                 Logger.info("Enregistrement d'une nouvelle salle");
                 try {
 					TestUtils.updateDatabase("test/data/room.js");
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
 					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("name", "name 5");
 	                params.put("site", "102");
 	                params.put("seats", "600");
 	                params.put("description", "The bigest room");
 	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la nouvelle salle est en base de données");
@@ -171,12 +173,14 @@ public class RoomControllerTest {
                 	Logger.info("Le name d'une salle ne peut etre absent");
                 	try {
                 		TestUtils.updateDatabase("test/data/room.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
     	                params.put("site", "102");
     	                params.put("seats", "600");
     	                params.put("description", "The bigest room");
     	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-    	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+    	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
     	                
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -197,13 +201,15 @@ public class RoomControllerTest {
             	Logger.info("Le name d'une salle ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 					params.put("name", "");
 	                params.put("site", "102");
 	                params.put("seats", "600");
 	                params.put("description", "The bigest room");
 	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -224,12 +230,14 @@ public class RoomControllerTest {
             	Logger.info("Le champ site d'une salle ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 					params.put("name", "name 5");
 					params.put("seats", "600");
 	                params.put("description", "The bigest room");
 	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -250,13 +258,15 @@ public class RoomControllerTest {
             	Logger.info("Le champ site d'une salle ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 					params.put("name", "name 5");
 					params.put("site", "");
 					params.put("seats", "600");
 	                params.put("description", "The bigest room");
 	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -277,12 +287,14 @@ public class RoomControllerTest {
             	Logger.info("Le champ seats d'une salle ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 					params.put("name", "name 5");
 					params.put("site", "101");
 					params.put("description", "The bigest room");
 	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -303,13 +315,15 @@ public class RoomControllerTest {
             	Logger.info("Le champ seats d'une salle ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 					params.put("name", "name 5");
 					params.put("site", "101");
 					params.put("seats", "");
 					params.put("description", "The bigest room");
 	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -330,12 +344,14 @@ public class RoomControllerTest {
             	Logger.info("Le champ description d'une salle ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 					params.put("name", "name 5");
 					params.put("site", "101");
 					params.put("seats", "600");
 	                params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -356,14 +372,16 @@ public class RoomControllerTest {
             	Logger.info("Le champ description d'une salle ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
             		params.put("id", "05");
 					params.put("name", "name 5");
 					params.put("site", "101");
 					params.put("seats", "600");
 					params.put("description", "");
 					params.put("photo", "http://www.website2.com/pictures/rooms/room5.gif");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -384,12 +402,14 @@ public class RoomControllerTest {
             	Logger.info("Pour enregistrer une salle, le site doit exister");
             	try {
             		TestUtils.updateDatabase("test/data/room.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 					params.put("name", "name 5");
 					params.put("site", "1000001");
 					params.put("seats", "600");
 					params.put("description", "A description");
-	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.RoomController.newRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -410,7 +430,7 @@ public class RoomControllerTest {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
                 params.put("id", "101");
-            	Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("user", "normal").withJsonBody(Json.toJson(params), POST));
+            	Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST));
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
@@ -422,10 +442,17 @@ public class RoomControllerTest {
     	Logger.info("*** DEBUT -> test_room_deletion_invalid_inner_json ***");
         running(fakeApplication(), new Runnable() {
             public void run() {
-            	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "101");
-            	Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+            	try {
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                params.put("", "101");
+	            	Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+				} catch (IOException e) {
+					Assert.fail("Une erreur est survenue lors du test suppression d'une salle");
+				}
+				
             }
         });
         Logger.info("*** FIN -> test_room_deletion_invalid_inner_json ***");
@@ -436,12 +463,19 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_room_deletion_invalid_id_null ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "");
-                    Logger.info("Le format json d'entrée doit être valide (id ni empty ni null)");
-                    Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_room_deletion_invalid_id_null ***");
+                	try {
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                    params.put("id", "");
+	                    Logger.info("Le format json d'entrée doit être valide (id ni empty ni null)");
+	                    Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_room_deletion_invalid_id_null ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de suppression d'une salle", e);
+					}
+					
             }
         });
     }
@@ -451,12 +485,19 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_room_deletion_invalid_id ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "abc1_");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_room_deletion_invalid_id ***");
+                	try {
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                    params.put("id", "abc1_");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_room_deletion_invalid_id ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de suppression d'une salle", e);
+					}
+					
             }
         });
     }
@@ -468,10 +509,12 @@ public class RoomControllerTest {
                 	Logger.info("*** DEBUT -> test_room_deletion_unregistred_site_id ***");
                 	try {
                 		TestUtils.updateDatabase("test/data/room.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "10000000");                        
                         Logger.info("La demande de suppession ne doit concerner que des salles existantes.");
-                        Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_room_deletion_unregistred_site_id ***");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -490,11 +533,13 @@ public class RoomControllerTest {
                 	try {
                 		Logger.info("Tous les inner params sont valides.");
                 		TestUtils.updateDatabase("test/data/room.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "101");
                         params.put("version", "01");
 		                params.put("deleted", "false");
-                        Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.RoomController.removeRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "101"));
                         Assert.assertTrue(null != dbObjects);
@@ -517,7 +562,7 @@ public class RoomControllerTest {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
                 params.put("id", "101");
-            	Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("user", "normal").withJsonBody(Json.toJson(params), POST));
+            	Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withJsonBody(Json.toJson(params), POST));
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
@@ -530,10 +575,17 @@ public class RoomControllerTest {
     	Logger.info("Les inner params doivent former un objet json valide");
         running(fakeApplication(), new Runnable() {
             public void run() {
-            	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "101");
-            	Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+            	try {
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                params.put("", "101");
+	            	Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+				} catch (IOException e) {
+					Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);
+				}
+				
             }
         });
         Logger.info("*** FIN -> test_update_room_invalid_inner_json ***");
@@ -544,12 +596,19 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_room_invalid_id_empty ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_update_room_invalid_id_empty ***");
+                	try {
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                    params.put("id", "");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_update_room_invalid_id_empty ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);
+					}
+					
             }
         });
     }
@@ -559,12 +618,19 @@ public class RoomControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_room_invalid_id ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "abc1_");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_update_room_invalid_id ***");
+                	try {
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                    params.put("id", "abc1_");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_update_room_invalid_id ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de mise a jour de la salle", e);
+					}
+					
             }
         });
     }
@@ -577,14 +643,16 @@ public class RoomControllerTest {
                 	Logger.info("Tous les inner params sont valides ");
                 	try {
                 		TestUtils.updateDatabase("test/data/room.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "101");
                         params.put("name", "changedName");
                         params.put("description", "changedDescription");
                         params.put("version", "01");
 		                params.put("deleted", "false");
 		                
-                        Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         Logger.info("Vérification que les informations de la salle ont bien été mises à jour");
 		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_ROOM, new BasicDBObject().append("id", "101"));
@@ -612,10 +680,12 @@ public class RoomControllerTest {
                 	Logger.info("*** DEBUT -> test_room_update_unregistred_site_id ***");
                 	try {
                 		TestUtils.updateDatabase("test/data/room.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "10000000");                        
                         Logger.info("La demande de mise à jour ne doit concernée que des sites existantes.");
-                        Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.RoomController.updateRoom(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_room_update_unregistred_site_id ***");
                         TestUtils.updateDatabase("test/data/purge.js");

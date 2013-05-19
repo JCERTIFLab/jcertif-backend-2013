@@ -19,6 +19,10 @@ GET		/							controllers.HomeController.get
 
 POST	/admin					    controllers.AdminController.check
 
+POST	/admin/register				controllers.AdminController.registerAdmin
+
+POST	/admin/update				controllers.AdminController.updateAdmin
+
 OPTIONS /*nameUrl                   controllers.AdminController.ping(nameUrl:String)
 
 GET		/ref/sponsorlevel/list		controllers.SponsorLevelController.listSponsorLevel

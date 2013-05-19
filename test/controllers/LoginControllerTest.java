@@ -42,7 +42,8 @@ public class LoginControllerTest {
             	Logger.info("Liste des logins des membres JCertif Conference");
             	try {
 					TestUtils.updateDatabase("test/data/login.js");
-					Result result = route(fakeRequest(GET, "/login/list").withSession("admin", "admin"));
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Result result = route(fakeRequest(GET, "/login/list?access_token=e096fdd2-448b-4df4-9fca-11f80d8a5f86").withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 	                JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(0, jsonNode.size());  

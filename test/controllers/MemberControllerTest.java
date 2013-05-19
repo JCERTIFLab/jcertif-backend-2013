@@ -312,11 +312,13 @@ public abstract class MemberControllerTest {
 	            	Logger.info("Suppression d'un membre");
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
 						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 		                params.put("email", "test@member.com");
 		                params.put("version", "01");
 		                params.put("deleted", "false");
-						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withSession("admin", "admin").withSession("admin", "admin"));
+						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le membre a bien été supprimé");

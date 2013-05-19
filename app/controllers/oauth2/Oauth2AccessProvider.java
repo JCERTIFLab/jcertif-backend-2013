@@ -1,7 +1,20 @@
 package controllers.oauth2;
 
+import java.util.Map;
+
+import models.oauth2.Client;
+import models.oauth2.GrantTypes;
+import models.oauth2.OAuth2Parameter;
+
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.util.RandomValueStringGenerator;
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
+import org.springframework.security.oauth2.provider.AuthorizationRequestManager;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.DefaultAuthorizationRequestManager;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
+import org.springframework.security.oauth2.provider.code.AuthorizationRequestHolder;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 
 
@@ -21,27 +34,43 @@ public class Oauth2AccessProvider {
 	private static JCertifClientDetailsService clientDetailsService = new JCertifClientDetailsService();
 	private static InMemoryAuthorizationCodeServices authorizationCodeServices = new InMemoryAuthorizationCodeServices();
 	private static JCertifTokenServices authorizationServerTokenServices = new JCertifTokenServices(clientDetailsService);
+	private static AuthorizationRequestManager authorisationRequestManager = new DefaultAuthorizationRequestManager(clientDetailsService);
 	private static AuthorizationCodeTokenGranter authorisationCodeGranter = new AuthorizationCodeTokenGranter(authorizationServerTokenServices, authorizationCodeServices, clientDetailsService);
 	private static RandomValueStringGenerator ramdomGenerator = new RandomValueStringGenerator(21);
 	
-	public static JCertifClientDetailsService getClientDetailsService() {
-		return clientDetailsService;
+	
+	public static String createAuthorizationCode(AuthorizationRequestHolder requestHolder) {
+		return authorizationCodeServices.createAuthorizationCode(requestHolder);
 	}
 
-	public static InMemoryAuthorizationCodeServices getAuthorizationCodeServices() {
-		return authorizationCodeServices;
+	public static AuthorizationRequest createAuthorizationRequest(Map<String, String> authorizationParameters) {
+		authorisationRequestManager.validateParameters(authorizationParameters, loadClientByClientId(authorizationParameters.get(OAuth2Parameter.CLIENT_ID)));
+		return authorisationRequestManager.createAuthorizationRequest(authorizationParameters);	
 	}
 
-	public static JCertifTokenServices getTokenServices() {
-		return authorizationServerTokenServices;
+	public static OAuth2AccessToken grant(AuthorizationRequest authorizationRequest) {
+		return authorisationCodeGranter.grant(GrantTypes.CODE.getCode(), authorizationRequest);
 	}
 
-	public static AuthorizationCodeTokenGranter getAuthorisationCodeGranter() {
-		return authorisationCodeGranter;
+
+	public static ClientDetails loadClientByClientId(String clientId) {
+		return clientDetailsService.loadClientByClientId(clientId);
 	}
 
-	public static RandomValueStringGenerator getRamdomGenerator() {
-		return ramdomGenerator;
+
+	public static String generateSecret() {
+		return ramdomGenerator.generate();
 	}
+
+
+	public static void addClient(Client client) {
+		clientDetailsService.addClientDetails(client);		
+	}
+
+	public static OAuth2Authentication loadAuthentication(String accessToken) {
+		return authorizationServerTokenServices.loadAuthentication(accessToken);
+	}
+	
+	
 
 }

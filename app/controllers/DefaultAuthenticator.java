@@ -6,6 +6,7 @@ import models.oauth2.Client;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
+import play.Logger;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security.Authenticator;
@@ -46,22 +47,44 @@ public class DefaultAuthenticator extends Authenticator {
         String clientId = credentials[0];
         String clientSecret = credentials[1];
         
-        ClientDetails client = Oauth2AccessProvider.getClientDetailsService().loadClientByClientId(clientId);
+        ClientDetails client = Oauth2AccessProvider.loadClientByClientId(clientId);
         
+        //on authentifie le client
         if(null == client 
         		|| !((Client)client).authenticate(clientSecret)){
         	return null;
         }
+
+        Logger.info("ou la ");
+        //on vérifie le token
+		OAuth2Authentication auth = Oauth2AccessProvider.loadAuthentication(extractAccessToken(context));
+		
+		if(null == auth){
+			return null;
+		}
+		
+		Logger.info("heheh");
+		
+		if(!isRightScoped(auth)){
+			return null;
+		}
+		
+		return auth.getPrincipal().toString();
+	}
+	
+	protected boolean isRightScoped(OAuth2Authentication auth) {
+		return auth.getAuthorizationRequest().getScope().contains("user");
+	}
+
+	protected String extractAccessToken(Context context){
 		String accessToken = null;
 		
 		if("GET".equals(context.request().method())){
 			accessToken = context.request().getQueryString("access_token");
 		}else{
 			accessToken = context.request().body().asJson().findPath("access_token").getTextValue();
-		}
-		
-		OAuth2Authentication auth = Oauth2AccessProvider.getTokenServices().loadAuthentication(accessToken);
-		return auth.getPrincipal().toString();
+		}		
+		return accessToken;
 	}
 	
 	@Override

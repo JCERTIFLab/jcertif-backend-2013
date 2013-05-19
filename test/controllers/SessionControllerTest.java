@@ -121,7 +121,9 @@ public class SessionControllerTest {
                 Logger.info("Proposition d'une nouvelle session");
                 try {
 					TestUtils.updateDatabase("test/data/session.js");
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
 					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("title", "Lost in the jungle");
 	                params.put("summary", "Learn how to suvive in the jungle");
 	                params.put("description", "A small desc of lost in the jungle");
@@ -131,7 +133,7 @@ public class SessionControllerTest {
 	                params.put("start", "12/02/2013 10:22");
 	                params.put("end", "16/02/2013 10:23");
 	                params.put("speakers", new String[]{"01","02"});
-	                Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la nouvelle session est bien présente en base de données");
@@ -167,7 +169,9 @@ public class SessionControllerTest {
                 	Logger.info("Le title d'une session ne peut etre ansent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "101");
                         params.put("summary", "summary 2");
@@ -179,7 +183,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Title cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -199,7 +203,9 @@ public class SessionControllerTest {
                 	Logger.info("Le title d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "");
@@ -212,7 +218,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Title cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -232,7 +238,9 @@ public class SessionControllerTest {
                 	Logger.info("Le summary d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -245,7 +253,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Summary cannot be empty or null");
@@ -265,7 +273,9 @@ public class SessionControllerTest {
                 	Logger.info("Le summary d'une session ne peut etre ansent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -277,7 +287,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Summary cannot be empty or null");
@@ -297,7 +307,9 @@ public class SessionControllerTest {
                 	Logger.info("La description d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -310,7 +322,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Description cannot be empty or null");
@@ -330,7 +342,9 @@ public class SessionControllerTest {
                 	Logger.info("Le summary d'une session ne peut etre ansent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -342,7 +356,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Description cannot be empty or null");
@@ -362,7 +376,9 @@ public class SessionControllerTest {
                 	Logger.info("Le status d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -375,7 +391,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Status cannot be empty or null");
@@ -395,7 +411,9 @@ public class SessionControllerTest {
                 	Logger.info("Le status d'une session ne peut etre absent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -407,7 +425,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Status cannot be empty or null");
@@ -427,7 +445,9 @@ public class SessionControllerTest {
                 	Logger.info("Le keyword d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -440,7 +460,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Keyword cannot be empty or null");
@@ -460,7 +480,9 @@ public class SessionControllerTest {
                 	Logger.info("Le keyword d'une session ne peut etre absent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -472,7 +494,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Keyword cannot be empty or null");
@@ -492,7 +514,9 @@ public class SessionControllerTest {
                 	Logger.info("La category d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -505,7 +529,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Category cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -525,7 +549,9 @@ public class SessionControllerTest {
                 	Logger.info("Le keyword d'une session ne peut etre absent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -537,7 +563,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Category cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -557,7 +583,9 @@ public class SessionControllerTest {
                 	Logger.info("La start date d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -570,7 +598,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Start Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -590,7 +618,9 @@ public class SessionControllerTest {
                 	Logger.info("La start date d'une session ne peut etre absent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -602,7 +632,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Start Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -622,7 +652,9 @@ public class SessionControllerTest {
                 	Logger.info("La end date d'une session ne peut etre vide");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -635,7 +667,7 @@ public class SessionControllerTest {
                         params.put("end", "");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("End Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -655,7 +687,9 @@ public class SessionControllerTest {
                 	Logger.info("La start date d'une session ne peut etre absent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -667,7 +701,7 @@ public class SessionControllerTest {
                         params.put("start", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("End Date cannot be empty or null");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -687,7 +721,9 @@ public class SessionControllerTest {
                 	Logger.info("Le format de la start date d'une session doit etre conforme à : JJ/MM/AAAA hh:mm");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -700,7 +736,7 @@ public class SessionControllerTest {
                         params.put("end", "16/12/2013 10:23");
                         params.put("speakers", new String[]{"13","34"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Start Date is not valid");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -720,7 +756,9 @@ public class SessionControllerTest {
                 	Logger.info("La start date d'une session ne peut etre absent du inner json ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -733,7 +771,7 @@ public class SessionControllerTest {
                         params.put("end", "2013/12/23 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("End Date is not valid");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -753,7 +791,9 @@ public class SessionControllerTest {
                 	Logger.info("La start date d'une session ne peut etre supérieur ou égal a sa end date ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -766,7 +806,7 @@ public class SessionControllerTest {
                         params.put("end", "07/04/2013 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("Start Date must not be equals or greater than End Date");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -786,7 +826,9 @@ public class SessionControllerTest {
                 	Logger.info("Le status d'une session doit faire partie de la liste des status session ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -799,7 +841,7 @@ public class SessionControllerTest {
                         params.put("end", "20/12/2013 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("does not exist. Check Session Status List");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -819,7 +861,9 @@ public class SessionControllerTest {
                 	Logger.info("Les catégories d'une session doivent faire partie de la liste des caégories");
                 	try {
                 		TestUtils.updateDatabase("test/data/session_update.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 
                         params.put("id", "111");
                         params.put("title", "title 2");
@@ -832,7 +876,7 @@ public class SessionControllerTest {
                         params.put("end", "20/12/2013 3:43");
                         params.put("speakers", new String[]{"13","34"});
                         
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("does not exist. Check Category List");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -856,7 +900,7 @@ public class SessionControllerTest {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
                 params.put("id", "101");
-            	Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("user", "normal").withJsonBody(Json.toJson(params), POST));
+            	Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withJsonBody(Json.toJson(params), POST));
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
@@ -868,11 +912,18 @@ public class SessionControllerTest {
     	Logger.info("*** DEBUT -> test_delete_session_invalid_inner_json ***");
         running(fakeApplication(), new Runnable() {
             public void run() {
-            	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "101");
-            	Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-            	Logger.info("tracked result is : " + status(result));
-            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+            	try {
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                params.put("", "101");
+	            	Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	            	Logger.info("tracked result is : " + status(result));
+	            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+				} catch (IOException e) {
+					Logger.error("Une erreur est survenue lors du test de la suppressionsession", e);
+				}
+				
             }
         });
         Logger.info("*** FIN -> test_delete_session_invalid_inner_json ***");
@@ -883,12 +934,18 @@ public class SessionControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_session_deletion_inner_json_null ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "");
-                    Logger.info("Le format json d'entrée doit être valide (id pas empty ni null)");
-                    Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_session_deletion_inner_json_null ***");
+                	try {
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                    params.put("id", "");
+	                    Logger.info("Le format json d'entrée doit être valide (id pas empty ni null)");
+	                    Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_session_deletion_inner_json_null ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de la suppressionsession", e);
+					}				
             }
         });
     }
@@ -900,10 +957,12 @@ public class SessionControllerTest {
                 	Logger.info("*** DEBUT -> test_session_deletion_unregistred_session_id ***");
                 	try {
                 		TestUtils.updateDatabase("test/data/session.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "10000000");                        
                         Logger.info("La demande de suppession ne doit concerner que des sessions existantes.");
-                        Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_session_deletion_unregistred_session_id ***");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -922,10 +981,12 @@ public class SessionControllerTest {
                 	try {
                 		Logger.info("Tous les inner params sont valides.");
                 		TestUtils.updateDatabase("test/data/session.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "101");
                         params.put("version", "01");
-                        Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.removeSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SESSION, new BasicDBObject().append("id", "101"));
                         Assert.assertTrue(null != dbObjects);
@@ -954,7 +1015,7 @@ public class SessionControllerTest {
             public void run() {
             	Map<String, Object> params = new HashMap<String, Object>();
                 params.put("id", "101");
-            	Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("user", "normal").withJsonBody(Json.toJson(params), POST));
+            	Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withJsonBody(Json.toJson(params), POST));
                 assertThat(status(result)).isEqualTo(FORBIDDEN);
             }
         });
@@ -967,10 +1028,17 @@ public class SessionControllerTest {
     	Logger.info("Les inner params doivent former un objet json valide");
         running(fakeApplication(), new Runnable() {
             public void run() {
-            	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "101");
-            	Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+            	try {
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                params.put("", "101");
+	            	Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+				} catch (IOException e) {
+					Logger.error("Une erreur est survenue lors du test de mise à jour d'une session", e);
+				}
+				
             }
         });
         Logger.info("*** FIN -> test_update_session_invalid_inner_json ***");
@@ -981,12 +1049,19 @@ public class SessionControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_session_invalid_id_null ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_update_session_invalid_id_null ***");
+                	try {
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                    params.put("id", "");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_update_session_invalid_id_null ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de mise à jour d'une session", e);
+					}
+					
             }
         });
     }
@@ -996,12 +1071,19 @@ public class SessionControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_session_invalid_id ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "abc1_");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_update_session_invalid_id ***");
+                	try {
+						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                    params.put("id", "abc1_");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_update_session_invalid_id ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de mise à jour d'une session", e);
+					}
+					
             }
         });
     }
@@ -1014,7 +1096,9 @@ public class SessionControllerTest {
                 	Logger.info("Tous les inner params sont valides ");
                 	try {
                 		TestUtils.updateDatabase("test/data/session.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "101");
                         params.put("title", "title 2");
                         params.put("summary", "summary 2");
@@ -1028,7 +1112,7 @@ public class SessionControllerTest {
                         params.put("speakers", new String[]{"13","34"});
                         params.put("version", "01");
                         
-                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         assertThat(contentAsString(result)).contains("does not exist. Check Room List");
                         Logger.info("*** FIN -> test_update_session_unreistered_room() ***");
@@ -1048,7 +1132,9 @@ public class SessionControllerTest {
                 	try {
                 		Logger.info("Tous les inner params sont valides.");
                 		TestUtils.updateDatabase("test/data/session.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "101");
                         params.put("title", "title 3");
                         params.put("summary", "summary 3");
@@ -1059,7 +1145,7 @@ public class SessionControllerTest {
                         params.put("version", "01");
 		                params.put("deleted", "false");
 		                
-                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(OK);
                         
                         Logger.info("Vérification que la session a bien été modifiée en base de données");
@@ -1095,10 +1181,12 @@ public class SessionControllerTest {
                 	Logger.info("*** DEBUT -> test_session_update_unregistred_session_id ***");
                 	try {
                 		TestUtils.updateDatabase("test/data/session.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
                         params.put("id", "10000000");                        
                         Logger.info("La demande de mise à jour ne doit concernée que des sessions existantes.");
-                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SessionController.updateSession(), fakeRequest().withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA=").withJsonBody(Json.toJson(params), POST));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_session_update_unregistred_session_id ***");
                         TestUtils.updateDatabase("test/data/purge.js");

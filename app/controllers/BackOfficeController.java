@@ -61,6 +61,9 @@ public class BackOfficeController extends Controller{
 		
 		Logger.info("participant : " + jsonNode);
 		
+		session("email",user);
+		session("access_token",accessToken);
+		
 		return ok(backoffice.render(jsonNode.findPath("firstname").getTextValue(),jsonNode.findPath("lastname").getTextValue()));
 	}
 }

@@ -9,6 +9,7 @@ import models.oauth2.ResourceOwnerIdentity;
 import models.util.Json;
 
 import org.codehaus.jackson.JsonNode;
+import org.springframework.security.oauth2.common.util.OAuth2Utils;
 
 import play.Logger;
 import play.data.Form;
@@ -66,9 +67,10 @@ public class LoginController extends Controller {
     		Logger.info("errors : " + loginForm.errors());
             return badRequest(views.html.login.render(loginForm));
         } else {
-        	login(loginForm.get());
-        	Logger.info("postAuthenticateUser : ");
-            return OAuth2AccessController.getAuthenticationCode(loginForm.get().getEmail(), loginForm.get().getRedirectUri(), loginForm.get().getState(), loginForm.get().getClientId());
+        	ResourceOwnerIdentity identity = loginForm.get();
+        	login(identity);
+        	Logger.info("getAuthenticationCode : ");
+            return OAuth2AccessController.getAuthorizationCode(identity.getEmail(), identity.getRedirectUri(), identity.getState(), identity.getClientId(), OAuth2Utils.parseParameterList(identity.getScope()));
         }
     	
     }

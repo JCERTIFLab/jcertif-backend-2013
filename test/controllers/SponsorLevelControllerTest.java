@@ -76,18 +76,25 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("Création d'un nouveau niveau de partenariat");
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("label", "HTTT");
-                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
-                assertThat(status(result)).isEqualTo(OK);
+                try {
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                params.put("label", "HTTT");
+	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+	                assertThat(status(result)).isEqualTo(OK);
 
-                Logger.info("Vérification que le nouveau niveau de patenariat est bien présente en base de données");
-                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "HTTT"));
-                Assert.assertTrue(null != dbObjects);
-                Assert.assertEquals(1,dbObjects.size());
-                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
-                Assert.assertEquals("01",dbObjects.get(0).get("version"));
-                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
+	                Logger.info("Vérification que le nouveau niveau de patenariat est bien présente en base de données");
+	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SPONSOR_LEVEL, new BasicDBObject().append("label", "HTTT"));
+	                Assert.assertTrue(null != dbObjects);
+	                Assert.assertEquals(1,dbObjects.size());
+	                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
+	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
+				} catch (IOException e) {
+					Assert.fail(e.getMessage());
+				}
+				
             }
         });
     }
@@ -99,9 +106,11 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/sponsor_level.js");
 					Logger.info("Création d'un nouveau niveau de partenariat");
-	                Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("label", "SponsorLevel3");
-	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorLevelController.addSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(CONFLICT);
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
@@ -118,9 +127,11 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/sponsor_level.js");
 					Logger.info("Suppression d'un niveau de partenariat");
-	                Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("label", "HTTP");
-	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(NOT_FOUND);
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
@@ -137,12 +148,14 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/sponsor_level.js");
 					Logger.info("Suppression d'un niveau de partenariat");
-	                Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("label", "SponsorLevel2");
 	                params.put("version", "01");
 	                params.put("deleted", "false");
 	                
-	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorLevelController.removeSponsorLevel(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le niveau de partenariat a bien été supprimmé en base de données");

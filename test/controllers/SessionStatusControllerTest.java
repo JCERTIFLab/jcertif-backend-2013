@@ -70,9 +70,11 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
                 Logger.info("Création d'un nouveau statut de session");
                 try {
 					TestUtils.updateDatabase("test/data/session_status.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("label", "HTTT");
-	                Result result = callAction(routes.ref.SessionStatusController.addSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SessionStatusController.addSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le nouveau statut est bien présent en base de données");
@@ -97,13 +99,15 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	try {
-            		TestUtils.updateDatabase("test/data/session_status.js");
-					Logger.info("Suppression d'un statut de session");
-	                Map<String, String> params = new HashMap<String, String>();
+            		Logger.info("Suppression d'un statut de session");
+            		TestUtils.updateDatabase("test/data/session_status.js");					
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("label", "Status1");
 	                params.put("version", "01");
 	                params.put("deleted", "false");
-	                Result result = callAction(routes.ref.SessionStatusController.removeSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SessionStatusController.removeSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le statut a bien été supprimmé en base de données");

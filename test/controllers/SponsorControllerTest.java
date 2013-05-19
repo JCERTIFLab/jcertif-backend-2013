@@ -99,7 +99,9 @@ public class SponsorControllerTest {
                 Logger.info("Création d'un nouveau sponsor");
                 try {
 					TestUtils.updateDatabase("test/data/sponsor.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("email", "email@test.com");
 	                params.put("name", "HTTT");
 	                params.put("logo", "HTTT");
@@ -109,7 +111,7 @@ public class SponsorControllerTest {
 	                params.put("country", "HTTT");
 	                params.put("phone", "HTTT");
 	                params.put("about", "HTTT");
-	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le nouveau sponsor a bien été sauvegardé en base de données");
@@ -136,7 +138,9 @@ public class SponsorControllerTest {
                 Logger.info("Création d'un nouveau sponsor, le niveau de parteariat doit être dans la liste des niveaux de partenariat");
                 try {
 					TestUtils.updateDatabase("test/data/sponsor.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("email", "email@test.com");
 	                params.put("name", "HTTT");
 	                params.put("logo", "HTTT");
@@ -146,7 +150,7 @@ public class SponsorControllerTest {
 	                params.put("country", "HTTT");
 	                params.put("phone", "HTTT");
 	                params.put("about", "HTTT");
-	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
 	                assertThat(contentAsString(result)).contains("does not exist. Check Sponsor Level List");
 	                TestUtils.updateDatabase("test/data/purge.js");
@@ -166,7 +170,9 @@ public class SponsorControllerTest {
                 Logger.info("Création d'un nouveau sponsor, l'email doit être valide");
                 try {
 					TestUtils.updateDatabase("test/data/sponsor.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("email", "email@");
 	                params.put("name", "HTTT");
 	                params.put("logo", "HTTT");
@@ -176,7 +182,7 @@ public class SponsorControllerTest {
 	                params.put("country", "HTTT");
 	                params.put("phone", "HTTT");
 	                params.put("about", "HTTT");
-	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorController.addSponsor(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
 	                assertThat(contentAsString(result)).contains("is not a valid email");
 	                TestUtils.updateDatabase("test/data/purge.js");
@@ -196,7 +202,9 @@ public class SponsorControllerTest {
                 Logger.info("Création d'un nouveau sponsor");
                 try {
 					TestUtils.updateDatabase("test/data/sponsor.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("email", "email@test.com");
 	                params.put("level", "SponsorLevel1");
 	                params.put("website", "www.test.com");
@@ -204,7 +212,7 @@ public class SponsorControllerTest {
 	                params.put("country", "HTTT");
 	                params.put("phone", "HTTT");
 	                params.put("about", "HTTT");
-	                Result result = route(fakeRequest(POST, "/sponsor/new").withJsonBody(Json.toJson(params)).withSession("admin", "admin"));
+	                Result result = route(fakeRequest(POST, "/sponsor/new").withJsonBody(Json.toJson(params)).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(BAD_REQUEST);
 	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
@@ -222,12 +230,14 @@ public class SponsorControllerTest {
                 try {
                 	Logger.info("Supression d'un sponsor");
 					TestUtils.updateDatabase("test/data/sponsor.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("email", "test@sponsor.com");
 	                params.put("version", "01");
 	                params.put("deleted", "false");
 	                
-	                Result result = callAction(routes.ref.SponsorController.removeSponsor(), fakeRequest().withJsonBody(Json.toJson(params),POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorController.removeSponsor(), fakeRequest().withJsonBody(Json.toJson(params),POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 	                
 	                Logger.info("Vérification que le sponsor a bien été supprimmé en base de données");
@@ -264,7 +274,9 @@ public class SponsorControllerTest {
                 try {
                 	Logger.info("Supression d'un sponsor");
 					TestUtils.updateDatabase("test/data/sponsor.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 	                params.put("email", "test@sponsor.com");
 	                params.put("city", "myNewCity");
 	                params.put("country", "myNewCoutry");
@@ -272,7 +284,7 @@ public class SponsorControllerTest {
 	                params.put("version", "01");
 	                params.put("deleted", "false");
 	                
-	                Result result = callAction(routes.ref.SponsorController.updateSponsor(), fakeRequest().withJsonBody(Json.toJson(params),POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SponsorController.updateSponsor(), fakeRequest().withJsonBody(Json.toJson(params),POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
 	                assertThat(status(result)).isEqualTo(OK);
 	                
 	                Logger.info("Vérification que le sponsor a bien été modifié en base de données");

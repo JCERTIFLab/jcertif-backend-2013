@@ -39,6 +39,10 @@
         @if(flash.contains("client_id")) {
         <input type="hidden" name="clientId" id="clientId"" value="@flash.get("client_id")" />
         }
+        
+        @if(flash.contains("scope")) {
+        <input type="hidden" name="scope" id="scope"" value="@flash.get("scope")" />
+        }
 	
 		<p id="username-field">
 			<label for="email">Email</label>
