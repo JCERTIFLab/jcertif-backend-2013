@@ -70,11 +70,9 @@ public class TitleControllerTest extends ReferentielControllerTest {
                 Logger.info("Création d'une nouvealle civilité");
                 try {
 					TestUtils.updateDatabase("test/data/title.js");
-					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
-					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+					Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "M.");
-	                Result result = callAction(routes.ref.TitleController.addTitle(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+	                Result result = callAction(routes.ref.TitleController.addTitle(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la nouvelle civilité est bien présente en base de données");
@@ -99,13 +97,11 @@ public class TitleControllerTest extends ReferentielControllerTest {
             	try {
 					TestUtils.updateDatabase("test/data/title.js");
 					Logger.info("Suppression d'une civilité");
-					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
-					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Title2");
 	                params.put("version", "01");
 	                
-	                Result result = callAction(routes.ref.TitleController.removeTitle(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+	                Result result = callAction(routes.ref.TitleController.removeTitle(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la civilité a bien été supprimmé en base de données");

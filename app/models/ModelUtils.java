@@ -11,7 +11,7 @@ import com.mongodb.BasicDBObject;
  * @author Martial SOMDA
  *
  */
-public final class ModelUtils {
+public class ModelUtils {
 
 	private ModelUtils(){	
 	}

@@ -119,7 +119,6 @@ public abstract class MemberControllerTest {
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
 						Map<String, Object> params = new HashMap<String, Object>();
-						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 		                params.put("email", "jandiew@gmail.com");
 		                params.put("title", "M.");
 		                params.put("website", "www.jandriewrebirth.com");
@@ -130,7 +129,7 @@ public abstract class MemberControllerTest {
 		                params.put("biography", "The new me");
 		                params.put("version", "01");
 		                params.put("deleted", "false");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que les informations du participant ont bien été mises à jour");
@@ -165,9 +164,8 @@ public abstract class MemberControllerTest {
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
 						Map<String, Object> params = new HashMap<String, Object>();
-						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 		                params.put("email", "toto@toto.com");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -185,7 +183,6 @@ public abstract class MemberControllerTest {
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
 						Map<String, Object> params = new HashMap<String, Object>();
-						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 		                params.put("email", "jandiew@gmail.com");
 		                params.put("title", "toto");
 		                params.put("website", "www.jandriewrebirth.com");
@@ -195,7 +192,7 @@ public abstract class MemberControllerTest {
 		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
 		                params.put("biography", "The new me");
 		                params.put("version", "01");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
 		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	 
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -312,13 +309,11 @@ public abstract class MemberControllerTest {
 	            	Logger.info("Suppression d'un membre");
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
-						TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
 						Map<String, Object> params = new HashMap<String, Object>();
-						params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
 		                params.put("email", "test@member.com");
 		                params.put("version", "01");
 		                params.put("deleted", "false");
-						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withSession("admin", "admin").withSession("admin", "admin"));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le membre a bien été supprimé");

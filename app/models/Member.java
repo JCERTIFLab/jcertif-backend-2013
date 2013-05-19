@@ -230,8 +230,4 @@ public abstract class Member extends JCertifModel {
             throw new JCertifResourceAccessException("Login failed!, Username or Password invalid");
         }
     }
-	
-	public boolean isAdmin(){
-		return Admin.class.isInstance(this);
-	}
 }

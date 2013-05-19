@@ -116,26 +116,18 @@ public class CategoryControllerTest extends ReferentielControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("Création d'une nouvealle catégorie");
-				try {
-					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
-					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
-	                params.put("label", "HTTT");
-	                Result result = callAction(routes.ref.CategoryController.newCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
-	                assertThat(status(result)).isEqualTo(OK);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("label", "HTTT");
+                Result result = callAction(routes.ref.CategoryController.newCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+                assertThat(status(result)).isEqualTo(OK);
 
-	                Logger.info("Vérification que la nouvelle catégorie est bien présente en base de données");
-	                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "HTTT"));
-	                Assert.assertTrue(null != dbObjects);
-	                Assert.assertEquals(1,dbObjects.size());
-	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
-	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
-	                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
-	                TestUtils.updateDatabase("test/data/purge.js");
-				} catch (IOException e) {
-					Assert.fail(e.getMessage());
-				}
-				
+                Logger.info("Vérification que la nouvelle catégorie est bien présente en base de données");
+                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_CATEGORY, new BasicDBObject().append("label", "HTTT"));
+                Assert.assertTrue(null != dbObjects);
+                Assert.assertEquals(1,dbObjects.size());
+                Assert.assertEquals("01",dbObjects.get(0).get("version"));
+                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
+                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
             }
         });
     }
@@ -145,14 +137,12 @@ public class CategoryControllerTest extends ReferentielControllerTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
             	try {
-					TestUtils.updateDatabase("test/data/category.js");				
-					TestUtils.updateDatabase("test/data/oauth_grant_admin.js");
+					TestUtils.updateDatabase("test/data/category.js");
 					Logger.info("Suppression d'une catégorie");
-					Map<String, Object> params = new HashMap<String, Object>();
-					params.put("access_token", "e096fdd2-448b-4df4-9fca-11f80d8a5f86");
+	                Map<String, String> params = new HashMap<String, String>();
 	                params.put("label", "Category3");
 	                params.put("version", "03");
-	                Result result = callAction(routes.ref.CategoryController.removeCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withHeader("authorization", "Basic YmFja29mZmljZTpyODc2Q0lOVzNwWnV1N25MN2g2QVA="));
+	                Result result = callAction(routes.ref.CategoryController.removeCategory(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que la catégorie a bien été supprimmé en base de données");

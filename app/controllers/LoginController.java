@@ -5,14 +5,10 @@ import models.Member;
 import models.Participant;
 import models.Speaker;
 import models.exception.JCertifObjectNotFoundException;
-import models.oauth2.ResourceOwnerIdentity;
 import models.util.Json;
 
 import org.codehaus.jackson.JsonNode;
-import org.springframework.security.oauth2.common.util.OAuth2Utils;
 
-import play.Logger;
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -35,15 +31,6 @@ public class LoginController extends Controller {
 		
 		Login login = Json.parse(Login.class, jsonNode.toString());
 		
-		login(login);	
-		
-		session("email", login.getEmail());
-
-        return ok(Json.serialize("Ok"));
-    }
-    
-    public static Member login(Login login) {
-
 		Member member = Participant.find(login.getEmail());
 		
 		if(member == null){
@@ -55,23 +42,9 @@ public class LoginController extends Controller {
 		}
 
 		member.login(login.getPassword());	
+		
+		session("email", login.getEmail());
 
-        return member;
-    }
-    
-    public static Result authenticateUser(){
-    	
-    	Form<ResourceOwnerIdentity> loginForm = Form.form(ResourceOwnerIdentity.class).bindFromRequest();
-    	
-    	if(loginForm.hasErrors()) {
-    		Logger.info("errors : " + loginForm.errors());
-            return badRequest(views.html.login.render(loginForm));
-        } else {
-        	ResourceOwnerIdentity identity = loginForm.get();
-        	login(identity);
-        	Logger.info("getAuthenticationCode : ");
-            return OAuth2AccessController.getAuthorizationCode(identity.getEmail(), identity.getRedirectUri(), identity.getState(), identity.getClientId(), OAuth2Utils.parseParameterList(identity.getScope()));
-        }
-    	
+        return ok(Json.serialize("Ok"));
     }
 }
