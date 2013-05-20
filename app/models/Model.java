@@ -101,7 +101,7 @@ public abstract class Model implements CRUD {
 		return collectionName.substring(1).toLowerCase();
 	}
 
-	public final int add() {
+	protected final int add() {
 		Validator validator = FACTORY.getValidator();
 		Set<ConstraintViolation<Model>> violations = validator.validate(this);				
 		
@@ -119,7 +119,7 @@ public abstract class Model implements CRUD {
 		return 1;
 	}
 
-	public final int update() {
+	protected final int update() {
 		Validator validator = FACTORY.getValidator();
 		Set<ConstraintViolation<Model>> violations = validator.validate(this);
 		

@@ -1,10 +1,51 @@
+@(user: securesocial.core.Identity)
+@import securesocial.core.IdentityProvider
+@import Http.Context.Implicit
+
 @main("JCertif Backend 2013") {
 
 <h1> JCertif Backend 2013 </h1>
 
+@if(user != null){
+<div class="page-header">
+    <h2><img src="@user.avatarUrl" alt="@user.fullName" width="40px" height="40px"/> Welcome @user.firstName</h2>
+</div>
+
+<div class="clearfix">
+    <h2>User Details</h2>
+
+    <ul>
+        <li>User Id: @user.id.id</li>
+        <li>Logged in from: @user.id.providerId</li>
+        <li>Fist name: @user.firstName</li>
+        <li>Last name: @user.lastName</li>
+        <li>Full name: @user.fullName</li>
+        <li>Email: @user.email.map { email => @email }.getOrElse("Not Available")</li>
+        <li>Authentication method: @user.authMethod</li>
+    </ul>
+
+    @user.oAuth2Info.map { info =>
+    <h2>OAuth2 Info</h2>
+
+    <ul>
+        <li>Access Token: @info.accessToken</li>
+        @info.tokenType.map { t => <li>Token Type: @t</li> }
+        @info.expiresIn.map { exp => <li>Expires in: @exp seconds</li>}
+        @info.refreshToken.map { rt => <li>Refresh Token: @rt</li>}
+    </ul>
+    }
+    <hr>
+    @user.passwordInfo.map { info =>
+	<a class="btn" href="@securesocial.core.providers.utils.RoutesHelper.changePasswordPage.absoluteURL(Implicit.request(), IdentityProvider.sslEnabled)">Change Password</a>
+    }
+    <a class="btn" href="@securesocial.controllers.routes.LoginPage.logout()">Logout</a>
+</div>
+}
+
 <ul id="menu">
 
 	<li> <a href="javascript:void(0);" id="login"> Login </a> </li>
+	<li> <a href="/login" id="secureSocialLogin"> Social Login </a> </li>
 	<li> <a href="javascript:void(0);" id="add-civilite"> Ajouter une civilit&eacute; </a> </li>
 	<li> <a href="/ref/title/list"> Liste des civilit&eacute;s </a> </li>
     <li> <a href="javascript:void(0);" id="remove-civilite"> Supprimer une civilit&eacute; </a> </li>
@@ -15,11 +56,11 @@
     <li> <a href="/ref/category/list"> Liste des categories </a> </li>
     <li> <a href="javascript:void(0);" id="remove-category"> Supprimer une categorie </a> </li>
     <li> <a href="/speaker/list"> Liste des présentateurs </a> </li>
-    <li> <a href="/speaker/register"> Ajouter un nouveau présentateur </a> </li>
-    <li> <a href="/speaker/update"> Mettre à jour les informations d'un présentateur </a> </li>
+    <li> <a href="/speaker/register"> Ajouter un nouveau pr&eacute;sentateur </a> </li>
+    <li> <a href="/speaker/update"> Mettre à jour les informations d'un pr&eacute;sentateur </a> </li>
     <li> <a href="/speaker/remove"> Supprimer un présentateur </a> </li>
-    <li> <a href="/speaker/{emailSpeaker}/changepassword"> Changer le mot de passe d'un présentateur </a> </li>
-    <li> <a href="/speaker/{emailSpeaker}/lostpassword"> Réinitialiser le mot de passe d'un présentateur </a> </li>
+    <li> <a href="/speaker/{emailSpeaker}/changepassword"> Changer le mot de passe d'un pr&eacute;sentateur </a> </li>
+    <li> <a href="/speaker/{emailSpeaker}/lostpassword"> R&eacute;initialiser le mot de passe d'un pr&eacute;sentateur </a> </li>
     <li> <a href="javascript:void(0);" id="add-status"> Ajouter un status de session </a> </li>
     <li> <a href="/ref/sessionstatus/list"> Liste des status de session </a> </li>
     <li> <a href="/ref/sessionstatus/remove"> Supprimer un status de session </a> </li>
@@ -34,13 +75,13 @@
     <li> <a href="/participant/list"> Liste de tous les participants </a> </li>
     <li> <a href="javascript:void(0);" id="register-participant">Ajouter un nouveau participant</a></li>
     <li> <a href="javascript:void(0);" id="participant-changePassword"> Changer le mot de passe d'un participant </a> </li>
-    <li> <a href="/participant/get"> Récupérer les informations d'un participant (GET /participant/get/{emailparticipant}) </a> </li>
+    <li> <a href="javascript:void(0);" id="participant-infos"> R&eacute;cup&eacute;rer les informations d'un participant </a> </li>
     <li> <a href="/participant/update"> Mettre à jour toutes les informations d'un participant (le mot de passe est exclu) </a> </li>
-    <li> <a href="javascript:void(0);" id="participant-reinitialPassword"> Réinitialiser le mot de passe </a> </li>
+    <li> <a href="javascript:void(0);" id="participant-reinitialPassword"> R&eacute;initialiser le mot de passe </a> </li>
     <li> <a href="javascript:void(0);" id="add-participant-session"> Inscrire un participant à une session </a> </li>
-    <li> <a href="javascript:void(0);" id="remove-participant-session"> Désinscrire un participant à une session </a> </li>
+    <li> <a href="javascript:void(0);" id="remove-participant-session"> D&eacute;sinscrire un participant à une session </a> </li>
     <li> <a href="javascript:void(0);" id="list-participant-sessions"> Lister toutes les sessions d'un participant </a> </li>
-    <li> <a href="/participant/login"> Vérifier les informations de connection d'un participant  </a> </li>
+    <li> <a href="/participant/login"> V&eacute;rifier les informations de connection d'un participant  </a> </li>
 </ul>
 
 <div id="dialog-register-participant" title="Inscrivez-vous !" hidden="hidden">
@@ -77,6 +118,13 @@
 </div>
 
 <div id="dialog-participant-changePassword" title="Modification de password" hidden="hidden">
+    <form>
+        <fieldset>
+        </fieldset>
+    </form>
+</div>
+
+<div id="dialog-participant-infos" title="Informations sur un participant" hidden="hidden">
     <form>
         <fieldset>
         </fieldset>

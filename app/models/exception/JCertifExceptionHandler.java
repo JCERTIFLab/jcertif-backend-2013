@@ -19,6 +19,7 @@ public final class JCertifExceptionHandler {
 	public static Result resolve(Throwable throwable){
 		
 		Logger.info("JCertif ExceptionHandler");
+		Logger.error("Error : " + throwable.getMessage(), throwable);
 
 		Result result = Results.status(Http.Status.INTERNAL_SERVER_ERROR, throwable.getMessage());
 		

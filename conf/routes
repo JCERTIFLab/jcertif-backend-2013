@@ -4,117 +4,84 @@
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
-
 GET		/							controllers.HomeController.get
-
+GET    	/home/participant/get/:emailParticipant    controllers.HomeController.getParticipantProxy(emailParticipant: String)
 POST	/admin					    controllers.AdminController.check
-
-OPTIONS /*nameUrl                      controllers.AdminController.ping(nameUrl:String)
-
+OPTIONS /*nameUrl                   controllers.AdminController.ping(nameUrl:String)
 GET		/ref/sponsorlevel/list		controllers.SponsorLevelController.listSponsorLevel
-
 POST	/ref/sponsorlevel/new		controllers.SponsorLevelController.addSponsorLevel
-
 POST	/ref/sponsorlevel/remove	controllers.SponsorLevelController.removeSponsorLevel
-
 GET 	/ref/category/list			controllers.CategoryController.list
-
 GET 	/ref/category/list/:version	controllers.CategoryController.listVersion(version: String)
-
 POST 	/ref/category/new			controllers.CategoryController.newCategory
-
 POST 	/ref/category/remove		controllers.CategoryController.removeCategory
-
 GET 	/ref/title/list				controllers.TitleController.listTitle
-
 POST 	/ref/title/new				controllers.TitleController.addTitle
-
 POST 	/ref/title/remove			controllers.TitleController.removeTitle
-
-GET 	/login/list			        controllers.LoginController.logins
-
-GET     /sponsor/list               controllers.SponsorController.listSponsor
-
-GET     /sponsor/list/:version      controllers.SponsorController.listSponsorVersion(version: String)
-
-POST    /sponsor/update             controllers.SponsorController.updateSponsor
-
-POST    /sponsor/new                controllers.SponsorController.addSponsor
-
-POST    /sponsor/remove             controllers.SponsorController.removeSponsor
-
-GET     /speaker/list               controllers.SpeakerController.listSpeaker
-
-GET     /speaker/list/:version      controllers.SpeakerController.listSpeakerVersion(version: String)
-
-POST    /speaker/register           controllers.SpeakerController.registerSpeaker
-
-POST    /speaker/update             controllers.SpeakerController.updateSpeaker
-
-POST    /speaker/remove             controllers.SpeakerController.removeSpeaker
-
-POST    /speaker/:emailSpeaker/changepassword  controllers.SpeakerController.changePasswordSpeaker(emailSpeaker: String)
-
-GET    /speaker/:emailSpeaker/lostpassword    controllers.SpeakerController.reinitPasswordSpeaker(emailSpeaker: String)
-
 GET     /ref/sessionstatus/list     controllers.SessionStatusController.listStatusSession
-
 POST    /ref/sessionstatus/new      controllers.SessionStatusController.addSessionStatus
-
 POST    /ref/sessionstatus/remove   controllers.SessionStatusController.removeSessionStatus
-
+GET 	/login/list			        controllers.LoginController.logins
+GET     /sponsor/list               controllers.SponsorController.listSponsor
+GET     /sponsor/list/:version      controllers.SponsorController.listSponsorVersion(version: String)
+POST    /sponsor/update             controllers.SponsorController.updateSponsor
+POST    /sponsor/new                controllers.SponsorController.addSponsor
+POST    /sponsor/remove             controllers.SponsorController.removeSponsor
+GET     /speaker/list               controllers.SpeakerController.listSpeaker
+GET     /speaker/list/:version      controllers.SpeakerController.listSpeakerVersion(version: String)
+POST    /speaker/register           controllers.SpeakerController.registerSpeaker
+POST    /speaker/update             controllers.SpeakerController.updateSpeaker
+POST    /speaker/remove             controllers.SpeakerController.removeSpeaker
+POST    /speaker/:emailSpeaker/changepassword  controllers.SpeakerController.changePasswordSpeaker(emailSpeaker: String)
+GET    	/speaker/:emailSpeaker/lostpassword    controllers.SpeakerController.reinitPasswordSpeaker(emailSpeaker: String)
 GET     /session/list               controllers.SessionController.listSession
-
 GET     /session/list/:version      controllers.SessionController.listSessionVersion(version: String)
-
 POST    /session/new                controllers.SessionController.newSession
-
 POST    /session/remove             controllers.SessionController.removeSession
-
 POST    /session/update             controllers.SessionController.updateSession
-
 GET     /site/list               	controllers.SiteController.listSite
-
 GET    	/site/get/:idSite           controllers.SiteController.getSite(idSite: String)
-
 GET     /site/:idSite/room/list     controllers.SiteController.listSiteRoom(idSite: String)
-
 POST    /site/new                	controllers.SiteController.newSite
-
 POST    /site/remove             	controllers.SiteController.removeSite
-
 POST    /site/update             	controllers.SiteController.updateSite
-
 GET     /room/list               	controllers.RoomController.listRoom
-
 GET    	/room/get/:idRoom           controllers.RoomController.getRoom(idRoom: String)
-
 POST    /room/new                	controllers.RoomController.newRoom
-
 POST    /room/remove             	controllers.RoomController.removeRoom
-
 POST    /room/update             	controllers.RoomController.updateRoom
-
 POST    /participant/register       controllers.ParticipantController.registerParticipant
-
 GET     /participant/list           controllers.ParticipantController.listParticipant
-
 POST    /participant/:emailParticipant/changepassword      controllers.ParticipantController.changePasswordParticipant(emailParticipant: String)
-
 GET     /participant/get                controllers.ParticipantController.getParticipant(emailParticipant = "")
-
 GET     /participant/get/:emailParticipant           controllers.ParticipantController.getParticipant(emailParticipant: String)
-
 POST    /participant/update         controllers.ParticipantController.updateParticipant
-
 POST    /participant/remove         controllers.ParticipantController.removeParticipant
-
-GET    /participant/:emailParticipant/lostpassword    controllers.ParticipantController.reinitPasswordParticipant(emailParticipant: String)
-
+GET    	/participant/:emailParticipant/lostpassword    controllers.ParticipantController.reinitPasswordParticipant(emailParticipant: String)
 POST    /participant/:emailParticipant/session/add/:idSession    controllers.ParticipantController.inscrireParticipantSession(emailParticipant: String, idSession: String)
-
 POST    /participant/:emailParticipant/session/remove/:idSession    controllers.ParticipantController.desinscrireParticipantSession(emailParticipant: String, idSession: String)
-
 GET     /participant/:emailParticipant/session/list           controllers.ParticipantController.listParticipantSession(emailParticipant: String)
+POST    /participant/login          controllers.LoginController.login
 
-POST     /participant/login           controllers.LoginController.login
+
+# A Backend Web App client routes
+# Login page
+GET     /login                      securesocial.controllers.LoginPage.login
+GET     /logout                     securesocial.controllers.LoginPage.logout
+
+# User Registration and password handling 
+GET     /signup                     securesocial.controllers.Registration.startSignUp
+POST    /signup                     securesocial.controllers.Registration.handleStartSignUp
+GET     /signup/:token              securesocial.controllers.Registration.signUp(token)
+POST    /signup/:token              securesocial.controllers.Registration.handleSignUp(token)
+GET     /reset                      securesocial.controllers.Registration.startResetPassword
+POST    /reset                      securesocial.controllers.Registration.handleStartResetPassword
+GET     /reset/:token               securesocial.controllers.Registration.resetPassword(token)
+POST    /reset/:token               securesocial.controllers.Registration.handleResetPassword(token)
+GET     /password                   securesocial.controllers.PasswordChange.page
+POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
+
+# Providers entry points
+GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
+POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
+GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized

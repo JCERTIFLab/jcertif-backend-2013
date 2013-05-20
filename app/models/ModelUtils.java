@@ -22,7 +22,7 @@ public class ModelUtils {
 		try {
 			object = clazz.getConstructor(BasicDBObject.class).newInstance(dbObject);
 		} catch (Exception e) {
-			throw new JCertifException(clazz,e.getMessage());
+			throw new JCertifException(e.getMessage(),e);
 		}
 		
 		return object;

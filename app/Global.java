@@ -48,7 +48,7 @@ public class Global extends GlobalSettings {
     @Override
 	public Result onError(RequestHeader requestHeader, Throwable throwable) {
 		Logger.info("JCertif Backend onError Global Handler");
-		Logger.info("Error URI" + requestHeader.uri());
+		Logger.info("Error URI " + requestHeader.uri());
 		Logger.error("Erreur inattendue", throwable);
 		
 		return JCertifExceptionHandler.resolve(throwable);
@@ -57,7 +57,7 @@ public class Global extends GlobalSettings {
 	@Override
 	public Result onHandlerNotFound(RequestHeader requestHeader) {
 		Logger.info("JCertif Backend onHandlerNotFound Global Handler");
-		
+		Logger.info("Not Found URI " + requestHeader.uri());
 		putResponseStatusInCoockieIfNecessary(Http.Status.NOT_FOUND);
 		
 		return Results.notFound();

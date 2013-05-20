@@ -118,7 +118,10 @@ public abstract class MemberControllerTest {
 	            	Logger.info("Mise à jour des informations d'un membre");
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
+						TestUtils.updateDatabase("test/data/token.js");
 						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
 		                params.put("email", "jandiew@gmail.com");
 		                params.put("title", "M.");
 		                params.put("website", "www.jandriewrebirth.com");
@@ -129,7 +132,7 @@ public abstract class MemberControllerTest {
 		                params.put("biography", "The new me");
 		                params.put("version", "01");
 		                params.put("deleted", "false");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que les informations du participant ont bien été mises à jour");
@@ -163,9 +166,12 @@ public abstract class MemberControllerTest {
 	            	Logger.info("Mise à jour des informations d'un membre");
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
+						TestUtils.updateDatabase("test/data/token.js");
 						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
 		                params.put("email", "toto@toto.com");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST));
 		                assertThat(status(result)).isEqualTo(NOT_FOUND);	                
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -182,7 +188,10 @@ public abstract class MemberControllerTest {
 	            	Logger.info("Mise à jour des informations d'un membre, la civilité doit être valide");
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
+						TestUtils.updateDatabase("test/data/token.js");
 						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
 		                params.put("email", "jandiew@gmail.com");
 		                params.put("title", "toto");
 		                params.put("website", "www.jandriewrebirth.com");
@@ -192,7 +201,7 @@ public abstract class MemberControllerTest {
 		                params.put("photo", "http://jandriewrebirth.blog.com/pictures/myPic.gif");
 		                params.put("biography", "The new me");
 		                params.put("version", "01");
-		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("email", "jandiew@gmail.com"));
+		                Result result = callAction(getUpdateURL(), fakeRequest().withJsonBody(Json.toJson(params), POST));
 		                assertThat(status(result)).isEqualTo(BAD_REQUEST);	 
 		                TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {

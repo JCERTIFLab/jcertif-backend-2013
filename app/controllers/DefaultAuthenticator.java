@@ -1,5 +1,7 @@
 package controllers;
 
+import models.TokenChecksFactoy;
+import models.TokenChecksFactoy.TokenCheck;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security.Authenticator;
@@ -13,7 +15,23 @@ public class DefaultAuthenticator extends Authenticator {
 
 	@Override
 	public String getUsername(Context context) {
-		return context.session().get("email");
+		String accessToken = null;
+		String provider = null;
+ 
+		if ("GET".equals(context.request().method())) {
+			accessToken = context.request().getQueryString("access_token");
+			provider = context.request().getQueryString("provider");
+		} else {
+			accessToken = context.request().body().asJson().findPath("access_token").getTextValue();
+			provider = context.request().body().asJson().findPath("provider").getTextValue();
+		}
+		
+		TokenCheck check = TokenChecksFactoy.getInstance().getCheck(provider);
+		if(check.isValid(accessToken)){
+			return accessToken;
+		}else{
+			return null;
+		}		
 	}
 	
 	@Override

@@ -20,6 +20,7 @@ Backend.init = function () {
 	Backend.addCivilite.initDialog();      
 	Backend.removeCivilite.initDialog();
 	Backend.logIn.initDialog();
+	Backend.infosParticipant.initDialog();
 
     $("#register-participant").click(function () {
         Backend.registerParticipant.openDialog();
@@ -65,6 +66,9 @@ Backend.init = function () {
     });
 	$("#login").click(function () {
         Backend.logIn.openDialog();
+    });
+	$("#participant-infos").click(function () {
+        Backend.infosParticipant.openDialog();
     });
 }
 
@@ -728,4 +732,44 @@ Backend.logIn = {
 
         });
     }
+}
+
+//Service retrieve participant information
+Backend.infosParticipant = {
+
+
+    initDialog: function () {
+    	participants=[];
+ 						$.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/participant/list"
+                    }).done(function (msg) {
+                            participants =msg;
+							option="";
+							$.each(participants, function(arrayID,group) {
+					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
+			});
+            $("#dialog-participant-infos form fieldset").append('<label for="participant">emailParticipant</label>');
+            $("#dialog-participant-infos form fieldset").append('<select name="emailParticipant" id="emailParticipantInfos" class="ui-widget-content ui-corner-all">'+option+'</select>');
+				
+                        }).fail(function (msg) {
+                            alert(msg.responseText);
+                        });     
+    },
+
+    openDialog: function () {
+        $("#dialog-participant-infos").dialog({
+            width: 300,
+            height: 250,
+            modal: true,
+            buttons: {
+                "Infos": function () {
+                	window.location = "/home/participant/get/"+$("#emailParticipantInfos option").filter(":selected").val();
+                }
+            }
+
+        });
+    }
+
 }
