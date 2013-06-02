@@ -17,6 +17,7 @@ public class Token extends JCertifModel {
 	private String accessToken;
 	private int expiresIn;
 	private Date expirationDate;
+	private String email;
 	
 	public Token() {
 		super(new BasicDBObject());
@@ -27,6 +28,7 @@ public class Token extends JCertifModel {
 		this.accessToken = basicDBObject.getString("access_token");
 		this.expiresIn = basicDBObject.getInt("expires_in");
 		this.expirationDate = basicDBObject.getDate("expirationDate");
+		this.email = basicDBObject.getString("email");
 	}
 
 
@@ -54,12 +56,21 @@ public class Token extends JCertifModel {
 		this.expirationDate = expirationDate;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject dbObject = super.toBasicDBObject();
 		dbObject.put("access_token", getAccessToken());
 		dbObject.put("expires_in", getExpiresIn());
 		dbObject.put("expirationDate", getExpirationDate());
+		dbObject.put("email", getEmail());
 		return dbObject;
 	}
 	

@@ -69,15 +69,17 @@ public class ParticipantControllerTest extends MemberControllerTest{
 	
 	@Test
 	public void test_list_participant(){
-	     running(fakeApplication(), new Runnable() {
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		 additionalConfiguration.put("admin.mock", "true");
+	     running(fakeApplication(additionalConfiguration), new Runnable() {
 	            public void run() {
 	            	Logger.info("Liste des participants");
 	            	try {
 						TestUtils.updateDatabase("test/data/participant.js");
-						Result result = route(fakeRequest(GET, "/participant/list").withSession("admin", "admin"));
+						TestUtils.updateDatabase("test/data/token.js");
+						Result result = route(fakeRequest(GET, "/participant/list?access_token=ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8&provider=google"));
 		                assertThat(status(result)).isEqualTo(OK);
 		                JsonNode jsonNode = Json.parse(contentAsString(result));
-		                Logger.info("test : " + contentAsString(result));
 	                    Assert.assertEquals(3, jsonNode.size());
 	                    TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
@@ -236,7 +238,7 @@ public class ParticipantControllerTest extends MemberControllerTest{
 		                params.put("sessions", new String[]{"02","03"});
 		                params.put("version", "01");
 		                params.put("deleted", "false");
-		                Result result = callAction(routes.ref.ParticipantController.updateParticipant(), fakeRequest().withJsonBody(Json.toJson(params), POST));
+		                Result result = callAction(routes.ref.ParticipantController.updateParticipant(), fakeRequest().withJsonBody(Json.toJson(params)));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que les informations du participant ont bien été mises à jour");

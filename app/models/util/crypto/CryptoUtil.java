@@ -145,10 +145,10 @@ public final class CryptoUtil
         return Arrays.equals( passwordHash, hash );
 
         }catch (UnsupportedEncodingException uee){
-          throw new JCertifException(CryptoUtil.class, uee.getMessage());
+          throw new JCertifException(uee.getMessage(), uee);
         }
         catch (NoSuchAlgorithmException nsae){
-            throw new JCertifException(CryptoUtil.class, nsae.getMessage());
+            throw new JCertifException(nsae.getMessage(), nsae);
         }
     }
 

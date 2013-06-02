@@ -37,12 +37,15 @@ public class LoginControllerTest {
 
 	@Test
 	public void test_list_logins(){
-		running(fakeApplication(), new Runnable() {
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		 additionalConfiguration.put("admin.mock", "true");
+		running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("Liste des logins des membres JCertif Conference");
             	try {
 					TestUtils.updateDatabase("test/data/login.js");
-					Result result = route(fakeRequest(GET, "/login/list").withSession("admin", "admin"));
+					TestUtils.updateDatabase("test/data/token.js");
+					Result result = route(fakeRequest(GET, "/login/list?access_token=ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8&provider=google"));
 	                assertThat(status(result)).isEqualTo(OK);
 	                JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(0, jsonNode.size());  

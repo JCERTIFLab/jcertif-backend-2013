@@ -182,12 +182,18 @@ public class SiteControllerTest {
 	
     @Test
     public void test_site_new_ok() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 Logger.info("Enregistrement d'un nouveau site");
                 try {
 					TestUtils.updateDatabase("test/data/site.js");
+					TestUtils.updateDatabase("test/data/token.js");
 					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 	                params.put("name", "name 5");
 	                params.put("street", "street 5");
 	                params.put("city", "city 5");
@@ -196,7 +202,7 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le nouveau site est en base de données");
@@ -225,13 +231,19 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_new_invalid_name_null() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_site_new_invalid_name_null ***");
                 	Logger.info("Le name d'un site ne peut etre absent");
                 	try {
                 		TestUtils.updateDatabase("test/data/site.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/token.js");
+    					Map<String, Object> params = new HashMap<String, Object>();
+    					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+    					params.put("provider", "google");
+    					params.put("email", "test@site.com");
                 		params.put("street", "street 5");
     	                params.put("city", "city 5");
     	                params.put("country", "country 5");
@@ -239,7 +251,7 @@ public class SiteControllerTest {
     	                params.put("website", "www.website5.com");
     	                params.put("description", "description 5");
     	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-    	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+    	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
     	                
                         assertThat(status(result)).isEqualTo(BAD_REQUEST);
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -254,13 +266,19 @@ public class SiteControllerTest {
 
     @Test
     public void test_site_new_invalid_name_empty() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_name_empty ***");
             	Logger.info("Le name d'un site ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "");
 					params.put("street", "street 5");
 	                params.put("city", "city 5");
@@ -269,7 +287,7 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -284,13 +302,19 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_new_invalid_street_null() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_street_null ***");
             	Logger.info("Le champ street d'un site ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 	                params.put("city", "city 5");
 	                params.put("country", "country 5");
@@ -298,7 +322,7 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -313,13 +337,19 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_new_invalid_street_empty() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_street_empty ***");
             	Logger.info("Le champ street d'un site ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "");
 	                params.put("city", "city 5");
@@ -328,7 +358,7 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -343,13 +373,19 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_new_invalid_city_null() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_city_null ***");
             	Logger.info("Le champ city d'un site ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 	                params.put("country", "country 5");
@@ -357,7 +393,7 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -372,13 +408,19 @@ public class SiteControllerTest {
 	
     @Test
     public void test_site_new_invalid_city_empty() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_city_empty ***");
             	Logger.info("Le champ city d'un site ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "");
@@ -387,7 +429,7 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -402,13 +444,19 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_new_invalid_country_null() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_country_null ***");
             	Logger.info("Le champ country d'un site ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
@@ -416,7 +464,7 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -431,13 +479,19 @@ public class SiteControllerTest {
 
     @Test
     public void test_site_new_invalid_country_empty() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_country_empty ***");
             	Logger.info("Le champ country d'un site ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
@@ -445,7 +499,7 @@ public class SiteControllerTest {
 					params.put("contact", "contact@website5.com");
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -460,20 +514,26 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_new_invalid_contact_null() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_contact_null ***");
             	Logger.info("Le champ contact d'un site ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
 					params.put("country", "country 5");
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -488,13 +548,19 @@ public class SiteControllerTest {
 
     @Test
     public void test_site_new_invalid_contact_empty() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_contact_empty ***");
             	Logger.info("Le champ contact d'un site ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
@@ -502,7 +568,7 @@ public class SiteControllerTest {
 					params.put("contact", "");
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -517,20 +583,26 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_new_invalid_description_null() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_description_null ***");
             	Logger.info("Le champ description d'un site ne peut etre absent");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
 					params.put("country", "country 5");
 					params.put("contact", "contact5@website5.com");
 					params.put("website", "www.website5.com");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -545,13 +617,19 @@ public class SiteControllerTest {
 
     @Test
     public void test_site_new_invalid_description_empty() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	Logger.info("*** DEBUT -> test_site_new_invalid_description_empty ***");
             	Logger.info("Le champ description d'un site ne peut etre vide");
             	try {
             		TestUtils.updateDatabase("test/data/site.js");
-            		Map<String, Object> params = new HashMap<String, Object>();
+            		TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
 					params.put("name", "name 5");
 					params.put("street", "street 5");
 					params.put("city", "city 5");
@@ -559,7 +637,7 @@ public class SiteControllerTest {
 					params.put("contact", "contact5@website5.com");
 					params.put("website", "www.website5.com");
 					params.put("description", "");
-	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                
                     assertThat(status(result)).isEqualTo(BAD_REQUEST);
                     TestUtils.updateDatabase("test/data/purge.js");
@@ -590,12 +668,29 @@ public class SiteControllerTest {
     @Test
     public void test_delete_site_invalid_inner_json() {
     	Logger.info("*** DEBUT -> test_delete_site_invalid_inner_json ***");
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
-            	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "101");
-            	Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+            	try {
+					TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
+	                params.put("", "101");
+	            	Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withJsonBody(Json.toJson(params)));
+	            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+				} catch (IOException e) {
+					Logger.error("Une erreur est survenue lors du test suppression du site", e);
+				}finally{
+					try {
+						TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test suppression du site", e);
+					}
+				}
+				
             }
         });
         Logger.info("*** FIN -> test_delete_site_invalid_inner_json ***");
@@ -603,45 +698,85 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_deletion_invalid_id_null() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_site_deletion_invalid_id_null ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "");
-                    Logger.info("Le format json d'entrée doit être valide (id ni empty ni null)");
-                    Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_site_deletion_invalid_id_null ***");
+                	try {
+						TestUtils.updateDatabase("test/data/token.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
+	                    params.put("id", "");
+	                    Logger.info("Le format json d'entrée doit être valide (id ni empty ni null)");
+	                    Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withJsonBody(Json.toJson(params)));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_site_deletion_invalid_id_null ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test suppression du site", e);
+					}finally{
+						try {
+							TestUtils.updateDatabase("test/data/purge.js");
+						} catch (IOException e) {
+							Logger.error("Une erreur est survenue lors du test suppression du site", e);
+						}
+					}
+					
             }
         });
     }
     
     @Test
     public void test_site_deletion_invalid_id() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_site_deletion_invalid_id ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "abc1_");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_site_deletion_invalid_id ***");
+                	try {
+						TestUtils.updateDatabase("test/data/token.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
+	                    params.put("id", "abc1_");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withJsonBody(Json.toJson(params)));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_site_deletion_invalid_id ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test suppression du site", e);
+					}finally{
+						try {
+							TestUtils.updateDatabase("test/data/purge.js");
+						} catch (IOException e) {
+							Logger.error("Une erreur est survenue lors du test suppression du site", e);
+						}
+					}
+					
             }
         });
     }
     
     @Test
     public void test_site_deletion_unregistred_site_id() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_site_deletion_unregistred_site_id ***");
                 	try {
                 		TestUtils.updateDatabase("test/data/site.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/token.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
                         params.put("id", "10000000");                        
                         Logger.info("La demande de suppession ne doit concerner que des sites existantes.");
-                        Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withJsonBody(Json.toJson(params)));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_site_deletion_unregistred_site_id ***");
                         TestUtils.updateDatabase("test/data/purge.js");
@@ -654,17 +789,23 @@ public class SiteControllerTest {
 
     @Test
     public void test_site_deletion_ok() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_site_deletion_ok ***");
                 	try {
                 		Logger.info("Tous les inner params sont valides.");
                 		TestUtils.updateDatabase("test/data/site.js");
+                		TestUtils.updateDatabase("test/data/token.js");
                 		Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
                         params.put("id", "101");
                         params.put("version", "01");
 		                params.put("deleted", "false");
-                        Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SiteController.removeSite(), fakeRequest().withJsonBody(Json.toJson(params)));
                         assertThat(status(result)).isEqualTo(OK);
                         List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SITE, new BasicDBObject().append("id", "101"));
                         Assert.assertTrue(null != dbObjects);
@@ -699,12 +840,29 @@ public class SiteControllerTest {
     public void test_update_site_invalid_inner_json() {
     	Logger.info("*** DEBUT -> test_update_site_invalid_inner_json ***");
     	Logger.info("Les inner params doivent former un objet json valide");
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
-            	Map<String, Object> params = new HashMap<String, Object>();
-                params.put("", "101");
-            	Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+            	try {
+					TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@site.com");
+	                params.put("", "101");
+	            	Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withJsonBody(Json.toJson(params)));
+	            	assertThat(status(result)).isEqualTo(BAD_REQUEST);
+				} catch (IOException e) {
+					Logger.error("Une erreur est survenue lors du test de mise à jour du site", e);
+				}finally{
+					try {
+						TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de mise à jour du site", e);
+					}
+				}
+				
             }
         });
         Logger.info("*** FIN -> test_update_site_invalid_inner_json ***");
@@ -712,43 +870,83 @@ public class SiteControllerTest {
     
     @Test
     public void test_update_site_invalid_id_empty() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_site_invalid_id_empty ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_update_site_invalid_id_empty ***");
+                	try {
+						TestUtils.updateDatabase("test/data/token.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
+	                    params.put("id", "");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withJsonBody(Json.toJson(params)));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_update_site_invalid_id_empty ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de mise à jour du site", e);
+					}finally{
+						try {
+							TestUtils.updateDatabase("test/data/purge.js");
+						} catch (IOException e) {
+							Logger.error("Une erreur est survenue lors du test de mise à jour du site", e);
+						}
+					}
+					
             }
         });
     }
     
     @Test
     public void test_update_site_invalid_id() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_site_invalid_id ***");
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put("id", "abc1_");
-                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
-                    Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
-                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                    Logger.info("*** FIN -> test_update_site_invalid_id ***");
+                	try {
+						TestUtils.updateDatabase("test/data/token.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
+	                    params.put("id", "abc1_");
+	                    Logger.info("Le format json d'entrée doit être valide (id doit etre un number)");
+	                    Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withJsonBody(Json.toJson(params)));
+	                    assertThat(status(result)).isEqualTo(BAD_REQUEST);
+	                    Logger.info("*** FIN -> test_update_site_invalid_id ***");
+					} catch (IOException e) {
+						Logger.error("Une erreur est survenue lors du test de mise à jour du site", e);
+					}finally{
+						try {
+							TestUtils.updateDatabase("test/data/purge.js");
+						} catch (IOException e) {
+							Logger.error("Une erreur est survenue lors du test de mise à jour du site", e);
+						}
+					}
+					
             }
         });
     }
 
     @Test
     public void test_update_site_ok() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_update_site_ok() ***");
                 	Logger.info("Tous les inner params sont valides ");
                 	try {
                 		TestUtils.updateDatabase("test/data/site.js");
-                        Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/token.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
                         params.put("id", "101");
                         params.put("name", "changedName");
                         params.put("street", "changedStreet");
@@ -756,7 +954,7 @@ public class SiteControllerTest {
                         params.put("version", "01");
 		                params.put("deleted", "false");
 		                
-                        Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withJsonBody(Json.toJson(params)));
                         assertThat(status(result)).isEqualTo(OK);
                         Logger.info("Vérification que les informations du site ont bien été mises à jour");
 		                List<BasicDBObject> dbObjects = TestUtils.loadFromDatabase(TestConstantes.COLLECTION_SITE, new BasicDBObject().append("id", "101"));
@@ -782,15 +980,21 @@ public class SiteControllerTest {
     
     @Test
     public void test_site_update_unregistred_site_id() {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 	Logger.info("*** DEBUT -> test_site_update_unregistred_site_id ***");
                 	try {
                 		TestUtils.updateDatabase("test/data/site.js");
-                		Map<String, Object> params = new HashMap<String, Object>();
+                		TestUtils.updateDatabase("test/data/token.js");
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
+						params.put("email", "test@site.com");
                         params.put("id", "10000000");                        
                         Logger.info("La demande de mise à jour ne doit concernée que des sites existantes.");
-                        Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withSession("admin", "admin").withJsonBody(Json.toJson(params), POST));
+                        Result result = callAction(routes.ref.SiteController.updateSite(), fakeRequest().withJsonBody(Json.toJson(params)));
                         assertThat(status(result)).isEqualTo(NOT_FOUND);
                         Logger.info("*** FIN -> test_site_update_unregistred_site_id ***");
                         TestUtils.updateDatabase("test/data/purge.js");

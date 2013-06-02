@@ -12,7 +12,7 @@ import com.mongodb.util.JSON;
  * @author Martial SOMDA
  *
  */
-public class Json {
+public final class Json {
 
 	private Json(){		
 	}
@@ -31,10 +31,12 @@ public class Json {
 		buffer.append("[ ");
         
 		for(Model model : models){
-			if (first)
-                first = false;
-            else
+			if (first){
+				first = false;
+			}
+            else{            	
             	buffer.append(" , ");
+            }
 			
 			JSON.serialize(model.toBasicDBObject(), buffer);
 		}

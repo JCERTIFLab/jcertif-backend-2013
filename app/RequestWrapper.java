@@ -33,7 +33,7 @@ public class RequestWrapper extends Action.Simple {
 			result = delegate.call(context);
 			
 			// Cross Origin que si c'est un service
-	        if (!context.request().path().equals("/")) {
+	        if (!context.request().path().contains("/home")) {
 	        	String jsonpCallback = context.request().getQueryString("jsonp");
 	        	if(null != jsonpCallback 
 	        			&& "GET".equals(context.request().method())){

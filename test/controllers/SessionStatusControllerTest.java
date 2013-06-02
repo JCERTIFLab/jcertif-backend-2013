@@ -3,7 +3,6 @@ package controllers;
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.GET;
-import static play.test.Helpers.POST;
 import static play.test.Helpers.callAction;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.contentType;
@@ -25,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import play.Logger;
+import play.api.mvc.HandlerRef;
 import play.libs.Json;
 import play.mvc.Result;
 import util.TestUtils;
@@ -34,13 +34,13 @@ import com.mongodb.BasicDBObject;
 public class SessionStatusControllerTest extends ReferentielControllerTest {
 
 	@Override
-	public String getCreateURL() {
-		return "/ref/sessionstatus/new";
+	public HandlerRef<?> getCreateURL() {
+		return routes.ref.SessionStatusController.addSessionStatus();
 	}
-
+	
 	@Override
-	public String getRemoveURL() {
-		return "/ref/sessionstatus/remove";
+	public HandlerRef<?> getRemoveURL() {
+		return routes.ref.SessionStatusController.removeSessionStatus();
 	}
 	
 	@Test
@@ -65,14 +65,20 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 	
 	@Test
     public void test_sessionstatus_new_ok() {
-        running(fakeApplication(), new Runnable() {
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 Logger.info("Création d'un nouveau statut de session");
                 try {
 					TestUtils.updateDatabase("test/data/session_status.js");
-					Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@sessionstatus.com");
 	                params.put("label", "HTTT");
-	                Result result = callAction(routes.ref.SessionStatusController.addSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SessionStatusController.addSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le nouveau statut est bien présent en base de données");
@@ -94,16 +100,22 @@ public class SessionStatusControllerTest extends ReferentielControllerTest {
 	
 	@Test
     public void test_sessionstatus_remove_ok() {
-        running(fakeApplication(), new Runnable() {
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
             	try {
             		TestUtils.updateDatabase("test/data/session_status.js");
 					Logger.info("Suppression d'un statut de session");
-	                Map<String, String> params = new HashMap<String, String>();
+					TestUtils.updateDatabase("test/data/token.js");
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+					params.put("provider", "google");
+					params.put("email", "test@sessionstatus.com");
 	                params.put("label", "Status1");
 	                params.put("version", "01");
 	                params.put("deleted", "false");
-	                Result result = callAction(routes.ref.SessionStatusController.removeSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params), POST).withSession("admin", "admin"));
+	                Result result = callAction(routes.ref.SessionStatusController.removeSessionStatus(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                assertThat(status(result)).isEqualTo(OK);
 
 	                Logger.info("Vérification que le statut a bien été supprimmé en base de données");

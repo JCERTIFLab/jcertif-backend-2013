@@ -20,4 +20,5 @@ public interface Constantes {
 	String DELETED_ATTRIBUTE_NAME = "deleted";
 	String SEQ_ATTRIBUTE_NAME = "seq";
 	String ACCESS_TOKEN_ATTRIBUTE_NAME = "access_token";
+	String FALSE = "false";
 }

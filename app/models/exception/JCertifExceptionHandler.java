@@ -21,11 +21,12 @@ public final class JCertifExceptionHandler {
 		Logger.info("JCertif ExceptionHandler");
 		Logger.error("Error : " + throwable.getMessage(), throwable);
 
-		Result result = Results.status(Http.Status.INTERNAL_SERVER_ERROR, throwable.getMessage());
+		Result result = Results.status(Http.Status.INTERNAL_SERVER_ERROR, null == throwable.getMessage()? "" : throwable.getMessage());
 		
 		Throwable unwrappedThrowable = unwrap(throwable);
 		
-		if(unwrappedThrowable instanceof JCertifException
+		if(null != unwrappedThrowable 
+				&& unwrappedThrowable instanceof JCertifException
 				&& unwrappedThrowable.getClass().isAnnotationPresent(JCertifExceptionMapping.class)){
 
 			JCertifExceptionMapping mapping = unwrappedThrowable.getClass().getAnnotation(JCertifExceptionMapping.class);
@@ -41,7 +42,8 @@ public final class JCertifExceptionHandler {
 
 		Throwable unwrappedThrowable = throwable;
 
-		while(unwrappedThrowable.getClass().getCanonicalName().contains("play.")){
+		while(null != unwrappedThrowable 
+				&& unwrappedThrowable.getClass().getCanonicalName().contains("play.")){
 			unwrappedThrowable = unwrappedThrowable.getCause();
 		}
 		return unwrappedThrowable;

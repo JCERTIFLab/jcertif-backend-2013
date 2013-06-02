@@ -2,6 +2,8 @@ package controllers;
 
 import models.TokenChecksFactoy;
 import models.TokenChecksFactoy.TokenCheck;
+import models.util.Tools;
+import play.Logger;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security.Authenticator;
@@ -26,8 +28,14 @@ public class DefaultAuthenticator extends Authenticator {
 			provider = context.request().body().asJson().findPath("provider").getTextValue();
 		}
 		
+		if(Tools.isBlankOrNull(accessToken) ||
+				Tools.isBlankOrNull(provider)){
+			return null;
+		}
+
 		TokenCheck check = TokenChecksFactoy.getInstance().getCheck(provider);
 		if(check.isValid(accessToken)){
+			Logger.info("token is valid");
 			return accessToken;
 		}else{
 			return null;

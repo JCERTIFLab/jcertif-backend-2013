@@ -313,16 +313,21 @@ public abstract class MemberControllerTest {
 	
 	@Test
 	public void test_member_remove_ok(){
-	     running(fakeApplication(), new Runnable() {
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		 additionalConfiguration.put("admin.mock", "true");
+	     running(fakeApplication(additionalConfiguration), new Runnable() {
 	            public void run() {
 	            	Logger.info("Suppression d'un membre");
 	            	try {
 						TestUtils.updateDatabase("test/data/member.js");
+						TestUtils.updateDatabase("test/data/token.js");
 						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
+						params.put("provider", "google");
 		                params.put("email", "test@member.com");
 		                params.put("version", "01");
 		                params.put("deleted", "false");
-						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)).withSession("admin", "admin").withSession("admin", "admin"));
+						Result result = callAction(getDeletionURL(), fakeRequest().withJsonBody(Json.toJson(params)));
 		                assertThat(status(result)).isEqualTo(OK);	                
 
 		                Logger.info("Vérification que le membre a bien été supprimé");

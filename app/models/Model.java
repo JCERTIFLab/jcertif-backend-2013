@@ -165,7 +165,7 @@ public abstract class Model implements CRUD {
         	BasicDBObject dbObject = MongoDB.getInstance().readOne(
         			getCollectionName(clazz), 
         			QueryBuilder.start().put(keyName).is(keyValue)
-        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
+        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is(Constantes.FALSE).get());
         	
         	if(null != dbObject){
         		object = ModelUtils.instanciate(clazz, dbObject);
@@ -177,21 +177,21 @@ public abstract class Model implements CRUD {
         	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
     				QueryBuilder.start().put(keyName).is(keyValue)
-        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
+        			.put(Constantes.DELETED_ATTRIBUTE_NAME).is(Constantes.FALSE).get());
     		return ModelUtils.instanciate(clazz, buildResultList(dbCursor));
         }
 
         public <T extends Model> List<T> findAll(Class<T> clazz) {
         	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
-    				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false").get());
+    				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is(Constantes.FALSE).get());
         	return ModelUtils.instanciate(clazz, buildResultList(dbCursor));
         }
         
         public <T extends Model> List<T> findAll(Class<T> clazz, String version) {
         	DBCursor dbCursor = MongoDB.getInstance().list(
     				getCollectionName(clazz), 
-    				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is("false")
+    				QueryBuilder.start().put(Constantes.DELETED_ATTRIBUTE_NAME).is(Constantes.FALSE)
         			.put(Constantes.VERSION_ATTRIBUTE_NAME).greaterThan(version).get());
         	return ModelUtils.instanciate(clazz, buildResultList(dbCursor));
 		}

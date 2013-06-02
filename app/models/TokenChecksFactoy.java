@@ -18,7 +18,7 @@ import play.libs.WS.Response;
  * @author Martial SOMDA
  *
  */
-public class TokenChecksFactoy {
+public final class TokenChecksFactoy {
 
 	private static final TokenChecksFactoy INSTANCE = new TokenChecksFactoy();
 	private Map<String, TokenCheck> tokenChecks;
@@ -75,6 +75,7 @@ public class TokenChecksFactoy {
 				token = new Token();
 				token.setAccessToken(accessToken);
 				token.setExpiresIn(jsonNode.findPath("expires_in").getIntValue());
+				token.setEmail(jsonNode.findPath("email").getTextValue());
 				token.create();
 			}
 			return isValid;

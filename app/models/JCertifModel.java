@@ -56,13 +56,17 @@ public abstract class JCertifModel extends Model {
 		try {
 			Map<String, Object> fieldToUpdateValuesMap = getFieldsMap(objectToUpdate);
 			
+			boolean valueExists = false;
+			boolean valueIsNotEmpty = false;
+			boolean fieldExists = false;
 			for (Entry<String, Object> entry : (Set<Entry<String, Object>>)fieldToUpdateValuesMap.entrySet()) {
-				if(entry.getValue() != null && 
-						(!(entry.getValue() instanceof List<?>)||
-						((entry.getValue() instanceof List<?>) &&
-								!Tools.isBlankOrNull((ArrayList<?>)entry.getValue())))
-								&& null != fieldMap.get(entry.getKey())){
-
+				valueExists = entry.getValue() != null;
+				valueIsNotEmpty = !(entry.getValue() instanceof List<?>)||
+				((entry.getValue() instanceof List<?>) &&
+						!Tools.isBlankOrNull((ArrayList<?>)entry.getValue()));
+				fieldExists = null != fieldMap.get(entry.getKey());
+				
+				if(valueExists && valueIsNotEmpty && fieldExists){
 						fieldMap.get(entry.getKey()).set(this, entry.getValue());
 				}
 			}

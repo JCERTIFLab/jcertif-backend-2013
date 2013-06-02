@@ -11,7 +11,7 @@ import models.exception.JCertifInvalidRequestException;
  * @author Martial SOMDA
  *
  */
-public class ValidationUtils {
+public final class ValidationUtils {
 
 	private ValidationUtils(){		
 	}
