@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.List;
 
+import org.codehaus.jackson.JsonNode;
+
 import models.util.Tools;
 import play.Logger;
 import play.Play;
@@ -32,7 +34,10 @@ public class AdminAuthenticator extends DefaultAuthenticator {
 			if ("GET".equals(context.request().method())) {
 				email = context.request().getQueryString("email");
 			} else {
-				email = context.request().body().asJson().findPath("email").getTextValue();
+				JsonNode emailNode = context.request().body().asJson().findPath("email");
+				if(null != emailNode){
+					email = emailNode.getTextValue();
+				}			
 			}		
 			Logger.info("Logged in : " + email);
 			if(isAuthorized(email)){

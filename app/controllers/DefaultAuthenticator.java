@@ -1,5 +1,7 @@
 package controllers;
 
+import org.codehaus.jackson.JsonNode;
+
 import models.TokenChecksFactoy;
 import models.TokenChecksFactoy.TokenCheck;
 import models.util.Tools;
@@ -24,8 +26,14 @@ public class DefaultAuthenticator extends Authenticator {
 			accessToken = context.request().getQueryString("access_token");
 			provider = context.request().getQueryString("provider");
 		} else {
-			accessToken = context.request().body().asJson().findPath("access_token").getTextValue();
-			provider = context.request().body().asJson().findPath("provider").getTextValue();
+			JsonNode node = context.request().body().asJson().findPath("access_token");
+			if(null != node){
+				accessToken = node.getTextValue();
+			}
+			node = context.request().body().asJson().findPath("provider");
+			if(null != node){
+				provider = node.getTextValue();
+			}			
 		}
 		
 		if(Tools.isBlankOrNull(accessToken) ||
