@@ -9,7 +9,7 @@ db
 eclipse
 log
 logs
-modules
+bin
 precompiled
 project/project
 project/target
