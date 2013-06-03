@@ -96,6 +96,7 @@ public class SponsorLevelControllerTest extends ReferentielControllerTest {
 	                Assert.assertEquals("HTTT",dbObjects.get(0).get("label"));
 	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
 	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
+	                TestUtils.updateDatabase("test/data/purge.js");
 				} catch (IOException e) {
 					Assert.fail(e.getMessage());
 				}
