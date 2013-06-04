@@ -64,6 +64,7 @@ public final class TokenChecksFactoy {
 			boolean isValid = false;
 			Token token = Token.find(accessToken);
 			if(null != token){
+				Logger.info("access token found");
 				return !token.isExpired();
 			}
 			Response response = WS.url("https://www.googleapis.com/oauth2/v1/tokeninfo")
@@ -75,7 +76,7 @@ public final class TokenChecksFactoy {
 				token = new Token();
 				token.setAccessToken(accessToken);
 				token.setExpiresIn(jsonNode.findPath("expires_in").getIntValue());
-				token.setEmail(jsonNode.findPath("email").getTextValue());
+				token.setEmail(jsonNode.findPath("email").toString());
 				token.create();
 			}
 			return isValid;

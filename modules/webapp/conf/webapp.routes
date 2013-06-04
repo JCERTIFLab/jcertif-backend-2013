@@ -8,6 +8,12 @@ GET		/							controllers.webapp.HomeController.get
 GET    	/participant/get/:emailParticipant    controllers.webapp.HomeController.getParticipantProxy(emailParticipant: String)
 POST 	/ref/category/new			controllers.webapp.HomeController.newCategoryProxy
 POST 	/ref/category/remove		controllers.webapp.HomeController.removeCategoryProxy
+POST	/ref/sponsorlevel/new		controllers.webapp.HomeController.addSponsorLevelProxy
+POST	/ref/sponsorlevel/remove	controllers.webapp.HomeController.removeSponsorLevelProxy
+POST 	/ref/title/new				controllers.webapp.HomeController.addTitleProxy
+POST 	/ref/title/remove			controllers.webapp.HomeController.removeTitleProxy
+POST    /ref/sessionstatus/new      controllers.webapp.HomeController.addSessionStatusProxy
+POST    /ref/sessionstatus/remove   controllers.webapp.HomeController.removeSessionStatusProxy
 
 # Login page
 GET     /login                      securesocial.controllers.LoginPage.login

@@ -11,6 +11,7 @@ import play.libs.WS;
 import play.libs.WS.Response;
 import play.libs.WS.WSRequestHolder;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import securesocial.core.Identity;
@@ -18,44 +19,53 @@ import securesocial.core.java.SecureSocial;
 import securesocial.core.java.SecureSocial.UserAwareAction;
 import views.html.index;
 
+@UserAwareAction
 public class HomeController extends Controller {
 
-	@UserAwareAction
+	
     public static Result get() {
     	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
     	Logger.info("user : " + user);    	
         return ok(index.render(user));
     }
 	
-	@UserAwareAction
 	public static Result getParticipantProxy(String emailParticipant) {
-		
-		WSRequestHolder reqHolder = WS.url("http://" + request().host() + "/participant/get/" + emailParticipant);
-		Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
-		if(user != null){
-			reqHolder.setQueryParameter("access_token", user.oAuth2Info().get().accessToken());
-			Logger.info("access_token : " + user.oAuth2Info().get().accessToken());
-			reqHolder.setQueryParameter("provider", user.id().providerId());
-			Logger.info("provider : " + user.id().providerId());
-		}
-
-		Response response = reqHolder.get().get();
-		return Results.status(response.getStatus(),response.getBody());
+		return callBackendJSonService("http://" + request().host() + "/participant/get/" + emailParticipant);
 	}
 	
-	@UserAwareAction
-	public static Result newCategoryProxy() {
-		
-		return updateCategoryProxy("http://" + request().host() + "/ref/category/new");
+	public static Result newCategoryProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/category/new");
 	}
 	
-	@UserAwareAction
-	public static Result removeCategoryProxy() {
-		
-		return updateCategoryProxy("http://" + request().host() + "/ref/category/remove");
+	public static Result removeCategoryProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/category/remove");
 	}
 	
-	public static Result updateCategoryProxy(String url) {
+	public static Result addSponsorLevelProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/sponsorlevel/new");
+	}
+	
+	public static Result removeSponsorLevelProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/sponsorlevel/remove");
+	}
+	
+	public static Result addTitleProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/title/new");
+	}
+	
+	public static Result removeTitleProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/title/remove");
+	}
+	
+	public static Result addSessionStatusProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/sessionstatus/new");
+	}
+	
+	public static Result removeSessionStatusProxy() {		
+		return callBackendJSonService("http://" + request().host() + "/ref/sessionstatus/remove");
+	}
+	
+	public static Result callBackendJSonService(String url) {
 		
 		WSRequestHolder reqHolder = WS.url(url);
 		Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
@@ -74,6 +84,10 @@ public class HomeController extends Controller {
 		}
 
 		Response response = reqHolder.post(Json.toJson(map)).get();
+		if(Http.Status.UNAUTHORIZED == response.getStatus()){
+			Logger.info("access_token probabl expired");
+			Logger.info("refresh_token : " + user.oAuth2Info().get().refreshToken().get());
+		}
 		return Results.status(response.getStatus(),response.getBody());
 	}
 }

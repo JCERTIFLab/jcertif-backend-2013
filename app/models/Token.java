@@ -3,6 +3,7 @@ package models;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import models.util.Constantes;
 
@@ -75,7 +76,7 @@ public class Token extends JCertifModel {
 	}
 	
 	public void calculateExpiration(){
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 		cal.add(Calendar.SECOND, expiresIn);
 		this.expirationDate = cal.getTime();
 	}
@@ -95,6 +96,6 @@ public class Token extends JCertifModel {
 	}
 
 	public boolean isExpired() {
-		return new Date().after(expirationDate);
+		return Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTime().after(expirationDate);
 	}
 }

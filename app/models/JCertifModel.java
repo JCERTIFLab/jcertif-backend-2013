@@ -77,7 +77,7 @@ public abstract class JCertifModel extends Model {
 
 	}
     
-    private <T extends Model> Map<String, Object> getFieldsMap(T objectToUpdate) throws IllegalArgumentException, IllegalAccessException {
+    private <T extends Model> Map<String, Object> getFieldsMap(T objectToUpdate) throws IllegalAccessException {
     	Map<String, Object> fieldValuesMap = new HashMap<String, Object>();
     	
     	Class<?> clazz = objectToUpdate.getClass();

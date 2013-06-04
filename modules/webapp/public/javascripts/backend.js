@@ -239,7 +239,7 @@ Backend.addStatus = {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/ref/sessionstatus/new",
+                        url: "/home/ref/sessionstatus/new",
                         data: $('#dialog-add-status form').serializeJSONString()
                     }).done(function (msg) {
                     		$('#dialog-add-status').dialog("destroy");
@@ -514,7 +514,7 @@ Backend.addSponsorLevel = {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/ref/sponsorlevel/new",
+                        url: "/home/ref/sponsorlevel/new",
                         data: $('#dialog-add-sponsor-level form').serializeJSONString()
                     }).done(function (msg) {
                     	$("#dialog-add-sponsor-level").dialog("destroy");
@@ -551,7 +551,7 @@ Backend.removeSponsorLevel = {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/ref/sponsorlevel/remove",
+                        url: "/home/ref/sponsorlevel/remove",
                         data: $('#dialog-remove-sponsor-level form').serializeJSONString()
                     }).done(function (msg) {
                     	$("#dialog-remove-sponsor-level").dialog("destroy");
@@ -650,7 +650,7 @@ Backend.addCivilite = {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/ref/title/new",
+                        url: "/home/ref/title/new",
                         data: $('#dialog-add-civilite form').serializeJSONString()
                     }).done(function (msg) {
                     	$("#dialog-add-civilite").dialog("destroy");
@@ -687,7 +687,7 @@ Backend.removeCivilite = {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/ref/title/remove",
+                        url: "/home/ref/title/remove",
                         data: $('#dialog-remove-civilite form').serializeJSONString()
                     }).done(function (msg) {
                     	$("#dialog-remove-civilite").dialog("destroy");
