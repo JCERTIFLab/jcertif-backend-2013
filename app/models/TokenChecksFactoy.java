@@ -70,13 +70,15 @@ public final class TokenChecksFactoy {
 			Response response = WS.url("https://www.googleapis.com/oauth2/v1/tokeninfo")
 						.setQueryParameter("access_token",accessToken).get().get();
 			Logger.info("Google check response : " + response.getBody());
-			JsonNode jsonNode = response.asJson().findPath("error");
-			if(Tools.isBlankOrNull(jsonNode.getTextValue())){
+			JsonNode jsonNode = response.asJson();
+			if(jsonNode != null &&
+					(jsonNode.findPath("error") == null
+					|| Tools.isBlankOrNull(jsonNode.findPath("error").getTextValue()))){
 				isValid = true;
 				token = new Token();
 				token.setAccessToken(accessToken);
 				token.setExpiresIn(jsonNode.findPath("expires_in").getIntValue());
-				token.setEmail(jsonNode.findPath("email").toString());
+				token.setEmail(jsonNode.findPath("email").getTextValue());
 				token.create();
 			}
 			return isValid;

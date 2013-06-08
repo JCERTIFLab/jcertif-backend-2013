@@ -1,11 +1,13 @@
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
+import models.exception.JCertifException;
 import models.util.Constantes;
+import play.Logger;
 
 import com.mongodb.BasicDBObject;
 
@@ -17,7 +19,7 @@ public class Token extends JCertifModel {
 
 	private String accessToken;
 	private int expiresIn;
-	private Date expirationDate;
+	private String expirationDate;
 	private String email;
 	
 	public Token() {
@@ -28,7 +30,7 @@ public class Token extends JCertifModel {
 		super(basicDBObject);
 		this.accessToken = basicDBObject.getString("access_token");
 		this.expiresIn = basicDBObject.getInt("expires_in");
-		this.expirationDate = basicDBObject.getDate("expirationDate");
+		this.expirationDate = basicDBObject.getString("expirationDate");
 		this.email = basicDBObject.getString("email");
 	}
 
@@ -49,11 +51,11 @@ public class Token extends JCertifModel {
 		this.expiresIn = expiresIn;
 	}
 
-	public Date getExpirationDate() {
+	public String getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
@@ -76,9 +78,11 @@ public class Token extends JCertifModel {
 	}
 	
 	public void calculateExpiration(){
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.SECOND, expiresIn);
-		this.expirationDate = cal.getTime();
+		SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
+		Logger.info("Expires : " + sdf.format(cal.getTime()));	
+		this.expirationDate = sdf.format(cal.getTime());
 	}
 	
 	@Override
@@ -96,6 +100,12 @@ public class Token extends JCertifModel {
 	}
 
 	public boolean isExpired() {
-		return Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTime().after(expirationDate);
+		SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
+		Logger.info("Current date : " + sdf.format(Calendar.getInstance().getTime()));
+		try {
+			return Calendar.getInstance().getTime().after(sdf.parse(expirationDate));
+		} catch (ParseException e) {
+			throw new JCertifException(e.getMessage(), e);
+		}
 	}
 }
