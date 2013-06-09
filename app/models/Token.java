@@ -21,7 +21,7 @@ import com.mongodb.BasicDBObject;
 public class Token extends JCertifModel {
 
 	private String accessToken;
-	private int expiresIn = 0;
+	private int expiresIn;
 	private String expirationDate;
 	private String email;
 	private String provider;
