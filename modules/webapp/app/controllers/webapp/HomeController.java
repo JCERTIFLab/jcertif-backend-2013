@@ -6,6 +6,7 @@ import java.util.Map;
 import org.codehaus.jackson.JsonNode;
 
 import play.Logger;
+import play.Play;
 import play.libs.Json;
 import play.libs.WS;
 import play.libs.WS.Response;
@@ -22,6 +23,7 @@ import views.html.index;
 @UserAwareAction
 public class HomeController extends Controller {
 
+	private static final String BackendHost = Play.application().configuration().getString("backend.host");
 	
     public static Result get() {
     	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
@@ -30,39 +32,39 @@ public class HomeController extends Controller {
     }
 	
 	public static Result getParticipantProxy(String emailParticipant) {
-		return callBackendJSonService("http://" + request().host() + "/participant/get/" + emailParticipant);
+		return callBackendJSonService(BackendHost + "/participant/get/" + emailParticipant);
 	}
 	
 	public static Result newCategoryProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/category/new");
+		return callBackendJSonService(BackendHost + "/ref/category/new");
 	}
 	
 	public static Result removeCategoryProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/category/remove");
+		return callBackendJSonService(BackendHost + "/ref/category/remove");
 	}
 	
 	public static Result addSponsorLevelProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/sponsorlevel/new");
+		return callBackendJSonService(BackendHost + "/ref/sponsorlevel/new");
 	}
 	
 	public static Result removeSponsorLevelProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/sponsorlevel/remove");
+		return callBackendJSonService(BackendHost + "/ref/sponsorlevel/remove");
 	}
 	
 	public static Result addTitleProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/title/new");
+		return callBackendJSonService(BackendHost + "/ref/title/new");
 	}
 	
 	public static Result removeTitleProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/title/remove");
+		return callBackendJSonService(BackendHost + "/ref/title/remove");
 	}
 	
 	public static Result addSessionStatusProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/sessionstatus/new");
+		return callBackendJSonService(BackendHost + "/ref/sessionstatus/new");
 	}
 	
 	public static Result removeSessionStatusProxy() {		
-		return callBackendJSonService("http://" + request().host() + "/ref/sessionstatus/remove");
+		return callBackendJSonService(BackendHost + "/ref/sessionstatus/remove");
 	}
 	
 	public static Result callBackendJSonService(String url) {
@@ -74,13 +76,13 @@ public class HomeController extends Controller {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("label", jsonNode.findPath("label").getTextValue());
 		Logger.info("label : " + jsonNode.findPath("label").getTextValue());
-		if(user != null){						
-			map.put("access_token", user.oAuth2Info().get().accessToken());
-			Logger.info("access_token : " + user.oAuth2Info().get().accessToken());
+		if(user != null){							
 			map.put("provider", user.id().providerId());
 			Logger.info("provider : " + user.id().providerId());
 			map.put("email", user.email().get());
 			Logger.info("email : " + user.email().get());
+			map.put("access_token", user.oAuth2Info().get().accessToken());
+			Logger.info("access_token : " + user.oAuth2Info().get().accessToken());
 		}
 
 		Response response = reqHolder.post(Json.toJson(map)).get();

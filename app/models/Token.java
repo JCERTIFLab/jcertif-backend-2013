@@ -3,10 +3,13 @@ package models;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.exception.JCertifException;
 import models.util.Constantes;
+import models.util.Tools;
 import play.Logger;
 
 import com.mongodb.BasicDBObject;
@@ -18,9 +21,10 @@ import com.mongodb.BasicDBObject;
 public class Token extends JCertifModel {
 
 	private String accessToken;
-	private int expiresIn;
+	private int expiresIn = 0;
 	private String expirationDate;
 	private String email;
+	private String provider;
 	
 	public Token() {
 		super(new BasicDBObject());
@@ -32,6 +36,7 @@ public class Token extends JCertifModel {
 		this.expiresIn = basicDBObject.getInt("expires_in");
 		this.expirationDate = basicDBObject.getString("expirationDate");
 		this.email = basicDBObject.getString("email");
+		this.provider = basicDBObject.getString("provider");
 	}
 
 
@@ -67,6 +72,14 @@ public class Token extends JCertifModel {
 		this.email = email;
 	}
 
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
+
 	@Override
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject dbObject = super.toBasicDBObject();
@@ -74,15 +87,19 @@ public class Token extends JCertifModel {
 		dbObject.put("expires_in", getExpiresIn());
 		dbObject.put("expirationDate", getExpirationDate());
 		dbObject.put("email", getEmail());
+		dbObject.put("provider", getProvider());
 		return dbObject;
 	}
 	
 	public void calculateExpiration(){
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.SECOND, expiresIn);
-		SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
-		Logger.info("Expires : " + sdf.format(cal.getTime()));	
-		this.expirationDate = sdf.format(cal.getTime());
+		if(Tools.isBlankOrNull(expirationDate) 
+				&& expiresIn != 0){
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.SECOND, expiresIn);
+			SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
+			Logger.info("Expires : " + sdf.format(cal.getTime()));	
+			this.expirationDate = sdf.format(cal.getTime());
+		}		
 	}
 	
 	@Override
@@ -93,6 +110,13 @@ public class Token extends JCertifModel {
 	
 	public static Token find(String tokenId){
     	return getFinder().find(Token.class, Constantes.ACCESS_TOKEN_ATTRIBUTE_NAME, tokenId);
+	}
+	
+	public static Token findTokenByIdAndProvider(String tokenId, String providerId){
+		Map<String,Object> criteria = new HashMap<String,Object>();
+		criteria.put(Constantes.ACCESS_TOKEN_ATTRIBUTE_NAME, tokenId);
+		criteria.put(Constantes.PROVIDER_ATTRIBUTE_NAME, providerId);
+    	return getFinder().find(Token.class, criteria);
 	}
 	
 	public static List<Token> findAll(){

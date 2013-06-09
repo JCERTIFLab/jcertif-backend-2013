@@ -51,7 +51,7 @@ POST    /room/update             	controllers.RoomController.updateRoom
 POST    /participant/register       controllers.ParticipantController.registerParticipant
 GET     /participant/list           controllers.ParticipantController.listParticipant
 POST    /participant/:emailParticipant/changepassword      controllers.ParticipantController.changePasswordParticipant(emailParticipant: String)
-GET     /participant/get                controllers.ParticipantController.getParticipant(emailParticipant = "")
+GET     /participant/get            controllers.ParticipantController.getParticipant(emailParticipant = "")
 GET     /participant/get/:emailParticipant           controllers.ParticipantController.getParticipant(emailParticipant: String)
 POST    /participant/update         controllers.ParticipantController.updateParticipant
 POST    /participant/remove         controllers.ParticipantController.removeParticipant
@@ -60,6 +60,8 @@ POST    /participant/:emailParticipant/session/add/:idSession    controllers.Par
 POST    /participant/:emailParticipant/session/remove/:idSession    controllers.ParticipantController.desinscrireParticipantSession(emailParticipant: String, idSession: String)
 GET     /participant/:emailParticipant/session/list           controllers.ParticipantController.listParticipantSession(emailParticipant: String)
 POST    /participant/login          controllers.LoginController.login
+GET     /participant/find/:emailParticipant          controllers.LoginController.findLogin(emailParticipant: String)
+GET    	/token/new          		controllers.TokenController.newToken
 
 
 # A Backend Web App client routes

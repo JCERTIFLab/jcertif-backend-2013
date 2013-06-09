@@ -21,4 +21,5 @@ public interface Constantes {
 	String SEQ_ATTRIBUTE_NAME = "seq";
 	String ACCESS_TOKEN_ATTRIBUTE_NAME = "access_token";
 	String FALSE = "false";
+	String PROVIDER_ATTRIBUTE_NAME = "provider";
 }

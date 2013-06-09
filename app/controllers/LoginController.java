@@ -2,6 +2,7 @@ package controllers;
 
 import models.Login;
 import models.Member;
+import models.MemberInfo;
 import models.Participant;
 import models.Speaker;
 import models.exception.JCertifObjectNotFoundException;
@@ -42,9 +43,28 @@ public class LoginController extends Controller {
 		}
 
 		member.login(login.getPassword());	
-		
-		session("email", login.getEmail());
 
         return ok(Json.serialize("Ok"));
     }
+    
+    /**
+	 * Find login
+	 * 
+	 * @param emailParticipant
+	 * @return
+	 */
+	public static Result findLogin(String emailParticipant) {
+		
+		Member member = Participant.find(emailParticipant);
+		
+		if(member == null){
+			member = Speaker.find(emailParticipant);
+		}
+		
+		if(member == null){
+			throw new JCertifObjectNotFoundException(Member.class,emailParticipant);
+		}
+
+		return ok(Json.serialize(new MemberInfo(member)));
+	}
 }

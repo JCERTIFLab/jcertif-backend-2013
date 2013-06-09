@@ -25,6 +25,7 @@ public final class TokenChecksFactoy {
 	
 	private TokenChecksFactoy(){
 		tokenChecks = new HashMap<String, TokenChecksFactoy.TokenCheck>();
+		tokenChecks.put("userpass", new WebAppTokenCheck());
 		tokenChecks.put("google", new GoogleTokenCheck());
 		tokenChecks.put("dummy", new DummyTokenCheck());
 	}
@@ -48,40 +49,83 @@ public final class TokenChecksFactoy {
 	 */
 	public interface TokenCheck {
 		boolean isValid(String accessToken);
+		String getProviderId();
 	}
 	
 	public static class DummyTokenCheck implements TokenCheck {
 		@Override
 		public boolean isValid(String accessToken) {
 			return false;
+		}
+
+		@Override
+		public String getProviderId() {
+			return "dummy";
 		}	
 	}
 	
-	public static class GoogleTokenCheck implements TokenCheck {
+	public static abstract class AbstractTokenCheck implements TokenCheck {
 
 		@Override
 		public boolean isValid(String accessToken) {
 			boolean isValid = false;
-			Token token = Token.find(accessToken);
+			Token token = Token.findTokenByIdAndProvider(accessToken, getProviderId());
 			if(null != token){
 				Logger.info("access token found");
 				return !token.isExpired();
 			}
+			isValid = isTokenValidForProvider(accessToken);
+			return isValid;
+		}	
+		
+		protected abstract boolean isTokenValidForProvider(String accessTokentoken);
+	}
+	
+	public static class GoogleTokenCheck extends AbstractTokenCheck {
+
+		private static final String ID = "google";
+		
+		@Override
+		protected boolean isTokenValidForProvider(String accessToken) {
+			boolean isValid = false;
 			Response response = WS.url("https://www.googleapis.com/oauth2/v1/tokeninfo")
-						.setQueryParameter("access_token",accessToken).get().get();
+			.setQueryParameter("access_token",accessToken).get().get();
 			Logger.info("Google check response : " + response.getBody());
 			JsonNode jsonNode = response.asJson();
 			if(jsonNode != null &&
 					(jsonNode.findPath("error") == null
 					|| Tools.isBlankOrNull(jsonNode.findPath("error").getTextValue()))){
 				isValid = true;
-				token = new Token();
+				Token token = new Token();
 				token.setAccessToken(accessToken);
 				token.setExpiresIn(jsonNode.findPath("expires_in").getIntValue());
 				token.setEmail(jsonNode.findPath("email").getTextValue());
+				token.setProvider(GoogleTokenCheck.ID);
 				token.create();
 			}
 			return isValid;
+		}
+
+		@Override
+		public String getProviderId() {
+			return GoogleTokenCheck.ID;
 		}	
+	}
+	
+	public static class WebAppTokenCheck extends AbstractTokenCheck {
+
+		private static final String ID = "userpass";
+		
+		@Override
+		protected boolean isTokenValidForProvider(String accessToken) {
+			//return false as WebApp is not an OAuth provider
+			//and cannot certified the validity of any token
+			return false;
+		}
+
+		@Override
+		public String getProviderId() {
+			return WebAppTokenCheck.ID;
+		}
 	}
 }

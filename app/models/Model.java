@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -166,6 +168,23 @@ public abstract class Model implements CRUD {
         			getCollectionName(clazz), 
         			QueryBuilder.start().put(keyName).is(keyValue)
         			.put(Constantes.DELETED_ATTRIBUTE_NAME).is(Constantes.FALSE).get());
+        	
+        	if(null != dbObject){
+        		object = ModelUtils.instanciate(clazz, dbObject);
+        	}
+        	return object;
+        }
+        
+        public <T extends Model> T find(Class<T> clazz, Map<String, Object> keyValuePairs) {
+        	
+        	T object = null;
+        	QueryBuilder builder = QueryBuilder.start();
+        	for(Entry<String, Object> entry : keyValuePairs.entrySet()){
+        		builder.put(entry.getKey()).is(entry.getValue());
+        	}
+        	BasicDBObject dbObject = MongoDB.getInstance().readOne(
+        			getCollectionName(clazz), 
+        			builder.put(Constantes.DELETED_ATTRIBUTE_NAME).is(Constantes.FALSE).get());
         	
         	if(null != dbObject){
         		object = ModelUtils.instanciate(clazz, dbObject);
