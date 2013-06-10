@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.UUID;
 
+import controllers.Security.Basic;
+
 import models.Token;
 import models.util.Json;
 import play.mvc.Controller;
@@ -13,6 +15,7 @@ import play.mvc.Result;
  */
 public class TokenController extends Controller{
 
+	@Basic
 	public static Result newToken() {
 		
 		String email = request().getQueryString("user");

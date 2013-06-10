@@ -19,7 +19,8 @@ object ApplicationBuild extends Build {
   val appDependencies = Seq(
     "org.mongodb" % "mongo-java-driver" % "2.10.1",
     javaCore,"com.typesafe" %% "play-plugins-mailer" % "2.1.0",
-    "commons-lang" % "commons-lang" % "2.4"
+    "commons-lang" % "commons-lang" % "2.4",
+    "commons-codec" % "commons-codec" % "1.3"
   )
 
   lazy val webapp = play.Project(appName + "-webapp", appVersion, webappDependencies, path = file("modules/webapp"), settings = s).settings(

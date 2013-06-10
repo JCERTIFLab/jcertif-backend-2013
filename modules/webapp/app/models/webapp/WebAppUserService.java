@@ -153,15 +153,21 @@ public class WebAppUserService extends BaseUserService{
 		
 		Response response = WS.url(BackendHost + "/token/new")
 		.setQueryParameter("user", user.email().get())
-		.setQueryParameter("provider", UsernamePasswordProvider.UsernamePassword()).get().get();
+		.setQueryParameter("provider", UsernamePasswordProvider.UsernamePassword())
+		.setAuth("webapp", "password").get().get();
 		
-		JsonNode jsonNode = response.asJson();
-		String accessToken = jsonNode.findPath("access_token").getTextValue();
-		int expiresIn = jsonNode.findPath("expires_in").getIntValue();
-		
-		return new WebAppIdentity.Builder()
-					.withIdentity(user).withAccessToken(accessToken)
-						.withTokenExpiration(expiresIn).build();
+		if(Http.Status.OK == response.getStatus()){
+			JsonNode jsonNode = response.asJson();
+			String accessToken = jsonNode.findPath("access_token").getTextValue();
+			int expiresIn = jsonNode.findPath("expires_in").getIntValue();
+			
+			return new WebAppIdentity.Builder()
+						.withIdentity(user).withAccessToken(accessToken)
+							.withTokenExpiration(expiresIn).build();
+		}else{
+			Logger.info("[user service] : impossible de g�n�rer un token d'access pour le user " + user.email().get());
+			return user;
+		}
 	}
 
 }

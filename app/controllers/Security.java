@@ -22,6 +22,16 @@ import play.mvc.With;
 public class Security {
 
 	/*
+	 * Annotation pour les services nécessitant une authentification basic
+	 */
+	@With(BasicAction.class)
+	@Target({ElementType.TYPE, ElementType.METHOD})
+	@Retention(RetentionPolicy.RUNTIME)
+	public @interface Basic {
+	    Class<? extends Authenticator> value() default BasicAuthenticator.class;
+	}
+	
+	/*
 	 * Annotation pour les services nécessitant des droit admin
 	 */
 	@With(AdminAction.class)
@@ -40,6 +50,18 @@ public class Security {
 	public @interface Authenticated {
 	    Class<? extends Authenticator> value() default DefaultAuthenticator.class;
 	}
+	
+	/**
+	 * Action exécutée pour les services nécessitant une authentification basic
+	 * @see Basic
+	 */
+	public static class BasicAction extends Action<Basic> {
+        
+		public Result call(Context ctx) throws Throwable{
+            return executeAuthAction(this,configuration.value().newInstance(), ctx);     
+        }
+
+    }
 	
 	/**
 	 * Action exécutée pour les services nécessitant les droits admin
