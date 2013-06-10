@@ -3,6 +3,7 @@ import Keys._
 import play.Project._
 import de.johoop.jacoco4sbt._
 import JacocoPlugin._
+import com.typesafe.sbteclipse.core.EclipsePlugin.EclipseKeys
 
 object ApplicationBuild extends Build {
 
@@ -22,6 +23,7 @@ object ApplicationBuild extends Build {
   )
 
   lazy val webapp = play.Project(appName + "-webapp", appVersion, webappDependencies, path = file("modules/webapp"), settings = s).settings(
+    EclipseKeys.skipParents in ThisBuild := false,
     resolvers += Resolver.url("sbt-plugin-snapshots", new URL("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots/"))(Resolver.ivyStylePatterns)
   )
 
