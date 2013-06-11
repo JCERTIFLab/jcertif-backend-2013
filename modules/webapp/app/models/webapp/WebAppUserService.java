@@ -14,6 +14,7 @@ import play.libs.WS;
 import play.libs.WS.Response;
 import play.mvc.Http;
 import scala.Option;
+import securesocial.core.AuthenticationMethod;
 import securesocial.core.Identity;
 import securesocial.core.UserId;
 import securesocial.core.UserService;
@@ -99,8 +100,11 @@ public class WebAppUserService extends BaseUserService{
 	public Identity doSave(Identity user) {
 		Logger.info("[user service] : doSave " + user);
 		Identity identity = findUserInBackend(user.email().get());
-		if(identity == null){
+		if(identity == null
+				&& user.authMethod() == AuthenticationMethod.UserPassword()){
 			identity = createUserInBackend(user);
+		}else{
+			identity = user;
 		}
 		users.put(identity.id().id() + identity.id().providerId(), identity);
         return identity;
@@ -136,7 +140,7 @@ public class WebAppUserService extends BaseUserService{
 	private Identity createUserInBackend(Identity user){
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("email", user.email().get());
+		map.put("email", user.email().get());		
 		map.put("password", user.passwordInfo().get().password());
 		map.put("title", "M.");
 		map.put("lastname", user.lastName());

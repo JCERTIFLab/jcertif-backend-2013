@@ -4,7 +4,6 @@ import models.exception.JCertifException;
 
 import org.apache.commons.codec.binary.Base64;
 
-import play.Logger;
 import play.mvc.Http.Context;
 import play.mvc.Security.Authenticator;
 
@@ -39,9 +38,7 @@ public class BasicAuthenticator extends Authenticator {
         }
 
         String clientId = credentials[0];
-        Logger.info(clientId);
         String clientSecret = credentials[1];
-        Logger.info(clientSecret);
         
         return ("webapp".equals(clientId) && "password".equals(clientSecret))? "Ok" : null;
 	}
