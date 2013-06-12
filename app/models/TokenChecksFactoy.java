@@ -128,7 +128,7 @@ public final class TokenChecksFactoy {
 			Response response = WS.url("https://api.github.com/applications/"+ CLIENT_ID + "/tokens/" + accessToken)
 			.setAuth(CLIENT_ID, CLIENT_SECRET).get().get();
 			Logger.info("GitHub check response : " + response.getBody());
-			if(Http.Status.NOT_FOUND != response.getStatus()){
+			if(Http.Status.OK == response.getStatus()){
 				isValid = true;
 				Token token = new Token();
 				token.setAccessToken(accessToken);

@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
+import models.Token;
 import models.database.MongoDB;
 import models.exception.JCertifExceptionHandler;
 import models.util.Constantes;
@@ -8,11 +10,14 @@ import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.Play;
+import play.libs.Akka;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
 import play.mvc.Results;
+import scala.concurrent.duration.Duration;
+import akka.actor.Cancellable;
 
 /**
  * <p>Cette classe est un handler global à l'application</p>
@@ -22,6 +27,7 @@ import play.mvc.Results;
  */
 public class Global extends GlobalSettings {
 
+	private Cancellable cancellable;
 	@Override
 	public void onStart(Application application) {
 		Logger.info("JCertif Backend Application running");
@@ -32,11 +38,31 @@ public class Global extends GlobalSettings {
 		} catch (IOException e) {
 			Logger.error("Impossible d'initialiser les données de réference : " + e.getMessage());			
 		}
+		
+		cancellable = Akka.system().scheduler().schedule(
+		  Duration.create(0, TimeUnit.MILLISECONDS), //Initial delay 0 milliseconds
+		  Duration.create(3600, TimeUnit.SECONDS),   //Frequency 1 hour
+		  new Runnable() {				
+				@Override
+				public void run() {
+					Logger.info("[token remove service] : A purge is running..");
+					for(Token token : Token.findAll()){
+						if(token.isExpired()){
+							token.remove();
+						}
+					}
+				}
+			},
+		  Akka.system().dispatcher()
+		);
 	}
 	
 	@Override
 	public void onStop(Application application) {
 		Logger.info("JCertif Backend Application shutdown...");
+		if(cancellable != null){
+			cancellable.cancel();			
+		}
 		super.onStop(application);
 	}
 
