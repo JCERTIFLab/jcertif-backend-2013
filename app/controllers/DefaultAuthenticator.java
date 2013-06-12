@@ -21,10 +21,12 @@ public class DefaultAuthenticator extends Authenticator {
 	public String getUsername(Context context) {
 		String accessToken = null;
 		String provider = null;
+		String email = null;
  
 		if ("GET".equals(context.request().method())) {
 			accessToken = context.request().getQueryString("access_token");
 			provider = context.request().getQueryString("provider");
+			email = context.request().getQueryString("user");
 		} else {
 			JsonNode node = context.request().body().asJson().findPath("access_token");
 			if(null != node){
@@ -33,7 +35,11 @@ public class DefaultAuthenticator extends Authenticator {
 			node = context.request().body().asJson().findPath("provider");
 			if(null != node){
 				provider = node.getTextValue();
-			}			
+			}	
+			node = context.request().body().asJson().findPath("email");
+			if(null != node){
+				email = node.getTextValue();
+			}	
 		}
 		
 		if(Tools.isBlankOrNull(accessToken) ||
@@ -42,7 +48,7 @@ public class DefaultAuthenticator extends Authenticator {
 		}
 
 		TokenCheck check = TokenChecksFactoy.getInstance().getCheck(provider);
-		if(check.isValid(accessToken)){
+		if(check.isValid(accessToken, email)){
 			Logger.info("token is valid");
 			return accessToken;
 		}else{

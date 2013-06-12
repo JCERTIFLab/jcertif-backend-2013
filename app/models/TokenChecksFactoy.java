@@ -8,8 +8,10 @@ import models.util.Tools;
 import org.codehaus.jackson.JsonNode;
 
 import play.Logger;
+import play.Play;
 import play.libs.WS;
 import play.libs.WS.Response;
+import play.mvc.Http;
 
 /**
  * <p>Cette classe est une fabrique d'objets de type {@link TokenCheck}.
@@ -25,6 +27,7 @@ public final class TokenChecksFactoy {
 	
 	private TokenChecksFactoy(){
 		tokenChecks = new HashMap<String, TokenChecksFactoy.TokenCheck>();
+		tokenChecks.put("github", new GitHubTokenCheck());
 		tokenChecks.put("userpass", new WebAppTokenCheck());
 		tokenChecks.put("google", new GoogleTokenCheck());
 		tokenChecks.put("dummy", new DummyTokenCheck());
@@ -48,13 +51,13 @@ public final class TokenChecksFactoy {
 	 * token d'accès au près d'un fournisseur d'accès OAuth v2
 	 */
 	public interface TokenCheck {
-		boolean isValid(String accessToken);
+		boolean isValid(String accessToken, String email);
 		String getProviderId();
 	}
 	
 	public static class DummyTokenCheck implements TokenCheck {
 		@Override
-		public boolean isValid(String accessToken) {
+		public boolean isValid(String accessToken, String email) {
 			return false;
 		}
 
@@ -67,18 +70,18 @@ public final class TokenChecksFactoy {
 	public static abstract class AbstractTokenCheck implements TokenCheck {
 
 		@Override
-		public boolean isValid(String accessToken) {
+		public boolean isValid(String accessToken, String email) {
 			boolean isValid = false;
 			Token token = Token.findTokenByIdAndProvider(accessToken, getProviderId());
 			if(null != token){
 				Logger.info("access token found");
 				return !token.isExpired();
 			}
-			isValid = isTokenValidForProvider(accessToken);
+			isValid = isTokenValidForProvider(accessToken, email);
 			return isValid;
 		}	
 		
-		protected abstract boolean isTokenValidForProvider(String accessTokentoken);
+		protected abstract boolean isTokenValidForProvider(String accessTokentoken, String email);
 	}
 	
 	public static class GoogleTokenCheck extends AbstractTokenCheck {
@@ -86,7 +89,7 @@ public final class TokenChecksFactoy {
 		private static final String ID = "google";
 		
 		@Override
-		protected boolean isTokenValidForProvider(String accessToken) {
+		protected boolean isTokenValidForProvider(String accessToken, String email) {
 			boolean isValid = false;
 			Response response = WS.url("https://www.googleapis.com/oauth2/v1/tokeninfo")
 			.setQueryParameter("access_token",accessToken).get().get();
@@ -99,7 +102,7 @@ public final class TokenChecksFactoy {
 				Token token = new Token();
 				token.setAccessToken(accessToken);
 				token.setExpiresIn(jsonNode.findPath("expires_in").getIntValue());
-				token.setEmail(jsonNode.findPath("email").getTextValue());
+				token.setEmail(jsonNode.findPath("email") != null? jsonNode.findPath("email").getTextValue() : email);
 				token.setProvider(GoogleTokenCheck.ID);
 				token.create();
 			}
@@ -112,12 +115,43 @@ public final class TokenChecksFactoy {
 		}	
 	}
 	
+	public static class GitHubTokenCheck extends AbstractTokenCheck {
+
+		private static final String ID = "github";
+		private static final String CLIENT_ID = Play.application().configuration().getString("securesocial.github.clientId");
+		private static final String CLIENT_SECRET = Play.application().configuration().getString("securesocial.github.clientSecret");
+		
+		@Override
+		protected boolean isTokenValidForProvider(String accessToken, String email) {
+			boolean isValid = false;
+			
+			Response response = WS.url("https://api.github.com/applications/"+ CLIENT_ID + "/tokens/" + accessToken)
+			.setAuth(CLIENT_ID, CLIENT_SECRET).get().get();
+			Logger.info("GitHub check response : " + response.getBody());
+			if(Http.Status.NOT_FOUND != response.getStatus()){
+				isValid = true;
+				Token token = new Token();
+				token.setAccessToken(accessToken);
+				token.setExpiresIn(3600);
+				token.setEmail(email);
+				token.setProvider(GitHubTokenCheck.ID);
+				token.create();
+			}
+			return isValid;
+		}
+
+		@Override
+		public String getProviderId() {
+			return GitHubTokenCheck.ID;
+		}	
+	}
+	
 	public static class WebAppTokenCheck extends AbstractTokenCheck {
 
 		private static final String ID = "userpass";
 		
 		@Override
-		protected boolean isTokenValidForProvider(String accessToken) {
+		protected boolean isTokenValidForProvider(String accessToken, String email) {
 			//return false as WebApp is not an OAuth provider
 			//and cannot certified the validity of any token
 			return false;

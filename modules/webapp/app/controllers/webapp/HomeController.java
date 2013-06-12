@@ -87,7 +87,7 @@ public class HomeController extends Controller {
 
 		Response response = reqHolder.post(Json.toJson(map)).get();
 		if(Http.Status.UNAUTHORIZED == response.getStatus()){
-			Logger.info("access_token probabl expired");
+			Logger.info("access_token probably expired");
 			Logger.info("refresh_token : " + user.oAuth2Info().get().refreshToken().get());
 		}
 		return Results.status(response.getStatus(),response.getBody());
