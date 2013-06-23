@@ -2,6 +2,8 @@ package models.database;
 
 import java.io.IOException;
 
+import com.mongodb.BasicDBObject;
+
 import models.Model;
 import models.util.Json;
 import models.util.Tools;
@@ -35,6 +37,10 @@ public final class DBInitializer {
 			}
 		}
 	}
+	
+	public static void initCounters() throws IOException {
+		MongoDB.getInstance().delete("counters", new BasicDBObject());
+	}
 
 	private static void readAndExecuteCommand(String command) {
 		//suppression de db.
@@ -67,10 +73,8 @@ public final class DBInitializer {
 
 	private static void readAndExecuteRemoveCommand(String collectionName) {		
 		try {
-			Class<? extends Model> modelClass = Model.getModelClass(collectionName);
-			for(Model model : Model.getFinder().findAll(modelClass)){
-				model.remove();
-			}
+			Model.getModelClass(collectionName);
+			MongoDB.getInstance().delete(collectionName, new BasicDBObject());
 		} catch (ClassNotFoundException e) {
 			Logger.error("Unsupported collectionName : " + collectionName);
 		}		

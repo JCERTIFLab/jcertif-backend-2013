@@ -35,7 +35,11 @@ public class Global extends GlobalSettings {
 		super.onStart(application);
 		Logger.info("Initialisation des données de référence");
 		try {
-			DBInitializer.init(Constantes.INIT_DATA_FILE);
+			DBInitializer.init(Constantes.INIT_REF_DATA_FILE);
+			if(Play.application().configuration().getBoolean("data.tests.init")){
+				DBInitializer.initCounters();
+				DBInitializer.init(Constantes.INIT_TESTS_DATA_FILE);
+			}			
 		} catch (IOException e) {
 			Logger.error("Impossible d'initialiser les données de réference : " + e.getMessage());			
 		}

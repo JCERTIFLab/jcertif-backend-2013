@@ -2,7 +2,8 @@ package models.util;
 
 public interface Constantes {
 
-    String INIT_DATA_FILE = "referentiel.js";
+    String INIT_REF_DATA_FILE = "referentiel.js";
+    String INIT_TESTS_DATA_FILE = "integraton-test.js";
 
     String DATEFORMAT = "dd/MM/yyyy HH:mm";
 
