@@ -8,7 +8,7 @@ import models.util.Tools;
 import play.Logger;
 
 /**
- * <p>Cette classe est un paliatif à la fonction $eval qui  peut être utilisée en PROD pour insérer des données dinitialisation en base. 
+ * <p>Cette classe est un paliatif à la fonction $eval qui ne peut être utilisée en PROD pour insérer des données dinitialisation en base. 
  * <br/>Elle permet d'interpreter un fichier javascripit d'initalisation et de convertir les ordres javascripts en commandes Mongo DB</p>
  * 
  * @author Martial SOMDA
