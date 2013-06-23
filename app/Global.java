@@ -35,7 +35,7 @@ public class Global extends GlobalSettings {
 		super.onStart(application);
 		Logger.info("Initialisation des données de référence");
 		try {
-			DBInitializer.init("conf/" + Constantes.INIT_DATA_FILE);
+			DBInitializer.init(Constantes.INIT_DATA_FILE);
 		} catch (IOException e) {
 			Logger.error("Impossible d'initialiser les données de réference : " + e.getMessage());			
 		}

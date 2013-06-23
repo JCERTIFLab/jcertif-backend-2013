@@ -1,17 +1,11 @@
 package models.database;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
 
 import models.Model;
 import models.util.Json;
-
+import models.util.Tools;
 import play.Logger;
-import play.Play;
-
-import com.google.common.io.Files;
 
 /**
  * <p>Cette classe est un paliatif à la fonction $eval qui  peut être utilisée en PROD pour insérer des données dinitialisation en base. 
@@ -29,9 +23,11 @@ public final class DBInitializer {
 	}
 	
 	public static void init(String initFile) throws IOException {
-		File file = Play.application().getFile(initFile);
-		List<String> lines = Files.readLines(file, Charset.defaultCharset());
-		for(String command : lines){
+		String file = Tools.getFileContent(initFile);
+		String[] commands = file.split(COMMAND_SEPARATOR);
+		Logger.info("about to run " + commands.length + " commands against database");
+		for(String command : commands){
+			command = command.trim();
 			if(isValidSyntax(command)){
 				readAndExecuteCommand(command);
 			}else{
@@ -81,8 +77,7 @@ public final class DBInitializer {
 	}
 
 	private static boolean isValidSyntax(String command) {
-		if(command.startsWith(COMMAND_START)
-				&& command.split(COMMAND_SEPARATOR).length == 1){
+		if(command.startsWith(COMMAND_START)){
 			return true;
 		}else{
 			return false;

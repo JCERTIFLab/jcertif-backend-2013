@@ -37,7 +37,6 @@ public class TitleController extends Controller{
 	
 	public static Result listTitle() {
 		List<Title> titles = Title.findAll();
-		Logger.info("titles : " + titles);
 		return ok(Json.serialize(titles));
     }
 	
