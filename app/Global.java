@@ -36,7 +36,8 @@ public class Global extends GlobalSettings {
 		Logger.info("Initialisation des données de référence");
 		try {
 			DBInitializer.init(Constantes.INIT_REF_DATA_FILE);
-			if(Play.application().configuration().getBoolean("data.tests.init")){
+			if(!Play.isTest() &&
+					Play.application().configuration().getBoolean("data.tests.init")){
 				DBInitializer.initCounters();
 				DBInitializer.init(Constantes.INIT_TESTS_DATA_FILE);
 			}			
