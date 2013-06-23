@@ -58,7 +58,7 @@ public class TitleController extends Controller{
 			throw new JCertifObjectNotFoundException(Title.class, label);
 		}
 
-		title.remove();
+		title.delete();
 		return ok(Json.serialize("Ok"));
     }
 }

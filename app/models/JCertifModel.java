@@ -34,11 +34,15 @@ public abstract class JCertifModel extends Model {
 		return id;
     }
     
-    public int remove(){
+    public int delete(){
     	setDeleted(true);
     	int id = super.update();
     	setVersion(Integer.toString(id));
 		return id;
+    }
+    
+    public int remove() {
+    	return super.suppress();
     }
     
     public <T extends Model> void merge(T objectToUpdate) {

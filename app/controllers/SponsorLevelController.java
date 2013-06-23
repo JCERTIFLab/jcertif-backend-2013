@@ -54,7 +54,7 @@ public class SponsorLevelController extends Controller {
 			throw new JCertifObjectNotFoundException(SponsorLevel.class, label);
 		}
 
-		sponsorLevel.remove();
+		sponsorLevel.delete();
 		return ok(Json.serialize("Ok"));
     }
 }

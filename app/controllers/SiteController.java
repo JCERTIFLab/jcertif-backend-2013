@@ -64,7 +64,7 @@ public class SiteController extends Controller {
 			throw new JCertifObjectNotFoundException(Site.class, idSite);
 		}
 
-		site.remove();
+		site.delete();
 		return ok(Json.serialize("Ok"));
     }
 

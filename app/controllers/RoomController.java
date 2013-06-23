@@ -64,7 +64,7 @@ public class RoomController extends Controller {
 			throw new JCertifObjectNotFoundException(Room.class, idRoom);
 		}
 
-		room.remove();
+		room.delete();
 		return ok(Json.serialize("Ok"));
     }
 

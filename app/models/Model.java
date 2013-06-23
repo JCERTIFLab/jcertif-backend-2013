@@ -102,6 +102,15 @@ public abstract class Model implements CRUD {
 		}
 		return collectionName.substring(1).toLowerCase();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static Class<? extends Model> getModelClass(String collectionName) throws ClassNotFoundException{
+		String className = "";
+		for(String name : collectionName.split("_")){
+			className += StringUtils.capitalize(name);
+		}
+		return (Class<? extends Model>) Class.forName(Model.class.getPackage().getName() + "." + className);
+	}
 
 	protected final int add() {
 		Validator validator = FACTORY.getValidator();
@@ -139,6 +148,24 @@ public abstract class Model implements CRUD {
 			throw new JCertifException(this.getClass(), result.getError());
 		}
 		return newId;
+	}
+	
+	protected final int suppress(){
+		Validator validator = FACTORY.getValidator();
+		Set<ConstraintViolation<Model>> violations = validator.validate(this);				
+		
+		if(violations.size() > 0){
+			ValidationUtils.throwException(violations);
+		}
+		
+		BasicDBObject dbObjectToSuppress = toBasicDBObject();
+		
+		WriteResult result = MongoDB.getInstance().delete(
+				getCollectionName(getClass()), dbObjectToSuppress);
+		if (!Tools.isBlankOrNull(result.getError())) {
+			throw new JCertifException(this.getClass(), result.getError());
+		}
+		return 1;
 	}
 
 	/**

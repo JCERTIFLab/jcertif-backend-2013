@@ -75,7 +75,7 @@ public class SponsorController extends Controller {
 			throw new JCertifObjectNotFoundException(Sponsor.class, email);
 		}
 
-		sponsor.remove();
+		sponsor.delete();
 		return ok(Json.serialize("Ok"));
     }
 }

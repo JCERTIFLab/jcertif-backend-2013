@@ -113,7 +113,7 @@ public class ParticipantController extends Controller {
 			throw new JCertifObjectNotFoundException(Participant.class, email);
 		}
 
-		participant.remove();
+		participant.delete();
 		return ok(Json.serialize("Ok"));
     }
 

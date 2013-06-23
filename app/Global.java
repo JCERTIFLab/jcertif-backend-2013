@@ -3,7 +3,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import models.Token;
-import models.database.MongoDB;
+import models.database.DBInitializer;
 import models.exception.JCertifExceptionHandler;
 import models.util.Constantes;
 import play.Application;
@@ -28,13 +28,14 @@ import akka.actor.Cancellable;
 public class Global extends GlobalSettings {
 
 	private Cancellable cancellable;
+	
 	@Override
 	public void onStart(Application application) {
 		Logger.info("JCertif Backend Application running");
 		super.onStart(application);
 		Logger.info("Initialisation des données de référence");
 		try {
-			MongoDB.getInstance().loadDbWithData(Constantes.INIT_DATA_FILE);
+			DBInitializer.init("conf/" + Constantes.INIT_DATA_FILE);
 		} catch (IOException e) {
 			Logger.error("Impossible d'initialiser les données de réference : " + e.getMessage());			
 		}
@@ -48,7 +49,7 @@ public class Global extends GlobalSettings {
 					Logger.info("[token remove service] : A purge is running..");
 					for(Token token : Token.findAll()){
 						if(token.isExpired()){
-							token.remove();
+							token.delete();
 						}
 					}
 				}

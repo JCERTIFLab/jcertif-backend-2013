@@ -14,6 +14,8 @@ public interface CRUD {
 
 	int save();
 
+	int delete();
+	
 	int remove();
 
 }

@@ -57,7 +57,7 @@ public class SessionController extends Controller {
 			throw new JCertifObjectNotFoundException(Session.class, idSession);
 		}
 
-		session.remove();
+		session.delete();
 		return ok(Json.serialize("Ok"));
     }
 

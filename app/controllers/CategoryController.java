@@ -52,7 +52,7 @@ public class CategoryController extends Controller {
 			throw new JCertifObjectNotFoundException(Category.class, label);
 		}
 
-		category.remove();
+		category.delete();
 		return ok(Json.serialize("Ok"));
     }
 }

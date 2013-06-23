@@ -80,7 +80,7 @@ public class SpeakerController extends Controller {
 			throw new JCertifObjectNotFoundException(Speaker.class, email);
 		}
 
-		speaker.remove();
+		speaker.delete();
 		return ok(Json.serialize("Ok"));
     }
 
