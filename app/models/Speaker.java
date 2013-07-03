@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.util.Constantes;
@@ -20,11 +21,19 @@ public class Speaker extends Member {
     	return getFinder().find(Speaker.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
 	}
     
-    public static List<Speaker> findAll(){
-		return getFinder().findAll(Speaker.class);
+    public static List<SpeakerInfo> findAll(){
+		return adapt(getFinder().findAll(Speaker.class));
 	}
     
-    public static List<Speaker> findAll(String version){
-		return getFinder().findAll(Speaker.class, version);
+    public static List<SpeakerInfo> findAll(String version){
+		return adapt(getFinder().findAll(Speaker.class, version));
+	}
+    
+    public static List<SpeakerInfo> adapt(List<Speaker> speakers){
+		List<SpeakerInfo> speakersInfo = new ArrayList<SpeakerInfo>();
+		for(Speaker speaker : speakers){
+			speakersInfo.add(new SpeakerInfo(speaker));
+		}
+		return speakersInfo;
 	}
 }
