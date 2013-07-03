@@ -33,7 +33,7 @@ public abstract class Member extends JCertifModel {
 	private String email;
 	@NotBlank(propertyName="Password") @Password
     private String password;
-	@NotBlank(propertyName="Title") @Title
+	@Title
     private String title;
 	@NotBlank(propertyName="LastName")
     private String lastname;
