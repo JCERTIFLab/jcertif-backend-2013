@@ -114,6 +114,7 @@ public class SpeakerInfo extends JCertifModel {
 		dbObject.put("city", getCity());
 		dbObject.put("country", getCountry());
 		dbObject.put("company", getCompany());
+		dbObject.put("photo", getPhoto());
 		dbObject.put("biography", getBiography());
 		return dbObject;
 	}
