@@ -45,8 +45,8 @@ db.speaker.insert({
 	country: 'USA',
 	company: 'ThoughtWorks',
 	phone: '0102030405',
-	photo: 'http://martinfowler.com/pictues/martinPic.gif',
-	biography: 'All about Martin', 
+	photo: 'http://martinfowler.com/mf-ade-home.jpg',
+	biography: 'I am an author, speaker… essentially a loud-mouthed pundit on the topic of software development. I’ve been working in the software industry since the mid-80’s where I got into the then-new world of object-oriented software. I spent much of the 90’s as a consultant and trainer helping people develop object-oriented systems, with a focus on enterprise applications. In 2000 I joined ThoughtWorks.', 
 	version: '03', 
 	deleted: 'false'
 });
@@ -61,8 +61,8 @@ db.speaker.insert({
 	country: 'USA',
 	company: 'Oracle Corporation',
 	phone: '0102030405',
-	photo: 'http://www.larryellison.com/pictues/LarryPic.gif',
-	biography: 'All about Larry', 
+	photo: 'http://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Larry_Elllison_on_stage.jpg/220px-Larry_Elllison_on_stage.jpg',
+	biography: 'Larry Ellison was born in New York City to an unwed mother of Jewish heritage;[4][5][6] his father was an Italian American U.S. Air Force pilot. After he contracted pneumonia at the age of nine months his mother gave him to her aunt and uncle for adoption.[6] Larry did not meet his biological mother again until he was 48.', 
 	version: '01', 
 	deleted: 'false'
 });
@@ -129,10 +129,10 @@ db.participant.insert({
 db.sponsor.remove();
 db.sponsor.insert({
 	email: 'test@sponsor.com',
-	name: 'Test SA',
-    logo: 'http://www.test.com/icons/logo.gif',
+	name: 'Google',
+        logo: 'http://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google-Logo.svg/220px-Google-Logo.svg.png',
 	level: 'Argent',
-	website: 'www.test.com',
+	website: 'www.google.com',
 	city: 'Paris',
 	country: 'France',
 	phone: '0102030405',
@@ -142,10 +142,10 @@ db.sponsor.insert({
 });
 db.sponsor.insert({
 	email: 'test2@sponsor.com',
-	name: 'Test2 SA',
-    logo: 'http://www.test.com/icons/logo.gif',
+	name: 'Oracle',
+        logo: 'http://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Oracle_logo.svg/200px-Oracle_logo.svg.png',
 	level: 'Titanium',
-	website: 'www.test2.com',
+	website: 'www.oracle.com',
 	city: 'Paris',
 	country: 'France',
 	phone: '0102030405',
