@@ -62,7 +62,7 @@ db.speaker.insert({
 	company: 'Oracle Corporation',
 	phone: '0102030405',
 	photo: 'http://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Larry_Elllison_on_stage.jpg/220px-Larry_Elllison_on_stage.jpg',
-	biography: 'Larry Ellison was born in New York City to an unwed mother of Jewish heritage;[4][5][6] his father was an Italian American U.S. Air Force pilot. After he contracted pneumonia at the age of nine months his mother gave him to her aunt and uncle for adoption.[6] Larry did not meet his biological mother again until he was 48.', 
+	biography: 'Larry Ellison was born in New York City to an unwed mother of Jewish heritage. His father was an Italian American U.S. Air Force pilot. After he contracted pneumonia at the age of nine months his mother gave him to her aunt and uncle for adoption. Larry did not meet his biological mother again until he was 48.', 
 	version: '01', 
 	deleted: 'false'
 });
