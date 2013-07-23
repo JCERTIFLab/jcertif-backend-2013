@@ -15,6 +15,7 @@ db.category.insert({label: 'HTML5', version: '01', deleted: 'false'});
 db.category.insert({label: 'Java', version: '01', deleted: 'false'});
 db.category.insert({label: 'Entreprise', version: '01', deleted: 'false'});
 db.category.insert({label: 'Web Design', version: '01', deleted: 'false'});
+db.category.insert({label: 'Community', version: '01', deleted: 'false'});
 db.title.remove();
 db.title.insert({label: 'M.', version: '01', deleted: 'false'});
 db.title.insert({label: 'Mme', version: '01', deleted: 'false'});

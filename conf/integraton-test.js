@@ -33,6 +33,7 @@ db.room.insert({
 	version: '01', 
 	deleted: 'false'
 });
+db.speaker.remove();
 db.speaker.insert({
     email: 'martialsomda@gmail.com',
     title: 'M.',
@@ -183,9 +184,9 @@ db.session.insert({
     title : "Bilan & Vision JCertif",
     summary : "Bilan & Vision JCertif",
     description : "Bilan & Vision JCertif ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
-    status: "Valide",
-    keyword : "",
-    category : [],
+    status: "Brouillon",
+    keyword : "JCertif",
+    category : ['Community'],
     start : "09/09/2013 09:00",
     end : "09/09/2013 09:50",
     speakers : ["bonbhel@gmail.com"],
@@ -197,9 +198,9 @@ db.session.insert({
     title : "JCertif Education",
     summary : "JCertif Education",
     description : "JCertif Education ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
-    status: "Valide",
-    keyword : "",
-    category : [],
+    status: "Brouillon",
+    keyword : "JCertif",
+    category : ['Community'],
     start : "09/09/2013 10:00",
     end : "09/09/2013 10:50",
     speakers : ["rmalonga9@gmail.com"],
@@ -211,9 +212,9 @@ db.session.insert({
     title : "JCertif Lab",
     summary : "JCertif Lab",
     description : "JCertif Lab ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
-    status: "Valide",
-    keyword : "",
-    category : [],
+    status: "Brouillon",
+    keyword : "JCertif",
+    category : ['Community'],
     start : "09/09/2013 11:00",
     end : "09/09/2013 11:50",
     speakers : ["rossi.oddet@gmail.com"],
@@ -224,9 +225,11 @@ db.sponsor.remove();
 db.sponsor.insert({
     name: 'Google',
     email: 'google@google.fr',
+    city : 'Mountain View',
+    country : 'US',
     logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/google.gif',
     website : 'http://www.google.com',
-    level : '1',
+    level : 'Titanium',
     deleted: 'false'
 });
 db.sponsor.insert({
@@ -234,7 +237,9 @@ db.sponsor.insert({
     email: 'oracle@oracle.fr',
     logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/oraclent.png',
     website : 'http://www.oracle.com',
-    level : '1',
+    city : 'San Francisco',
+    country : 'US',
+    level : 'Platine',
     deleted: 'false'
 });
 db.sponsor.insert({
@@ -242,7 +247,9 @@ db.sponsor.insert({
     email: 'warid@warid.fr',
     logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/warid.gif',
     website : 'http://www.warid.com',
-    level : '2',
+    city : 'Brazzaville',
+    country : 'CONGO',
+    level : 'Platine',
     deleted: 'false'
 });
 db.sponsor.insert({
@@ -250,7 +257,9 @@ db.sponsor.insert({
     email: 'objis@objis.fr',
     logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/objis.jpg',
     website : 'http://www.objis.com',
-    level : '2',
+    city : 'Brazzaville',
+    country : 'CONGO',
+    level : 'Or',
     deleted: 'false'
 });
 db.sponsor.insert({
@@ -258,6 +267,8 @@ db.sponsor.insert({
     email: 'burotop@burotop.fr',
     logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/burotop.jpg',
     website : 'http://www.burotop.com',
-    level : '3',
+    city : 'Brazzaville',
+    country : 'CONGO',
+    level : 'Or',
     deleted: 'false'
 });
