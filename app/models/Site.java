@@ -31,6 +31,8 @@ public class Site extends JCertifModel {
     @NotBlank(propertyName="Description")
     private String description;
     private String photo;
+    private String latitude;
+    private String longitude;
     
     public Site(BasicDBObject basicDBObject){
     	super(basicDBObject);
@@ -43,6 +45,8 @@ public class Site extends JCertifModel {
         this.website = basicDBObject.getString("website");
         this.description = basicDBObject.getString("description");
         this.photo = basicDBObject.getString("photo");
+        this.latitude = basicDBObject.getString("latitude");
+        this.longitude = basicDBObject.getString("longitude");
     }
     
 	public String getId() {
@@ -113,6 +117,22 @@ public class Site extends JCertifModel {
 		return photo;
 	}
 
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
@@ -129,6 +149,8 @@ public class Site extends JCertifModel {
         basicDBObject.put("website", getWebsite());
         basicDBObject.put("description", getDescription());
         basicDBObject.put("photo", getPhoto());
+        basicDBObject.put("latitude", getLatitude());
+        basicDBObject.put("longitude", getLongitude());
         return basicDBObject;
 	}
 	

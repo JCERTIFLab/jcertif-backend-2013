@@ -57,6 +57,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("www.website1.com",jsonNode.get(0).findPath("website").getTextValue());
 	                Assert.assertEquals("description 1",jsonNode.get(0).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website1.com/pictures/website1.gif",jsonNode.get(0).findPath("photo").getTextValue());
+	                Assert.assertEquals("48.863021",jsonNode.get(0).findPath("latitude").getTextValue());
+	                Assert.assertEquals("2.335618",jsonNode.get(0).findPath("longitude").getTextValue());
 	                Assert.assertEquals("01",jsonNode.get(0).findPath("version").getTextValue());
 	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
 	                
@@ -69,6 +71,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("www.website2.com",jsonNode.get(1).findPath("website").getTextValue());
 	                Assert.assertEquals("description 2",jsonNode.get(1).findPath("description").getTextValue());
 	                Assert.assertEquals("http://www.website2.com/pictures/website2.gif",jsonNode.get(1).findPath("photo").getTextValue());
+	                Assert.assertEquals("48.628087",jsonNode.get(1).findPath("latitude").getTextValue());
+	                Assert.assertEquals("1.844488",jsonNode.get(1).findPath("longitude").getTextValue());
 	                Assert.assertEquals("01",jsonNode.get(1).findPath("version").getTextValue());
 	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
 	                TestUtils.updateDatabase("test/data/purge.js");
@@ -117,6 +121,8 @@ public class SiteControllerTest {
 		                Assert.assertEquals("www.website1.com",jsonNode.findPath("website").getTextValue());
 		                Assert.assertEquals("description 1",jsonNode.findPath("description").getTextValue());
 		                Assert.assertEquals("http://www.website1.com/pictures/website1.gif",jsonNode.findPath("photo").getTextValue());
+		                Assert.assertEquals("48.863021",jsonNode.findPath("latitude").getTextValue());
+		                Assert.assertEquals("2.335618",jsonNode.findPath("longitude").getTextValue());
 		                Assert.assertEquals("01",jsonNode.findPath("version").getTextValue());
 		                Assert.assertEquals("false",jsonNode.findPath("deleted").getTextValue());
 		                TestUtils.updateDatabase("test/data/purge.js");
@@ -202,6 +208,8 @@ public class SiteControllerTest {
 	                params.put("website", "www.website5.com");
 	                params.put("description", "description 5");
 	                params.put("photo", "http://www.website5.com/pictures/website5.gif");
+	                params.put("latitude", "26.728922");
+	                params.put("longitude", "3.282209");
 	                Result result = callAction(routes.ref.SiteController.newSite(), fakeRequest().withJsonBody(Json.toJson(params)));
 	                assertThat(status(result)).isEqualTo(OK);
 
@@ -217,6 +225,8 @@ public class SiteControllerTest {
 	                Assert.assertEquals("www.website5.com",dbObjects.get(0).get("website"));
 	                Assert.assertEquals("description 5",dbObjects.get(0).get("description"));
 	                Assert.assertEquals("http://www.website5.com/pictures/website5.gif",dbObjects.get(0).get("photo"));
+	                Assert.assertEquals("26.728922",dbObjects.get(0).get("latitude"));
+	                Assert.assertEquals("3.282209",dbObjects.get(0).get("longitude"));
 	                Assert.assertEquals("01",dbObjects.get(0).get("version"));
 	                Assert.assertEquals("false",dbObjects.get(0).get("deleted"));
 	                TestUtils.updateDatabase("test/data/purge.js");

@@ -8,7 +8,9 @@ db.site.insert({
     contact : "contact@website1.com",
     website : "www.website1.com",
     description : "description 1",
-    photo : "http://www.website1.com/pictures/website1.gif", 
+    photo : "http://www.website1.com/pictures/website1.gif",
+    latitude : "48.863021", 
+    longitude : "2.335618", 
 	version: '01', 
 	deleted: 'false'
 });
@@ -22,6 +24,8 @@ db.site.insert({
     website : "www.website2.com",
     description : "description 2",
     photo : "http://www.website2.com/pictures/website2.gif", 
+    latitude : "48.628087", 
+    longitude : "1.844488",
 	version: '01', 
 	deleted: 'false'
 });
