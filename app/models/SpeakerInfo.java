@@ -11,6 +11,7 @@ import com.mongodb.BasicDBObject;
  */
 public class SpeakerInfo extends JCertifModel {
 
+	private String email;
     private String title;
     private String lastname;
     private String firstname;
@@ -24,6 +25,7 @@ public class SpeakerInfo extends JCertifModel {
     
 	public SpeakerInfo(Speaker speaker, List<SessionInfo> sessions){
 		super(new BasicDBObject());
+		this.email = speaker.getEmail();
         this.title = speaker.getTitle();
         this.lastname = speaker.getLastname();
         this.firstname = speaker.getFirstname();
@@ -44,6 +46,14 @@ public class SpeakerInfo extends JCertifModel {
         
 	}
 
+	public final String getEmail() {
+        return email;
+    }
+
+    public final void setEmail(String email) {
+        this.email = email;
+    }
+    
 	public String getTitle() {
 		return title;
 	}
@@ -87,6 +97,7 @@ public class SpeakerInfo extends JCertifModel {
 	@Override
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject dbObject = new BasicDBObject();
+		dbObject.put("email", getEmail());
 		dbObject.put("title", getTitle());
 		dbObject.put("lastname", getLastname());
 		dbObject.put("firstname", getFirstname());

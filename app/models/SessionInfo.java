@@ -12,6 +12,7 @@ import com.mongodb.BasicDBObject;
  */
 public class SessionInfo extends JCertifModel {
 
+	private String id;
     private String title;
     private String summary;
     private String description;
@@ -22,6 +23,7 @@ public class SessionInfo extends JCertifModel {
     
 	public SessionInfo(Session session) {
 		super(new BasicDBObject());
+		this.id = session.getId();
 		this.title = session.getTitle();
 		this.summary = session.getSummary();
 		this.description = session.getDescription();
@@ -31,6 +33,14 @@ public class SessionInfo extends JCertifModel {
 		this.end = session.getEnd();
 	}
 
+	public final String getId() {
+        return id;
+    }
+
+    public final void setId(String id) {
+        this.id = id;
+    }
+    
 	public String getTitle() {
 		return title;
 	}
@@ -62,6 +72,7 @@ public class SessionInfo extends JCertifModel {
 	@Override
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject dbObject = new BasicDBObject();
+		dbObject.put("id", getId());
 		dbObject.put("title", getTitle());
 		dbObject.put("summary", getSummary());
 		dbObject.put("description", getDescription());
