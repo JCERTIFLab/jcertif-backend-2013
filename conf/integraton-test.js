@@ -119,14 +119,14 @@ db.speaker.insert({
     title: 'M.',
     password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
     lastname: 'Nzambu',
-    firstname: 'HonorÃ©',
+    firstname: 'Honoré',
     website: 'https://plus.google.com/u/0/103777575657747514286',
     city: 'Kinshasa',
     country: 'RDC',
     company: 'Altitude Concept',
     phone: '',
     photo: 'https://apis.google.com/c/u/0/photos/private/AIbEiAIAAABDCK6H0MG9oam2NCILdmNhcmRfcGhvdG8qKDc3M2M0Mzg0OTRiZWU3ZDcwM2Q0YzU3NzAwMDNjOWVjZDIwZjdhZjUwAdUs9mxyv6s3zL4LRD0ugk7huIoH?sz=90',
-    biography: 'HonorÃ© Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam ornare blandit egestas. Morbi ornare id massa sed fringilla. In eros tellus, facilisis aliquam gravida ac, condimentum lobortis urna. Quisque in nisi non dolor condimentum porta nec at nisi. Curabitur euismod, elit in dapibus mattis, arcu eros lacinia metus, id sollicitudin urna lorem id velit. Fusce sagittis posuere orci vel cursus. Vestibulum tristique lacus non risus scelerisque accumsan. Etiam blandit fermentum nisi sed scelerisque. Pellentesque et nunc risus. Morbi eu odio vitae ante ullamcorper tincidunt ac non erat. Donec ultricies risus quis orci luctus bibendum ac at nulla. Suspendisse at elit turpis. Donec nec velit dui',
+    biography: 'Honoré Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam ornare blandit egestas. Morbi ornare id massa sed fringilla. In eros tellus, facilisis aliquam gravida ac, condimentum lobortis urna. Quisque in nisi non dolor condimentum porta nec at nisi. Curabitur euismod, elit in dapibus mattis, arcu eros lacinia metus, id sollicitudin urna lorem id velit. Fusce sagittis posuere orci vel cursus. Vestibulum tristique lacus non risus scelerisque accumsan. Etiam blandit fermentum nisi sed scelerisque. Pellentesque et nunc risus. Morbi eu odio vitae ante ullamcorper tincidunt ac non erat. Donec ultricies risus quis orci luctus bibendum ac at nulla. Suspendisse at elit turpis. Donec nec velit dui',
     version: '01',
     deleted: 'false'
 });

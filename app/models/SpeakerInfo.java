@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import com.mongodb.BasicDBObject;
 
 
@@ -18,8 +20,9 @@ public class SpeakerInfo extends JCertifModel {
     private String company;
     private String photo;
     private String biography;
+    private BasicDBObject[] sessions;
     
-	public SpeakerInfo(Speaker speaker){
+	public SpeakerInfo(Speaker speaker, List<SessionInfo> sessions){
 		super(new BasicDBObject());
         this.title = speaker.getTitle();
         this.lastname = speaker.getLastname();
@@ -30,78 +33,55 @@ public class SpeakerInfo extends JCertifModel {
         this.company = speaker.getCompany();
         this.photo = speaker.getPhoto();
         this.biography = speaker.getBiography();
+        if(null != sessions){
+        	this.sessions = new BasicDBObject[sessions.size()];
+        	int i = 0;
+        	for(SessionInfo session : sessions){
+        		this.sessions[i] = session.toBasicDBObject();
+        		i++;
+        	}
+        }
+        
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public String getLastname() {
 		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
 	}
 
 	public String getFirstname() {
 		return firstname;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
 	public String getWebsite() {
 		return website;
-	}
-
-	public void setWebsite(String website) {
-		this.website = website;
 	}
 
 	public String getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
-	}
-
 	public String getCountry() {
 		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
 	}
 
 	public String getCompany() {
 		return company;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
 	public String getPhoto() {
 		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
 	}
 
 	public String getBiography() {
 		return biography;
 	}
-
-	public void setBiography(String biography) {
-		this.biography = biography;
+	
+	public BasicDBObject[] getSessions() {
+		return sessions;
 	}
 	
 	@Override
@@ -116,6 +96,7 @@ public class SpeakerInfo extends JCertifModel {
 		dbObject.put("company", getCompany());
 		dbObject.put("photo", getPhoto());
 		dbObject.put("biography", getBiography());
+		dbObject.put("sessions", getSessions());
 		return dbObject;
 	}
 }

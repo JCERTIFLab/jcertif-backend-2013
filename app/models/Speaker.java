@@ -32,7 +32,7 @@ public class Speaker extends Member {
     public static List<SpeakerInfo> adapt(List<Speaker> speakers){
 		List<SpeakerInfo> speakersInfo = new ArrayList<SpeakerInfo>();
 		for(Speaker speaker : speakers){
-			speakersInfo.add(new SpeakerInfo(speaker));
+			speakersInfo.add(new SpeakerInfo(speaker, Session.findBySpeaker(speaker.getEmail())));
 		}
 		return speakersInfo;
 	}

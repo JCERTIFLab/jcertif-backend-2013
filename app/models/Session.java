@@ -169,8 +169,12 @@ public class Session extends JCertifModel {
         return super.create();
     }
 	
-	public static Session find(String email){
-    	return getFinder().find(Session.class, Constantes.ID_ATTRIBUTE_NAME, email);
+	public static Session find(String idSession){
+    	return getFinder().find(Session.class, Constantes.ID_ATTRIBUTE_NAME, idSession);
+	}
+	
+	public static List<SessionInfo> findBySpeaker(String email){
+    	return adapt(getFinder().findAll(Session.class, Constantes.SPEAKERS_ATTRIBUTE_NAME, email));
 	}
 	
 	public static List<Session> findAll(){
@@ -179,5 +183,13 @@ public class Session extends JCertifModel {
 	
 	public static List<Session> findAll(String version){
 		return getFinder().findAll(Session.class, version);
+	}
+	
+	public static List<SessionInfo> adapt(List<Session> sessions){
+		List<SessionInfo> sessionsInfo = new ArrayList<SessionInfo>();
+		for(Session session : sessions){
+			sessionsInfo.add(new SessionInfo(session));
+		}
+		return sessionsInfo;
 	}
 }

@@ -105,7 +105,7 @@ public class Room extends JCertifModel {
 	}
 	
 	public static Room find(String idRoom){
-    	return getFinder().find(Room.class, Constantes.ID_ATTRIBUTE_NAME, idRoom);
+		return getFinder().find(Room.class, Constantes.ID_ATTRIBUTE_NAME, idRoom);
 	}
 	
 	public static List<Room> findAll(){
