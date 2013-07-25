@@ -119,14 +119,14 @@ db.speaker.insert({
     title: 'M.',
     password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
     lastname: 'Nzambu',
-    firstname: 'Honoré',
+    firstname: 'Honorï¿½',
     website: 'https://plus.google.com/u/0/103777575657747514286',
     city: 'Kinshasa',
     country: 'RDC',
     company: 'Altitude Concept',
     phone: '',
     photo: 'https://apis.google.com/c/u/0/photos/private/AIbEiAIAAABDCK6H0MG9oam2NCILdmNhcmRfcGhvdG8qKDc3M2M0Mzg0OTRiZWU3ZDcwM2Q0YzU3NzAwMDNjOWVjZDIwZjdhZjUwAdUs9mxyv6s3zL4LRD0ugk7huIoH?sz=90',
-    biography: 'Honoré Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam ornare blandit egestas. Morbi ornare id massa sed fringilla. In eros tellus, facilisis aliquam gravida ac, condimentum lobortis urna. Quisque in nisi non dolor condimentum porta nec at nisi. Curabitur euismod, elit in dapibus mattis, arcu eros lacinia metus, id sollicitudin urna lorem id velit. Fusce sagittis posuere orci vel cursus. Vestibulum tristique lacus non risus scelerisque accumsan. Etiam blandit fermentum nisi sed scelerisque. Pellentesque et nunc risus. Morbi eu odio vitae ante ullamcorper tincidunt ac non erat. Donec ultricies risus quis orci luctus bibendum ac at nulla. Suspendisse at elit turpis. Donec nec velit dui',
+    biography: 'Honorï¿½ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam ornare blandit egestas. Morbi ornare id massa sed fringilla. In eros tellus, facilisis aliquam gravida ac, condimentum lobortis urna. Quisque in nisi non dolor condimentum porta nec at nisi. Curabitur euismod, elit in dapibus mattis, arcu eros lacinia metus, id sollicitudin urna lorem id velit. Fusce sagittis posuere orci vel cursus. Vestibulum tristique lacus non risus scelerisque accumsan. Etiam blandit fermentum nisi sed scelerisque. Pellentesque et nunc risus. Morbi eu odio vitae ante ullamcorper tincidunt ac non erat. Donec ultricies risus quis orci luctus bibendum ac at nulla. Suspendisse at elit turpis. Donec nec velit dui',
     version: '01',
     deleted: 'false'
 });
@@ -227,7 +227,7 @@ db.sponsor.insert({
     email: 'google@google.fr',
     city : 'Mountain View',
     country : 'US',
-    logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/google.gif',
+    logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/google.png',
     website : 'http://www.google.com',
     level : 'Titanium',
     deleted: 'false'
@@ -255,7 +255,7 @@ db.sponsor.insert({
 db.sponsor.insert({
     name: 'Objis',
     email: 'objis@objis.fr',
-    logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/objis.jpg',
+    logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/objis.png',
     website : 'http://www.objis.com',
     city : 'Brazzaville',
     country : 'CONGO',
@@ -265,7 +265,7 @@ db.sponsor.insert({
 db.sponsor.insert({
     name: 'Burotop',
     email: 'burotop@burotop.fr',
-    logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/burotop.jpg',
+    logo: 'https://raw.github.com/JCERTIFLab/jcertif-static-resources/master/img/sponsors/burotop.png',
     website : 'http://www.burotop.com',
     city : 'Brazzaville',
     country : 'CONGO',
