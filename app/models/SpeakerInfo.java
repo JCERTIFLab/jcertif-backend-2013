@@ -1,7 +1,5 @@
 package models;
 
-import java.util.List;
-
 import com.mongodb.BasicDBObject;
 
 
@@ -21,9 +19,8 @@ public class SpeakerInfo extends JCertifModel {
     private String company;
     private String photo;
     private String biography;
-    private BasicDBObject[] sessions;
     
-	public SpeakerInfo(Speaker speaker, List<SessionInfo> sessions){
+	public SpeakerInfo(Speaker speaker){
 		super(new BasicDBObject());
 		this.email = speaker.getEmail();
         this.title = speaker.getTitle();
@@ -34,24 +31,11 @@ public class SpeakerInfo extends JCertifModel {
         this.country = speaker.getCountry();
         this.company = speaker.getCompany();
         this.photo = speaker.getPhoto();
-        this.biography = speaker.getBiography();
-        if(null != sessions){
-        	this.sessions = new BasicDBObject[sessions.size()];
-        	int i = 0;
-        	for(SessionInfo session : sessions){
-        		this.sessions[i] = session.toBasicDBObject();
-        		i++;
-        	}
-        }
-        
+        this.biography = speaker.getBiography();      
 	}
 
 	public final String getEmail() {
         return email;
-    }
-
-    public final void setEmail(String email) {
-        this.email = email;
     }
     
 	public String getTitle() {
@@ -90,10 +74,6 @@ public class SpeakerInfo extends JCertifModel {
 		return biography;
 	}
 	
-	public BasicDBObject[] getSessions() {
-		return sessions;
-	}
-	
 	@Override
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject dbObject = new BasicDBObject();
@@ -107,7 +87,6 @@ public class SpeakerInfo extends JCertifModel {
 		dbObject.put("company", getCompany());
 		dbObject.put("photo", getPhoto());
 		dbObject.put("biography", getBiography());
-		dbObject.put("sessions", getSessions());
 		return dbObject;
 	}
 }
