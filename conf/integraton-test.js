@@ -119,7 +119,7 @@ db.speaker.insert({
     title: 'M.',
     password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
     lastname: 'Nzambu',
-    firstname: 'Honor�',
+    firstname: 'Honoré',
     website: 'https://plus.google.com/u/0/103777575657747514286',
     city: 'Kinshasa',
     country: 'RDC',
