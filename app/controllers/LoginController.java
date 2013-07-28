@@ -32,6 +32,13 @@ public class LoginController extends Controller {
 		
 		Login login = Json.parse(Login.class, jsonNode.toString());
 		
+		login(login);
+		
+		return ok(Json.serialize("Ok"));
+    }
+    
+    public static void login(Login login) {
+		
 		Member member = Participant.find(login.getEmail());
 		
 		if(member == null){
@@ -42,9 +49,7 @@ public class LoginController extends Controller {
 			throw new JCertifObjectNotFoundException(Member.class,login.getEmail());
 		}
 
-		member.login(login.getPassword());	
-
-        return ok(Json.serialize("Ok"));
+		member.login(login.getPassword());	  
     }
     
     /**
