@@ -32,9 +32,9 @@ public class Session extends JCertifModel {
     private String keyword;
 	@NotBlank(propertyName="Category") @Category
     private List<String> category = new ArrayList<String>();
-	@NotBlank(propertyName="Start Date") @Date(propertyName="Start Date")
+    @Date(propertyName="Start Date")
     private String start;
-	@NotBlank(propertyName="End Date") @Date(propertyName="End Date")
+    @Date(propertyName="End Date")
     private String end;
     private List<String> speakers = new ArrayList<String>();
     @Room
