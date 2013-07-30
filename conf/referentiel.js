@@ -11,7 +11,7 @@ db.sponsor_level.insert({label: 'Education', version: '01', deleted: 'false'});
 db.sponsor_level.insert({label: 'Média', version: '01', deleted: 'false'});
 db.category.remove();
 db.category.insert({label: 'Android', version: '01', deleted: 'false'});
-db.category.insert({label: 'HTML5', version: '01', deleted: 'false'});
+db.category.insert({label: 'Web', version: '01', deleted: 'false'});
 db.category.insert({label: 'Java', version: '01', deleted: 'false'});
 db.category.insert({label: 'Entreprise', version: '01', deleted: 'false'});
 db.category.insert({label: 'Web Design', version: '01', deleted: 'false'});
