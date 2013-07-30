@@ -17,7 +17,9 @@ import com.mongodb.BasicDBObject;
 
 @DatesCoherence
 public class Session extends JCertifModel {
-
+	
+	public static String DRAFT_STATUS = "Brouillon";
+	
 	@NotBlank(propertyName="Id")
 	private String id;
 	@NotBlank(propertyName="Title")
@@ -166,6 +168,7 @@ public class Session extends JCertifModel {
     @Override
     public int create() {
     	setId(getFinder().findNextSequence(Session.class));     
+    	setStatus(DRAFT_STATUS);
         return super.create();
     }
 	

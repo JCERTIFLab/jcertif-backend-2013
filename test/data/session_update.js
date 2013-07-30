@@ -1,4 +1,5 @@
 db.session_status.remove();
+db.session_status.insert({label: 'Brouillon', version: '01', deleted: 'false'});
 db.session_status.insert({label: 'Status1', version: '01', deleted: 'false'});
 db.session_status.insert({label: 'Status2', version: '01', deleted: 'false'});
 db.category.remove();

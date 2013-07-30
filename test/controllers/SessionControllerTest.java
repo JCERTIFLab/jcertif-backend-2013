@@ -131,7 +131,7 @@ public class SessionControllerTest {
 	                params.put("title", "Lost in the jungle");
 	                params.put("summary", "Learn how to suvive in the jungle");
 	                params.put("description", "A small desc of lost in the jungle");
-	                params.put("status", "Brouillon");
+	                params.put("status", "Approuvé");
 	                params.put("keyword", "Lost-Jungle");
 	                params.put("category", new String[]{"Java"});
 	                params.put("start", "12/02/2013 10:22");
@@ -383,81 +383,6 @@ public class SessionControllerTest {
                         TestUtils.updateDatabase("test/data/purge.js");
                         assertThat(contentAsString(result)).contains("Description cannot be empty or null");
                         Logger.info("*** FIN -> test_session_new_invalid_description_null ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
-					}
-            }
-        });
-    }
-    
-    @Test
-    public void test_session_new_invalid_status_empty() {
-    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
-		additionalConfiguration.put("admin.mock", "true");
-        running(fakeApplication(additionalConfiguration), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_session_new_invalid_status_empty ***");
-                	Logger.info("Le status d'une session ne peut etre vide");
-                	try {
-                		TestUtils.updateDatabase("test/data/session_update.js");
-                		TestUtils.updateDatabase("test/data/token.js");
-    					Map<String, Object> params = new HashMap<String, Object>();
-    					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
-    					params.put("provider", "google");
-    					params.put("email", "test@session.com");
-                        params.put("id", "111");
-                        params.put("title", "title 2");
-                        params.put("summary", "summary 2");
-                        params.put("description", "description 2");
-                        params.put("status", "");
-                        params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML 5"});
-                        params.put("start", "12/12/2013 10:22");
-                        params.put("end", "16/12/2013 10:23");
-                        params.put("speakers", new String[]{"13"});
-                        
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withJsonBody(Json.toJson(params)));
-                        assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        assertThat(contentAsString(result)).contains("Status cannot be empty or null");
-                        Logger.info("*** FIN -> test_session_new_invalid_status_empty ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
-					}
-            }
-        });
-    }
-    
-    @Test
-    public void test_session_new_invalid_status_null() {
-    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
-		additionalConfiguration.put("admin.mock", "true");
-        running(fakeApplication(additionalConfiguration), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_session_new_invalid_status_null ***");
-                	Logger.info("Le status d'une session ne peut etre absent du inner json ");
-                	try {
-                		TestUtils.updateDatabase("test/data/session_update.js");
-                		TestUtils.updateDatabase("test/data/token.js");
-    					Map<String, Object> params = new HashMap<String, Object>();
-    					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
-    					params.put("provider", "google");
-    					params.put("email", "test@session.com");
-                        params.put("id", "111");
-                        params.put("title", "title 2");
-                        params.put("summary", "summary 2");
-                        params.put("description", "description 2");
-                        params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"HTML 5"});
-                        params.put("start", "12/12/2013 10:22");
-                        params.put("end", "16/12/2013 10:23");
-                        params.put("speakers", new String[]{"13"});
-                        
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withJsonBody(Json.toJson(params)));
-                        assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        assertThat(contentAsString(result)).contains("Status cannot be empty or null");
-                        Logger.info("*** FIN -> test_session_new_invalid_status_null ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
 					}
@@ -722,44 +647,6 @@ public class SessionControllerTest {
                         assertThat(contentAsString(result)).contains("Start Date must not be equals or greater than End Date");
                         TestUtils.updateDatabase("test/data/purge.js");
                         Logger.info("*** FIN -> test_session_new_inconsitent_start_date() ***");
-					} catch (Exception e) {
-						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
-					}
-            }
-        });
-    }
-    
-    @Test
-    public void test_session_new_unregistred_session_status() {
-    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
-		additionalConfiguration.put("admin.mock", "true");
-        running(fakeApplication(additionalConfiguration), new Runnable() {
-            public void run() {
-                	Logger.info("*** DEBUT -> test_session_new_unregistred_session_status() ***");
-                	Logger.info("Le status d'une session doit faire partie de la liste des status session ");
-                	try {
-                		TestUtils.updateDatabase("test/data/session_update.js");
-                		TestUtils.updateDatabase("test/data/token.js");
-    					Map<String, Object> params = new HashMap<String, Object>();
-    					params.put("access_token", "ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8");
-    					params.put("provider", "google");
-    					params.put("email", "test@session.com");
-                        params.put("id", "111");
-                        params.put("title", "title 2");
-                        params.put("summary", "summary 2");
-                        params.put("description", "description 2");
-                        params.put("status", "status 89");
-                        params.put("keyword", "keyword 2");
-                        params.put("category", new String[]{"Android","HTML 5"} );
-                        params.put("start", "16/12/2013 10:23");
-                        params.put("end", "20/12/2013 3:43");
-                        params.put("speakers", new String[]{"13","34"});
-                        
-                        Result result = callAction(routes.ref.SessionController.newSession(), fakeRequest().withJsonBody(Json.toJson(params)));
-                        assertThat(status(result)).isEqualTo(BAD_REQUEST);
-                        assertThat(contentAsString(result)).contains("does not exist. Check Session Status List");
-                        TestUtils.updateDatabase("test/data/purge.js");
-                        Logger.info("*** FIN -> test_session_new_unregistred_session_status() ***");
 					} catch (Exception e) {
 						Logger.error("Une erreur est survenue lors du test de mise a jour de la session", e);
 					}
