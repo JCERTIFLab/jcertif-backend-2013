@@ -27,7 +27,7 @@ public class SessionController extends Controller {
         return ok(Json.serialize(Session.findAll(version)));
     }
 
-    @Admin
+   
     public static Result newSession() {
 		JsonNode jsonNode = request().body().asJson();
 		
