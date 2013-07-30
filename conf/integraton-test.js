@@ -15,7 +15,7 @@ db.site.insert({
 db.room.remove();
 db.room.insert({
 	id : "01",
-    name : "name 1",
+    name : "salle 1",
     site : "01",
     seats : "500",
     description : "This is the bigest room",
@@ -25,7 +25,7 @@ db.room.insert({
 });
 db.room.insert({
     id : "02",
-    name : "name 2",
+    name : "salle 2",
     site : "01",
     seats : "200",
     description : "A medium size room",
@@ -191,7 +191,8 @@ db.session.insert({
     end : "09/09/2013 09:50",
     speakers : ["bonbhel@gmail.com"],
     version: '01',
-    deleted: 'false'
+    deleted: 'false',
+    room: '01'
 });
 db.session.insert({
     id : "02",
@@ -205,7 +206,8 @@ db.session.insert({
     end : "09/09/2013 10:50",
     speakers : ["rmalonga9@gmail.com"],
     version: '03',
-    deleted: 'false'
+    deleted: 'false',
+    room: '01'
 });
 db.session.insert({
     id : "03",
@@ -219,7 +221,128 @@ db.session.insert({
     end : "09/09/2013 11:50",
     speakers : ["rossi.oddet@gmail.com"],
     version: '02',
-    deleted: 'true'
+    deleted: 'false',
+    room: '01'
+});
+db.session.insert({
+    id : "04",
+    title : "Cursus Java - Partie 1",
+    summary : "Initiation à Java",
+    description : "Initiation à Java ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "Java",
+    category : ['Java'],
+    start : "10/09/2013 09:00",
+    end : "10/09/2013 12:00",
+    speakers : ["honorenz@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '01'
+});
+db.session.insert({
+    id : "05",
+    title : "Cursus Java - Partie 2",
+    summary : "Initiation à Java",
+    description : "Initiation à Java ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "Java",
+    category : ['Java'],
+    start : "10/09/2013 13:00",
+    end : "10/09/2013 17:00",
+    speakers : ["honorenz@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '01'
+});
+db.session.insert({
+    id : "06",
+    title : "Cursus Web - Partie 1",
+    summary : "Initiation au web",
+    description : "Initiation au web ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "HTML",
+    category : ['Web'],
+    start : "10/09/2013 09:00",
+    end : "10/09/2013 12:00",
+    speakers : ["rossi.oddet@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '02'
+});
+db.session.insert({
+    id : "07",
+    title : "Cursus Web - Partie 2",
+    summary : "Initiation au web",
+    description : "Initiation au web ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "HTML",
+    category : ['Web'],
+    start : "10/09/2013 13:00",
+    end : "10/09/2013 17:00",
+    speakers : ["rossi.oddet@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '02'
+});
+db.session.insert({
+    id : "08",
+    title : "Cursus Web Design - Partie 1",
+    summary : "Initiation au Web Design",
+    description : "Initiation au Web Designipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "Photoshop",
+    category : ['Web Design'],
+    start : "11/09/2013 09:00",
+    end : "11/09/2013 12:00",
+    speakers : ["lunikvie@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '02'
+});
+db.session.insert({
+    id : "09",
+    title : "Cursus Web Design - Partie 2",
+    summary : "Initiation à Web Design",
+    description : "Initiation à Web Design ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "Photoshop",
+    category : ['Web Design'],
+    start : "11/09/2013 13:00",
+    end : "11/09/2013 17:00",
+    speakers : ["lunikvie@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '02'
+});
+db.session.insert({
+    id : "10",
+    title : "Cursus Java - Partie 3",
+    summary : "Initiation à Java",
+    description : "Initiation à Java ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "Java",
+    category : ['Java'],
+    start : "11/09/2013 09:00",
+    end : "11/09/2013 12:00",
+    speakers : ["honorenz@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '01'
+});
+db.session.insert({
+    id : "11",
+    title : "Cursus Java - Partie 4",
+    summary : "Initiation à Java",
+    description : "Initiation à Java ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam",
+    status: "Brouillon",
+    keyword : "Java",
+    category : ['Java'],
+    start : "11/09/2013 13:00",
+    end : "11/09/2013 17:00",
+    speakers : ["honorenz@gmail.com"],
+    version: '02',
+    deleted: 'false',
+    room: '01'
 });
 db.sponsor.remove();
 db.sponsor.insert({
