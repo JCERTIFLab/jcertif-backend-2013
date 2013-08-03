@@ -21,7 +21,7 @@ public class Participant extends Member {
 
 	public Participant(BasicDBObject basicDBObject){
         super(basicDBObject);
-        this.sessions.addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("sessions")));
+        this.sessions.addAll(Tools.basicDBListToJavaList(basicDBObject.get("sessions")));
     }
 
 	public final List<String> getSessions() {

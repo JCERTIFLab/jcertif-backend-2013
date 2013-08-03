@@ -186,8 +186,8 @@ Backend.addSession = {
 							$.each(speakers, function(arrayID,group) {
 					option=option+'<option value="'+group.email+'">'+group.lastname+' '+group.firstname+'</option>';
 			});
-            $("#dialog-add-session form fieldset").append('<label for="speaker">speaker</label>');
-            $("#dialog-add-session form fieldset").append('<select name="speaker" id="spraker" multiple="true" class="ui-widget-content ui-corner-all">'+option+'</select>');
+            $("#dialog-add-session form fieldset").append('<label for="speakers">speakers</label>');
+            $("#dialog-add-session form fieldset").append('<select name="speakers" id="sprakers" multiple="true" class="ui-widget-content ui-corner-all">'+option+'</select>');
 				
                         }).fail(function (msg) {
                             alert(msg.responseText);

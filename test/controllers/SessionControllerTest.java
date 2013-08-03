@@ -115,9 +115,10 @@ public class SessionControllerTest {
     }
     
     @Test
-    public void test_session_new_ok() {
+    public void test_session_new_ok() {   	
     	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
 		additionalConfiguration.put("admin.mock", "true");
+		additionalConfiguration.put("smtp.mock", true);
         running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 Logger.info("Proposition d'une nouvelle session");

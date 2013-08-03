@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 
 import models.util.Constantes;
 import models.util.Tools;
+import play.Configuration;
 import play.Logger;
 import play.Play;
 
@@ -29,16 +30,12 @@ public final class MongoDB {
 	private MongoDB() {
         super();
         Logger.info("Enter MongoDB()");
-		String dbhost = Play.application().configuration().getString(
-				"database.host");
-		String dbname = Play.application().configuration().getString(
-				"database.name");
-		String user = Play.application().configuration().getString(
-				"database.user");
-		String password = Play.application().configuration().getString(
-				"database.password");
-		int dbport = Integer.parseInt(Play.application().configuration().getString(
-				"database.port"));
+        Configuration dbConfig = Play.application().configuration().getConfig("database");
+		String dbhost = dbConfig.getString("host");
+		String dbname = dbConfig.getString("name");
+		String user = dbConfig.getString("user");
+		String password = dbConfig.getString("password");
+		int dbport = Integer.parseInt(dbConfig.getString("port"));
 
         Logger.debug("dbhost=" + dbhost + ", dbname=" + dbname + ", user=" + user + ", password=***, dbport=" + dbport);
 

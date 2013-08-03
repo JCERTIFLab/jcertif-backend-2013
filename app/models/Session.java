@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.notifiers.EmailNotification;
 import models.util.Constantes;
 import models.util.Tools;
 import models.validation.Constraints.Category;
@@ -50,10 +51,10 @@ public class Session extends JCertifModel {
         this.description = basicDBObject.getString("description");
         this.status = basicDBObject.getString("status");
         this.keyword = basicDBObject.getString("keyword");
-        this.category.addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("category")));
+        this.category.addAll(Tools.basicDBListToJavaList(basicDBObject.get("category")));
         this.start = basicDBObject.getString("start");
         this.end = basicDBObject.getString("end");
-        this.speakers.addAll(Tools.basicDBListToJavaList((BasicDBList) basicDBObject.get("speakers")));
+        this.speakers.addAll(Tools.basicDBListToJavaList(basicDBObject.get("speakers")));
         this.room = basicDBObject.getString("room");
     }
 
@@ -169,7 +170,15 @@ public class Session extends JCertifModel {
     public int create() {
     	setId(getFinder().findNextSequence(Session.class));     
     	setStatus(DRAFT_STATUS);
-        return super.create();
+        int id = super.create();       
+        boolean isOK = id == 1;
+		
+		if(isOK){
+			/* send email */
+			EmailNotification.sendConfirmPropositionMail(this);
+		}
+		
+		return id;
     }
 	
 	public static Session find(String idSession){

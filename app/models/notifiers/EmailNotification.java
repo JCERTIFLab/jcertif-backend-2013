@@ -5,6 +5,7 @@ import models.Participant;
 import models.Session;
 import models.Speaker;
 import play.Logger;
+import views.html.confirmProposition;
 import views.html.enroll;
 import views.html.pwdchange;
 import views.html.pwdchangeSpeaker;
@@ -14,7 +15,6 @@ import views.html.unenroll;
 import views.html.welcome;
 
 import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
 
 /**
  * Cette classe se chargera de tous les envoi de mails 'ala play framework'.
@@ -142,6 +142,24 @@ public final class EmailNotification {
 		}
 		
 		return body;
+	}
+
+	public static void sendConfirmPropositionMail(Session session) {
+		Logger.info("Enter sendConfirmPropositionMail()");
+        Logger.debug("Enter sendConfirmPropositionMail(session=" + session + ")");
+
+        MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+        mail.setSubject("[JCertif] Proposition de présentation enregistrée");
+        String[] recipients = new String[session.getSpeakers().size()];
+        session.getSpeakers().toArray(recipients);
+        mail.addRecipient(recipients);
+        mail.addFrom(fromEmail);
+
+        String body = confirmProposition.render().body();
+
+        mail.sendHtml(body);
+
+        Logger.info("Exit sendConfirmPropositionMail()");
 	}
 
 }

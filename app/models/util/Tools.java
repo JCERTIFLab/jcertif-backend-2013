@@ -88,14 +88,21 @@ public final class Tools {
         return true;
     }
 
-    public static List<String> basicDBListToJavaList(BasicDBList basicDBList){
+    public static List<String> basicDBListToJavaList(Object object){
         List<String> retList = new ArrayList<String>();
-        if(basicDBList==null){
+        if(object==null){
             return retList;
         }
-        for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
-            retList.add((String)iterator.next());
+             
+        if(object instanceof BasicDBList){
+        	BasicDBList basicDBList = BasicDBList.class.cast(object);
+        	for(Iterator<Object> iterator = basicDBList.iterator();iterator.hasNext();){
+                retList.add((String)iterator.next());
+            }
+        }else if(object instanceof String){
+        	retList.add((String)object);
         }
+        
         return retList;
     }
 

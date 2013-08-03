@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import models.Token;
 import models.database.DBInitializer;
 import models.exception.JCertifExceptionHandler;
+import models.notifiers.MailerPlugin;
 import models.util.Constantes;
 import play.Application;
 import play.GlobalSettings;
@@ -38,8 +39,10 @@ public class Global extends GlobalSettings {
 			DBInitializer.init(Constantes.INIT_REF_DATA_FILE);
 			if(!Play.isTest() &&
 					Play.application().configuration().getBoolean("data.tests.init")){
+				Play.application().plugin(MailerPlugin.class).mock();
 				DBInitializer.initCounters();
 				DBInitializer.init(Constantes.INIT_TESTS_DATA_FILE);
+				Play.application().plugin(MailerPlugin.class).release();
 			}			
 		} catch (IOException e) {
 			Logger.error("Impossible d'initialiser les données de réference : " + e.getMessage());			
