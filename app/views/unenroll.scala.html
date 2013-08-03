@@ -1,21 +1,56 @@
 @(user:models.Participant)(session:models.Session)
 
-<a href="http://www.jcertif.com">
- <br/>
-<img src="http://jcertif-backend.roddet.cloudbees.net/assets/images/logoJCertifConference.jpg"></a>
-<br/>
-Merci @user.getFirstname() @user.getLastname() de participer à JCertif !
-<br/>
-<br/>
-Votre désinscription à la session a bien été enregistrée
-<br/>
-<br/>
-<br/>   Session : @session.getTitle();
-<br/>   Résumé : @session.getSummary();
-<br/>   Date de début :  @session.getStart();
-<br/>   Date de fin :  @session.getEnd();
-<br/>
-<br/>
-Vous pouvez vous connecter et réaliser votre agenda personnalisé sur http://www.jcertif.com
-<br/>
+<!DOCTYPE html>
+
+<html>
+	<head>
+	    <title> Merci pour votre participation ! </title>
+	    <link rel="stylesheet" media="screen" href="http://jcertif-backend.msomda.cloudbees.net/assets/stylesheets/email-content.css">
+	</head>
+	<body>
+		<div class="container">
+			<div align="left">
+			   <img style="width: 100px;" alt="JCertif Logo" src="http://jcertif-backend.msomda.cloudbees.net/assets/images/logoJCertifConference.jpg"><br>
+			</div>
+		
+			<div class="container2">
+				<p>
+				   Merci @user.getFirstname() @user.getLastname() de participer &agrave; JCertif!<br />
+				   Votre d&eacute;sinscription &agrave; la session @session.getTitle() a bien &eacute;t&eacute; enregistr&eacute;e.<br />
+				   En voici un r�capitulatif :<br />
+				   <ul>
+				   	<li>Session : @session.getTitle()</li>
+				   	<li>R�sum� : @session.getSummary()</li>
+				   	<li>Date de d�but :  @session.getStart()</li>
+				   	<li>Date de fin :  @session.getEnd()</li>
+				   </ul>
+				   <br />
+				   ================================================<br />
+				   &Eacute;quipe JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+				   info@@jcertif.com
+				</p>
+			</div>
+		</div>
+		<hr />
+		<br/>
+		<br/>
+		<div class="container2">
+			<p>
+			   Hi @user.getFirstname() @user.getLastname() for having joined JCertif!<br />
+			   Your unsubscription for session @session.getTitle() has been registered.<br />
+			   Here's the details of the session :<br />
+				   <ul>
+				   	<li>Session : @session.getTitle()</li>
+				   	<li>Summay : @session.getSummary()</li>
+				   	<li>Start date :  @session.getStart()</li>
+				   	<li>End date :  @session.getEnd()</li>
+				   </ul>
+			   <br />
+			   ================================================<br />
+			   Team JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+			   info@@jcertif.com
+			</p>
+		</div>
+	</body>
+</html>
 

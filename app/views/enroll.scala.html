@@ -1,30 +1,78 @@
 @(user:models.Participant)(session:models.Session)
 
-<a href="http://www.jcertif.com">
- <br/>
-<img src="http://jcertif-backend.roddet.cloudbees.net/assets/images/logoJCertifConference.jpg"></a>
-<br/>
-Merci @user.getFirstname() @user.getLastname() de participer à JCertif !
-<br/>
-<br/>
-Votre inscription à la session a bien été enregistrée
-<br/>
-<br/>
-<br/>   Session : @session.getTitle();
-<br/>   Résumé : @session.getSummary();
-<br/>   Date de début :  @session.getStart();
-<br/>   Date de fin :  @session.getEnd();
-<br/>
-<br/>
-Il ne vous reste plus que deux petites étapes à suivre pour compléter la procédure
-Etapes à suivre :
-----------------
-<br/>
-1 - Contacter rapidement le collecteur de votre secteur. Consulter notre page de contact pour trouver le collecteur le plus proche de chez vous.
-<br/>
-2 - Payez les frais de participation et recevez votre carte d'invitation officielle et un numéro de confirmation.
- <br/>
- <br/>
-Vous pouvez vous connecter et réaliser votre agenda personnalisé sur http://www.jcertif.com
-<br/>
+<!DOCTYPE html>
+
+<html>
+	<head>
+	    <title> Merci pour votre participation ! </title>
+	    <link rel="stylesheet" media="screen" href="http://jcertif-backend.msomda.cloudbees.net/assets/stylesheets/email-content.css">
+	</head>
+	<body>
+		<div class="container">
+			<div align="left">
+			   <img style="width: 100px;" alt="JCertif Logo" src="http://jcertif-backend.msomda.cloudbees.net/assets/images/logoJCertifConference.jpg"><br>
+			</div>
+		
+			<div class="container2">
+				<p>
+				   Merci @user.getFirstname() @user.getLastname() de participer &agrave; JCertif!<br />
+				   Votre inscription &agrave; la session @session.getTitle() a bien &eacute;t&eacute; enregistr&eacute;e.<br />
+				   En voici un r�capitulatif :<br />
+				   <ul>
+				   	<li>Session : @session.getTitle()</li>
+				   	<li>R�sum� : @session.getSummary()</li>
+				   	<li>Date de d�but :  @session.getStart()</li>
+				   	<li>Date de fin :  @session.getEnd()</li>
+				   </ul>
+				   <br />
+				   Il ne vous reste plus que 2 petites &eacute;tapes pour compl&eacute;ter la proc&eacute;dure.<br />
+				   <br />
+				   &Eacute;tapes &agrave; suivre :<br />
+				   ------------------- <br />
+				   &nbsp;1 - Contactez rapidement le collecteur de votre secteur. Consultez notre <a href="http://www.jcertif.com/faces/contact/contact.jsf">page de contact</a> pour trouver le collecteur le plus pr&ecirc;t de chez vous.<br />
+				   &nbsp;2 - Payez les frais de participation et recevez votre carte d&#39;invitation officielle et un num&eacute;ro de confirmation.<br />
+				   <br /> 
+				   <br />
+				   Devenez vous aussi collecteur de votre secteur et rejoingnez l&#39;&eacute;quipe d&#39;organisation !<br />
+				   N&#39;h&eacute;sitez pas &agrave; nous contacter pour plus d&#39;informations. 
+				   <a href="mailto:info@@jcertif.com?subject=Je%20souhaite%20devenir%20collecteur%20de%20mon%20secteur">info@@jcertif.com</a><br />
+				   <br />
+				   ================================================<br />
+				   &Eacute;quipe JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+				   info@@jcertif.com
+				</p>
+			</div>
+		</div>
+		<hr />
+		<br/>
+		<br/>
+		<div class="container2">
+			<p>
+			   Hi @user.getFirstname() @user.getLastname() for having joined JCertif!<br />
+			   Your subscription for session @session.getTitle() has been registered.<br />
+			   Here's the details of the session :<br />
+				   <ul>
+				   	<li>Session : @session.getTitle()</li>
+				   	<li>Summay : @session.getSummary()</li>
+				   	<li>Start date :  @session.getStart()</li>
+				   	<li>End date :  @session.getEnd()</li>
+				   </ul>
+			   <br />
+			   There are two small steps to complete the procedure.<br />
+			   <br />
+			   next steps :<br />
+			   ------------------- <br />
+			   &nbsp;1 - Contact the JCertif fundraiser in your area <a href="http://www.jcertif.com/">page de contact</a><br />
+			   &nbsp;2 - Pay the fee and receive your card.<br />
+			   <br />
+			   Do not hesitate tu contact us if you need more detailed information!<br />
+			   <a href="mailto:info@@jcertif.com?subject=More information">info@@jcertif.com</a><br />
+			   <br />
+			   ================================================<br />
+			   Team JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+			   info@@jcertif.com
+			</p>
+		</div>
+	</body>
+</html>
 

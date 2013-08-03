@@ -1,37 +1,48 @@
 @(user: models.Speaker)(newPassword: String)
 
-<a href="http://www.jcertif.com">
-<img src="http://jcertif-backend.roddet.cloudbees.net/assets/images/logoJCertifConference.jpg"> </a>
-<br/>
-Bonjour @user.getFirstname() @user.getLastname()
-<br/>
-<br/>
-Votre mot de passe a été réinitialisé.
-<br/>
-<br/>
-Le nouveau mot de passe est : <b> @newPassword </b>
-    <br/>
-<br/>
-        Vous pourrez le changer dès votre prochaine connexion.
-    <br/>
-    <br/>
-        Vous pouvez vous connecter et réaliser votre agenda personnalisé sur <a href="http://www.jcertif.com">http://www.jcertif.com</a>
-    <br/>
-    <br/>
-------------------------------------------------
-    <br/>
-    <br/>
-        Morning @user.getFirstname() @user.getLastname()
-    <br/>
-<br/>
-        Your password has been reset.
-    <br/>
-<br/>
-        The new password is : <b> @newPassword </b>
-    <br/>
-<br/>
-        You can change it at the next login.
-    <br/>
-    <br/>
-        You can connect and build your personal calendar on <a href="http://www.jcertif.com">http://www.jcertif.com</a>
-    <br/>
+<!DOCTYPE html>
+
+<html>
+	<head>
+	    <title> R&eacute;initialisation de mot de passe ! </title>
+	    <link rel="stylesheet" media="screen" href="http://jcertif-backend.msomda.cloudbees.net/assets/stylesheets/email-content.css">
+	</head>
+	<body>
+		<div class="container">
+			<div align="left">
+			   <img style="width: 100px;" alt="JCertif Logo" src="http://jcertif-backend.msomda.cloudbees.net/assets/images/logoJCertifConference.jpg"><br>
+			</div>
+		
+			<div class="container2">
+				<p>
+				   Bonjour @user.getTitle() @user.getFirstname() @user.getLastname(),<br/>
+				   Votre mot de passe a &eacute;t&eacute; r&eacute;initialis&eacute;.<br />
+				   <br />
+				   Votre nouveau mot de passe est : <b> @newPassword </b><br />
+				   <br />
+				   Vous pourrez le changer d&egrave;s votre prochaine connexion.<br/>
+				   ================================================<br />
+				   &Eacute;quipe JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+				   info@@jcertif.com
+				</p>
+			</div>
+		</div>
+		<hr />
+		<br/>
+		<br/>
+		<div class="container2">
+			<p>
+			   Hi @user.getTitle() @user.getFirstname() @user.getLastname(),
+			   Your password has been reset.<br />
+			   <br />
+			   Your new password is : <b> @newPassword </b><br />
+			   <br />
+			   You can change it at the next login.
+			   <br />
+			   ================================================<br />
+			   Team JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+			   info@@jcertif.com
+			</p>
+		</div>
+	</body>
+</html>

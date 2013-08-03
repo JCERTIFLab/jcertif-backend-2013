@@ -1,9 +1,46 @@
 @(user:models.Participant)
 
-<a href="http://www.jcertif.com">
- <br/>
-<img src="http://jcertif-backend.msomda.cloudbees.net/assets/images/logoJCertifConference.jpg"></a>
-<br/>
-<h3>Bienvenu @user.getFirstname() @user.getLastname()</h3>
-<br/>
+<!DOCTYPE html>
+
+<html>
+	<head>
+	    <title> Merci pour votre inscription ! </title>
+	    <link rel="stylesheet" media="screen" href="http://jcertif-backend.msomda.cloudbees.net/assets/stylesheets/email-content.css">
+	</head>
+	<body>
+		<div class="container">
+			<div align="left">
+			   <img style="width: 100px;" alt="JCertif Logo" src="http://jcertif-backend.msomda.cloudbees.net/assets/images/logoJCertifConference.jpg"><br>
+			</div>
+		
+			<div class="container2">
+				<p>
+				   Merci @user.getFirstname() @user.getLastname()!<br />
+				   Votre inscription &agrave; la conf&eacute;rence JCertif 2013 a bien &eacute;t&eacute; enregistr&eacute;e.<br />
+				   <br />
+				   ================================================<br />
+				   &Eacute;quipe JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+				   info@@jcertif.com
+				</p>
+			</div>
+		</div>
+		<hr />
+		<br/>
+		<br/>
+		<div class="container2">
+			<p>
+			   Hi @user.getFirstname() @user.getLastname()!<br />
+			   Your subscription for  JCertif Conference 2013 has been registered.<br />
+			   <br />
+			   There are two small steps to complete the procedure.<br />
+			   <br />
+			   ================================================<br />
+			   Team JCertif 2013 - <a href="http://www.jcertif.com/" target="_blank" style="color: rgb(0, 0, 204);">http://www.jcertif.com</a><br />
+			   info@@jcertif.com
+			</p>
+		</div>
+	</body>
+</html>
+
+
 
