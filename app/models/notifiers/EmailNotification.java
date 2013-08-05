@@ -5,6 +5,7 @@ import models.Participant;
 import models.Session;
 import models.Speaker;
 import play.Logger;
+import play.Play;
 import views.html.confirmProposition;
 import views.html.enroll;
 import views.html.pwdchange;
@@ -31,7 +32,7 @@ public final class EmailNotification {
      * fromEmail représente l'expéditeur du courrier. De preference le lire dans un fichier de propriétés
      *
      */
-    private static String fromEmail = "jcertif2013.debug@gmail.com";
+    private static String fromEmail = Play.application().configuration().getString("smtp.from");
 
 
     /**
@@ -44,7 +45,7 @@ public final class EmailNotification {
         Logger.debug("Enter sendWelcomeMail(user=" + user + ")");
 
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-        mail.setSubject("Bienvenue !");
+        mail.setSubject("[JCertif] Bienvenue !");
         mail.addRecipient(user.getEmail());
         mail.addFrom(fromEmail);
 

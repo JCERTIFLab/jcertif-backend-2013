@@ -4,6 +4,7 @@ package controllers;
 import java.util.List;
 
 import models.Login;
+import models.TokenChecksFactoy.WebAppTokenCheck;
 import models.util.Json;
 
 import org.codehaus.jackson.JsonNode;
@@ -32,7 +33,7 @@ public class AdminController extends Controller {
 		LoginController.login(login);
 
 		if(isAuthorized(login.getEmail())){
-			return TokenController.newToken(login.getEmail(), "userpass");
+			return TokenController.newToken(login.getEmail(), WebAppTokenCheck.ID);
 		}else{
 			return unauthorized();
 		}

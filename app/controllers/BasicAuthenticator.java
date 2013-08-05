@@ -4,6 +4,7 @@ import models.exception.JCertifException;
 
 import org.apache.commons.codec.binary.Base64;
 
+import play.Play;
 import play.mvc.Http.Context;
 import play.mvc.Security.Authenticator;
 
@@ -13,6 +14,9 @@ import play.mvc.Security.Authenticator;
  */
 public class BasicAuthenticator extends Authenticator {
 
+	private String basicAuthUser = Play.application().configuration().getString("http.auth.basic.user");
+	private String basicAuthPassword = Play.application().configuration().getString("http.auth.basic.passwor");
+	
 	@Override
 	public String getUsername(Context context) {
 		
@@ -40,6 +44,6 @@ public class BasicAuthenticator extends Authenticator {
         String clientId = credentials[0];
         String clientSecret = credentials[1];
         
-        return ("webapp".equals(clientId) && "password".equals(clientSecret))? "Ok" : null;
+        return (basicAuthUser.equals(clientId) && basicAuthPassword.equals(clientSecret))? "Ok" : null;
 	}
 }

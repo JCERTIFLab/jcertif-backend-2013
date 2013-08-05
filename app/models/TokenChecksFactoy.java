@@ -27,10 +27,10 @@ public final class TokenChecksFactoy {
 	
 	private TokenChecksFactoy(){
 		tokenChecks = new HashMap<String, TokenChecksFactoy.TokenCheck>();
-		tokenChecks.put("github", new GitHubTokenCheck());
-		tokenChecks.put("userpass", new WebAppTokenCheck());
-		tokenChecks.put("google", new GoogleTokenCheck());
-		tokenChecks.put("dummy", new DummyTokenCheck());
+		tokenChecks.put(GitHubTokenCheck.ID, new GitHubTokenCheck());
+		tokenChecks.put(WebAppTokenCheck.ID, new WebAppTokenCheck());
+		tokenChecks.put(GoogleTokenCheck.ID, new GoogleTokenCheck());
+		tokenChecks.put(DummyTokenCheck.ID, new DummyTokenCheck());
 	}
 	
 	public static TokenChecksFactoy getInstance(){
@@ -56,6 +56,7 @@ public final class TokenChecksFactoy {
 	}
 	
 	public static class DummyTokenCheck implements TokenCheck {
+		public static final String ID = "dummy";
 		@Override
 		public boolean isValid(String accessToken, String email) {
 			return false;
@@ -63,7 +64,7 @@ public final class TokenChecksFactoy {
 
 		@Override
 		public String getProviderId() {
-			return "dummy";
+			return DummyTokenCheck.ID;
 		}	
 	}
 	
@@ -86,7 +87,7 @@ public final class TokenChecksFactoy {
 	
 	public static class GoogleTokenCheck extends AbstractTokenCheck {
 
-		private static final String ID = "google";
+		public static final String ID = "google";
 		
 		@Override
 		protected boolean isTokenValidForProvider(String accessToken, String email) {
@@ -117,7 +118,7 @@ public final class TokenChecksFactoy {
 	
 	public static class GitHubTokenCheck extends AbstractTokenCheck {
 
-		private static final String ID = "github";
+		public static final String ID = "github";
 		private static final String CLIENT_ID = Play.application().configuration().getString("securesocial.github.clientId");
 		private static final String CLIENT_SECRET = Play.application().configuration().getString("securesocial.github.clientSecret");
 		
@@ -148,7 +149,7 @@ public final class TokenChecksFactoy {
 	
 	public static class WebAppTokenCheck extends AbstractTokenCheck {
 
-		private static final String ID = "userpass";
+		public static final String ID = "userpass";
 		
 		@Override
 		protected boolean isTokenValidForProvider(String accessToken, String email) {
