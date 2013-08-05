@@ -24,8 +24,8 @@ public class Login extends JCertifModel {
         return email;
     }
 
-    public final void setEmail(String email1) {
-        this.email = email1;
+    public final void setEmail(String email) {
+        this.email = email;
     }
 
     public final String getPassword() {

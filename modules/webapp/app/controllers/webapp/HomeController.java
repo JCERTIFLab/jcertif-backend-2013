@@ -79,8 +79,8 @@ public class HomeController extends Controller {
 		if(user != null){							
 			map.put("provider", user.id().providerId());
 			Logger.info("provider : " + user.id().providerId());
-			map.put("email", user.email().get());
-			Logger.info("email : " + user.email().get());
+			map.put("user", user.email().get());
+			Logger.info("user : " + user.email().get());
 			map.put("access_token", user.oAuth2Info().get().accessToken());
 			Logger.info("access_token : " + user.oAuth2Info().get().accessToken());
 		}

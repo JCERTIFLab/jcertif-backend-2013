@@ -32,9 +32,9 @@ public class AdminAuthenticator extends DefaultAuthenticator {
 		if(!Tools.isBlankOrNull(super.getUsername(context))){
 			String email = null;
 			if ("GET".equals(context.request().method())) {
-				email = context.request().getQueryString("email");
+				email = context.request().getQueryString("user");
 			} else {
-				JsonNode emailNode = context.request().body().asJson().findPath("email");
+				JsonNode emailNode = context.request().body().asJson().findPath("user");
 				if(null != emailNode){
 					email = emailNode.getTextValue();
 				}			
@@ -42,7 +42,7 @@ public class AdminAuthenticator extends DefaultAuthenticator {
 			Logger.info("Logged in : " + email);
 			if(isAuthorized(email)){
 				Logger.info(email + " is member of admin group");
-				userName = email;
+				userName = Boolean.valueOf(isMocked)? "mockUser" : email;
 			}
 		}
 		return userName;

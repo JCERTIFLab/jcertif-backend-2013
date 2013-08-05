@@ -36,7 +36,7 @@ public class DefaultAuthenticator extends Authenticator {
 			if(null != node){
 				provider = node.getTextValue();
 			}	
-			node = context.request().body().asJson().findPath("email");
+			node = context.request().body().asJson().findPath("user");
 			if(null != node){
 				email = node.getTextValue();
 			}	
