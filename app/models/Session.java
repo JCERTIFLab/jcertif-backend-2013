@@ -13,7 +13,6 @@ import models.validation.Constraints.NotBlank;
 import models.validation.Constraints.Room;
 import models.validation.Constraints.SessionStatus;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 @DatesCoherence

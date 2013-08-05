@@ -32,7 +32,7 @@ public class AdminController extends Controller {
 		LoginController.login(login);
 
 		if(isAuthorized(login.getEmail())){
-			return ok(Json.serialize("Ok"));
+			return TokenController.newToken(login.getEmail(), "userpass");
 		}else{
 			return unauthorized();
 		}

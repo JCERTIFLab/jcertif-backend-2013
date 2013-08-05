@@ -27,7 +27,7 @@ public class Security {
 	@With(BasicAction.class)
 	@Target({ElementType.TYPE, ElementType.METHOD})
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Basic {
+	public @interface BasicAuth {
 	    Class<? extends Authenticator> value() default BasicAuthenticator.class;
 	}
 	
@@ -53,9 +53,9 @@ public class Security {
 	
 	/**
 	 * Action exécutée pour les services nécessitant une authentification basic
-	 * @see Basic
+	 * @see BasicAuth
 	 */
-	public static class BasicAction extends Action<Basic> {
+	public static class BasicAction extends Action<BasicAuth> {
         
 		public Result call(Context ctx) throws Throwable{
             return executeAuthAction(this,configuration.value().newInstance(), ctx);     

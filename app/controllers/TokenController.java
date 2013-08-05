@@ -2,7 +2,7 @@ package controllers;
 
 import java.util.UUID;
 
-import controllers.Security.Basic;
+import controllers.Security.BasicAuth;
 
 import models.Token;
 import models.util.Json;
@@ -15,11 +15,16 @@ import play.mvc.Result;
  */
 public class TokenController extends Controller{
 
-	@Basic
+	@BasicAuth
 	public static Result newToken() {
 		
 		String email = request().getQueryString("user");
 		String provider = request().getQueryString("provider");
+
+		return newToken(email, provider);
+    }
+	
+	public static Result newToken(String email, String provider) {
 		
     	Token token = new Token();
     	token.setAccessToken(UUID.randomUUID().toString());
