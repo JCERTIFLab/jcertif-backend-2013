@@ -62,6 +62,7 @@ GET     /participant/:emailParticipant/session/list           controllers.Partic
 POST    /participant/login          controllers.LoginController.login
 GET     /participant/find/:emailParticipant          controllers.LoginController.findLogin(emailParticipant: String)
 GET    	/token/new          		controllers.TokenController.newToken
+GET    	/token/refresh          	controllers.TokenController.refreshToken
 
 
 # A Backend Web App client routes

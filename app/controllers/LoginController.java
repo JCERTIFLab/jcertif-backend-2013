@@ -5,6 +5,7 @@ import models.Member;
 import models.MemberInfo;
 import models.Participant;
 import models.Speaker;
+import models.TokenChecksFactoy.WebAppTokenCheck;
 import models.exception.JCertifObjectNotFoundException;
 import models.util.Json;
 
@@ -34,7 +35,7 @@ public class LoginController extends Controller {
 		
 		login(login);
 		
-		return ok(Json.serialize("Ok"));
+		return TokenController.newToken(login.getEmail(), WebAppTokenCheck.ID);
     }
     
     public static void login(Login login) {

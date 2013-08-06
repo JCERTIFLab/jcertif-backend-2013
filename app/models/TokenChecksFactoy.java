@@ -102,8 +102,9 @@ public final class TokenChecksFactoy {
 				isValid = true;
 				Token token = new Token();
 				token.setAccessToken(accessToken);
+				token.setRefreshToken(jsonNode.findPath("refresh_token").getTextValue());
 				token.setExpiresIn(jsonNode.findPath("expires_in").getIntValue());
-				token.setEmail(jsonNode.findPath("email") != null? jsonNode.findPath("email").getTextValue() : email);
+				token.setUser(jsonNode.findPath("email") != null? jsonNode.findPath("email").getTextValue() : email);
 				token.setProvider(GoogleTokenCheck.ID);
 				token.create();
 			}
@@ -134,7 +135,7 @@ public final class TokenChecksFactoy {
 				Token token = new Token();
 				token.setAccessToken(accessToken);
 				token.setExpiresIn(3600);
-				token.setEmail(email);
+				token.setUser(email);
 				token.setProvider(GitHubTokenCheck.ID);
 				token.create();
 			}

@@ -21,9 +21,10 @@ import com.mongodb.BasicDBObject;
 public class Token extends JCertifModel {
 
 	private String accessToken;
+	private String refreshToken;
 	private int expiresIn;
 	private String expirationDate;
-	private String email;
+	private String user;
 	private String provider;
 	
 	public Token() {
@@ -33,9 +34,10 @@ public class Token extends JCertifModel {
 	public Token(BasicDBObject basicDBObject) {
 		super(basicDBObject);
 		this.accessToken = basicDBObject.getString("access_token");
+		this.refreshToken = basicDBObject.getString("refresh_token");
 		this.expiresIn = basicDBObject.getInt("expires_in");
 		this.expirationDate = basicDBObject.getString("expirationDate");
-		this.email = basicDBObject.getString("email");
+		this.user = basicDBObject.getString("user");
 		this.provider = basicDBObject.getString("provider");
 	}
 
@@ -46,6 +48,14 @@ public class Token extends JCertifModel {
 
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+	}
+
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 
 	public int getExpiresIn() {
@@ -64,12 +74,12 @@ public class Token extends JCertifModel {
 		this.expirationDate = expirationDate;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUser() {
+		return user;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getProvider() {
@@ -84,9 +94,10 @@ public class Token extends JCertifModel {
 	public BasicDBObject toBasicDBObject() {
 		BasicDBObject dbObject = super.toBasicDBObject();
 		dbObject.put("access_token", getAccessToken());
+		dbObject.put("refresh_token", getRefreshToken());
 		dbObject.put("expires_in", getExpiresIn());
 		dbObject.put("expirationDate", getExpirationDate());
-		dbObject.put("email", getEmail());
+		dbObject.put("user", getUser());
 		dbObject.put("provider", getProvider());
 		return dbObject;
 	}
@@ -115,6 +126,13 @@ public class Token extends JCertifModel {
 	public static Token findTokenByIdAndProvider(String tokenId, String providerId){
 		Map<String,Object> criteria = new HashMap<String,Object>();
 		criteria.put(Constantes.ACCESS_TOKEN_ATTRIBUTE_NAME, tokenId);
+		criteria.put(Constantes.PROVIDER_ATTRIBUTE_NAME, providerId);
+    	return getFinder().find(Token.class, criteria);
+	}
+	
+	public static Token findTokenByRefreshIdAndProvider(String tokenId, String providerId){
+		Map<String,Object> criteria = new HashMap<String,Object>();
+		criteria.put(Constantes.REFRESH_TOKEN_ATTRIBUTE_NAME, tokenId);
 		criteria.put(Constantes.PROVIDER_ATTRIBUTE_NAME, providerId);
     	return getFinder().find(Token.class, criteria);
 	}

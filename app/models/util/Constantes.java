@@ -24,4 +24,5 @@ public interface Constantes {
 	String FALSE = "false";
 	String PROVIDER_ATTRIBUTE_NAME = "provider";
 	String SPEAKERS_ATTRIBUTE_NAME = "speakers";
+	String REFRESH_TOKEN_ATTRIBUTE_NAME = "refresh_token";
 }
