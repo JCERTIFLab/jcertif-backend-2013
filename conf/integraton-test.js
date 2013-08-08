@@ -94,7 +94,7 @@ db.speaker.insert({
     company: 'Odellya Consulting',
     phone: '',
     photo: 'https://secure.gravatar.com/avatar/627784ca4e9955a4755b89c0dd028993?s=400&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png',
-    biography: 'Roland Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam ornare blandit egestas. Morbi ornare id massa sed fringilla. In eros tellus, facilisis aliquam gravida ac, condimentum lobortis urna. Quisque in nisi non dolor condimentum porta nec at nisi. Curabitur euismod, elit in dapibus mattis, arcu eros lacinia metus, id sollicitudin urna lorem id velit. Fusce sagittis posuere orci vel cursus. Vestibulum tristique lacus non risus scelerisque accumsan. Etiam blandit fermentum nisi sed scelerisque. Pellentesque et nunc risus. Morbi eu odio vitae ante ullamcorper tincidunt ac non erat. Donec ultricies risus quis orci luctus bibendum ac at nulla. Suspendisse at elit turpis. Donec nec velit dui',
+    biography: "Président de Jcertif France && Manager Senior JCertif International, je suis membre et  co-leader de Congo-Jug. Je suis un homme passionné et audacieux, j’aime croire que c’est possible lorsqu’on se donne les moyens. Ingénieur développeur et formateur  JAVA JEE, je partage mon temps entre des missions de formation et développement projet  au sein de la communauté JCertif, la plus grande communauté sur le développement des applications WEB et MOBILES en Afrique.",
     version: '01',
     deleted: 'false'
 });
