@@ -33,6 +33,5 @@ object ApplicationBuild extends Build {
     parallelExecution     in jacoco.Config := false,
     jacoco.reportFormats  in jacoco.Config := Seq(XMLReport("utf-8"), HTMLReport("utf-8")),
     jacoco.excludes       in jacoco.Config := Seq("views.*", "controllers.Reverse*", "controllers.javascript.*", "controllers.ref.*", "Routes*")
-  ).dependsOn(webapp).aggregate(webapp)
-
+  )
 }
