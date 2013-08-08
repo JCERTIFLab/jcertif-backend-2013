@@ -43,6 +43,16 @@ db.room.insert({
 	version: '01', 
 	deleted: 'false'
 });
+db.room.insert({
+    id : "04",
+    name : "salle 4",
+    site : "01",
+    seats : "200",
+    description : "A medium size room",
+    photo : "http://www.website1.com/pictures/rooms/room2.gif",
+    version: '01',
+    deleted: 'false'
+});
 db.speaker.remove();
 db.speaker.insert({
     email: 'martialsomda@gmail.com',
@@ -185,6 +195,22 @@ db.speaker.insert({
     phone: '',
     photo: 'https://lh3.googleusercontent.com/-rK9Pg0Hchk4/AAAAAAAAAAI/AAAAAAAAAMk/uktDAMkYk38/s120-c/photo.jpg',
     biography: 'Danielle Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus elit dui. Aliquam ornare blandit egestas. Morbi ornare id massa sed fringilla. In eros tellus, facilisis aliquam gravida ac, condimentum lobortis urna. Quisque in nisi non dolor condimentum porta nec at nisi. Curabitur euismod, elit in dapibus mattis, arcu eros lacinia metus, id sollicitudin urna lorem id velit. Fusce sagittis posuere orci vel cursus. Vestibulum tristique lacus non risus scelerisque accumsan. Etiam blandit fermentum nisi sed scelerisque. Pellentesque et nunc risus. Morbi eu odio vitae ante ullamcorper tincidunt ac non erat. Donec ultricies risus quis orci luctus bibendum ac at nulla. Suspendisse at elit turpis. Donec nec velit dui',
+    version: '01',
+    deleted: 'false'
+});
+db.speaker.insert({
+    email: 'n.cishugi@gmail.com',
+    title: 'M.',
+    password: 'mm3qZc+CWB9Uil6PEEh1sTIzMGO/NpRdYYIoJg==',
+    lastname: 'Nelson',
+    firstname: 'Cishugi',
+    website: '',
+    city: 'Brazzaville',
+    country: 'CONGO',
+    company: 'NedBox',
+    phone: '',
+    photo: 'https://github.com/JCERTIFLab/jcertif-static-resources/raw/master/img/speakers/2013/nelson.cishugi.jpg',
+    biography: "Web designer évoluant en Afrique notamment au Congo, en République Démocratique du Congo,au Kenya et au Rwanda, je travaille aussi bien avec des institutions internationales telles le PNUD ou l'Union Européenne, que des sociétés commerciales parmi lesquelles Nestlé ou encore ECAir. Diplômé en Marketing Management et Certifié Expert Adobe sur sa Creative Suite, ma passion est d'adapter le web et ses outils aux besoins réels de l'Afrique, aussi bien en termes de contenus et d'ergonomie que de design.",
     version: '01',
     deleted: 'false'
 });
@@ -443,6 +469,96 @@ db.session.insert({
     version: '01',
     deleted: 'false',
     room: '03'
+});
+db.session.insert({
+    id : "18",
+    title : "Les applications qui touchent au web design : Quand les utiliser ? Leurs forces et leurs faiblesses",
+    summary : "Les applications qui touchent au web design : Quand les utiliser ? Leurs forces et leurs faiblesses",
+    description : "Annuaire des applications pour les web designers. Les différentes solutions existantes à chaque étape du projet. (Draft, framework,...)",
+    status: "Brouillon",
+    keyword : "Web Design",
+    category : ['Web Design'],
+    start : "10/09/2013 09:00",
+    end : "10/09/2013 12:00",
+    speakers : ["n.cishugi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '04'
+});
+db.session.insert({
+    id : "19",
+    title : "Fireworks et Adobe, qu'y a t-il de mieux à travailler avec ?",
+    summary : "Fireworks et Adobe, qu'y a t-il de mieux à travailler avec ?",
+    description : "Le petit plus de Fireworks sur Photoshop et les autres applications Adobe orientées web et comment maximiser son rendu avec Javascript",
+    status: "Brouillon",
+    keyword : "Web Design",
+    category : ['Web Design'],
+    start : "10/09/2013 13:00",
+    end : "10/09/2013 17:00",
+    speakers : ["n.cishugi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '04'
+});
+db.session.insert({
+    id : "20",
+    title : "Fireworks les bases",
+    summary : "Fireworks les bases",
+    description :  "Les pré-requis pour utiliser Fireworks et paramétrer son espace de travail selon le gabarit du site (PC, Tablette, Mobile).",
+    status: "Brouillon",
+    keyword : "Web Design",
+    category : ['Web Design'],
+    start : "11/09/2013 09:00",
+    end : "11/09/2013 12:00",
+    speakers : ["n.cishugi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '04'
+});
+db.session.insert({
+    id : "21",
+    title : "Les outils prédéfinis et leur utilisation",
+    summary : "Les outils prédéfinis et leur utilisation",
+    description : "Les outils de création et de modification dans Fireworks.",
+    status: "Brouillon",
+    keyword : "Web Design",
+    category : ['Web Design'],
+    start : "11/09/2013 13:00",
+    end : "11/09/2013 17:00",
+    speakers : ["n.cishugi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '04'
+});
+db.session.insert({
+    id : "22",
+    title : "Intégration d'un template crée avec Photoshop - Utilisation des Sprites CSS",
+    summary : "Intégration d'un template crée avec Photoshop - Utilisation des Sprites CSS",
+    description : "Intégration d'un projet conçu sous PS dans FW - Simplifier certaines animations avec les Sprites, les avantages et les limites.",
+    status: "Brouillon",
+    keyword : "Web Design",
+    category : ['Web Design'],
+    start : "12/09/2013 09:00",
+    end : "12/09/2013 12:00",
+    speakers : ["n.cishugi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '04'
+});
+db.session.insert({
+    id : "23",
+    title : "Intégration CSS - Utilisation du module pour les codes (Exemple avec le JQuery pour mobile)",
+    summary : "Intégration CSS - Utilisation du module pour les codes (Exemple avec le JQuery pour mobile)",
+    description : "Intégration d'une feuille CSS dans le module pour FW - Comment intégrer du jquery à un design sous FW (Si jamais je n'ai pas fini, ce dernier chapitre sera supprimé et retenu pour l'année prochaine). On sait que pour Jcertif dixit Max <i>C'est faire le grand écart entre ceux qui sont déjà utilisateurs des technologies et ceux pour qui c'est la toute première fois qu'il voit une interface de logiciels</i>",
+    status: "Brouillon",
+    keyword : "Web Design",
+    category : ['Web Design'],
+    start : "12/09/2013 13:00",
+    end : "12/09/2013 17:00",
+    speakers : ["n.cishugi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '04'
 });
 db.sponsor.remove();
 db.sponsor.insert({
