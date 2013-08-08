@@ -1,32 +1,29 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.QueryBuilder;
+import com.mongodb.WriteResult;
 import models.database.MongoDB;
 import models.exception.JCertifException;
 import models.util.Constantes;
 import models.util.Tools;
 import models.validation.ContextualMessageInterpolator;
 import models.validation.ValidationUtils;
-
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.HibernateValidatorConfiguration;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.QueryBuilder;
-import com.mongodb.WriteResult;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public abstract class Model implements CRUD {
 	
@@ -96,18 +93,18 @@ public abstract class Model implements CRUD {
 	 * @return Le nom conventionnel de la collection associe à la classe
 	 */
 	public static String getCollectionName(Class<?> clazz){
-		String collectionName = "";
+		StringBuffer collectionName = new StringBuffer();
 		for(String name : StringUtils.splitByCharacterTypeCamelCase(clazz.getSimpleName())){
-			collectionName += "_" + name;
+			collectionName.append("_").append(name);
 		}
 		return collectionName.substring(1).toLowerCase();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static Class<? extends Model> getModelClass(String collectionName) throws ClassNotFoundException{
-		String className = "";
+		StringBuffer className = new StringBuffer();
 		for(String name : collectionName.split("_")){
-			className += StringUtils.capitalize(name);
+			className.append(StringUtils.capitalize(name));
 		}
 		return (Class<? extends Model>) Class.forName(Model.class.getPackage().getName() + "." + className);
 	}
@@ -161,7 +158,7 @@ public abstract class Model implements CRUD {
 		BasicDBObject dbObjectToSuppress = toBasicDBObject();
 		
 		WriteResult result = MongoDB.getInstance().delete(
-				getCollectionName(getClass()), dbObjectToSuppress);
+                getCollectionName(getClass()), dbObjectToSuppress);
 		if (!Tools.isBlankOrNull(result.getError())) {
 			throw new JCertifException(this.getClass(), result.getError());
 		}

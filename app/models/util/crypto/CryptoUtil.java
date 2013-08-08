@@ -35,16 +35,16 @@ public final class CryptoUtil
 
         String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789+@$";
 
-        String pw = "";
+        StringBuffer pw = new StringBuffer();
         int index;
 
         for (int i=0; i<PASSWORD_LENGTH; i++)
         {
             index = (int)(RANDOM.nextDouble()*letters.length());
-            pw += letters.substring(index, index+1);
+            pw.append(letters.substring(index, index+1));
         }
 
-        return pw;
+        return pw.toString();
     }
 
     /**

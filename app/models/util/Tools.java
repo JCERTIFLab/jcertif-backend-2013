@@ -1,5 +1,11 @@
 package models.util;
 
+import com.mongodb.BasicDBList;
+import models.exception.JCertifInvalidRequestException;
+import play.Logger;
+import play.Play;
+import play.mvc.Http;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -14,13 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import models.exception.JCertifInvalidRequestException;
-import play.Logger;
-import play.Play;
-import play.mvc.Http;
-
-import com.mongodb.BasicDBList;
-
 public final class Tools {
 
     private Tools(){
@@ -31,9 +30,17 @@ public final class Tools {
             .compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
 
     private static final Pattern NUMBER_PATTERN = Pattern.compile(".*[^0-9].*");
-    
+
     public static boolean isBlankOrNull(String str) {
-        return (null == str || str.trim().length() == 0);
+        if (str == null || str.length() == 0) {
+            return true;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean isBlankOrNull(Collection<?> list) {
