@@ -33,6 +33,16 @@ db.room.insert({
 	version: '01', 
 	deleted: 'false'
 });
+db.room.insert({
+    id : "03",
+    name : "salle 3",
+    site : "01",
+    seats : "200",
+    description : "A medium size room",
+    photo : "http://www.website1.com/pictures/rooms/room2.gif", 
+	version: '01', 
+	deleted: 'false'
+});
 db.speaker.remove();
 db.speaker.insert({
     email: 'martialsomda@gmail.com',
@@ -343,6 +353,96 @@ db.session.insert({
     version: '02',
     deleted: 'false',
     room: '01'
+});
+db.session.insert({
+    id : "12",
+    title : "Initiation Android - Premiers pas",
+    summary : "Initiation Android - Premiers pas",
+    description : "Découvrir c’est quoi Android. Mettre en place l’environnement de travail. Comprendre la structure et le rôle des différents fichiers utilisés dans un projet Android (Manifest.xml, les layouts, …).",
+    status: "Brouillon",
+    keyword : "Android",
+    category : ['Android'],
+    start : "10/09/2013 09:00",
+    end : "10/09/2013 12:00",
+    speakers : ["firas.gabsi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '03'
+});
+db.session.insert({
+    id : "13",
+    title : "Initiation Android - Gestions des activités",
+    summary : "Initiation Android - Gestions des activités",
+    description : " Cycle de vie d’une activité. Communication entre les activités. Les layouts. Les fenêtres Dialog et Toast. Les menus contextuels.",
+    status: "Brouillon",
+    keyword : "Android",
+    category : ['Android'],
+    start : "10/09/2013 13:00",
+    end : "10/09/2013 17:00",
+    speakers : ["firas.gabsi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '03'
+});
+db.session.insert({
+    id : "14",
+    title : "Initiation Android - Les éléments graphiques (partie 1)",
+    summary : "Initiation Android - Les éléments graphiques (partie 1)",
+    description : "Les éléments graphiques usuels : TextView, EditText, Button,…  Les éléments graphiques complexes : ListView, Gallery, Carousel, GridView, Spinner, AutoCompleteText, ViewFlipper,…",
+    status: "Brouillon",
+    keyword : "Android",
+    category : ['Android'],
+    start : "11/09/2013 09:00",
+    end : "11/09/2013 12:00",
+    speakers : ["firas.gabsi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '03'
+});
+db.session.insert({
+    id : "15",
+    title : "Initiation Android - Les éléments graphiques (partie 2)",
+    summary : "Initiation Android - Les éléments graphiques (partie 2)",
+    description : "Compléter la découverte des éléments graphiques complexes.",
+    status: "Brouillon",
+    keyword : "Android",
+    category : ['Android'],
+    start : "11/09/2013 13:00",
+    end : "11/09/2013 17:00",
+    speakers : ["firas.gabsi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '03'
+});
+db.session.insert({
+    id : "16",
+    title : "Initiation Android - Concepts avancés (partie 1)",
+    summary : "Initiation Android - Concepts avancés (partie 1)",
+    description : "Base de données locales SQLite. Services.  Les permissions.",
+    status: "Brouillon",
+    keyword : "Android",
+    category : ['Android'],
+    start : "12/09/2013 09:00",
+    end : "12/09/2013 12:00",
+    speakers : ["firas.gabsi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '03'
+});
+db.session.insert({
+    id : "17",
+    title : "Initiation Android - Concepts avancés (partie 2)",
+    summary : "Initiation Android - Concepts avancés (partie 2)",
+    description : "Fragments. Bien organiser son projet. Construire, signer et déployer son application.",
+    status: "Brouillon",
+    keyword : "Android",
+    category : ['Android'],
+    start : "12/09/2013 13:00",
+    end : "12/09/2013 17:00",
+    speakers : ["firas.gabsi@gmail.com"],
+    version: '01',
+    deleted: 'false',
+    room: '03'
 });
 db.sponsor.remove();
 db.sponsor.insert({
