@@ -120,8 +120,8 @@ public final class TokenChecksFactoy {
 	public static class GitHubTokenCheck extends AbstractTokenCheck {
 
 		public static final String ID = "github";
-		private static final String CLIENT_ID = Play.application().configuration().getString("securesocial.github.clientId");
-		private static final String CLIENT_SECRET = Play.application().configuration().getString("securesocial.github.clientSecret");
+		private static final String CLIENT_ID = Play.application().configuration().getString("social.github.clientId");
+		private static final String CLIENT_SECRET = Play.application().configuration().getString("social.github.clientSecret");
 		
 		@Override
 		protected boolean isTokenValidForProvider(String accessToken, String email) {

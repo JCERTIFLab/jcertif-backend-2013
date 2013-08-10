@@ -1,8 +1,13 @@
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import models.exception.JCertifException;
 import models.notifiers.EmailNotification;
 import models.util.Constantes;
 import models.util.Tools;
@@ -185,14 +190,34 @@ public class Session extends JCertifModel {
 	}
 	
 	public static List<Session> findBySpeaker(String email){
-    	return getFinder().findAll(Session.class, Constantes.SPEAKERS_ATTRIBUTE_NAME, email);
+    	return orderByStartDate(getFinder().findAll(Session.class, Constantes.SPEAKERS_ATTRIBUTE_NAME, email));
 	}
 	
 	public static List<Session> findAll(){
-		return getFinder().findAll(Session.class);
+		return orderByStartDate(getFinder().findAll(Session.class));
 	}
 	
 	public static List<Session> findAll(String version){
-		return getFinder().findAll(Session.class, version);
+		return orderByStartDate(getFinder().findAll(Session.class, version));
+	}
+
+	private static List<Session> orderByStartDate(List<Session> sessions) {
+		// tri java provisoire, priviligier des champ date typé puis déléger le tri à la bdd
+		Collections.sort(sessions, new Comparator<Session>() {
+
+			@Override
+			public int compare(Session session1, Session session2) {
+				SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
+				try {
+					java.util.Date startDate1 = sdf.parse(session1.getStart());
+					java.util.Date startDate2 = sdf.parse(session2.getStart());
+					
+					return startDate1.compareTo(startDate2);
+				} catch (ParseException e) {
+					throw new JCertifException(e.getMessage(), e);
+				}
+			}
+		});
+		return sessions;
 	}
 }

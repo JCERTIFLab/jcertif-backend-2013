@@ -35,6 +35,7 @@ public class TokenController extends Controller{
 		if(expiredToken == null || !expiredToken.isExpired()){
 			throw new JCertifObjectNotFoundException("No valid token found for refresh token " + refreshToken);
 		}
+		
 		return newToken(user,  WebAppTokenCheck.ID);
     }
 
