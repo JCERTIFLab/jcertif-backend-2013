@@ -8,7 +8,7 @@ import com.typesafe.sbteclipse.core.EclipsePlugin.EclipseKeys
 object ApplicationBuild extends Build {
 
   val appName = "jcertif-backend"
-  val appVersion = "0.1"
+  val appVersion = "0.2-SNAPSHOT"
 
   lazy val s = Defaults.defaultSettings ++ Seq(jacoco.settings:_*)
 
