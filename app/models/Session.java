@@ -207,6 +207,18 @@ public class Session extends JCertifModel {
 
 			@Override
 			public int compare(Session session1, Session session2) {
+				
+				if(Tools.isBlankOrNull(session1.getStart()) 
+						&& !Tools.isBlankOrNull(session2.getStart())){
+					return 1;
+				}else if(Tools.isBlankOrNull(session2.getStart()) 
+						&& !Tools.isBlankOrNull(session1.getStart())){
+					return -1;
+				}else if(Tools.isBlankOrNull(session1.getStart()) 
+						&& Tools.isBlankOrNull(session2.getStart())){
+					return 0;
+				}
+				
 				SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATEFORMAT);
 				try {
 					java.util.Date startDate1 = sdf.parse(session1.getStart());
