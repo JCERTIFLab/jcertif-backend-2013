@@ -93,17 +93,7 @@ public class Global extends GlobalSettings {
 	public Result onHandlerNotFound(RequestHeader requestHeader) {
 		Logger.info("JCertif Backend onHandlerNotFound Global Handler");
 		Logger.info("Not Found URI " + requestHeader.uri());
-		putResponseStatusInCoockieIfNecessary(Http.Status.NOT_FOUND);
 		
 		return Results.notFound();
-	}
-	
-	/**
-	 * @param result
-	 */
-	private void putResponseStatusInCoockieIfNecessary(int httpStatus){
-		if(!Play.isProd()){
-			Http.Context.current().session().put("status", Integer.toString(httpStatus));
-		}
 	}
 }
