@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.exception.JCertifException;
 import models.notifiers.EmailNotification;
@@ -190,8 +192,13 @@ public class Session extends JCertifModel {
     	return getFinder().find(Session.class, Constantes.ID_ATTRIBUTE_NAME, idSession);
 	}
 	
-	public static List<Session> findBySpeaker(String email){
-    	return orderByStartDate(getFinder().findAll(Session.class, Constantes.SPEAKERS_ATTRIBUTE_NAME, email));
+	public static List<Session> findBySpeaker(String email, boolean filter){
+		Map<String,Object> query = new HashMap<String,Object>();
+		query.put(Constantes.SPEAKERS_ATTRIBUTE_NAME, email);
+		if(filter){
+			query.put(Constantes.STATUS_ATTRIBUTE_NAME, Session.APPROVED_STATUS);
+		}		
+    	return orderByStartDate(getFinder().findAll(Session.class, query));
 	}
 	
 	public static List<Session> findAll(boolean filter){

@@ -6,6 +6,7 @@
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 POST	/admin					    controllers.AdminController.check
 GET     /admin/session/list         controllers.SessionController.listAllSessions
+GET     /admin/speaker/list         controllers.SpeakerController.listAllSpeakers
 
 OPTIONS /*nameUrl                   controllers.AdminController.ping(nameUrl:String)
 GET		/ref/sponsorlevel/list		controllers.SponsorLevelController.listSponsorLevel

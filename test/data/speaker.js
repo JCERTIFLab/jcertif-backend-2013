@@ -1,3 +1,17 @@
+db.session.insert({
+    id : "104",
+    title : "title 2",
+    summary : "summary 2",
+    description : "description 2",
+    status: "Approuvé",
+    keyword : "keyword 2",
+    category : ["HTML 5", "Android"],
+    start : "12/02/2013 10:22",
+    end : "16/02/2013 10:23",
+    speakers : ["fowler@acm.org"], 
+	version: '03', 
+	deleted: 'false'
+});
 db.speaker.remove();
 db.speaker.insert({
 	email: 'fowler@acm.org',

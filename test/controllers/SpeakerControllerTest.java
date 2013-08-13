@@ -11,6 +11,8 @@ import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import models.util.TestConstantes;
 
@@ -58,6 +60,28 @@ public class SpeakerControllerTest extends MemberControllerTest{
 	
 	@Test
 	public void test_list_speakers(){
+		Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
+	            public void run() {
+	            	Logger.info("Liste des speakers");
+	            	try {
+						TestUtils.updateDatabase("test/data/speaker.js");
+						TestUtils.updateDatabase("test/data/token.js");
+						Result result = route(fakeRequest(GET, "/admin/speaker/list?access_token=ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8&provider=google"));
+		                assertThat(status(result)).isEqualTo(OK);
+		                JsonNode jsonNode = Json.parse(contentAsString(result));
+	                    Assert.assertEquals(2, jsonNode.size());
+	                    TestUtils.updateDatabase("test/data/purge.js");
+					} catch (IOException e) {
+						Assert.fail(e.getMessage());
+					}
+	            }
+	        });
+	}
+	
+	@Test
+	public void test_list_speakers_filtered(){
 	     running(fakeApplication(), new Runnable() {
 	            public void run() {
 	            	Logger.info("Liste des speakers");
@@ -66,7 +90,7 @@ public class SpeakerControllerTest extends MemberControllerTest{
 						Result result = route(fakeRequest(GET, "/speaker/list"));
 		                assertThat(status(result)).isEqualTo(OK);
 		                JsonNode jsonNode = Json.parse(contentAsString(result));
-	                    Assert.assertEquals(2, jsonNode.size());
+	                    Assert.assertEquals(1, jsonNode.size());
 	                    TestUtils.updateDatabase("test/data/purge.js");
 					} catch (IOException e) {
 						Assert.fail(e.getMessage());

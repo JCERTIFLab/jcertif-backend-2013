@@ -63,6 +63,18 @@ public class Finder {
     	return object;
     }
     
+    public <T extends Model> List<T> findAll(Class<T> clazz, Map<String, Object> keyValuePairs) {
+    	QueryBuilder builder = QueryBuilder.start();
+    	for(Entry<String, Object> entry : keyValuePairs.entrySet()){
+    		builder.put(entry.getKey()).is(entry.getValue());
+    	}
+    	DBCursor dbCursor = MongoDB.getInstance().list(
+    			Model.getCollectionName(clazz), 
+    			builder.put(Constantes.DELETED_ATTRIBUTE_NAME).is(Constantes.FALSE).get());
+    	
+    	return ModelUtils.instanciate(clazz, buildResultList(dbCursor));
+    }
+
     public <T extends Model> List<T> findAll(Class<T> clazz, String keyName, Object keyValue) {
     	DBCursor dbCursor = MongoDB.getInstance().list(
     			Model.getCollectionName(clazz), 

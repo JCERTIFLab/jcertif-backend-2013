@@ -21,15 +21,33 @@ public class Speaker extends Member {
     	return getFinder().find(Speaker.class, Constantes.EMAIL_ATTRIBUTE_NAME, email);
 	}
     
-    public static List<SpeakerInfo> findAll(){
-		return adapt(getFinder().findAll(Speaker.class));
+    public static List<SpeakerInfo> findAll(boolean filter){
+    	List<Speaker> speakers = getFinder().findAll(Speaker.class);
+    	if(filter){
+    		speakers = filterApprovedSpeakers(speakers);
+    	}
+		return adapt(speakers);
 	}
     
-    public static List<SpeakerInfo> findAll(String version){
-		return adapt(getFinder().findAll(Speaker.class, version));
+    public static List<SpeakerInfo> findAll(String version, boolean filter){
+    	List<Speaker> speakers = getFinder().findAll(Speaker.class, version);
+    	if(filter){
+    		speakers = filterApprovedSpeakers(speakers);
+    	}
+		return adapt(speakers);
 	}
     
-    public static List<SpeakerInfo> adapt(List<Speaker> speakers){
+    private static List<Speaker> filterApprovedSpeakers(List<Speaker> speakers) {
+    	List<Speaker> approvedSpeakers = new ArrayList<Speaker>();
+    	for(Speaker speaker : speakers){
+    		if(Session.findBySpeaker(speaker.getEmail(), true).size() > 0){
+    			approvedSpeakers.add(speaker);
+    		}
+    	}
+		return approvedSpeakers;
+	}
+
+	public static List<SpeakerInfo> adapt(List<Speaker> speakers){
 		List<SpeakerInfo> speakersInfo = new ArrayList<SpeakerInfo>();
 		for(Speaker speaker : speakers){
 			speakersInfo.add(new SpeakerInfo(speaker));

@@ -21,14 +21,20 @@ import controllers.Security.Authenticated;
 
 public class SpeakerController extends Controller {
 
+	@Admin
+	public static Result listAllSpeakers() {
+
+        return ok(Json.serialize(Speaker.findAll(false)));
+    }
+	
 	public static Result listSpeaker() {
 
-        return ok(Json.serialize(Speaker.findAll()));
+        return ok(Json.serialize(Speaker.findAll(true)));
     }
 	
 	public static Result listSpeakerVersion(String version) {
 
-        return ok(Json.serialize(Speaker.findAll(version)));
+        return ok(Json.serialize(Speaker.findAll(version, true)));
     }
 
     public static Result registerSpeaker() {
