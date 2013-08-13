@@ -24,6 +24,7 @@ import com.mongodb.BasicDBObject;
 public class Session extends JCertifModel {
 	
 	public static String DRAFT_STATUS = "Brouillon";
+	public static String APPROVED_STATUS = "Approuvé";
 	
 	@NotBlank(propertyName="Id")
 	private String id;
@@ -193,12 +194,24 @@ public class Session extends JCertifModel {
     	return orderByStartDate(getFinder().findAll(Session.class, Constantes.SPEAKERS_ATTRIBUTE_NAME, email));
 	}
 	
-	public static List<Session> findAll(){
-		return orderByStartDate(getFinder().findAll(Session.class));
+	public static List<Session> findAll(boolean filter){
+		List<Session> sessions = new ArrayList<Session>();
+		if(filter){
+			sessions = getFinder().findAll(Session.class, Constantes.STATUS_ATTRIBUTE_NAME, APPROVED_STATUS);
+		}else{
+			sessions = getFinder().findAll(Session.class);
+		}
+		return orderByStartDate(sessions);
 	}
 	
-	public static List<Session> findAll(String version){
-		return orderByStartDate(getFinder().findAll(Session.class, version));
+	public static List<Session> findAll(String version, boolean filter){
+		List<Session> sessions = new ArrayList<Session>();
+		if(filter){
+			sessions = getFinder().findAll(Session.class, Constantes.STATUS_ATTRIBUTE_NAME, APPROVED_STATUS, version);
+		}else{
+			sessions = getFinder().findAll(Session.class, version);
+		}
+		return orderByStartDate(sessions);
 	}
 
 	private static List<Session> orderByStartDate(List<Session> sessions) {

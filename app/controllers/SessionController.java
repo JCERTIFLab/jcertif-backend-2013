@@ -17,14 +17,20 @@ import controllers.Security.Admin;
 
 public class SessionController extends Controller {
 
+	@Admin
+	public static Result listAllSessions() {
+
+        return ok(Json.serialize(Session.findAll(false)));
+    }
+	
     public static Result listSession() {
 
-        return ok(Json.serialize(Session.findAll()));
+        return ok(Json.serialize(Session.findAll(true)));
     }
     
     public static Result listSessionVersion(String version) {
 
-        return ok(Json.serialize(Session.findAll(version)));
+        return ok(Json.serialize(Session.findAll(version, true)));
     }
 
    

@@ -25,4 +25,5 @@ public interface Constantes {
 	String PROVIDER_ATTRIBUTE_NAME = "provider";
 	String SPEAKERS_ATTRIBUTE_NAME = "speakers";
 	String REFRESH_TOKEN_ATTRIBUTE_NAME = "refresh_token";
+	String STATUS_ATTRIBUTE_NAME = "status";
 }

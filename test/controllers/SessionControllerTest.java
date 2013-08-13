@@ -38,16 +38,20 @@ public class SessionControllerTest {
 
     @Test
     public void test_listSession() throws java.io.IOException {
-        running(fakeApplication(), new Runnable() {
+    	Map<String, Object> additionalConfiguration = new HashMap<String, Object>();
+		additionalConfiguration.put("admin.mock", "true");
+        running(fakeApplication(additionalConfiguration), new Runnable() {
             public void run() {
                 try {
                     TestUtils.updateDatabase("test/data/session.js");
-                    Result result = route(fakeRequest(GET, "/session/list"));
+                    TestUtils.updateDatabase("test/data/token.js");
+					
+                    Result result = route(fakeRequest(GET, "/admin/session/list?access_token=ya29.AHES6ZSSZXzOghdA6emCl7LBgozLQkPfJ6exbEQBmTzBfRJ8&provider=google"));
                     assertThat(status(result)).isEqualTo(OK);
                     assertThat(contentType(result)).isEqualTo("application/json");
                     
                     JsonNode jsonNode = Json.parse(contentAsString(result));
-                    Assert.assertEquals(2, jsonNode.size());
+                    Assert.assertEquals(3, jsonNode.size());
 	                Assert.assertEquals("101",jsonNode.get(0).findPath("id").getTextValue());
 	                Assert.assertEquals("title 1",jsonNode.get(0).findPath("title").getTextValue());
 	                Assert.assertEquals("summary 1",jsonNode.get(0).findPath("summary").getTextValue());
@@ -73,6 +77,52 @@ public class SessionControllerTest {
 	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(1).findPath("category").toString().trim());
 	                Assert.assertEquals("03",jsonNode.get(1).findPath("version").getTextValue());
 	                Assert.assertEquals("false",jsonNode.get(1).findPath("deleted").getTextValue());
+	                
+	                Assert.assertEquals("104",jsonNode.get(2).findPath("id").getTextValue());
+	                Assert.assertEquals("title 2",jsonNode.get(2).findPath("title").getTextValue());
+	                Assert.assertEquals("summary 2",jsonNode.get(2).findPath("summary").getTextValue());
+	                Assert.assertEquals("description 2",jsonNode.get(2).findPath("description").getTextValue());
+	                Assert.assertEquals("Approuvé",jsonNode.get(2).findPath("status").getTextValue());
+	                Assert.assertEquals("keyword 2",jsonNode.get(2).findPath("keyword").getTextValue());
+	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(2).findPath("start").getTextValue());
+	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(2).findPath("end").getTextValue());
+	                Assert.assertEquals("[\"21\",\"22\"]",jsonNode.get(2).findPath("speakers").toString().trim());
+	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(2).findPath("category").toString().trim());
+	                Assert.assertEquals("03",jsonNode.get(2).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(2).findPath("deleted").getTextValue());
+	                TestUtils.updateDatabase("test/data/purge.js");
+                } catch (IOException e) {
+                	Assert.fail(e.getMessage());
+                }
+            }
+        });
+    }
+    
+    @Test
+    public void test_listSession_filtered() throws java.io.IOException {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                try {
+                    TestUtils.updateDatabase("test/data/session.js");
+                    Result result = route(fakeRequest(GET, "/session/list"));
+                    assertThat(status(result)).isEqualTo(OK);
+                    assertThat(contentType(result)).isEqualTo("application/json");
+                    
+                    JsonNode jsonNode = Json.parse(contentAsString(result));
+                    Assert.assertEquals(1, jsonNode.size());
+	                
+	                Assert.assertEquals("104",jsonNode.get(0).findPath("id").getTextValue());
+	                Assert.assertEquals("title 2",jsonNode.get(0).findPath("title").getTextValue());
+	                Assert.assertEquals("summary 2",jsonNode.get(0).findPath("summary").getTextValue());
+	                Assert.assertEquals("description 2",jsonNode.get(0).findPath("description").getTextValue());
+	                Assert.assertEquals("Approuvé",jsonNode.get(0).findPath("status").getTextValue());
+	                Assert.assertEquals("keyword 2",jsonNode.get(0).findPath("keyword").getTextValue());
+	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(0).findPath("start").getTextValue());
+	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(0).findPath("end").getTextValue());
+	                Assert.assertEquals("[\"21\",\"22\"]",jsonNode.get(0).findPath("speakers").toString().trim());
+	                Assert.assertEquals("[\"HTML 5\",\"Android\"]",jsonNode.get(0).findPath("category").toString().trim());
+	                Assert.assertEquals("03",jsonNode.get(0).findPath("version").getTextValue());
+	                Assert.assertEquals("false",jsonNode.get(0).findPath("deleted").getTextValue());
 	                TestUtils.updateDatabase("test/data/purge.js");
                 } catch (IOException e) {
                 	Assert.fail(e.getMessage());
@@ -93,11 +143,11 @@ public class SessionControllerTest {
                     
                     JsonNode jsonNode = Json.parse(contentAsString(result));
                     Assert.assertEquals(1, jsonNode.size());
-	                Assert.assertEquals("102",jsonNode.get(0).findPath("id").getTextValue());
+	                Assert.assertEquals("104",jsonNode.get(0).findPath("id").getTextValue());
 	                Assert.assertEquals("title 2",jsonNode.get(0).findPath("title").getTextValue());
 	                Assert.assertEquals("summary 2",jsonNode.get(0).findPath("summary").getTextValue());
 	                Assert.assertEquals("description 2",jsonNode.get(0).findPath("description").getTextValue());
-	                Assert.assertEquals("Status2",jsonNode.get(0).findPath("status").getTextValue());
+	                Assert.assertEquals("Approuvé",jsonNode.get(0).findPath("status").getTextValue());
 	                Assert.assertEquals("keyword 2",jsonNode.get(0).findPath("keyword").getTextValue());
 	                Assert.assertEquals("12/02/2013 10:22",jsonNode.get(0).findPath("start").getTextValue());
 	                Assert.assertEquals("16/02/2013 10:23",jsonNode.get(0).findPath("end").getTextValue());

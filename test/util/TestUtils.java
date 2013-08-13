@@ -19,7 +19,7 @@ public class TestUtils {
 
     public static List<String> getFileContent(String relativePath) throws IOException {
         File file = Play.application().getFile(relativePath);
-        return Files.readLines(file, Charset.defaultCharset());
+        return Files.readLines(file, Charset.forName("utf-8"));
     }
 
     public static void updateDatabase(String relativePath) throws IOException {
