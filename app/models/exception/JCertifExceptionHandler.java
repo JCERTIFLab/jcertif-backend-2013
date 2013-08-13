@@ -1,7 +1,5 @@
 package models.exception;
 
-import com.mongodb.util.JSON;
-
 import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -33,8 +31,7 @@ public final class JCertifExceptionHandler {
 
 			JCertifExceptionMapping mapping = unwrappedThrowable.getClass().getAnnotation(JCertifExceptionMapping.class);
 			
-			result = Results.status(mapping.status(), JSON.serialize(unwrappedThrowable.getMessage()));
-			
+			result = Results.status(mapping.status(), unwrappedThrowable.getMessage());
 		}
 		
 		return result;

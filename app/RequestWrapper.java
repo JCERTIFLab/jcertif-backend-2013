@@ -47,6 +47,7 @@ public class RequestWrapper extends Action.Simple {
 		}catch (Throwable throwable){
 			Logger.error("Error during request processing",throwable);
 			result = JCertifExceptionHandler.resolve(throwable);
+			allowCrossOriginJson(context.response());
 		}
 
         return result;
