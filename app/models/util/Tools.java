@@ -1,11 +1,5 @@
 package models.util;
 
-import com.mongodb.BasicDBList;
-import models.exception.JCertifInvalidRequestException;
-import play.Logger;
-import play.Play;
-import play.mvc.Http;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -19,6 +13,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import models.exception.JCertifInvalidRequestException;
+import play.Logger;
+import play.Play;
+import play.mvc.Http;
+
+import com.mongodb.BasicDBList;
 
 public final class Tools {
 
@@ -58,7 +59,7 @@ public final class Tools {
             byte[] b = new byte[Integer.valueOf("1024").intValue()];
             int read = -1;
             while ((read = is.read(b)) > 0) {
-                c.append(new String(b, 0, read));
+                c.append(new String(b, 0, read, "utf-8"));
             }
             return c.toString();
         }
