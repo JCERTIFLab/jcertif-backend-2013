@@ -29,12 +29,12 @@ public class SpeakerController extends Controller {
 	
 	public static Result listSpeaker() {
 
-        return ok(Json.serialize(Speaker.findAll(true)));
+        return ok(Json.serialize(Speaker.findAllInfos(true)));
     }
 	
 	public static Result listSpeakerVersion(String version) {
 
-        return ok(Json.serialize(Speaker.findAll(version, true)));
+        return ok(Json.serialize(Speaker.findAllInfos(version, true)));
     }
 
     public static Result registerSpeaker() {
