@@ -26,23 +26,22 @@ public class RequestWrapper extends Action.Simple {
         
         try{	
         	
-        	if("POST".equals(context.request().method())){
+        	if("POST".equals(context.request().method()) &&
+        			!context.request().path().contains("/admin/export")){
         		Tools.verifyJSonRequest(context.request().body());
         	}
         	
 			result = delegate.call(context);
 			
 			// Cross Origin que si c'est un service
-	        if (!context.request().path().contains("/home")) {
-	        	String jsonpCallback = context.request().getQueryString("jsonp");
-	        	if(null != jsonpCallback 
-	        			&& "GET".equals(context.request().method())){
-	        		result = jsonpify(result, jsonpCallback);
-	        		allowCrossOriginJsonP(context.response());
-	        	}else{
-	        		allowCrossOriginJson(context.response());
-	        	}
-	        }
+        	String jsonpCallback = context.request().getQueryString("jsonp");
+        	if(null != jsonpCallback 
+        			&& "GET".equals(context.request().method())){
+        		result = jsonpify(result, jsonpCallback);
+        		allowCrossOriginJsonP(context.response());
+        	}else{
+        		allowCrossOriginJson(context.response());
+        	}
 			
 		}catch (Throwable throwable){
 			Logger.error("Error during request processing",throwable);
@@ -59,6 +58,11 @@ public class RequestWrapper extends Action.Simple {
 		return Results.status(status, callback + "(" + body + ")");
 	}
 
+    private void allowCrossOriginPlainText(Response response) {
+    	allowCrossOrigin(response);
+        response.setHeader("Content-Type", "plain/text; charset=utf-8");
+	}
+    
 	private void allowCrossOriginJsonP(Response response) {
     	allowCrossOrigin(response);
         response.setHeader("Content-Type", "text/javascript; charset=utf-8");
