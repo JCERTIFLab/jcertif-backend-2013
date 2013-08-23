@@ -30,15 +30,19 @@ public class AdminAuthenticator extends DefaultAuthenticator {
 	public String getUsername(Context context) {
 		String userName = null;
 		if(!Tools.isBlankOrNull(super.getUsername(context))){
-			String email = null;
-			if ("GET".equals(context.request().method())) {
-				email = context.request().getQueryString("user");
-			} else {
+			// Par défaut recherche des infos d'authentification dans l'URL
+			String email = context.request().getQueryString("user");
+			
+			// Si les infos d'authentification ne sont pas trouvées,
+	        // on s'autorise à les chercher dans le corps de la requête
+	        // Le cas du GET est écarté car par principe la requête ne doit pas contenir de corps.
+			if (Tools.isBlankOrNull(email) && ! "GET".equals(context.request().method())) {
 				JsonNode emailNode = context.request().body().asJson().findPath("user");
 				if(null != emailNode){
 					email = emailNode.getTextValue();
-				}			
-			}		
+				}
+			}
+			
 			Logger.info("Logged in : " + email);
 			if(isAuthorized(email)){
 				Logger.info(email + " is member of admin group");
