@@ -52,18 +52,18 @@ public class AdminController extends Controller {
 
     @Admin
 	public static Result writeExport() {	
-    	Map<String, String[]> dataMap = request().body().asFormUrlEncoded();
-    	File file = new File(tempFilesLocation + '/' + dataMap.get("user")[0]);
+    	JsonNode jsonNode = request().body().asJson();
+    	File file = new File(tempFilesLocation + '/' + jsonNode.findPath("user").getTextValue());
 		try {
 			file.mkdirs();
-			file = new File(file, dataMap.get("filename")[0]);
+			file = new File(file, jsonNode.findPath("filename").getTextValue());
 			if(!file.exists()){
 				file.createNewFile();
 			}
 		} catch (IOException e) {
 			throw new JCertifException("Cannot save export file", e);
 		}
-    	Files.writeFile(file, dataMap.get("data")[0]);
+    	Files.writeFile(file, jsonNode.findPath("data").getTextValue());
     	
         return ok("Ok");
     }
