@@ -7,7 +7,7 @@ import JacocoPlugin._
 object ApplicationBuild extends Build {
 
   val appName = "jcertif-backend"
-  val appVersion = "0.3-SNAPSHOT"
+  val appVersion = "0.3"
 
   lazy val s = Defaults.defaultSettings ++ Seq(jacoco.settings:_*)
   
