@@ -10,3 +10,5 @@ db.site.remove();
 db.room.remove();
 db.counters.remove();
 db.token.remove();
+db.country.remove();
+db.city.remove();

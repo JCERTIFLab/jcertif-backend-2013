@@ -10,6 +10,7 @@ import javax.validation.Payload;
 
 import models.util.Constantes;
 import models.validation.Validators.CategoryValidator;
+import models.validation.Validators.CountryValidator;
 import models.validation.Validators.DateValidator;
 import models.validation.Validators.DatesCoherenceValidator;
 import models.validation.Validators.NotBlankListValidator;
@@ -133,6 +134,17 @@ public class Constraints {
 		Class<? extends Payload>[] payload() default {};
 		String propertyName() default Constantes.LABEL_ATTRIBUTE_NAME;
 		Class<models.SponsorLevel> modelClass()default models.SponsorLevel.class;
+	}
+	
+	@Target({ElementType.FIELD})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Constraint(validatedBy = CountryValidator.class)
+	public static @interface Country {
+		String message() default "CountryId {value} does not exist. Check Country List";		
+		Class<?>[] groups() default {};		
+		Class<? extends Payload>[] payload() default {};
+		String propertyName() default Constantes.CID_ATTRIBUTE_NAME;
+		Class<models.Country> modelClass()default models.Country.class;
 	}
 	
 }

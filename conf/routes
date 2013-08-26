@@ -24,6 +24,14 @@ POST 	/ref/title/remove			controllers.TitleController.removeTitle
 GET     /ref/sessionstatus/list     controllers.SessionStatusController.listStatusSession
 POST    /ref/sessionstatus/new      controllers.SessionStatusController.addSessionStatus
 POST    /ref/sessionstatus/remove   controllers.SessionStatusController.removeSessionStatus
+GET     /ref/country/list     		controllers.CountryController.list
+GET 	/ref/country/list/:version	controllers.CountryController.listVersion(version: String)
+POST    /ref/country/new      		controllers.CountryController.newCountry
+POST    /ref/country/remove   		controllers.CountryController.removeCountry
+GET     /ref/city/list     			controllers.CityController.list
+GET 	/ref/city/list/:version		controllers.CityController.listVersion(version: String)
+POST    /ref/city/new      			controllers.CityController.newCity
+POST    /ref/city/remove   			controllers.CityController.removeCity
 GET 	/login/list			        controllers.LoginController.logins
 GET     /sponsor/list               controllers.SponsorController.listSponsor
 GET     /sponsor/list/:version      controllers.SponsorController.listSponsorVersion(version: String)

@@ -14,6 +14,7 @@ import models.Model;
 import models.util.Constantes;
 import models.util.Tools;
 import models.validation.Constraints.Category;
+import models.validation.Constraints.Country;
 import models.validation.Constraints.Date;
 import models.validation.Constraints.DatesCoherence;
 import models.validation.Constraints.NotBlank;
@@ -233,6 +234,22 @@ public class Validators {
 		public void initialize(SponsorLevel existsAnnotation) {
 			existsValidator = 
 				new ExistsValidator<models.SponsorLevel>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
+		}
+
+		@Override
+		public boolean isValid(String value, ConstraintValidatorContext context) {
+			return existsValidator.isValid(value);
+		}
+	}
+	
+	public static class CountryValidator implements ConstraintValidator<Country, String>{
+
+		private ExistsValidator<models.Country> existsValidator;
+		
+		@Override
+		public void initialize(Country existsAnnotation) {
+			existsValidator = 
+				new ExistsValidator<models.Country>(existsAnnotation.propertyName(),existsAnnotation.modelClass());	
 		}
 
 		@Override

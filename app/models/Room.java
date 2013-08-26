@@ -112,7 +112,7 @@ public class Room extends JCertifModel {
 		return getFinder().findAll(Room.class);
 	}
 	
-	public static List<Room> findAll(String idSite){
+	public static List<Room> findBySite(String idSite){
 		return getFinder().findAll(Room.class, Constantes.SITE_ATTRIBUTE_NAME, idSite);
 	}
 

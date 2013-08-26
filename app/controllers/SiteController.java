@@ -103,6 +103,6 @@ public class SiteController extends Controller {
 			throw new JCertifObjectNotFoundException(Site.class, idSite);
 		}
 		
-        return ok(Json.serialize(Room.findAll(idSite)));
+        return ok(Json.serialize(Room.findBySite(idSite)));
     }
 }
