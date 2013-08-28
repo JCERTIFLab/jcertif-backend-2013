@@ -10,6 +10,7 @@ GET    	/admin/export/read  		controllers.AdminController.readExport
 GET     /admin/session/list         controllers.SessionController.listAllSessions
 GET     /admin/speaker/list         controllers.SpeakerController.listAllSpeakers
 
+GET		/							controllers.HomeController.get
 OPTIONS /*nameUrl                   controllers.AdminController.ping(nameUrl:String)
 GET		/ref/sponsorlevel/list		controllers.SponsorLevelController.listSponsorLevel
 POST	/ref/sponsorlevel/new		controllers.SponsorLevelController.addSponsorLevel

@@ -3,11 +3,13 @@ import Keys._
 import play.Project._
 import de.johoop.jacoco4sbt._
 import JacocoPlugin._
+import com.typesafe.config._
 
 object ApplicationBuild extends Build {
 
-  val appName = "jcertif-backend"
-  val appVersion = "0.4-SNAPSHOT"
+  val conf = ConfigFactory.parseFile(new File("conf/application.conf")).resolve()
+  val appName = conf.getString("application.name")
+  val appVersion = conf.getString("application.version")
 
   lazy val s = Defaults.defaultSettings ++ Seq(jacoco.settings:_*)
   

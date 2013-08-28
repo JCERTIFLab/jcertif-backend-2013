@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Category;
 import models.City;
 import models.Country;
 import models.exception.JCertifInvalidRequestException;

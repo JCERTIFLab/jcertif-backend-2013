@@ -1,29 +1,26 @@
 package models;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.QueryBuilder;
-import com.mongodb.WriteResult;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import models.database.MongoDB;
 import models.exception.JCertifException;
 import models.util.Constantes;
 import models.util.Tools;
 import models.validation.ContextualMessageInterpolator;
 import models.validation.ValidationUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.HibernateValidatorConfiguration;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import com.mongodb.BasicDBObject;
+import com.mongodb.WriteResult;
 
 public abstract class Model implements CRUD {
 	

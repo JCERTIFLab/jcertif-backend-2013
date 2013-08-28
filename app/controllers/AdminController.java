@@ -4,7 +4,6 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import models.Login;
 import models.TokenChecksFactoy.WebAppTokenCheck;
@@ -14,12 +13,11 @@ import models.util.Json;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonNode;
 
-import controllers.Security.Admin;
-
 import play.Play;
 import play.api.libs.Files;
 import play.mvc.Controller;
 import play.mvc.Result;
+import controllers.Security.Admin;
 
 public class AdminController extends Controller {
 	

@@ -9,7 +9,6 @@ import models.notifiers.EmailNotification;
 import models.util.Constantes;
 import models.util.Tools;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 /**
  * <p>Objet mtier représentant un participant de JCertif Conference.</p>

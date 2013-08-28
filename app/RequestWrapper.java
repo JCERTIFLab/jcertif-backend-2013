@@ -39,7 +39,7 @@ public class RequestWrapper extends Action.Simple {
         			&& "GET".equals(context.request().method())){
         		result = jsonpify(result, jsonpCallback);
         		allowCrossOriginJsonP(context.response());
-        	}else{
+        	}else if(!"/".equals(context.request().path())){
         		allowCrossOriginJson(context.response());
         	}
 			
@@ -57,11 +57,6 @@ public class RequestWrapper extends Action.Simple {
 		String body = new String(play.core.j.JavaResultExtractor.getBody(result),"utf-8");
 		return Results.status(status, callback + "(" + body + ")");
 	}
-
-    private void allowCrossOriginPlainText(Response response) {
-    	allowCrossOrigin(response);
-        response.setHeader("Content-Type", "plain/text; charset=utf-8");
-	}
     
 	private void allowCrossOriginJsonP(Response response) {
     	allowCrossOrigin(response);
@@ -78,4 +73,13 @@ public class RequestWrapper extends Action.Simple {
         response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     }
+	
+	public static void main(String[] args) {
+		int i = 0;
+		for (String o : "/".split("/")) {
+			System.out.println(i + ":" + o);
+			i++;
+		}
+		
+	}
 }
