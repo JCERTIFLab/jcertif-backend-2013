@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.util.List;
 
 import models.Login;
+import models.Participant;
 import models.TokenChecksFactoy.WebAppTokenCheck;
 import models.exception.JCertifException;
+import models.exception.JCertifObjectNotFoundException;
+import models.notifiers.EmailNotification;
 import models.util.Json;
 
 import org.apache.commons.lang.StringUtils;
@@ -77,6 +80,22 @@ public class AdminController extends Controller {
 			return ok(file).as("text/csv");
 		}
         return ok("Download Failed");
+    }
+    
+    @Admin
+	public static Result sendWelcomeEmail() {
+    	JsonNode jsonNode = request().body().asJson();
+    	String email = jsonNode.findPath("email").getTextValue();
+    	
+    	Participant participant = Participant.find(email);
+    	
+    	if(participant == null){
+			throw new JCertifObjectNotFoundException(Participant.class, email);
+		}
+    	
+		EmailNotification.sendWelcomeMail(participant);
+		
+        return ok("Ok");
     }
 	
     public static Result ping(String nameUrl) {
